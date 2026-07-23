@@ -1,0 +1,20 @@
+#!/bin/bash
+# Обёртка: компилирует thaiocr.swift при первом запуске (и после правок), затем запускает.
+# Требует только Command Line Tools (swiftc есть в macOS из коробки при установленном Xcode CLT).
+set -euo pipefail
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SRC="$DIR/thaiocr.swift"
+BIN="$DIR/.build/thaiocr"
+
+if [ ! -x "$BIN" ] || [ "$SRC" -nt "$BIN" ]; then
+  if ! command -v swiftc >/dev/null 2>&1; then
+    echo "thaiocr: нужен swiftc — установи Command Line Tools: xcode-select --install" >&2
+    exit 127
+  fi
+  mkdir -p "$DIR/.build"
+  echo "thaiocr: сборка…" >&2
+  swiftc -O -parse-as-library -o "$BIN" "$SRC" >&2
+fi
+
+exec "$BIN" "$@"
