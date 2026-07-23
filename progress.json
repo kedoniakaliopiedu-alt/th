@@ -5,8 +5,8 @@
       0.6,
       0.7
     ],
-    "recent_accuracy": 0.0,
-    "updated": "2026-07-22"
+    "recent_accuracy": 0.9,
+    "updated": "2026-07-23"
   },
   "items": {
     "ตื่น": {
@@ -3622,5 +3622,125 @@
       "translit": "ноябрь – февраль"
     }
   },
-  "mistakes": {}
+  "mistakes": {
+    "ложные_кластеры_จร_สร": {
+      "category": "Чтение/кластеры",
+      "subcategory": "",
+      "frequency": 1,
+      "status": "active",
+      "last_occurred": "2026-07-23",
+      "next_review": "2026-07-24",
+      "examples": [
+        {
+          "your_answer": "จริง=дьжринг, สร้าง=со-раанг",
+          "correct_answer": "จริง=джинг, สร้าง=сâанг (ร немая)",
+          "context": "Глава 1 срез, блок 3 зад.8",
+          "date": "2026-07-23"
+        }
+      ],
+      "notes": ""
+    },
+    "термин_мать_финали": {
+      "category": "Терминология",
+      "subcategory": "",
+      "frequency": 1,
+      "status": "active",
+      "last_occurred": "2026-07-23",
+      "next_review": "2026-07-24",
+      "examples": [
+        {
+          "your_answer": "не поняла задание",
+          "correct_answer": "แม่ = группа по конечному звуку слога",
+          "context": "Глава 1 срез, блок 1 зад.3",
+          "date": "2026-07-23"
+        }
+      ],
+      "notes": ""
+    },
+    "аайу_возраст": {
+      "category": "Лексика",
+      "subcategory": "",
+      "frequency": 1,
+      "status": "active",
+      "last_occurred": "2026-07-23",
+      "next_review": "2026-07-24",
+      "examples": [
+        {
+          "your_answer": "ฉันเอา…ปี",
+          "correct_answer": "ฉันอายุ…ปี (อายุ = возраст)",
+          "context": "Гл.2 срез, зад.11",
+          "date": "2026-07-23"
+        }
+      ],
+      "notes": ""
+    },
+    "нацио_ญี่ปุ่น": {
+      "category": "Лексика/страны",
+      "subcategory": "",
+      "frequency": 1,
+      "status": "active",
+      "last_occurred": "2026-07-23",
+      "next_review": "2026-07-24",
+      "examples": [
+        {
+          "your_answer": "пропуск",
+          "correct_answer": "คนญี่ปุ่น (японец)",
+          "context": "Гл.2 срез, зад.10",
+          "date": "2026-07-23"
+        }
+      ],
+      "notes": ""
+    },
+    "обращение_ป้า_на_рынке": {
+      "category": "Регистр/обращения",
+      "subcategory": "",
+      "frequency": 1,
+      "status": "active",
+      "last_occurred": "2026-07-23",
+      "next_review": "2026-07-24",
+      "examples": [
+        {
+          "your_answer": "คุณ",
+          "correct_answer": "ป้า к пожилой продавщице",
+          "context": "Гл.2 срез, зад.4",
+          "date": "2026-07-23"
+        }
+      ],
+      "notes": ""
+    },
+    "гу_ก_vs_ค": {
+      "category": "Орфография/классы",
+      "subcategory": "",
+      "frequency": 1,
+      "status": "active",
+      "last_occurred": "2026-07-23",
+      "next_review": "2026-07-24",
+      "examples": [
+        {
+          "your_answer": "คู",
+          "correct_answer": "กู (ก среднекл., не ค)",
+          "context": "Гл.2 срез, зад.6",
+          "date": "2026-07-23"
+        }
+      ],
+      "notes": ""
+    },
+    "руджак_จัก": {
+      "category": "Орфография",
+      "subcategory": "",
+      "frequency": 1,
+      "status": "active",
+      "last_occurred": "2026-07-23",
+      "next_review": "2026-07-24",
+      "examples": [
+        {
+          "your_answer": "รู้จาก",
+          "correct_answer": "รู้จัก (корень จัก)",
+          "context": "Гл.2 срез, зад.15",
+          "date": "2026-07-23"
+        }
+      ],
+      "notes": ""
+    }
+  }
 }
