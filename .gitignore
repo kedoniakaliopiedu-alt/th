@@ -5,3 +5,6 @@
 Handwriting/*
 !Handwriting/README.md
 Handwriting/.lines/
+**/__pycache__/
+*.pyc
+progress.json.bak
