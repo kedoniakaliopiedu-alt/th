@@ -96,7 +96,28 @@ Update `{report}`: check off what was fixed, leave the rest. Then:
 > Исправлено: <N> · Осталось задачами: <M> · Отложено: <W> · Отсеяно: <R>
 > Отчёт: `{report}`
 
-### 6. Next steps
+### 6. Clean up what is spent
+
+The report is a working document, not an archive: it earns its place while findings are
+still open. When every finding has been fixed or dismissed and `{deferred}` holds nothing,
+it stops being a resource — the reasoning that mattered belongs in the commit message by
+then, not in a file nobody opens.
+
+So when the last finding closes, **offer to remove what is spent**, and say what dies:
+
+> Все находки закрыты, парковка пуста. Отчёт `{report}` больше ни на что не влияет —
+> удалить? Если он закоммичен, вернётся из истории: `git show <sha>:<путь>`.
+
+Rules for that offer:
+
+- **Offer, never delete on your own.**
+- **Only when nothing is open.** A report with unchecked boxes is the task list — leave it.
+- **`{deferred}` outlives the report** whenever it still holds parked findings: it is the
+  standing list a later review checks so it does not re-file them. Delete it only when it
+  is empty.
+- **Say what is recoverable** — committed files come back from git, uncommitted ones do not.
+
+### 7. Next steps
 
 Offer, in Russian:
 

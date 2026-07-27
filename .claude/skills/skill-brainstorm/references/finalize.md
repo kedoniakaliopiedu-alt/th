@@ -73,3 +73,27 @@ explicitly, since this skill deliberately doesn't make edits itself:
 - changes already written and needing an audit → **`skill-review`**;
 - an idea that turned out to need more divergence → offer a fresh session on the narrower
   topic, and name it.
+
+## Cleaning up afterwards
+
+The workspace exists to carry a session across interruptions and into the next skill. Once
+the ideas have landed as code or documents, it stops being a resource and becomes debris —
+and `изменения.md` becomes actively harmful: `skill-review`'s step 1 globs
+`.claude/brainstorms/*/изменения.md` and will propose reviewing work that is already done.
+
+So when the user comes back and says the changes are written — or you can see the edits in
+the repository yourself — **offer to remove the workspace**, naming what dies with it:
+
+> Правки из листа внесены. Журнал сессии и лист правок больше ни на что не влияют, а лист
+> вдобавок будет всплывать в ревью как незакрытая работа. Удалить папку
+> `.claude/brainstorms/<тема>-<дата>/`? Если она закоммичена, всё достаётся обратно из
+> истории: `git show <sha>:<путь>`.
+
+Rules for that offer:
+
+- **Offer, never delete on your own.** The keepsake is hers; she may want to keep it.
+- **Only after the ideas have landed.** A session whose changes nobody wrote yet still needs
+  its log — that is exactly what a resume reads.
+- **Say what is recoverable.** Committed artifacts come back from git; uncommitted ones do
+  not, and she should know which case she is in before answering.
+- If she keeps it, do not ask again in the same session.
