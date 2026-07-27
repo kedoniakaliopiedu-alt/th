@@ -48,6 +48,11 @@ means specifically:
 Severity reflects the real consequence at a real call site, not the worst theoretical
 reading. A finding you could not verify by reading is downgraded, not kept on suspicion.
 
+If reading is not enough and a script has to be actually run on a copy, run it **quietly**
+— see `CLAUDE.md`, «Служебный вывод». No `echo` banners, no byte counts, no before/after
+dumps: the run is your evidence, not a demonstration for the user. Triage reports one line
+per finding — verdict and severity — and the run's output only where a finding turned on it.
+
 ### 4. Assign severity
 
 Rate by consequence **for the learner**, since she is the ultimate consumer of everything

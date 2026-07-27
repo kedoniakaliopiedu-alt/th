@@ -61,6 +61,26 @@ each reference file with **when to read it**.
 A pointer without a "when" is the common defect: `→ см. references/checking.md` tells the
 model nothing about whether now is the time.
 
+## Language of instructions
+
+Instruction prose migrates to English **opportunistically**: when you are already rewriting
+a file for a real reason, translate it whole in the same pass. Never run a translation
+sweep for its own sake — the measured saving is ~26% of that file's tokens, and a wrong word
+in a tuned instruction costs more than it buys.
+
+What **never** gets translated, in any file:
+
+- anything the learner reads — task sheets, report templates, hint examples, the
+  «Естественнее» line, headings quoted into her output;
+- values that are also **data**: the four checking categories (Словарный запас / Грамматика /
+  Орфография / Тоны) are written into `progress.json` as `category`, and the mistake modes
+  are matched by Russian substrings in `tracker.py`;
+- trigger phrases quoted in a `description` — they are what the user actually types;
+- Thai text and Cyrillic transcription, obviously.
+
+A translated file therefore ends up mixed, and that is correct, not sloppy. State the rule
+once at the top of the file so the next reader does not "fix" the Russian parts.
+
 ## references/*.md
 
 - Start with one line saying **when this file gets loaded**. It is read out of context, so
