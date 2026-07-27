@@ -5,8 +5,8 @@
       0.6,
       0.7
     ],
-    "recent_accuracy": 0.9,
-    "updated": "2026-07-23"
+    "recent_accuracy": 0.85,
+    "updated": "2026-07-27"
   },
   "items": {
     "ตื่น": {
@@ -3626,6 +3626,7 @@
     "ложные_кластеры_จร_สร": {
       "category": "Чтение/кластеры",
       "subcategory": "",
+      "topic": "1.3",
       "frequency": 1,
       "status": "active",
       "last_occurred": "2026-07-23",
@@ -3643,6 +3644,7 @@
     "термин_мать_финали": {
       "category": "Терминология",
       "subcategory": "",
+      "topic": "1.1",
       "frequency": 1,
       "status": "active",
       "last_occurred": "2026-07-23",
@@ -3660,6 +3662,7 @@
     "аайу_возраст": {
       "category": "Лексика",
       "subcategory": "",
+      "topic": "2.3",
       "frequency": 1,
       "status": "active",
       "last_occurred": "2026-07-23",
@@ -3677,6 +3680,7 @@
     "нацио_ญี่ปุ่น": {
       "category": "Лексика/страны",
       "subcategory": "",
+      "topic": "2.3",
       "frequency": 1,
       "status": "active",
       "last_occurred": "2026-07-23",
@@ -3694,6 +3698,7 @@
     "обращение_ป้า_на_рынке": {
       "category": "Регистр/обращения",
       "subcategory": "",
+      "topic": "2.1",
       "frequency": 1,
       "status": "active",
       "last_occurred": "2026-07-23",
@@ -3711,6 +3716,7 @@
     "гу_ก_vs_ค": {
       "category": "Орфография/классы",
       "subcategory": "",
+      "topic": "2.2",
       "frequency": 1,
       "status": "active",
       "last_occurred": "2026-07-23",
@@ -3728,6 +3734,7 @@
     "руджак_จัก": {
       "category": "Орфография",
       "subcategory": "",
+      "topic": "2.3",
       "frequency": 1,
       "status": "active",
       "last_occurred": "2026-07-23",
@@ -3738,6 +3745,84 @@
           "correct_answer": "รู้จัก (корень จัก)",
           "context": "Гл.2 срез, зад.15",
           "date": "2026-07-23"
+        }
+      ],
+      "notes": ""
+    },
+    "счётное_คัน_ขวด": {
+      "category": "Счётные слова",
+      "subcategory": "",
+      "topic": "3.1",
+      "frequency": 1,
+      "status": "active",
+      "last_occurred": "2026-07-27",
+      "next_review": "2026-07-28",
+      "examples": [
+        {
+          "your_answer": "машины=รถ, бутылки=пропуск",
+          "correct_answer": "машины=คัน, бутылки=ขวด",
+          "context": "Гл.3 срез, зад.2",
+          "date": "2026-07-27"
+        }
+      ],
+      "notes": ""
+    },
+    "скидка_ลด": {
+      "category": "Лексика/покупки",
+      "subcategory": "",
+      "topic": "3.1",
+      "frequency": 1,
+      "status": "active",
+      "last_occurred": "2026-07-27",
+      "next_review": "2026-07-28",
+      "examples": [
+        {
+          "your_answer": "пропуск",
+          "correct_answer": "ลดได้ไหม / ลดหน่อย",
+          "context": "Гл.3 срез, зад.4",
+          "date": "2026-07-27"
+        }
+      ],
+      "notes": ""
+    },
+    "литва_ลิทัวเนีย": {
+      "category": "Орфография",
+      "subcategory": "",
+      "topic": "2.3",
+      "frequency": 2,
+      "status": "active",
+      "last_occurred": "2026-07-27",
+      "next_review": "2026-07-28",
+      "examples": [
+        {
+          "your_answer": "ลิตัวเนีย",
+          "correct_answer": "ลิทัวเนีย (ท)",
+          "context": "Гл.3 срез, зад.12",
+          "date": "2026-07-27"
+        },
+        {
+          "your_answer": "ลีตัวเนีย (ลี + ต)",
+          "correct_answer": "ลิทัวเนีย (ลิ + ท)",
+          "context": "Гл.3 зад.12; уточнено по зуму",
+          "date": "2026-07-27"
+        }
+      ],
+      "notes": ""
+    },
+    "собака_หมา_гласная": {
+      "category": "Орфография/гласные",
+      "subcategory": "",
+      "topic": "1.2",
+      "frequency": 1,
+      "status": "active",
+      "last_occurred": "2026-07-27",
+      "next_review": "2026-07-28",
+      "examples": [
+        {
+          "your_answer": "แหม (แ спереди, нет า)",
+          "correct_answer": "หมา (า после ม)",
+          "context": "Гл.3 срез, зад.3а; найдено при проверке thai-handwriting",
+          "date": "2026-07-27"
         }
       ],
       "notes": ""

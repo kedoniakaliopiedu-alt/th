@@ -9,6 +9,7 @@
 | Скилл | Роль |
 |---|---|
 | **thai-tasks** | Главный движок. Собирает комплексные практические задания по любой теме, ведёт трекер прогресса (SM-2), спираль 60/40, два режима (сессия / воркшит). |
+| **thai-mistakes** | Второй такт занятия: отчёт по проверенному листу (✅/🟡/❌), запись ошибок в трекер, отработка целой темы в режиме под тип ошибки, правило двух кругов. |
 | **thai-learning** | Правила подачи заданий и проверки ответов, структура уровней, контрольные. |
 | **thai-phonetics** | Кириллическая транскрипция тайских звуков, тоновые знаки (` ˆ ´ ˇ). |
 | **thai-display** | Оформление слов по классам согласных. Опционально — только когда нужен разбор по классам. |
@@ -24,7 +25,11 @@ thai-tasks  (движок заданий)
 ├── thai-learning    — правила подачи и проверки
 ├── thai-phonetics   — транскрипция и тоны
 ├── thai-display     — оформление по классам (опционально)
-└── teach (форматы)  — миссия / learning-records / ресурсы
+├── teach (форматы)  — миссия / learning-records / ресурсы
+└── thai-mistakes    — после проверки: отчёт + работа над ошибками
+    ├── thai-tasks/references/exercise-catalog.md — типы заданий
+    ├── thai-tasks/scripts/tracker.py             — mistakes / drill-plan / attempt
+    └── thai-learning, thai-phonetics             — проверка и транскрипция
 
 thai-handwriting (вход по картинке)
 ├── thai-phonetics   — транскрипция прочитанного
@@ -59,7 +64,10 @@ python3 .claude/skills/thai-tasks/scripts/tracker.py due progress.json
 # применить SM-2 после ответа (качество 0–5)
 python3 .claude/skills/thai-tasks/scripts/tracker.py record progress.json "ตื่น" 5
 # записать паттерн ошибки
-python3 .claude/skills/thai-tasks/scripts/tracker.py mistake progress.json "тон_финаль" --category Тоны --your ... --correct ...
+python3 .claude/skills/thai-tasks/scripts/tracker.py mistake progress.json "тон_финаль" --category Тоны --topic 3.4 --your ... --correct ...
+# план работы над ошибками (темы, режимы, объём) и итог круга отработки
+python3 .claude/skills/thai-tasks/scripts/tracker.py drill-plan progress.json
+python3 .claude/skills/thai-tasks/scripts/tracker.py attempt progress.json "тон_финаль" --result ok
 # обзор прогресса
 python3 .claude/skills/thai-tasks/scripts/tracker.py progress progress.json
 ```
@@ -98,6 +106,24 @@ python3 $S/lookup.py "?ับ"                                             # к�
 
 Масштаб запроса управляет объёмом: правило (≤5, разминка+сборка) → подтема (все блоки) →
 тема (сборник подтем) → глава (план по темам).
+
+## Работа над ошибками
+
+После проверки любых заданий включается **thai-mistakes**:
+
+1. отчёт по всему листу — задания как были, к ним ✅ / 🟡 / ❌, верный вариант и строка
+   «почему», внизу сводка N/Y, % и разбивка по категориям;
+2. ошибки уходят в `progress.json` с темой;
+3. мини-диагностика темы (3–5 вопросов) — где ещё дыры;
+4. пояснение правила от твоей ошибки и блок отработки: 3 задания за первую ошибку темы,
+   +1 за каждую следующую, потолок 10;
+5. режим подбирается по типу ошибки: запоминание слов / тоновый дрилл / трансформации /
+   восстановление написания / регистр и уместность;
+6. ошибка повторилась — второй круг, пересобранный (правило индуктивно, шаги мельче).
+   Не снялась и там — на следующее занятие первым номером, статус `critical`.
+
+Справочные файлы: `thai-mistakes/references/report-format.md` (формат отчёта),
+`thai-mistakes/references/drill-modes.md` (режимы отработки).
 
 ## Справочные файлы thai-tasks
 

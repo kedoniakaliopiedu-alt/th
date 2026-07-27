@@ -25,11 +25,16 @@ python3 scripts/tracker.py due <progress.json> --limit 4
 python3 scripts/tracker.py record <progress.json> "ข้าว" 5
 python3 scripts/tracker.py record <progress.json> "счётные слова จาน/ที่" 2 --type rule --topic 6.1.2
 
-# записать паттерн ошибки
+# записать паттерн ошибки (--topic обязателен: по нему собирается работа над ошибками)
 python3 scripts/tracker.py mistake <progress.json> "тон_высокий_класс_закрытый" \
-    --category Тоны --your средний --correct нисходящий --context "ข้าว"
+    --category Тоны --topic 6.1 --your средний --correct нисходящий --context "ข้าว"
 # закрыть паттерн, когда он стабильно без ошибок
 python3 scripts/tracker.py resolve <progress.json> "тон_высокий_класс_закрытый"
+
+# работа над ошибками (skill thai-mistakes): список паттернов, план дрилла, итог круга
+python3 scripts/tracker.py mistakes <progress.json> --topic 6.1
+python3 scripts/tracker.py drill-plan <progress.json>
+python3 scripts/tracker.py attempt <progress.json> "тон_высокий_класс_закрытый" --result ok
 
 # обзор прогресса (для «покажи прогресс»)
 python3 scripts/tracker.py progress <progress.json>
@@ -71,7 +76,8 @@ python3 scripts/tracker.py set-meta <progress.json> --difficulty 5 --recent-accu
   },
   "mistakes": {
     "тон_закрытый_слог_высокий_класс": {
-      "category": "Тоны", "frequency": 3, "status": "active",
+      "category": "Тоны", "topic": "6.1", "frequency": 3, "status": "active",
+      "rounds": 1, "drill_ok": 0, "last_drill": "2026-07-21",
       "last_occurred": "2026-07-21", "next_review": "2026-07-22",
       "examples": [
         { "your_answer": "средний", "correct": "нисходящий",
@@ -86,7 +92,13 @@ python3 scripts/tracker.py set-meta <progress.json> --difficulty 5 --recent-accu
 - `items` — и лексика (`word`), и правила/конструкции (`rule`/`construction`).
   Для Ked грамматика в приоритете (её план B1), поэтому правила отслеживаем наравне.
 - `mistakes` — повторяющиеся ошибки как **паттерны**, категория ровно из 4 категорий
-  проверки (Словарный запас / Грамматика / Орфография / Тоны).
+  проверки (Словарный запас / Грамматика / Орфография / Тоны) — плюс отдельно
+  «Регистр/обращения» и «Терминология», у них свои режимы отработки.
+- Поля работы над ошибками (ведёт skill **thai-mistakes**): `topic` — тема, по которой
+  собирается дрилл; `rounds` — сколько кругов отработки прошло; `drill_ok` — успешных
+  кругов подряд (два подряд → `resolved`); `last_drill`; `status` = `active` /
+  `critical` (пережила два круга за занятие, идёт первой в спирали) / `resolved`.
+  Старые записи без этих полей дополняются скриптом автоматически.
 
 ## SM-2: как обновлять элемент после ответа
 

@@ -6,19 +6,25 @@ tracker.py — учёт прогресса для skill thai-tasks (SM-2 + ба�
 Логика полностью соответствует references/progress-and-spiral.md.
 
 Команды:
-  due       — что пора повторить (get_due) для 40% спирали
-  record    — применить SM-2 к элементу по качеству ответа 0–5
-  mistake   — записать/обновить паттерн ошибки
-  import    — импортировать словарь из glava-файла в трекер
-  progress  — краткий обзор прогресса
-  set-meta  — обновить meta (difficulty, recent_accuracy)
+  due        — что пора повторить (get_due) для 40% спирали
+  record     — применить SM-2 к элементу по качеству ответа 0–5
+  mistake    — записать/обновить паттерн ошибки
+  mistakes   — список паттернов с фильтрами (для skill thai-mistakes)
+  drill-plan — план работы над ошибками: группы по темам, режимы, объём
+  attempt    — итог круга отработки (снята / повторилась)
+  import     — импортировать словарь из glava-файла в трекер
+  progress   — краткий обзор прогресса
+  set-meta   — обновить meta (difficulty, recent_accuracy)
 
 Примеры:
   python3 tracker.py due progress.json
   python3 tracker.py record progress.json "ข้าว" 5
   python3 tracker.py record progress.json "счётные слова จาน/ที่" 2 --type rule --topic 6.1.2
   python3 tracker.py mistake progress.json "тон_закрытый_слог_высокий_класс" \
-        --category Тоны --your средний --correct нисходящий --context "ข้าว"
+        --category Тоны --topic 6.1 --your средний --correct нисходящий --context "ข้าว"
+  python3 tracker.py mistakes progress.json --topic 6.1
+  python3 tracker.py drill-plan progress.json
+  python3 tracker.py attempt progress.json "тон_закрытый_слог_высокий_класс" --result ok
   python3 tracker.py import progress.json glava6_tema1_eda.md --topic 6.1
   python3 tracker.py progress progress.json
   python3 tracker.py set-meta progress.json --difficulty 5 --recent-accuracy 0.68
@@ -42,8 +48,66 @@ DEFAULT_ITEM = {
 }
 
 
+# Режимы отработки ошибок (skill thai-mistakes). Категория → режим дрилла.
+# Порядок важен: первое совпадение подстроки в категории (в нижнем регистре) выигрывает.
+MODE_BY_CATEGORY = (
+    (("чтен", "кластер"), "spelling"),
+    (("лекс", "словар"), "vocab"),
+    (("тон", "произнош", "фонет"), "tones"),
+    (("орфогр", "написан", "класс согл"), "spelling"),
+    (("грамм", "конструкц", "порядок слов", "частиц", "счётн", "счетн"), "grammar"),
+    (("регистр", "обращ", "вежлив", "прагмат", "этикет"), "register"),
+    (("термин", "формулиров", "инструкц"), "reference"),
+)
+
+MODE_TITLES = {
+    "vocab": "запоминание слов",
+    "tones": "тоновый дрилл",
+    "grammar": "трансформации",
+    "spelling": "восстановление написания",
+    "register": "регистр и уместность",
+    "reference": "справка без дрилла",
+    "general": "смешанный",
+}
+
+# Интервалы после успешного круга отработки: 1-й ок → +3д, 2-й → +7д, дальше +16д.
+DRILL_INTERVALS = {1: 3, 2: 7}
+DRILL_INTERVAL_LONG = 16
+# Сколько кругов за одно занятие максимум (дальше — на следующее занятие).
+MAX_ROUNDS_PER_DAY = 2
+
+
 def today():
     return date.today()
+
+
+def mode_for(category, override=None):
+    """Режим отработки по категории ошибки."""
+    if override:
+        return override
+    cat = (category or "").lower()
+    for keys, mode in MODE_BY_CATEGORY:
+        if any(k in cat for k in keys):
+            return mode
+    return "general"
+
+
+def normalize_mistake(m, category=None):
+    """Добить старую запись ошибки полями, которые нужны работе над ошибками."""
+    m.setdefault("category", category or "")
+    m.setdefault("subcategory", "")
+    m.setdefault("topic", "")
+    m.setdefault("frequency", 0)
+    m.setdefault("status", "active")
+    m.setdefault("last_occurred", "")
+    m.setdefault("next_review", "")
+    m.setdefault("examples", [])
+    m.setdefault("notes", "")
+    m.setdefault("mode", "")
+    m.setdefault("rounds", 0)        # всего кругов отработки
+    m.setdefault("drill_ok", 0)      # подряд успешных кругов
+    m.setdefault("last_drill", "")   # дата последнего круга
+    return m
 
 
 def parse_date(s):
@@ -93,16 +157,20 @@ def cmd_due(data, args):
 
     due_mistakes = []
     for key, m in data["mistakes"].items():
-        if m.get("status", "active") != "active":
+        if m.get("status", "active") not in ("active", "critical"):
             continue
         if parse_date(m.get("next_review", "1970-01-01")) <= t:
             due_mistakes.append((key, m))
-    due_mistakes.sort(key=lambda kv: -kv[1].get("frequency", 0))
+    # критические (пережившие два круга отработки) — вперёд, затем по частоте
+    due_mistakes.sort(key=lambda kv: (kv[1].get("status") != "critical",
+                                      -kv[1].get("frequency", 0)))
 
     limit = args.limit
     out = {
         "mistakes_due": [
             {"pattern": k, "category": m.get("category", ""),
+             "topic": m.get("topic", ""), "status": m.get("status", "active"),
+             "mode": mode_for(m.get("category", ""), m.get("mode")),
              "frequency": m.get("frequency", 0)}
             for k, m in (due_mistakes[:limit] if limit else due_mistakes)
         ],
@@ -175,17 +243,20 @@ def cmd_record(data, args):
 def cmd_mistake(data, args):
     key = args.pattern
     t = today()
-    m = data["mistakes"].get(key, {
-        "category": args.category or "", "subcategory": "", "frequency": 0,
-        "status": "active", "last_occurred": "", "next_review": "",
-        "examples": [], "notes": args.notes or "",
-    })
+    m = normalize_mistake(data["mistakes"].get(key, {}), args.category)
     if args.category:
         m["category"] = args.category
+    if args.topic:
+        m["topic"] = args.topic
+    if args.mode:
+        m["mode"] = args.mode
     if args.notes:
         m["notes"] = args.notes
     m["frequency"] = m.get("frequency", 0) + 1
-    m["status"] = "active"
+    # повторная ошибка после успешного круга обнуляет зачёт отработки
+    m["drill_ok"] = 0
+    if m["status"] != "critical":
+        m["status"] = "active"
     m["last_occurred"] = t.strftime(DATE_FMT)
     # слабое место должно вернуться скоро
     m["next_review"] = (t + timedelta(days=1)).strftime(DATE_FMT)
@@ -196,6 +267,7 @@ def cmd_mistake(data, args):
         })
     data["mistakes"][key] = m
     print(f"OK: паттерн «{key}» — частота {m['frequency']}, "
+          f"режим {mode_for(m['category'], m['mode'])}, "
           f"следующий повтор {m['next_review']}")
 
 
@@ -206,6 +278,155 @@ def cmd_resolve(data, args):
         print(f"OK: паттерн «{key}» помечен resolved")
     else:
         print(f"нет такого паттерна: {key}", file=sys.stderr)
+
+
+def mistake_view(key, m):
+    """Компактное представление паттерна для JSON-выдачи."""
+    return {
+        "pattern": key,
+        "category": m.get("category", ""),
+        "topic": m.get("topic", ""),
+        "mode": mode_for(m.get("category", ""), m.get("mode")),
+        "status": m.get("status", "active"),
+        "frequency": m.get("frequency", 0),
+        "rounds": m.get("rounds", 0),
+        "drill_ok": m.get("drill_ok", 0),
+        "last_occurred": m.get("last_occurred", ""),
+        "next_review": m.get("next_review", ""),
+        "last_example": (m.get("examples") or [{}])[-1],
+        "notes": m.get("notes", ""),
+    }
+
+
+def select_mistakes(data, status=None, topic=None, category=None, due_only=False):
+    t = today()
+    out = []
+    for key, m in data["mistakes"].items():
+        m = normalize_mistake(m)
+        st = m.get("status", "active")
+        if status:
+            if status != st:
+                continue
+        elif st not in ("active", "critical"):
+            continue
+        if topic and m.get("topic", "") != topic:
+            continue
+        if category and category.lower() not in (m.get("category", "") or "").lower():
+            continue
+        if due_only and parse_date(m.get("next_review", "1970-01-01")) > t:
+            continue
+        out.append((key, m))
+    # критические вперёд, затем частые, затем свежие
+    out.sort(key=lambda kv: (kv[1].get("status") != "critical",
+                             -kv[1].get("frequency", 0),
+                             parse_date(kv[1].get("last_occurred", "1970-01-01"))))
+    return out
+
+
+def cmd_mistakes(data, args):
+    sel = select_mistakes(data, status=args.status, topic=args.topic,
+                          category=args.category, due_only=args.due)
+    if args.limit:
+        sel = sel[:args.limit]
+    print(json.dumps([mistake_view(k, m) for k, m in sel],
+                     ensure_ascii=False, indent=2))
+
+
+def cmd_drill_plan(data, args):
+    """План работы над ошибками: группировка по темам, режимы, объём заданий.
+
+    Объём: 3 задания за первую ошибку темы + 1 за каждую следующую, потолок 10.
+    Повторная ошибка (frequency >= 2) весит как две — старое тяжелее свежего.
+    """
+    sel = select_mistakes(data, topic=args.topic, category=args.category,
+                          due_only=args.due)
+    groups = {}
+    for key, m in sel:
+        topic = m.get("topic", "")
+        gid = topic or "cat:" + (m.get("category", "") or "—")
+        g = groups.setdefault(gid, {"topic": topic, "mistakes": [], "modes": []})
+        g["mistakes"].append(mistake_view(key, m))
+        mode = mode_for(m.get("category", ""), m.get("mode"))
+        if mode not in g["modes"]:
+            g["modes"].append(mode)
+
+    out = []
+    for gid, g in groups.items():
+        weight = sum(2 if mm["frequency"] >= 2 else 1 for mm in g["mistakes"])
+        tasks = min(10, 3 + max(0, weight - 1))
+        drill_modes = [md for md in g["modes"] if md != "reference"]
+        entry = {
+            "group": gid,
+            "topic": g["topic"],
+            "modes": g["modes"],
+            "mode_titles": [MODE_TITLES.get(md, md) for md in g["modes"]],
+            "tasks": tasks if drill_modes else 0,
+            "critical": any(mm["status"] == "critical" for mm in g["mistakes"]),
+            "second_round": any(mm["rounds"] >= 1 for mm in g["mistakes"]),
+            "mistakes": g["mistakes"],
+        }
+        if "vocab" in g["modes"] and g["topic"]:
+            pool = [
+                {"item": k, "translation": it.get("translation", ""),
+                 "translit": it.get("translit", ""), "mastery": it.get("mastery", 0)}
+                for k, it in data["items"].items()
+                if it.get("topic", "") == g["topic"] and it.get("type", "word") == "word"
+            ]
+            pool.sort(key=lambda x: x["mastery"])
+            entry["vocab_pool"] = pool
+        out.append(entry)
+
+    out.sort(key=lambda g: (not g["critical"], -g["tasks"]))
+    print(json.dumps({"date": today().strftime(DATE_FMT), "groups": out},
+                     ensure_ascii=False, indent=2))
+
+
+def cmd_attempt(data, args):
+    """Итог круга отработки: ok — ошибка снята в этом круге, fail — повторилась."""
+    key = args.pattern
+    if key not in data["mistakes"]:
+        print(f"нет такого паттерна: {key}", file=sys.stderr)
+        sys.exit(1)
+    t = today()
+    m = normalize_mistake(data["mistakes"][key])
+    rounds_today = m.get("last_drill", "") == t.strftime(DATE_FMT)
+    m["rounds"] = m.get("rounds", 0) + 1
+    m["last_drill"] = t.strftime(DATE_FMT)
+
+    if args.result == "ok":
+        m["drill_ok"] = m.get("drill_ok", 0) + 1
+        gap = DRILL_INTERVALS.get(m["drill_ok"], DRILL_INTERVAL_LONG)
+        m["next_review"] = (t + timedelta(days=gap)).strftime(DATE_FMT)
+        if m["drill_ok"] >= 2:
+            m["status"] = "resolved"
+            msg = (f"паттерн «{key}» закрыт (resolved): два чистых круга подряд. "
+                   f"История сохранена.")
+        else:
+            m["status"] = "active"
+            msg = (f"паттерн «{key}» — круг чистый ({m['drill_ok']}/2), "
+                   f"контрольная проверка {m['next_review']}")
+    else:
+        m["drill_ok"] = 0
+        m["frequency"] = m.get("frequency", 0) + 1
+        m["last_occurred"] = t.strftime(DATE_FMT)
+        if rounds_today:
+            # два круга за занятие не помогли — дальше только в следующий раз
+            m["status"] = "critical"
+            m["next_review"] = (t + timedelta(days=1)).strftime(DATE_FMT)
+            msg = (f"паттерн «{key}» — второй круг за занятие не снял ошибку. "
+                   f"Статус critical, перегрев не лечит: следующий заход "
+                   f"{m['next_review']}, первым в спирали.")
+        else:
+            m["next_review"] = t.strftime(DATE_FMT)
+            msg = (f"паттерн «{key}» повторился (частота {m['frequency']}). "
+                   f"Положен второй круг — с другой стороны и мельче шагом.")
+    if args.context:
+        m["examples"].append({
+            "your_answer": args.your or "", "correct_answer": args.correct or "",
+            "context": args.context, "date": t.strftime(DATE_FMT),
+        })
+    data["mistakes"][key] = m
+    print("OK: " + msg)
 
 
 # Таблица словаря в glava-файлах: | тайский | транскрипция | перевод |
@@ -272,7 +493,7 @@ def cmd_progress(data, args):
     due_count = sum(1 for it in items.values()
                     if parse_date(it.get("due_date", "1970-01-01")) <= t)
     active_mistakes = [(k, m) for k, m in data["mistakes"].items()
-                       if m.get("status", "active") == "active"]
+                       if m.get("status", "active") in ("active", "critical")]
 
     print(f"Прогресс — тайский · сложность {meta.get('difficulty', 4)} · "
           f"точность (новое): {int(meta.get('recent_accuracy', 0) * 100)}%")
@@ -285,8 +506,11 @@ def cmd_progress(data, args):
     print(f"\nПора повторить (due): {due_count}")
     if active_mistakes:
         print("Активные слабые места:")
-        for k, m in sorted(active_mistakes, key=lambda kv: -kv[1].get("frequency", 0)):
-            print(f"  • {m.get('category','')}: {k} — {m.get('frequency',0)}×")
+        for k, m in sorted(active_mistakes,
+                           key=lambda kv: (kv[1].get("status") != "critical",
+                                           -kv[1].get("frequency", 0))):
+            mark = " ‼️ critical" if m.get("status") == "critical" else ""
+            print(f"  • {m.get('category','')}: {k} — {m.get('frequency',0)}×{mark}")
 
 
 def cmd_set_meta(data, args):
@@ -317,10 +541,34 @@ def main():
     m.add_argument("path")
     m.add_argument("pattern")
     m.add_argument("--category")
+    m.add_argument("--topic", help="тема ошибки (например 6.1.2) — по ней собирается дрилл")
+    m.add_argument("--mode", choices=sorted(MODE_TITLES), help="режим отработки вручную")
     m.add_argument("--your")
     m.add_argument("--correct")
     m.add_argument("--context")
     m.add_argument("--notes")
+
+    ms = sub.add_parser("mistakes", help="список паттернов ошибок (JSON)")
+    ms.add_argument("path")
+    ms.add_argument("--topic")
+    ms.add_argument("--category")
+    ms.add_argument("--status", choices=["active", "critical", "resolved"])
+    ms.add_argument("--due", action="store_true", help="только те, что пора повторить")
+    ms.add_argument("--limit", type=int, default=None)
+
+    dp = sub.add_parser("drill-plan", help="план работы над ошибками (JSON)")
+    dp.add_argument("path")
+    dp.add_argument("--topic")
+    dp.add_argument("--category")
+    dp.add_argument("--due", action="store_true")
+
+    at = sub.add_parser("attempt", help="итог круга отработки ошибки")
+    at.add_argument("path")
+    at.add_argument("pattern")
+    at.add_argument("--result", choices=["ok", "fail"], required=True)
+    at.add_argument("--your")
+    at.add_argument("--correct")
+    at.add_argument("--context")
 
     rv = sub.add_parser("resolve", help="закрыть паттерн ошибки")
     rv.add_argument("path")
@@ -344,13 +592,15 @@ def main():
 
     handlers = {
         "due": cmd_due, "record": cmd_record, "mistake": cmd_mistake,
+        "mistakes": cmd_mistakes, "drill-plan": cmd_drill_plan,
+        "attempt": cmd_attempt,
         "resolve": cmd_resolve, "import": cmd_import, "progress": cmd_progress,
         "set-meta": cmd_set_meta,
     }
     handlers[args.cmd](data, args)
 
     # команды, меняющие состояние, сохраняют файл
-    if args.cmd in {"record", "mistake", "resolve", "import", "set-meta"}:
+    if args.cmd in {"record", "mistake", "attempt", "resolve", "import", "set-meta"}:
         save(args.path, data)
 
 
