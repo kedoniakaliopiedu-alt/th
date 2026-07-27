@@ -1,0 +1,39 @@
+#!/bin/bash
+# clean — очистить рабочую папку Handwriting/ от артефактов распознавания.
+#
+# Удаляет всё в Handwriting/ (исходные фото, .lines/, .zoom/, временные кропы),
+# КРОМЕ README.md. Саму папку сохраняет. Ничего вне Handwriting/ не трогает —
+# путь берётся от расположения скрипта, а не от текущего каталога.
+#
+#   clean            — почистить
+#   clean --dry-run  — показать, что удалилось бы, ничего не удаляя
+set -euo pipefail
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT="$(cd "$DIR/../../../.." && pwd)"          # корень проекта (th/)
+DEST="$ROOT/Handwriting"
+
+DRY=0
+[ "${1:-}" = "--dry-run" ] && DRY=1
+
+[ -d "$DEST" ] || { echo "clean: папки Handwriting/ нет — нечего чистить."; exit 0; }
+
+shopt -s dotglob nullglob
+removed=0
+for p in "$DEST"/*; do
+  base="$(basename "$p")"
+  [ "$base" = "README.md" ] && continue
+  if [ "$DRY" -eq 1 ]; then
+    echo "удалилось бы: Handwriting/$base"
+  else
+    rm -rf "$p"
+    echo "удалено: Handwriting/$base"
+  fi
+  removed=$((removed+1))
+done
+
+if [ "$removed" -eq 0 ]; then
+  echo "clean: рабочих файлов нет — папка уже чистая (README.md на месте)."
+elif [ "$DRY" -eq 0 ]; then
+  echo "clean: готово, удалено объектов: $removed (README.md сохранён)."
+fi
