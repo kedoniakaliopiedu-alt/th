@@ -9,5 +9,16 @@
   },
   "enabledPlugins": {
     "plugin-dev@claude-code-plugins": true
+  },
+  "permissions": {
+    "allow": [
+      "Bash(.claude/skills/thai-handwriting/scripts/thaiocr:*)",
+      "Bash(python3 .claude/skills/thai-handwriting/scripts/lookup.py:*)",
+      "Bash(python3 .claude/skills/thai-tasks/scripts/tracker.py:*)",
+      "Bash(pdftotext *)",
+      "Bash(qpdf --show-npages *)",
+      "Bash(claude plugin list)",
+      "Bash(claude plugin marketplace list)"
+    ]
   }
 }
