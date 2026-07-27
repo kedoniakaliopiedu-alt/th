@@ -15,6 +15,10 @@ tracker.py — учёт прогресса для skill thai-tasks (SM-2 + ба�
   import     — импортировать словарь из glava-файла в трекер
   progress   — краткий обзор прогресса
   set-meta   — обновить meta (difficulty, recent_accuracy)
+  topics     — состояния тем: что в работе, что закрыто, что мешает закрыть
+  blockers   — что мешает закрыть конкретную тему (не больше трёх пунктов)
+  close      — итог закрывающего испытания темы (ворота проверяются здесь)
+  lesson     — отметить занятие по теме: только эта команда двигает паузу
 
 Примеры:
   python3 tracker.py due progress.json
@@ -28,13 +32,20 @@ tracker.py — учёт прогресса для skill thai-tasks (SM-2 + ба�
   python3 tracker.py import progress.json glava6_tema1_eda.md --topic 6.1
   python3 tracker.py progress progress.json
   python3 tracker.py set-meta progress.json --difficulty 5 --recent-accuracy 0.68
+  python3 tracker.py topics progress.json
+  python3 tracker.py blockers progress.json 3.4
+  python3 tracker.py close progress.json 3.4 --result ok \
+        --production --no-hints --calibrated --accuracy 0.9
 """
 
 import argparse
 import json
 import os
 import re
+import shutil
 import sys
+import tempfile
+import unicodedata
 from datetime import date, datetime, timedelta
 
 DATE_FMT = "%Y-%m-%d"
@@ -69,6 +80,50 @@ MODE_TITLES = {
     "reference": "справка без дрилла",
     "general": "смешанный",
 }
+
+# ---------- состояния темы (критерий закрытия) ----------
+
+DEFAULT_TOPIC = {
+    "title": "", "status": "in_progress", "exit_task": "", "core": [],
+    "attempts": [], "closed_on": None, "reopened_on": None,
+    "next_control": None, "control_step": 0, "closed_at_difficulty": None,
+    "suspicion": 0, "last_lesson": "", "last_shake": "",
+}
+
+TOPIC_STATUS_RU = {
+    "no_criterion": "нет критерия",
+    "in_progress": "в работе",
+    "testing": "на испытании",
+    "closed": "закрыта",
+    "returned": "вернулась",
+}
+
+# Ворота закрытия: пауза с последнего занятия, минимальный mastery по худшему
+# элементу ядра, результат испытания, два успешных круга. Прочие ворота (доля
+# продукции, отсутствие подсказок, совпадение с калибровкой) вычислить из данных
+# нельзя — это свойства самого листа, их подтверждают флаги `close`.
+# Пауза меряется по `last_lesson` темы, а не по `last_seen` элементов: запись
+# результатов испытания через `record` иначе обнуляла бы паузу сама.
+CLOSE_PAUSE_DAYS = 7
+CLOSE_MIN_MASTERY = 2
+CLOSE_ROUNDS = 2
+# Порог сдачи самого испытания — наследует контрольные thai-learning.
+CLOSE_MIN_ACCURACY = 0.85
+# Сколько блокеров показываем человеку: длинный список — не список, а приговор.
+BLOCKERS_SHOWN = 3
+# Сколько элементов закрытых тем поднимать фоном в задания по другим темам.
+BACKGROUND_LIMIT = 4
+# Ядро темы: правила целиком + слова добором до этого размера.
+CORE_SIZE = 18
+# Редкий контроль после закрытия.
+CONTROL_STEPS = [90, 180, 365]
+# Сколько ошибок по закрытой теме до переоткрытия: 1 — подозрение, 2 — вернулась.
+SUSPICION_LIMIT = 2
+
+# Mastery растёт после трёх верных подряд, а не пяти: пять подряд по одному элементу
+# практически не набирается между интервалами SM-2, и критерий поверх такой шкалы мёртв.
+MASTERY_UP_AFTER = 3
+MASTERY_DOWN_AFTER = 3
 
 # Интервалы после успешного круга отработки: 1-й ок → +3д, 2-й → +7д, дальше +16д.
 DRILL_INTERVALS = {1: 3, 2: 7}
@@ -110,6 +165,39 @@ def normalize_mistake(m, category=None):
     return m
 
 
+def nfc(key):
+    """Ключ элемента в канонической форме NFC.
+
+    Тайские тоновые знаки и нижние гласные переставляются нормализацией, поэтому одно
+    и то же слово, набранное в разном порядке, давало два разных ключа словаря —
+    и mastery расходился по ним. Нормализуем в одной точке: на входе в трекер.
+    """
+    return unicodedata.normalize("NFC", key)
+
+
+def merge_denormalized_keys(items):
+    """Свести накопленные до нормализации дубли к одному ключу.
+
+    При коллизии выигрывает запись с большей историей: терять повторения хуже, чем
+    потерять пустой дубль.
+    """
+    merged = 0
+    for key in list(items):
+        canon = nfc(key)
+        if canon == key:
+            continue
+        existing = items.get(canon)
+        candidate = items.pop(key)
+        if existing is None:
+            items[canon] = candidate
+        else:
+            keep = max(existing, candidate,
+                       key=lambda it: (it.get("repetitions", 0), it.get("mastery", 0)))
+            items[canon] = keep
+        merged += 1
+    return merged
+
+
 def parse_date(s):
     try:
         return datetime.strptime(s, DATE_FMT).date()
@@ -121,20 +209,62 @@ def load(path):
     if not os.path.exists(path):
         return {"meta": {"difficulty": 4, "target_success": [0.6, 0.7],
                          "recent_accuracy": 0.0, "updated": today().strftime(DATE_FMT)},
-                "items": {}, "mistakes": {}}
-    with open(path, "r", encoding="utf-8") as f:
-        data = json.load(f)
+                "items": {}, "mistakes": {}, "topics": {}}
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except (json.JSONDecodeError, UnicodeDecodeError) as e:
+        # Битый трекер — не повод затирать его новой записью поверх.
+        backup = path + ".bak"
+        hint = (" Последняя целая копия: {}.".format(backup)
+                if os.path.exists(backup) else "")
+        print("{} повреждён и не прочитан ({}).{}\n"
+              "Ничего не записываю: почини файл или восстанови копию."
+              .format(path, e, hint), file=sys.stderr)
+        sys.exit(2)
     data.setdefault("meta", {"difficulty": 4, "target_success": [0.6, 0.7],
                              "recent_accuracy": 0.0, "updated": today().strftime(DATE_FMT)})
     data.setdefault("items", {})
     data.setdefault("mistakes", {})
+    data.setdefault("topics", {})
+    merged = merge_denormalized_keys(data["items"])
+    if merged:
+        print("нормализовано ключей (NFC): {}".format(merged), file=sys.stderr)
     return data
 
 
 def save(path, data):
+    """Атомарная запись: сначала во временный файл, потом подмена.
+
+    Прямая запись в `open(path, "w")` усекает трекер до того, как в него что-то
+    попало: обрыв на середине уничтожает и словарь, и историю ошибок, а
+    восстанавливать неоткуда. Поэтому пишем рядом и подменяем одним `os.replace`,
+    предварительно отложив предыдущую версию в `.bak`.
+    """
     data["meta"]["updated"] = today().strftime(DATE_FMT)
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+    directory = os.path.dirname(os.path.abspath(path))
+    # Подмести хвосты от прошлых аварийных обрывов: подмена не состоялась,
+    # временный файл остался.
+    for stale in os.listdir(directory):
+        if stale.startswith(".tracker-") and stale.endswith(".json"):
+            try:
+                os.remove(os.path.join(directory, stale))
+            except OSError:
+                pass
+    tmp = None
+    try:
+        fd, tmp = tempfile.mkstemp(dir=directory, prefix=".tracker-", suffix=".json")
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+            f.flush()
+            os.fsync(f.fileno())
+        if os.path.exists(path):
+            shutil.copy2(path, path + ".bak")
+        os.replace(tmp, path)
+        tmp = None
+    finally:
+        if tmp and os.path.exists(tmp):
+            os.remove(tmp)
 
 
 def interval_for(mastery):
@@ -142,14 +272,370 @@ def interval_for(mastery):
     return {0: 0, 1: 1, 2: 3, 3: 7, 4: 14, 5: 30}.get(mastery, 1)
 
 
+# ---------- темы: состояние, ядро, ворота закрытия ----------
+
+def get_topic(data, tp, title=None, create=True):
+    """Запись темы с добитыми полями. create=False — не заводить новую (чтение)."""
+    if not create and tp not in data["topics"]:
+        rec = dict(DEFAULT_TOPIC)
+        rec["attempts"], rec["core"] = [], []
+        return rec
+    rec = dict(DEFAULT_TOPIC)
+    rec.update(data["topics"].get(tp, {}))
+    rec["attempts"] = list(rec.get("attempts") or [])
+    rec["core"] = list(rec.get("core") or [])
+    if title and not rec["title"]:
+        rec["title"] = title
+    data["topics"][tp] = rec
+    return rec
+
+
+def counted_days(rec):
+    """Даты засчитанных кругов испытания — только те, что не погашены сбоем."""
+    return {a["date"] for a in rec.get("attempts", [])
+            if a.get("counted") and not a.get("voided")}
+
+
+def void_rounds(rec):
+    """Погасить засчитанные круги: после сбоя тема начинает испытание заново."""
+    for a in rec.get("attempts", []):
+        if a.get("counted"):
+            a["voided"] = True
+
+
+def topic_status(rec):
+    """Тема без критерия закрытия честно показывается как «нет критерия».
+
+    Отклонённые попытки статус не меняют — иначе одна неудачная попытка
+    заставила бы таблицу состояний врать.
+    """
+    st = rec.get("status", "in_progress")
+    if st == "in_progress" and not rec.get("exit_task") and not counted_days(rec):
+        return "no_criterion"
+    return st
+
+
+def topic_items(data, tp):
+    return {k: it for k, it in data["items"].items() if it.get("topic", "") == tp}
+
+
+def topic_core(data, tp, rec):
+    """Ядро темы: правила целиком, слова добором. Размеченное вручную — в приоритете.
+
+    Ручная разметка проверяется на принадлежность теме: элемент чужой темы в ядре
+    считал бы ворота по чужим данным.
+    """
+    items = topic_items(data, tp)
+    marked = [k for k in rec.get("core", []) if k in items]
+    if marked:
+        return marked
+    rules = [k for k, it in items.items()
+             if it.get("type", "word") in ("rule", "construction")]
+    words = [k for k in items if k not in rules]
+    return rules + words[:max(0, CORE_SIZE - len(rules))]
+
+
+def median(xs):
+    xs = sorted(xs)
+    if not xs:
+        return 0
+    mid = len(xs) // 2
+    return xs[mid] if len(xs) % 2 else (xs[mid - 1] + xs[mid]) / 2
+
+
+def topic_level(data, tp, rec):
+    """Уровень темы по ядру: медиана mastery, худший элемент, доля повторённых.
+
+    Среднее арифметическое прячет мёртвый хвост, поэтому его здесь нет.
+    """
+    core = topic_core(data, tp, rec)
+    items = [data["items"][k] for k in core if k in data["items"]]
+    if not items:
+        return {"core": 0, "median": 0, "worst": 0, "repeated_share": 0.0,
+                "last_seen": "1970-01-01"}
+    mastery = [it.get("mastery", 0) for it in items]
+    repeated = sum(1 for it in items if it.get("repetitions", 0) >= 2)
+    seen = max((it.get("last_seen", "1970-01-01") for it in items),
+               default="1970-01-01")
+    return {
+        "core": len(items),
+        "median": median(mastery),
+        "worst": min(mastery),
+        "repeated_share": round(repeated / len(items), 2),
+        "last_seen": seen,
+    }
+
+
+def topic_blockers(data, tp, rec):
+    """Что мешает закрыть тему. Возвращает пары (код, текст) — полный набор.
+
+    Код нужен для решения (жёсткий блокер или мягкий), текст — для показа.
+    Решение по подстроке текста ломалось бы от любой переформулировки.
+    """
+    out = []
+    if not rec.get("exit_task"):
+        out.append(("no_criterion",
+                    "в файле темы не нашлось критерия: ни секции «Тема закрыта, "
+                    "если ты можешь», ни списка «должна уметь» в «Резюме по теме»"))
+    lvl = topic_level(data, tp, rec)
+    if not lvl["core"]:
+        out.append(("no_core", "лексика темы не импортирована в трекер"))
+
+    active = [k for k, m in data["mistakes"].items()
+              if m.get("topic", "") == tp
+              and m.get("status", "active") in ("active", "critical")]
+    if active:
+        out.append(("mistakes",
+                    "активные ошибки по теме: " + ", ".join(sorted(active)[:3])))
+
+    if lvl["core"] and lvl["worst"] < CLOSE_MIN_MASTERY:
+        out.append(("mastery",
+                    "в ядре темы ({} эл.) есть элементы с mastery {}, нужен минимум {} "
+                    "по худшему".format(lvl["core"], lvl["worst"], CLOSE_MIN_MASTERY)))
+
+    last_lesson = rec.get("last_lesson") or ""
+    if not last_lesson:
+        out.append(("no_lesson", "по теме ещё не отмечено ни одного занятия "
+                                 "(tracker.py lesson <тема>)"))
+    else:
+        pause = (today() - parse_date(last_lesson)).days
+        if pause < CLOSE_PAUSE_DAYS:
+            out.append(("pause", "прошло {} дн. с последнего занятия по теме, "
+                                 "нужно {}".format(pause, CLOSE_PAUSE_DAYS)))
+
+    if rec.get("closed_at_difficulty") is not None:
+        grew = data["meta"].get("difficulty", 4) - rec["closed_at_difficulty"]
+        if grew > 0:
+            out.append(("difficulty",
+                        "сложность выросла на {} с момента закрытия — "
+                        "нужно переподтверждение".format(grew)))
+
+    if not [c for c, _ in out if c != "rounds"] and len(counted_days(rec)) < CLOSE_ROUNDS:
+        out.append(("rounds", "успешных кругов испытания {} из {} "
+                              "(второй — через интервал)".format(
+                                  len(counted_days(rec)), CLOSE_ROUNDS)))
+    return out
+
+
+def hard_blockers(blockers):
+    """Жёсткие — всё, кроме счётчика кругов. Отбор по коду, не по тексту."""
+    return [t for c, t in blockers if c != "rounds"]
+
+
+def show_blockers(blockers):
+    """Для показа человеку — не длиннее трёх пунктов: длинный список это приговор."""
+    return [t for _, t in blockers][:BLOCKERS_SHOWN]
+
+
+def topic_shake(data, tp, reason=""):
+    """Ошибка по теме: снимает право на закрытие, закрытую двигает к возврату.
+
+    За одно занятие тема получает не больше одного удара: штатный конвейер на один
+    промах вызывает и `record`, и `mistake`, и без этого ступень «под подозрением»
+    была бы недостижима.
+    """
+    if not tp:
+        return None
+    rec = get_topic(data, tp)
+    t = today()
+    stamp = t.strftime(DATE_FMT)
+    already = rec.get("last_shake") == stamp
+    rec["last_shake"] = stamp
+
+    if topic_status(rec) in ("closed", "returned"):
+        if already:
+            return None
+        rec["suspicion"] = rec.get("suspicion", 0) + 1
+        if rec["suspicion"] >= SUSPICION_LIMIT:
+            was_closed = rec["status"] == "closed"
+            rec["status"] = "returned"
+            rec["suspicion"] = 0
+            void_rounds(rec)
+            if was_closed:
+                rec["reopened_on"] = stamp
+            rec["closed_on"] = None
+            rec["next_control"] = None
+            rec["closed_at_difficulty"] = None
+            return "тема {} переоткрыта ({})".format(tp, reason or "ошибка по теме")
+        return "тема {} под подозрением ({}/{})".format(
+            tp, rec["suspicion"], SUSPICION_LIMIT)
+
+    if topic_status(rec) == "testing":
+        rec["status"] = "in_progress"
+        void_rounds(rec)
+        return "тема {} снята с испытания, круги обнулены".format(tp)
+    return None
+
+
+def all_topics(data):
+    """Все известные темы: из записей, из элементов и из ошибок."""
+    tps = set(data["topics"])
+    tps |= {it.get("topic", "") for it in data["items"].values()}
+    tps |= {m.get("topic", "") for m in data["mistakes"].values()}
+    return sorted(tp for tp in tps if tp)
+
+
+def cmd_lesson(data, args):
+    """Отметить занятие по теме. Двигает только паузу, ничего больше."""
+    rec = get_topic(data, args.topic, title=args.title)
+    rec["last_lesson"] = today().strftime(DATE_FMT)
+    print("OK: занятие по теме {} отмечено {}".format(args.topic, rec["last_lesson"]))
+
+
+def cmd_topics(data, args):
+    """Таблица состояний тем — статус словами, без звёздочек и процентов."""
+    tps = all_topics(data)
+    if args.topic:
+        if args.topic not in tps:
+            print("тема {} в трекере не заведена — импортируй её лексику "
+                  "(tracker.py import)".format(args.topic))
+            return
+        tps = [args.topic]
+    if not tps:
+        print("тем в трекере нет")
+        return
+    print("{:<8} {:<14} {:<6} {:<9} что дальше".format(
+        "тема", "статус", "ядро", "медиана"))
+    for tp in tps:
+        rec = get_topic(data, tp, create=False)
+        lvl = topic_level(data, tp, rec)
+        st = topic_status(rec)
+        blockers = topic_blockers(data, tp, rec)
+        if st == "closed":
+            tail = "контроль {}".format(rec.get("next_control") or "—")
+        else:
+            shown = show_blockers(blockers)
+            tail = shown[0] if shown else "готова к испытанию"
+        print("{:<8} {:<14} {:<6} {:<9} {}".format(
+            tp, TOPIC_STATUS_RU.get(st, st), lvl["core"], lvl["median"], tail))
+
+
+def cmd_blockers(data, args):
+    tp = args.topic
+    rec = get_topic(data, tp, create=False)
+    lvl = topic_level(data, tp, rec)
+    print("Тема {} — {} (ядро {} эл., медиана mastery {}, худший {}, "
+          "повторено {:.0%})".format(
+              tp, TOPIC_STATUS_RU.get(topic_status(rec), topic_status(rec)),
+              lvl["core"], lvl["median"], lvl["worst"], lvl["repeated_share"]))
+    blockers = topic_blockers(data, tp, rec)
+    if not blockers:
+        print("Мешающего нет — тему можно вести на закрывающее испытание.")
+        return
+    print("Мешает закрыть:")
+    for b in show_blockers(blockers):
+        print("  • {}".format(b))
+    hidden = len(blockers) - len(show_blockers(blockers))
+    if hidden > 0:
+        print("  (и ещё {} — покажу, когда снимешь эти)".format(hidden))
+
+
+def cmd_close(data, args):
+    """Фиксирует попытку закрытия. Ворота проверяются здесь, а не на глаз."""
+    tp = args.topic
+    rec = get_topic(data, tp, title=args.title)
+    t = today()
+    stamp = t.strftime(DATE_FMT)
+    was_closed = topic_status(rec) == "closed"
+
+    blockers = topic_blockers(data, tp, rec)
+    hard = hard_blockers(blockers)
+    # ворота, которые нельзя вычислить из данных — свойства самого испытания
+    if not args.production:
+        hard.append("не подтверждена доля продукции ≥70% (--production)")
+    if not args.no_hints:
+        hard.append("не подтверждено отсутствие подсказок (--no-hints)")
+    if not args.calibrated:
+        hard.append("самооценка не сошлась с результатом (--calibrated)")
+    if args.result == "ok":
+        if args.accuracy is None:
+            hard.append("не указан результат испытания (--accuracy)")
+        elif args.accuracy < CLOSE_MIN_ACCURACY:
+            hard.append("результат {:.0%}, нужно не меньше {:.0%}".format(
+                args.accuracy, CLOSE_MIN_ACCURACY))
+
+    counted = args.result == "ok" and not hard
+    rec["attempts"].append({
+        "date": stamp, "result": args.result, "accuracy": args.accuracy,
+        "counted": counted, "blocked_by": hard,
+    })
+
+    if args.result == "fail":
+        # Провал контроля закрытой темы — это откат, а не «остаётся в работе».
+        void_rounds(rec)
+        if was_closed:
+            rec["status"] = "returned"
+            rec["reopened_on"] = stamp
+            rec["closed_on"] = None
+            rec["next_control"] = None
+            rec["closed_at_difficulty"] = None
+            rec["suspicion"] = 0
+            print("Контроль по теме {} провален — тема вернулась в работу.".format(tp))
+        else:
+            rec["status"] = "in_progress"
+            print("Попытка закрытия темы {}: провал. Тема остаётся в работе.".format(tp))
+        print("Возврат идёт не на старт: собери отработку по паттерну, "
+              "который её уронил (thai-mistakes).")
+        return
+
+    if hard:
+        # Отклонённая попытка остаётся в истории, но статус не трогает: она не
+        # событие в жизни темы, а неудачный запрос.
+        print("Попытка закрытия темы {} не засчитана — ворота не пройдены:".format(tp))
+        for b in hard[:BLOCKERS_SHOWN]:
+            print("  • {}".format(b))
+        return
+
+    if was_closed:
+        # Контроль пройден — следующий шаг лестницы 90 → 180 → 365.
+        step = min(rec.get("control_step", 0) + 1, len(CONTROL_STEPS) - 1)
+        rec["control_step"] = step
+        rec["next_control"] = (t + timedelta(days=CONTROL_STEPS[step])).strftime(DATE_FMT)
+        rec["suspicion"] = 0
+        print("Контроль по теме {} пройден. Следующий — {}.".format(
+            tp, rec["next_control"]))
+        return
+
+    days = counted_days(rec)
+    if len(days) < CLOSE_ROUNDS:
+        rec["status"] = "testing"
+        print("Круг {} из {} по теме {} пройден. Второй — через интервал, "
+              "не сегодня.".format(len(days), CLOSE_ROUNDS, tp))
+        return
+
+    rec["status"] = "closed"
+    rec["closed_on"] = stamp
+    rec["suspicion"] = 0
+    rec["control_step"] = 0
+    rec["closed_at_difficulty"] = data["meta"].get("difficulty", 4)
+    rec["next_control"] = (t + timedelta(days=CONTROL_STEPS[0])).strftime(DATE_FMT)
+    print("Тема {} закрыта. Из спирали уходит, лексика остаётся обязательным "
+          "фоном в заданиях по другим темам.".format(tp))
+    print("Контрольная проверка: {}.".format(rec["next_control"]))
+
+
 # ---------- команды ----------
+
+def closed_topics(data):
+    """Темы, ушедшие из спирали: их элементы не выдаются как самостоятельный повтор."""
+    return {tp for tp, rec in data["topics"].items()
+            if topic_status(rec) == "closed"}
+
 
 def cmd_due(data, args):
     t = today()
+    closed = closed_topics(data)
     due_items = []
+    background = []
     for key, it in data["items"].items():
         dd = parse_date(it.get("due_date", "1970-01-01"))
-        if dd <= t:
+        if dd > t:
+            continue
+        if it.get("topic", "") in closed:
+            # Закрытая тема не даёт собственных заданий, но её лексика обязана
+            # появляться фоном в заданиях по другим темам.
+            background.append((key, it))
+        else:
             due_items.append((key, it))
     # приоритет: низкий mastery, затем ранняя due_date
     due_items.sort(key=lambda kv: (kv[1].get("mastery", 0),
@@ -180,12 +666,18 @@ def cmd_due(data, args):
              "translation": it.get("translation", "")}
             for k, it in (due_items[:limit] if limit else due_items)
         ],
+        "background": [
+            {"item": k, "type": it.get("type", "word"),
+             "topic": it.get("topic", ""), "mastery": it.get("mastery", 0),
+             "translation": it.get("translation", "")}
+            for k, it in background[:BACKGROUND_LIMIT]
+        ],
     }
     print(json.dumps(out, ensure_ascii=False, indent=2))
 
 
 def cmd_record(data, args):
-    key = args.item
+    key = nfc(args.item)
     it = data["items"].get(key, dict(DEFAULT_ITEM))
     if args.type:
         it["type"] = args.type
@@ -221,10 +713,15 @@ def cmd_record(data, args):
     ef = ef + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02))
     ef = max(1.3, ef)
 
-    if cc >= 5:
+    # Серия обнуляется после сдвига уровня: иначе mastery рос бы на каждом верном
+    # ответе начиная с третьего, и каждый следующий уровень доставался бы за один
+    # ответ вместо новой серии.
+    if cc >= MASTERY_UP_AFTER:
         mastery = min(5, mastery + 1)
-    elif ci >= 3:
+        cc = 0
+    elif ci >= MASTERY_DOWN_AFTER:
         mastery = max(0, mastery - 1)
+        ci = 0
 
     t = today()
     it.update({
@@ -238,6 +735,10 @@ def cmd_record(data, args):
     data["items"][key] = it
     print(f"OK: {key} → mastery {mastery}, интервал {interval}д, "
           f"следующий повтор {it['due_date']} (EF {it['easiness_factor']})")
+    if q < 3:
+        note = topic_shake(data, it.get("topic", ""), f"ошибка в «{key}»")
+        if note:
+            print(note)
 
 
 def cmd_mistake(data, args):
@@ -269,6 +770,9 @@ def cmd_mistake(data, args):
     print(f"OK: паттерн «{key}» — частота {m['frequency']}, "
           f"режим {mode_for(m['category'], m['mode'])}, "
           f"следующий повтор {m['next_review']}")
+    note = topic_shake(data, m.get("topic", ""), f"паттерн «{key}»")
+    if note:
+        print(note)
 
 
 def cmd_resolve(data, args):
@@ -381,7 +885,7 @@ def cmd_drill_plan(data, args):
                      ensure_ascii=False, indent=2))
 
 
-def cmd_attempt(data, args):
+def cmd_attempt(data, args):  # noqa: C901
     """Итог круга отработки: ok — ошибка снята в этом круге, fail — повторилась."""
     key = args.pattern
     if key not in data["mistakes"]:
@@ -427,11 +931,70 @@ def cmd_attempt(data, args):
         })
     data["mistakes"][key] = m
     print("OK: " + msg)
+    if args.result == "fail":
+        note = topic_shake(data, m.get("topic", ""), f"провал круга по «{key}»")
+        if note:
+            print(note)
 
 
 # Таблица словаря в glava-файлах: | тайский | транскрипция | перевод |
 ROW_RE = re.compile(r"^\|(.+)\|(.+)\|(.+)\|\s*$")
 HEADER_WORDS = {"тайский", "транскрипция", "перевод", "term", ""}
+
+
+# Критерий закрытия ищем в двух местах, в этом порядке. Первый — явная секция для
+# новых тем; второй — «Резюме по теме», которое во всех 36 написанных файлах уже
+# заканчивается списком «К концу темы ты должна уметь». Отдельно сочинять критерий
+# не надо: он давно написан, просто под другим заголовком.
+EXIT_HEADING = "Тема закрыта, если ты можешь"
+EXIT_HEADING_FALLBACK = "Резюме по теме"
+# Пункт секции: нумерованный или маркированный список.
+EXIT_ITEM_RE = re.compile(r"^(?:[-*+]|\d+[.)])\s+")
+# Декор в начале пункта резюме: галочки, маркеры, лишние пробелы.
+EXIT_DECOR_RE = re.compile(r"^[\s✅✔☑•▪–—-]+")
+
+
+def read_exit_task(path):
+    """Критерий закрытия темы из её файла.
+
+    Берём только пункты списка под markdown-заголовком: таблицы, комментарии и прочий
+    текст в критерий не попадают, иначе им открывались бы ворота. Явная секция
+    «Тема закрыта, если ты можешь» имеет приоритет; если её нет — «Резюме по теме»,
+    где список «К концу темы ты должна уметь» и есть готовый критерий.
+    """
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            text = f.read()
+    except OSError as e:
+        print("не удалось прочитать {}: {}".format(path, e), file=sys.stderr)
+        return ""
+    except UnicodeDecodeError:
+        print("файл {} не в UTF-8 — секция критерия не прочитана".format(path),
+              file=sys.stderr)
+        return ""
+
+    found = {EXIT_HEADING: [], EXIT_HEADING_FALLBACK: []}
+    grab, fenced = None, False
+    for line in text.splitlines():
+        stripped = line.strip()
+        if stripped.startswith("```"):
+            fenced = not fenced
+            continue
+        if fenced:
+            continue
+        if stripped.startswith("#"):
+            low = stripped.lower()
+            grab = None
+            for heading in found:
+                if heading.lower() in low:
+                    grab = heading
+            continue
+        if grab and EXIT_ITEM_RE.match(stripped):
+            item = EXIT_DECOR_RE.sub("", EXIT_ITEM_RE.sub("", stripped)).strip()
+            if item:
+                found[grab].append(item)
+    items = found[EXIT_HEADING] or found[EXIT_HEADING_FALLBACK]
+    return " · ".join(items).strip()
 
 
 def clean_cell(s):
@@ -459,6 +1022,7 @@ def cmd_import(data, args):
             # тайский должен содержать тайские символы
             if not re.search(r"[฀-๿]", thai):
                 continue
+            thai = nfc(thai)
             if thai in data["items"]:
                 skipped += 1
                 continue
@@ -475,6 +1039,19 @@ def cmd_import(data, args):
             added += 1
     print(f"Импорт из {os.path.basename(args.source)}: добавлено {added}, "
           f"пропущено (уже были) {skipped}")
+
+    if not args.topic:
+        return
+    rec = get_topic(data, args.topic)
+    exit_task = read_exit_task(args.source)
+    if exit_task:
+        rec["exit_task"] = exit_task
+        if rec["status"] == "no_criterion":
+            rec["status"] = "in_progress"
+    elif not rec["exit_task"] and rec["status"] == "in_progress" and not rec["attempts"]:
+        rec["status"] = "no_criterion"
+        print(f"Тема {args.topic}: в файле нет секции «{EXIT_HEADING}» — "
+              f"статус «нет критерия», закрыть её нельзя.")
 
 
 def stars(m):
@@ -498,11 +1075,17 @@ def cmd_progress(data, args):
     print(f"Прогресс — тайский · сложность {meta.get('difficulty', 4)} · "
           f"точность (новое): {int(meta.get('recent_accuracy', 0) * 100)}%")
     print(f"Слов/правил в трекере: {len(items)}\n")
-    print("Темы (средний mastery):")
+    print("Темы (медиана mastery по ядру):")
     for tp in sorted(by_topic):
-        vals = by_topic[tp]
-        avg = round(sum(vals) / len(vals)) if vals else 0
-        print(f"  {tp:<10} {stars(avg)}  ({avg}/5, {len(vals)} эл.)")
+        rec = get_topic(data, tp, create=False)
+        lvl = topic_level(data, tp, rec)
+        med = int(lvl["median"])
+        print(f"  {tp:<10} {stars(med)}  ({lvl['median']}/5 по ядру из {lvl['core']}, "
+              f"{len(by_topic[tp])} эл.) — "
+              f"{TOPIC_STATUS_RU.get(topic_status(rec), topic_status(rec))}")
+    closed = [tp for tp, r in data["topics"].items() if r.get("status") == "closed"]
+    if closed:
+        print("Закрыто: " + ", ".join(sorted(closed)))
     print(f"\nПора повторить (due): {due_count}")
     if active_mistakes:
         print("Активные слабые места:")
@@ -587,6 +1170,33 @@ def main():
     sm.add_argument("--difficulty", type=int)
     sm.add_argument("--recent-accuracy", type=float, dest="recent_accuracy")
 
+    ls = sub.add_parser("lesson", help="отметить занятие по теме (двигает паузу)")
+    ls.add_argument("path")
+    ls.add_argument("topic")
+    ls.add_argument("--title")
+
+    tp = sub.add_parser("topics", help="состояния тем")
+    tp.add_argument("path")
+    tp.add_argument("--topic")
+
+    bl = sub.add_parser("blockers", help="что мешает закрыть тему")
+    bl.add_argument("path")
+    bl.add_argument("topic")
+
+    cl = sub.add_parser("close", help="попытка закрытия темы")
+    cl.add_argument("path")
+    cl.add_argument("topic")
+    cl.add_argument("--result", choices=["ok", "fail"], required=True)
+    cl.add_argument("--accuracy", type=float, default=None,
+                    help="доля верного 0..1; при --result ok обязателен")
+    cl.add_argument("--title")
+    cl.add_argument("--production", action="store_true",
+                    help="не меньше 70%% заданий листа продуктивные (рус→тай, сборка)")
+    cl.add_argument("--no-hints", action="store_true", dest="no_hints",
+                    help="подсказок не было")
+    cl.add_argument("--calibrated", action="store_true",
+                    help="прогноз ученицы разошёлся с фактом не больше чем на 1 пункт")
+
     args = p.parse_args()
     data = load(args.path)
 
@@ -596,11 +1206,14 @@ def main():
         "attempt": cmd_attempt,
         "resolve": cmd_resolve, "import": cmd_import, "progress": cmd_progress,
         "set-meta": cmd_set_meta,
+        "topics": cmd_topics, "blockers": cmd_blockers, "close": cmd_close,
+        "lesson": cmd_lesson,
     }
     handlers[args.cmd](data, args)
 
     # команды, меняющие состояние, сохраняют файл
-    if args.cmd in {"record", "mistake", "attempt", "resolve", "import", "set-meta"}:
+    if args.cmd in {"record", "mistake", "attempt", "resolve", "import", "set-meta",
+                    "close", "lesson"}:
         save(args.path, data)
 
 

@@ -87,6 +87,27 @@ deliberately does not reuse the examples in «Практические упра�
 ones. So write that section as *illustration of the rule*, not as a bank of exercises meant
 to be served to the learner, and never put anything there that must not be reused verbatim.
 
+Every topic file ends with a closing criterion — what `thai-tasks` reads to know when the
+topic may leave the spiral. The existing 36 files already carry it as «Резюме по теме» →
+«К концу темы ты должна уметь», and the parser reads that section as a fallback, so nothing
+has to be retrofitted. When writing a **new** topic, either keep that summary in the same
+shape or use the explicit heading below; the parser prefers the explicit one. Without
+either, the topic is stuck at «нет критерия» and can never be closed. The format is strict:
+`tracker.py read_exit_task` takes only list items under a markdown heading, so a bolded line
+or a table yields nothing.
+
+```markdown
+## Тема закрыта, если ты можешь
+
+1. Рассказать свой день с временем
+2. Ответить на вопрос «во сколько ты встаёшь»
+3. Заказать две порции риса и уточнить остроту
+```
+
+3–5 items, each phrased as an **action**, not as knowledge («заказать две порции риса», not
+«знать счётные слова»). Write it together with the topic, before any lesson on it: the
+engine has to know the target in advance for backward design to mean anything.
+
 Vocabulary presentation: `**тайское**` · *транскрипция* — перевод. Transcription is Cyrillic
 only, per `thai-phonetics`; the tone mark sits over the **vowel**, never over a consonant.
 Tone marks: ` (низкий) ˆ (нисходящий) ´ (высокий) ˇ (восходящий); mid tone unmarked.
