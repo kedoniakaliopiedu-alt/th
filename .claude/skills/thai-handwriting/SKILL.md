@@ -198,7 +198,7 @@ python3 .claude/skills/thai-tasks/scripts/tracker.py mistake progress.json "по
 ```
 
 Разбор языковых ошибок — не здесь: за него отвечает `thai-learning`
-(`references/checking.md` в `thai-tasks`), оформление слов — `thai-display`,
+(+ `thai-tasks/references/checking.md`), оформление слов — `thai-display`,
 транскрипция — `thai-phonetics`.
 
 ---

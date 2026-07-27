@@ -179,7 +179,7 @@ description: >
 **references/drill-modes.md**. Читай этот файл, когда собираешь блок.
 
 Категория не ложится ни в один режим → `general`: собери смешанный блок из типов
-`exercise-catalog.md` (thai-tasks), сохраняя запрет на свободное сочинение.
+`thai-tasks/references/exercise-catalog.md`, сохраняя запрет на свободное сочинение.
 
 ## Правило двух кругов
 
