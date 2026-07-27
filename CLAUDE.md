@@ -1,66 +1,75 @@
-# Проект Thailand — правила работы
+# Project Thailand — working rules
 
-Репозиторий для изучения тайского языка: материалы уроков (`Thai A2/`, `Thai B1/`,
-`Helpers/`), трекер прогресса (`progress.json`) и скиллы-репетиторы в `.claude/skills/`
-(обзор — `.claude/skills/README.md`).
+A repository for learning Thai: lesson material (`Thai A2/`, `Thai B1/`, `Helpers/`), the
+progress tracker (`progress.json`) and the tutor skills in `.claude/skills/` (overview —
+`.claude/skills/README.md`).
 
-## Изображения
+Instructions here are in English; **everything the user reads is in Russian** (see «Working
+on the skills themselves»).
 
-**Пришла картинка — первым делом вызывается скилл `thai-handwriting`.** Без исключений:
-фото тетради, скриншот, вывеска, страница учебника, кадр с доски. Даже если сообщение
-без текста или просьба звучит как «переведи» / «проверь» / «что тут написано».
+## Images
 
-Читать тайский с картинки «на глаз», в обход конвейера скилла, нельзя: страница целиком
-распознаётся заметно хуже, чем нарезанная на строки, а неотмеченная догадка ломает
-учебный цикл — разбор поедет по неверно прочитанному слову.
+**An image arrived — the very first thing to invoke is the `thai-handwriting` skill.** No
+exceptions: a photo of a notebook, a screenshot, a sign, a textbook page, a frame from a
+whiteboard. This holds even when the message carries no text at all, or when the request
+sounds like «переведи» / «проверь» / «что тут написано».
 
-**Команда «clean photo»** (даже без картинки в сообщении) → очистить папку `Handwriting/`
-скриптом `.claude/skills/thai-handwriting/scripts/clean`. Детали — в скилле `thai-handwriting`.
+Reading Thai off an image by eye, bypassing the skill's pipeline, is forbidden: a whole page
+is recognized markedly worse than one sliced into lines, and an unflagged guess breaks the
+learning loop — the review then runs on a misread word.
 
-## Тайский язык
+**The command «clean photo»** (even with no image in the message) → clear the `Handwriting/`
+folder with `.claude/skills/thai-handwriting/scripts/clean`. Details are in the
+`thai-handwriting` skill.
 
-- Задания, тренировки, практика → `thai-tasks` (он сам подключает остальные).
-- **Проверил ответы — сразу `thai-mistakes`**: отчёт по листу (✅ / 🟡 / ❌ + верный
-  вариант) и отработка ошибок целой темой. Не подменять его разбором «на ходу».
-- Транскрипция — только кириллицей, по `thai-phonetics`.
-- Тоны перед оценкой сверяются по авторитетному источнику, не по памяти.
-- Прогресс и ошибки пишутся в `progress.json` через
+## Thai
+
+- Tasks, drills, practice → `thai-tasks` (it pulls in the rest itself).
+- **Answers checked — go straight to `thai-mistakes`**: a report over the sheet
+  (✅ / 🟡 / ❌ + the correct version) and drilling the mistakes as a whole topic. Do not
+  substitute an ad-hoc review of your own.
+- Transcription is Cyrillic only, per `thai-phonetics`.
+- Tones are verified against an authoritative source before any verdict, never from memory.
+- Progress and mistakes are written to `progress.json` through
   `.claude/skills/thai-tasks/scripts/tracker.py`.
 
-## Работа над самими скиллами
+## Working on the skills themselves
 
-Мета-слой отделён от учебного: `skill-*` работают над инструментом, `thai-*` — с тайским.
+The meta layer is separate from the teaching one: `skill-*` work on the instrument,
+`thai-*` on Thai.
 
-- Придумать механику, формат задания, структуру темы → `skill-brainstorm`.
-- Написать или переписать `SKILL.md`, справочник, файл темы; объяснить механизм;
-  собрать схему → `skill-writer`.
-- Проверить написанное — свои правки, скилл целиком, скрипт, учебный файл →
+- Invent a mechanic, an exercise format, the structure of a topic → `skill-brainstorm`.
+- Write or rewrite a `SKILL.md`, a reference, a topic file; explain a mechanism; draw a
+  diagram → `skill-writer`.
+- Check what was written — your own edits, a whole skill, a script, a course file →
   `skill-review`.
 
-**Язык вывода — русский всегда**, даже когда сам скилл написан по-английски: инструкции
-пишутся как удобно, но всё, что видит человек, и всё, что попадает в артефакты, — на
-русском.
+**Output language is Russian, always**, even when the skill itself is written in English:
+instructions are written however is convenient, but everything a human sees, and everything
+that lands in an artifact, is in Russian.
 
-**Инструкции постепенно переезжают на английский — попутно, а не отдельной кампанией.**
-Правишь файл скилла по делу — заодно переводи его целиком; сплошной перевод ради экономии
-не затевать. Кириллица стоит примерно вдвое дороже английского в токенах, но замер на
-`checking.md` дал только 26%: пятая часть текста обязана остаться русской, а цена
-случайной ошибки в отлаженной инструкции выше выигрыша. Что именно не переводится — в
+**Instructions migrate to English gradually — in passing, not as a campaign.** When you are
+editing a skill file for a real reason, translate it whole in the same pass; never run a
+translation sweep just to save tokens. Cyrillic costs roughly twice as much as English in
+tokens, yet the measurement on `checking.md` came out at only 26%: a fifth of the text has
+to stay Russian, and the price of an accidental error in a tuned instruction outweighs the
+gain. What is never translated — in
 `skill-writer/references/skill-doc-standards.md`.
 
-## Служебный вывод
+## Console output
 
-Проверки, прогоны скриптов и эксперименты в песочнице человек видит в терминале целиком,
-поэтому шумит не отчёт, а сама команда. Гоняй их тихо:
+The user sees every check, script run and sandbox experiment in the terminal in full, so
+the noise is the command itself, not the report. Run them quietly:
 
-- никаких `echo "=== … ==="`-баннеров, `ls -l`, размеров в байтах, дампов «было/стало» —
-  это обрамление для человека, но решение по нему принимаешь ты, а не он;
-- лишнее глуши (`>/dev/null`), из скрипта бери ту одну строку, по которой виден вердикт;
-- в чат идёт **статус**: что проверял и чем кончилось. Подробности — только если проверка
-  упала или их прямо попросили.
+- no `echo "=== … ==="` banners, no `ls -l`, no byte counts, no before/after dumps — that
+  framing is for a human, but the decision from it is yours to make, not theirs;
+- silence the rest (`>/dev/null`), and take from a script the one line that carries the
+  verdict;
+- what goes to the chat is a **status**: what was checked and how it ended. Details only if
+  the check failed or they were asked for outright.
 
-Тот же принцип с учебной стороны: вывод `tracker.py` ученице не копируется, а
-пересказывается (`thai-tasks`, «Итог занятия»).
+The same principle on the teaching side: `tracker.py` output is not copied to the learner
+but retold (`thai-tasks`, «Итог занятия»).
 
-Правила этого файла главнее любого скилла. Изменение, которое им противоречит, — находка
-высокой важности в `skill-review`, а не повод переписать правило по ходу дела.
+The rules in this file outrank any skill. A change that contradicts them is a high-severity
+finding in `skill-review`, not a licence to rewrite the rule on the fly.
