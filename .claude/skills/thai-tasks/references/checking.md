@@ -1,11 +1,15 @@
-# Проверка ответов
+# Checking answers
 
-Как разбирать ответы пользователя на задания. Действует поверх правил `thai-learning`
-(тренировка vs контрольная, аннотация незнакомых слов) — здесь детализируем сам разбор.
+How to review the user's answers. Sits on top of the rules in `thai-learning` (practice vs
+test, annotating unknown words) — this file details the review itself.
 
-## Тоновая нотация
+**Everything the user reads stays in Russian**, including the templates quoted below. The
+four category names are also data: they are written into `progress.json` as `category`, so
+they must appear exactly as spelled here.
 
-Пользователь обозначает тоны так (над ударной гласной слога):
+## Tone notation
+
+The user marks tones like this, over the vowel of the syllable:
 
 | Тон | Знак |
 |---|---|
@@ -15,43 +19,46 @@
 | Высокий (ตรี) | ´ |
 | Восходящий (จัตวา) | ˇ |
 
-Используй **ровно эту схему** при подаче транскрипции и при разборе тонов. Средний тон
-не помечай никаким знаком.
+Use **exactly this scheme** when giving transcription and when reviewing tones. Never mark
+the mid tone.
 
-## Тоны проверяй только по авторитетным источникам
+## Verify tones against an authoritative source only
 
-Свои знания о тоне конкретного слова **не считать достаточными**. Прежде чем оценить
-тон в ответе пользователя как верный или неверный, сверься с авторитетным источником —
-в первую очередь словарём http://thai-language.com/dict/search. Это касается любой
-оценки тона: и в тренировке, и в контрольной. Не выноси вердикт по памяти — тон легко
-перепутать, а неверная оценка подрывает доверие к разбору.
+Your own knowledge of a word's tone is **not sufficient**. Before judging a tone in the
+user's answer right or wrong, check an authoritative source — first of all the dictionary
+at http://thai-language.com/dict/search. This applies to every tone judgement, in practice
+and in tests alike. Never rule from memory: tones are easy to confuse, and a wrong verdict
+undermines trust in the whole review.
 
-## Порядок разбора: сначала подсказки, потом ответ
+## Order of review: hints first, answer second
 
-Разбор идёт в два шага (правило из `thai-learning`, здесь — обязательный порядок).
+The review runs in two steps (the rule comes from `thai-learning`; the order here is
+mandatory).
 
-**Шаг 1 — подсказки.** Не выдавай сразу правильный вариант. Для каждой ошибки дай
-подсказку: назови, *что* не так, и направь наводящим вопросом или напоминанием правила,
-не раскрывая готовый ответ.
+**Step 1 — hints.** Do not hand over the correct version straight away. For each mistake,
+name *what* is wrong and steer with a leading question or a reminder of the rule, without
+revealing the answer.
+
 > Пример: «В слове для "рис" тон не средний. Посмотри на класс первой согласной и на
 > тоновый знак — какой тон они дают в закрытом слоге?»
 
-Дай пользователю попробовать исправить по подсказке.
+Let the user try to fix it from the hint.
 
-**Шаг 2 — правильный вариант с объяснением.** Если подсказки не сработали (ошибка
-повторяется или пользователь просит), выдай правильный вариант и разбери:
-- **что именно** было не так в ответе пользователя;
-- **почему правильно иначе** — какое правило работает и как оно приводит к верному
-  варианту.
+**Step 2 — the correct version with an explanation.** If the hints did not work (the
+mistake repeats, or the user asks), give the correct version and unpack it:
+
+- **what exactly** was wrong in the user's answer;
+- **why it is otherwise** — which rule applies and how it produces the right form.
+
 > Пример: «Правильно кхâау (нисходящий). У тебя был средний. ข — высокий класс, знак
 > ้ (ไม้โท) на высоком классе в этом слоге даёт нисходящий тон, а не средний.»
 
-В **контрольных** работах подсказок нет (см. thai-learning): сразу вердикт и разбор.
+In **tests** there are no hints (see thai-learning): verdict and review straight away.
 
-## Комплексная оценка по категориям
+## Scoring by category
 
-Ответ на продуктивное задание оценивай не одной оценкой, а **по четырём категориям** —
-это показывает, где именно пробел, и питает файл прогресса.
+Score a productive answer not with one mark but **across four categories** — that shows
+where the gap actually is, and it feeds the progress file.
 
 | Категория | Что проверяем |
 |---|---|
@@ -60,7 +67,7 @@
 | **Орфография** | верное тайское написание: согласные, гласные, знаки, пробелы/их отсутствие |
 | **Тоны** | верные тоны (сверять по авторитетному источнику, см. выше) |
 
-Формат вывода разбора продуктивного задания:
+Output format for reviewing a productive task:
 
 ```
 Разбор задания N
@@ -78,42 +85,43 @@
 Итог: [краткий вывод + одно правило-закрепление]
 ```
 
-Для атомарных заданий на один навык полная таблица из четырёх категорий избыточна —
-оценивай по релевантной категории, но порядок «подсказка → ответ с объяснением»
-сохраняется всегда.
+For atomic single-skill tasks the full four-category table is overkill — score the relevant
+category only, but the order «подсказка → ответ с объяснением» always holds.
 
-## Линза «естественность» (сверх правильности)
+## The naturalness lens (beyond correctness)
 
-Четыре категории проверяют, **правильно** ли. Но продуктивный ответ бывает грамматически
-верным и при этом звучащим не по-тайски — калька, книжность, не тот регистр. Поэтому к
-продуктивным заданиям (особенно разговорным) добавляй отдельную строку:
+The four categories check whether the answer is **correct**. But a productive answer can be
+grammatically right and still not sound Thai — a calque, bookish phrasing, the wrong
+register. So for productive tasks (conversational ones especially) add a separate line:
 
 ```
 🗣 Естественнее: «{как сказал бы носитель}» — {почему живее/уместнее}
 ```
 
-Важно: это **не ошибка** и не снижает оценку по четырём категориям — верно засчитывается
-верным. Это подсказка, как звучать как носитель, а не как учебник. Давай её, когда есть
-что улучшить; если ответ и так звучит естественно — отметь это («звучит натурально»).
-Идиоматичность и регистр — навык B1 из миссии, поэтому линза важна.
+Important: this is **not a mistake** and does not lower any of the four category scores —
+correct stays correct. It is a pointer on how to sound like a native rather than like a
+textbook. Give it when there is something to improve; if the answer already sounds natural,
+say so («звучит натурально»). Idiomaticity and register are a B1 skill from the mission, so
+the lens matters.
 
-## Связь с прогрессом
+## Feeding the tracker
 
-После разбора обнови трекер `progress.json` по правилам из
+After the review, update `progress.json` by the rules in
 **references/progress-and-spiral.md**:
-- по каждому задействованному элементу — оцени качество ответа 0–5 и примени **SM-2**
-  (обновление repetitions, interval, easiness_factor, mastery);
-- каждую ошибку занеси в **базу ошибок-паттернов** (`mistakes`): категория — одна из
-  четырёх выше, `--topic` — тема, к которой относится ошибка (обязательно, иначе работа
-  над ошибками не соберёт блок по теме), плюс пример «твой ответ → правильный». Отсюда
-  спираль (get_due) берёт слабые места в приоритет.
 
-## Дальше — работа над ошибками
+- for every element involved — rate the answer 0–5 and apply **SM-2** (updating
+  repetitions, interval, easiness_factor, mastery);
+- record every mistake in the **pattern database** (`mistakes`): the category is one of the
+  four above, `--topic` is the topic the mistake belongs to (mandatory — without it the
+  mistakes workflow cannot assemble a block for that topic), plus an example «твой ответ →
+  правильный». This is where the spiral (get_due) picks weak spots from, with priority.
 
-Разбор ответов заканчивается передачей в skill **thai-mistakes**: отчёт по всему листу
-(✅ / 🟡 / ❌ + верный вариант + однострочное «почему», сводка и разбивка по категориям),
-затем мини-диагностика темы и блок отработки под тип ошибки. Правило двух кругов,
-режимы отработки и формат отчёта — там.
+## Next — the mistakes workflow
 
-Категории проверки (Словарный запас / Грамматика / Орфография / Тоны) — те же, что
-`category` в базе ошибок; держи их согласованными.
+Reviewing answers ends by handing over to skill **thai-mistakes**: a report on the whole
+sheet (✅ / 🟡 / ❌ + the correct version + a one-line «почему», a summary and a breakdown by
+category), then a mini-diagnostic of the topic and a drill block matched to the mistake
+type. The two-round rule, the drill modes and the report format live there.
+
+The checking categories (Словарный запас / Грамматика / Орфография / Тоны) are the same
+values as `category` in the mistake database — keep them in step.
