@@ -937,8 +937,11 @@ def cmd_attempt(data, args):  # noqa: C901
             print(note)
 
 
-# Таблица словаря в glava-файлах: | тайский | транскрипция | перевод |
-ROW_RE = re.compile(r"^\|(.+)\|(.+)\|(.+)\|\s*$")
+# Таблица словаря в glava-файлах. Колонок бывает больше трёх («| Тайский | Транскрипция |
+# Значение | Часы |»), поэтому строку разбираем по разделителям, а не одной жадной
+# регуляркой: жадная склеивала первые две колонки в один ключ.
+ROW_RE = re.compile(r"^\s*\|(.+)\|\s*$")
+THAI_RE = re.compile(r"[\u0e00-\u0e7f]")
 HEADER_WORDS = {"тайский", "транскрипция", "перевод", "term", ""}
 
 
@@ -1013,14 +1016,22 @@ def cmd_import(data, args):
             mm = ROW_RE.match(line)
             if not mm:
                 continue
-            thai = clean_cell(mm.group(1))
-            translit = clean_cell(mm.group(2))
-            translation = clean_cell(mm.group(3))
+            cells = [clean_cell(c) for c in mm.group(1).split("|")]
+            if len(cells) < 3:
+                continue
+            # Тайское слово не всегда в первой колонке: бывает «| Час | Тайский |
+            # Транскрипция | Смысл |». Ищем колонку с тайским, остальное — вокруг неё.
+            idx = next((i for i, c in enumerate(cells) if THAI_RE.search(c)), None)
+            if idx is None:
+                continue
+            thai = cells[idx]
+            nxt = cells[idx + 1] if idx + 1 < len(cells) else ""
+            translit = "" if THAI_RE.search(nxt) else nxt
+            rest = [c for i, c in enumerate(cells)
+                    if c and i != idx and (not translit or c != translit)]
+            translation = " · ".join(rest)
             # пропустить заголовки и разделители таблиц
             if thai.lower() in HEADER_WORDS or set(thai) <= set("-: "):
-                continue
-            # тайский должен содержать тайские символы
-            if not re.search(r"[฀-๿]", thai):
                 continue
             thai = nfc(thai)
             if thai in data["items"]:
