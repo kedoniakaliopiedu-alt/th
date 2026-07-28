@@ -80,12 +80,12 @@ def now() -> str:
     return datetime.now().strftime("%Y-%m-%dT%H:%M")
 
 
-def resolve(args) -> Path:
+def resolve(args: argparse.Namespace) -> Path:
     """The memlog file, from either addressing mode: {workspace}/.memlog.md or an explicit --path."""
     return Path(args.path) if args.path else Path(args.workspace) / MEMLOG
 
 
-def split(text: str) -> tuple[dict, str]:
+def split(text: str) -> tuple[dict[str, str], str]:
     """Return (frontmatter dict in source order, body str). Frontmatter is plain key: value.
 
     The closing fence is the first line that is *exactly* `---`, so a `---` inside a
@@ -105,13 +105,13 @@ def split(text: str) -> tuple[dict, str]:
     return meta, "\n".join(lines[end + 1:]).lstrip("\n")
 
 
-def render(meta: dict, body: str) -> str:
+def render(meta: dict[str, str], body: str) -> str:
     # Neutralize newlines in values so a multi-line field can't break the fence on re-read.
     fm = "\n".join(f"{k}: {' '.join(str(v).splitlines())}" for k, v in meta.items())
     return "---\n" + fm + "\n---\n\n" + body.rstrip("\n") + "\n"
 
 
-def touch(meta: dict) -> None:
+def touch(meta: dict[str, str]) -> None:
     """Stamp `updated` and keep it last so the field order stays predictable."""
     meta.pop("updated", None)
     meta["updated"] = now()
@@ -140,14 +140,15 @@ def ack(path: Path, body: str) -> None:
     }))
 
 
-def cmd_init(args) -> int:
+def cmd_init(args: argparse.Namespace) -> int:
     path = resolve(args)
     if path.exists():
         print(f"error: {path} already exists; use append/set to update it", file=sys.stderr)
         return 2
     path.parent.mkdir(parents=True, exist_ok=True)
     meta: dict[str, str] = {}
-    for pair in args.field or []:
+    fields: list[str] = args.field or []
+    for pair in fields:
         if "=" not in pair:
             print(f"error: --field expects key=value, got {pair!r}", file=sys.stderr)
             return 2
@@ -159,7 +160,7 @@ def cmd_init(args) -> int:
     return 0
 
 
-def cmd_append(args) -> int:
+def cmd_append(args: argparse.Namespace) -> int:
     path = resolve(args)
     meta, body = split(path.read_text(encoding="utf-8"))
     text = " ".join(args.text.split())  # collapse newlines/runs → one-line entry, no prose bloat
@@ -175,7 +176,7 @@ def cmd_append(args) -> int:
     return 0
 
 
-def cmd_set(args) -> int:
+def cmd_set(args: argparse.Namespace) -> int:
     path = resolve(args)
     meta, body = split(path.read_text(encoding="utf-8"))
     meta[args.key] = args.value
@@ -185,7 +186,7 @@ def cmd_set(args) -> int:
     return 0
 
 
-def add_target(sp) -> None:
+def add_target(sp: argparse.ArgumentParser) -> None:
     """Every command addresses the memlog the same way: a run folder or an explicit path."""
     g = sp.add_mutually_exclusive_group(required=True)
     g.add_argument("--workspace", help="run folder; the memlog is {workspace}/.memlog.md")

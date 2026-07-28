@@ -34,6 +34,7 @@ The meta layer — work on the instrument itself:
 | **skill-brainstorm** | Brainstorming over skill mechanics and exercise formats. Three stances (facilitator / creative partner / ideate-for-me), a catalog of 122 techniques, a session log on disk, resuming. |
 | **skill-review** | Adversarial review of skills, references, scripts and course files: parallel blind layers + structured triage. |
 | **skill-writer** | Technical writer: write a document, validate it against the standard, explain a mechanism, draw a mermaid diagram. |
+| **python-best-practices** | Vendor skill (installed 2026-07-28, commit `aaa9e2a`): 70 Python engineering rules with an impact level each. Consulted when writing or reviewing the scripts; it is a rule book, not part of the loop below, and its own sources are never edited — they are replaced wholesale on update. |
 
 ## How they connect
 
@@ -197,7 +198,24 @@ is `lines`: the page is cut into lines with upscaling and each is read separatel
 There is a **second engine** — `thai-handwriting/scripts/typhoon.py` (Typhoon OCR 1.5 via a
 local Ollama) — for an independent cross-check over the whole page. On this handwriting it
 measured weaker than Vision, so it is not treated as truth; details and measurements are in
-`thai-handwriting/references/calibration.md`.
+`thai-handwriting/references/calibration.md`. A third one (Thai-TrOCR, `trocr.py` plus a
+torch venv) was measured worse than both and removed on 2026-07-28 — the measurements stay
+in `calibration.md` so it does not get re-added.
+
+## Type checking
+
+`pyrightconfig.json` in the project root checks the skills' Python in `strict` mode. It is
+optional — nothing in the workflow requires it, and pyright is not a project dependency —
+but it is what keeps the annotations honest:
+
+```bash
+npx pyright --stats     # «Found 5 source files» + «0 errors»
+```
+
+Read the file count, not just the error count: `exclude` here deliberately omits `**/.*`
+(the whole codebase lives under `.claude/`), and restoring that default makes pyright
+analyse **zero** files while still reporting «0 errors». The config says so in a comment;
+do not silence that warning.
 
 ## How to use it
 
@@ -297,12 +315,12 @@ category (`assets/extra-techniques.json`): «Инверсия ошибки», «
 session is logged to `.claude/brainstorms/<тема>-<дата>/.memlog.md` — a session survives an
 interruption and resumes from the same place.
 
-**skill-review.** Six layers, each a subagent with no conversation context: the blind hunter
+**skill-review.** Seven layers, each a subagent with no conversation context: the blind hunter
 (contradictions and ambiguity), the edge hunter (what happens when material is missing or
 the learner answers unexpectedly), the verification gap, skill boundaries (`CLAUDE.md`
 violations and territory grabs), the pedagogy auditor (thai-tasks' three pillars), the script
-reviewer. Layers are edited in `references/review-layers.md` without touching the steps
-themselves. Findings go through triage — dedup, reading the file **before** assigning
+reviewer, and the intent auditor (only when a statement of intent was given). Layers are
+edited in `references/review-layers.md` without touching the steps themselves. Findings go through triage — dedup, reading the file **before** assigning
 severity, routing into «решение / правка / отложить / шум» — and land in `.claude/reviews/`.
 
 **skill-writer.** Four operations: write a document, validate it against the standard,

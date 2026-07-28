@@ -38,6 +38,8 @@ tracker.py — учёт прогресса для skill thai-tasks (SM-2 + ба�
         --production --no-hints --calibrated --accuracy 0.9
 """
 
+from __future__ import annotations  # аннотации ленивые: скрипт идёт на Python 3.8+
+
 import argparse
 import json
 import os
@@ -46,17 +48,147 @@ import shutil
 import sys
 import tempfile
 import unicodedata
+from collections.abc import Callable
 from datetime import date, datetime, timedelta
+from typing import Any, NoReturn, TypedDict, cast
 
 DATE_FMT = "%Y-%m-%d"
 
-# Интервалы SM-2 задаются формулой; таблица ниже — только для reps 1 и 2.
-DEFAULT_ITEM = {
-    "translation": "", "type": "word", "topic": "",
-    "repetitions": 0, "interval_days": 0, "easiness_factor": 2.5,
-    "due_date": "1970-01-01", "last_seen": "1970-01-01",
-    "mastery": 0, "consecutive_correct": 0, "consecutive_incorrect": 0,
-}
+
+# ---------- форма файла состояния ----------
+#
+# progress.json описан здесь как набор TypedDict, а не безымянных словарей: каждое
+# поле разбросано по двум десяткам функций, и без объявленной формы проверяющий типов
+# видит у любой записи «строка или число или список или None» — а значит молчит и там,
+# где поле перепутано на самом деле.
+#
+# Что проверяется в рантайме и что нет. `load` проверяет КАРКАС: верхний уровень —
+# объект, четыре раздела — объекты, каждая запись в них — объект; иначе отказ с
+# объяснением, без записи. ПОЛНОТУ ПОЛЕЙ внутри записи не проверяет никто: ошибки
+# добивает `normalize_mistake` в местах обращения, у элементов и тем недостающие поля
+# читаются через `.get` с умолчанием. То есть набор полей — договор между кодом и
+# `progress-and-spiral.md`, и файл, отредактированный руками, может ему не
+# соответствовать, не вызвав ни одной жалобы.
+
+class Attempt(TypedDict):
+    """Одна попытка закрывающего испытания темы."""
+    date: str
+    result: str
+    accuracy: float | None
+    counted: bool
+    blocked_by: list[str]
+    # Гасится ли круг. У новых попыток проставляется сразу, но записи, сделанные
+    # прежними версиями, поля не имеют и не мигрируются — поэтому читается оно
+    # по-прежнему через `.get` (см. counted_days).
+    voided: bool
+
+
+class TopicRec(TypedDict):
+    """Состояние темы: путь от «в работе» до «закрыта» и обратно."""
+    title: str
+    status: str
+    exit_task: str
+    core: list[str]
+    attempts: list[Attempt]
+    closed_on: str | None
+    reopened_on: str | None
+    next_control: str | None
+    control_step: int
+    closed_at_difficulty: int | None
+    suspicion: int
+    last_lesson: str
+    last_shake: str
+
+
+class Item(TypedDict):
+    """Слово или правило под SM-2."""
+    translation: str
+    translit: str
+    type: str
+    topic: str
+    repetitions: int
+    interval_days: int
+    easiness_factor: float
+    due_date: str
+    last_seen: str
+    mastery: int
+    consecutive_correct: int
+    consecutive_incorrect: int
+
+
+class Example(TypedDict):
+    """Живой пример ошибки: что было написано и что следовало."""
+    your_answer: str
+    correct_answer: str
+    context: str
+    date: str
+
+
+class Mistake(TypedDict):
+    """Паттерн ошибки и ход его отработки."""
+    category: str
+    subcategory: str
+    topic: str
+    frequency: int
+    status: str
+    last_occurred: str
+    next_review: str
+    examples: list[Example]
+    notes: str
+    mode: str
+    rounds: int
+    drill_ok: int
+    last_drill: str
+
+
+class Meta(TypedDict):
+    difficulty: int
+    target_success: list[float]
+    recent_accuracy: float
+    updated: str
+
+
+class Data(TypedDict):
+    """Весь progress.json."""
+    meta: Meta
+    items: dict[str, Item]
+    mistakes: dict[str, Mistake]
+    topics: dict[str, TopicRec]
+
+
+class TopicLevel(TypedDict):
+    """Срез уровня темы по её ядру — то, что показывают `topics` и `blockers`."""
+    core: int
+    median: float
+    worst: int
+    repeated_share: float
+    last_seen: str
+
+
+class DrillGroup(TypedDict):
+    """Ошибки одной темы, собранные в один блок отработки (`drill-plan`)."""
+    topic: str
+    mistakes: list[dict[str, Any]]
+    modes: list[str]
+
+
+class VocabEntry(TypedDict):
+    """Слово темы для режима «запоминание слов» — то, из чего собирается дрилл."""
+    item: str
+    translation: str
+    translit: str
+    mastery: int
+
+# Интервалы SM-2 задаются формулой в cmd_record; фиксированы только первые два
+# повторения (1 день и 6 дней).
+def new_item() -> Item:
+    """Свежая запись слова или правила."""
+    return {
+        "translation": "", "translit": "", "type": "word", "topic": "",
+        "repetitions": 0, "interval_days": 0, "easiness_factor": 2.5,
+        "due_date": "1970-01-01", "last_seen": "1970-01-01",
+        "mastery": 0, "consecutive_correct": 0, "consecutive_incorrect": 0,
+    }
 
 
 # Режимы отработки ошибок (skill thai-mistakes). Категория → режим дрилла.
@@ -83,12 +215,21 @@ MODE_TITLES = {
 
 # ---------- состояния темы (критерий закрытия) ----------
 
-DEFAULT_TOPIC = {
-    "title": "", "status": "in_progress", "exit_task": "", "core": [],
-    "attempts": [], "closed_on": None, "reopened_on": None,
-    "next_control": None, "control_step": 0, "closed_at_difficulty": None,
-    "suspicion": 0, "last_lesson": "", "last_shake": "",
-}
+def new_topic() -> TopicRec:
+    """Свежая запись темы.
+
+    Функция, а не словарь-константа: `dict(КОНСТАНТА)` копирует поверхностно, и списки
+    `core`/`attempts` оказались бы общими у всех тем. Прежний код от этого спасался
+    тем, что `get_topic` пересобирал оба списка сразу после копирования — работало, но
+    держалось на памяти о двух строчках в другом месте файла. Фабрика снимает вопрос:
+    ошибиться негде.
+    """
+    return {
+        "title": "", "status": "in_progress", "exit_task": "", "core": [],
+        "attempts": [], "closed_on": None, "reopened_on": None,
+        "next_control": None, "control_step": 0, "closed_at_difficulty": None,
+        "suspicion": 0, "last_lesson": "", "last_shake": "",
+    }
 
 TOPIC_STATUS_RU = {
     "no_criterion": "нет критерия",
@@ -132,11 +273,11 @@ DRILL_INTERVAL_LONG = 16
 MAX_ROUNDS_PER_DAY = 2
 
 
-def today():
+def today() -> date:
     return date.today()
 
 
-def mode_for(category, override=None):
+def mode_for(category: str | None, override: str | None = None) -> str:
     """Режим отработки по категории ошибки."""
     if override:
         return override
@@ -147,8 +288,14 @@ def mode_for(category, override=None):
     return "general"
 
 
-def normalize_mistake(m, category=None):
-    """Добить старую запись ошибки полями, которые нужны работе над ошибками."""
+def normalize_mistake(m: Any, category: str | None = None) -> Mistake:
+    """Добить старую запись ошибки полями, которые нужны работе над ошибками.
+
+    Вход намеренно `Any`: сюда попадает и запись прямо из JSON (форма неизвестна), и
+    пустой словарь для новой ошибки, и уже полная `Mistake`. Смысл функции ровно в том,
+    чтобы привести всё это к одной форме — объявить вход строже значило бы требовать
+    гарантию, которую эта функция как раз и выдаёт.
+    """
     m.setdefault("category", category or "")
     m.setdefault("subcategory", "")
     m.setdefault("topic", "")
@@ -162,10 +309,12 @@ def normalize_mistake(m, category=None):
     m.setdefault("rounds", 0)        # всего кругов отработки
     m.setdefault("drill_ok", 0)      # подряд успешных кругов
     m.setdefault("last_drill", "")   # дата последнего круга
-    return m
+    # setdefault выше довёл запись до полного набора полей Mistake — приведение
+    # опирается на это, а не на веру: до него форма записи из JSON неизвестна.
+    return cast(Mistake, m)
 
 
-def nfc(key):
+def nfc(key: str) -> str:
     """Ключ элемента в канонической форме NFC.
 
     Тайские тоновые знаки и нижние гласные переставляются нормализацией, поэтому одно
@@ -175,13 +324,20 @@ def nfc(key):
     return unicodedata.normalize("NFC", key)
 
 
-def merge_denormalized_keys(items):
+def merge_denormalized_keys(items: dict[str, Item]) -> list[str]:
     """Свести накопленные до нормализации дубли к одному ключу.
 
-    При коллизии выигрывает запись с большей историей: терять повторения хуже, чем
-    потерять пустой дубль.
+    При коллизии историю берём у той записи, где её больше, а описательные поля —
+    у той, где они непустые. Раньше проигравшая запись выбрасывалась целиком, и
+    полная карточка, столкнувшись с голым дублём с большей историей, теряла перевод,
+    транскрипцию и тему: слово оставалось в выдаче, но собрать по нему задание было
+    уже нельзя.
+
+    Возвращает список слитых ключей, а не счётчик: молчаливое слияние по имени
+    невозможно проверить, а называть изменённое слово — единственный способ заметить,
+    что тронули не то.
     """
-    merged = 0
+    merged: list[str] = []
     for key in list(items):
         canon = nfc(key)
         if canon == key:
@@ -191,49 +347,113 @@ def merge_denormalized_keys(items):
         if existing is None:
             items[canon] = candidate
         else:
-            keep = max(existing, candidate,
-                       key=lambda it: (it.get("repetitions", 0), it.get("mastery", 0)))
-            items[canon] = keep
-        merged += 1
+            rich, poor = ((existing, candidate)
+                          if (existing.get("repetitions", 0), existing.get("mastery", 0))
+                          >= (candidate.get("repetitions", 0), candidate.get("mastery", 0))
+                          else (candidate, existing))
+            # Поля перечислены поимённо, а не циклом по списку имён: у TypedDict
+            # ключ-переменная не проверяется, и цикл пришлось бы глушить type: ignore.
+            if not rich.get("translation") and poor.get("translation"):
+                rich["translation"] = poor["translation"]
+            if not rich.get("translit") and poor.get("translit"):
+                rich["translit"] = poor["translit"]
+            if not rich.get("topic") and poor.get("topic"):
+                rich["topic"] = poor["topic"]
+            items[canon] = rich
+        merged.append(canon)
     return merged
 
 
-def parse_date(s):
+def parse_date(s: str) -> date:
     try:
         return datetime.strptime(s, DATE_FMT).date()
     except (ValueError, TypeError):
         return date(1970, 1, 1)
 
 
-def load(path):
+def check_shape(data: Any) -> None:
+    """Проверить каркас разобранного трекера. Бросает ValueError с описанием беды.
+
+    Отдельной функцией, а не строчками внутри `load`: `isinstance` сужает тип, и это
+    сужение растекалось бы по всему `load`, лишая `data` совместимости с `Data`.
+    Здесь оно заперто в своей области видимости.
+    """
+    if not isinstance(data, dict):
+        raise ValueError("на верхнем уровне {}, а нужен объект".format(
+            type(data).__name__))
+    sections = cast("dict[str, Any]", data)
+    for name in ("meta", "items", "mistakes", "topics"):
+        if name in sections and not isinstance(sections[name], dict):
+            raise ValueError("«{}» — {}, а нужен объект".format(
+                name, type(sections[name]).__name__))
+    for name in ("items", "mistakes", "topics"):
+        section: Any = sections.get(name)
+        for key, rec in cast("dict[str, Any]", section or {}).items():
+            if not isinstance(rec, dict):
+                raise ValueError("запись «{}» в «{}» — {}, а нужен объект".format(
+                    key, name, type(rec).__name__))
+
+
+def load(path: str) -> tuple[Data, list[str]]:
+    """Прочитать трекер. Возвращает (данные, ключи, слитые миграцией NFC).
+
+    Слияние денормализованных ключей меняет данные, поэтому список слитого уходит
+    наружу, а не тонет внутри чтения: `main` сообщает о нём в stderr.
+
+    На диск слияние попадает только из пишущей команды — читающая остаётся читающей.
+    Плата за это известна: пока не выполнена ни одна пишущая команда, миграция
+    пересчитывается на каждом запуске. Так дешевле, чем позволить `due` переписывать
+    трекер и его резервную копию.
+    """
     if not os.path.exists(path):
         return {"meta": {"difficulty": 4, "target_success": [0.6, 0.7],
                          "recent_accuracy": 0.0, "updated": today().strftime(DATE_FMT)},
-                "items": {}, "mistakes": {}, "topics": {}}
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-    except (json.JSONDecodeError, UnicodeDecodeError) as e:
-        # Битый трекер — не повод затирать его новой записью поверх.
+                "items": {}, "mistakes": {}, "topics": {}}, []
+    def broken(reason: str) -> "NoReturn":
+        """Отказаться работать с испорченным трекером, назвав причину.
+
+        Одна точка выхода на все виды порчи: неразбираемый JSON и разбираемый, но не
+        той формы, лечатся одинаково — руками или из копии, — и различать их в выводе
+        незачем.
+        """
         backup = path + ".bak"
         hint = (" Последняя целая копия: {}.".format(backup)
                 if os.path.exists(backup) else "")
         print("{} повреждён и не прочитан ({}).{}\n"
               "Ничего не записываю: почини файл или восстанови копию."
-              .format(path, e, hint), file=sys.stderr)
+              .format(path, reason, hint), file=sys.stderr)
         sys.exit(2)
+
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data: Any = json.load(f)
+    except (json.JSONDecodeError, UnicodeDecodeError) as e:
+        broken(str(e))
+    except OSError as e:
+        # Файл существует, но не читается: права, оборванная ссылка, каталог вместо файла.
+        print("{} не открылся ({}). Ничего не записываю.".format(path, e), file=sys.stderr)
+        sys.exit(2)
+
+    # Каркас проверяется до первого обращения к полям. Без этого `{"items": []}` —
+    # синтаксически корректный JSON — падал бы AttributeError уже внутри команды,
+    # трейсбеком вместо объяснения; а `{"items": {"ไป": null}}` пролезал ещё дальше.
+    try:
+        check_shape(data)
+    except ValueError as e:
+        broken(str(e))
+
     data.setdefault("meta", {"difficulty": 4, "target_success": [0.6, 0.7],
                              "recent_accuracy": 0.0, "updated": today().strftime(DATE_FMT)})
     data.setdefault("items", {})
     data.setdefault("mistakes", {})
     data.setdefault("topics", {})
-    merged = merge_denormalized_keys(data["items"])
-    if merged:
-        print("нормализовано ключей (NFC): {}".format(merged), file=sys.stderr)
-    return data
+    # Приведение опирается на проверки выше: четыре раздела на месте и все они словари
+    # словарей. Полноту полей внутри записей оно НЕ обещает — см. комментарий к схеме.
+    checked = cast(Data, data)
+    return checked, merge_denormalized_keys(checked["items"])
 
 
-def save(path, data):
+def save(path: str, data: Data) -> None:
     """Атомарная запись: сначала во временный файл, потом подмена.
 
     Прямая запись в `open(path, "w")` усекает трекер до того, как в него что-то
@@ -267,21 +487,16 @@ def save(path, data):
             os.remove(tmp)
 
 
-def interval_for(mastery):
-    """Резервная таблица (используется в due для элементов без due_date)."""
-    return {0: 0, 1: 1, 2: 3, 3: 7, 4: 14, 5: 30}.get(mastery, 1)
-
-
 # ---------- темы: состояние, ядро, ворота закрытия ----------
 
-def get_topic(data, tp, title=None, create=True):
+def get_topic(data: Data, tp: str, title: str | None = None,
+              create: bool = True) -> TopicRec:
     """Запись темы с добитыми полями. create=False — не заводить новую (чтение)."""
     if not create and tp not in data["topics"]:
-        rec = dict(DEFAULT_TOPIC)
-        rec["attempts"], rec["core"] = [], []
-        return rec
-    rec = dict(DEFAULT_TOPIC)
+        return new_topic()
+    rec = new_topic()
     rec.update(data["topics"].get(tp, {}))
+    # Записи старых версий могли хранить здесь null — нормализуем в список.
     rec["attempts"] = list(rec.get("attempts") or [])
     rec["core"] = list(rec.get("core") or [])
     if title and not rec["title"]:
@@ -290,20 +505,20 @@ def get_topic(data, tp, title=None, create=True):
     return rec
 
 
-def counted_days(rec):
+def counted_days(rec: TopicRec) -> set[str]:
     """Даты засчитанных кругов испытания — только те, что не погашены сбоем."""
     return {a["date"] for a in rec.get("attempts", [])
             if a.get("counted") and not a.get("voided")}
 
 
-def void_rounds(rec):
+def void_rounds(rec: TopicRec) -> None:
     """Погасить засчитанные круги: после сбоя тема начинает испытание заново."""
     for a in rec.get("attempts", []):
         if a.get("counted"):
             a["voided"] = True
 
 
-def topic_status(rec):
+def topic_status(rec: TopicRec) -> str:
     """Тема без критерия закрытия честно показывается как «нет критерия».
 
     Отклонённые попытки статус не меняют — иначе одна неудачная попытка
@@ -315,11 +530,11 @@ def topic_status(rec):
     return st
 
 
-def topic_items(data, tp):
+def topic_items(data: Data, tp: str) -> dict[str, Item]:
     return {k: it for k, it in data["items"].items() if it.get("topic", "") == tp}
 
 
-def topic_core(data, tp, rec):
+def topic_core(data: Data, tp: str, rec: TopicRec) -> list[str]:
     """Ядро темы: правила целиком, слова добором. Размеченное вручную — в приоритете.
 
     Ручная разметка проверяется на принадлежность теме: элемент чужой темы в ядре
@@ -335,7 +550,7 @@ def topic_core(data, tp, rec):
     return rules + words[:max(0, CORE_SIZE - len(rules))]
 
 
-def median(xs):
+def median(xs: list[int]) -> float:
     xs = sorted(xs)
     if not xs:
         return 0
@@ -343,7 +558,7 @@ def median(xs):
     return xs[mid] if len(xs) % 2 else (xs[mid - 1] + xs[mid]) / 2
 
 
-def topic_level(data, tp, rec):
+def topic_level(data: Data, tp: str, rec: TopicRec) -> TopicLevel:
     """Уровень темы по ядру: медиана mastery, худший элемент, доля повторённых.
 
     Среднее арифметическое прячет мёртвый хвост, поэтому его здесь нет.
@@ -366,13 +581,13 @@ def topic_level(data, tp, rec):
     }
 
 
-def topic_blockers(data, tp, rec):
+def topic_blockers(data: Data, tp: str, rec: TopicRec) -> list[tuple[str, str]]:
     """Что мешает закрыть тему. Возвращает пары (код, текст) — полный набор.
 
     Код нужен для решения (жёсткий блокер или мягкий), текст — для показа.
     Решение по подстроке текста ломалось бы от любой переформулировки.
     """
-    out = []
+    out: list[tuple[str, str]] = []
     if not rec.get("exit_task"):
         out.append(("no_criterion",
                     "в файле темы не нашлось критерия: ни секции «Тема закрыта, "
@@ -403,31 +618,34 @@ def topic_blockers(data, tp, rec):
             out.append(("pause", "прошло {} дн. с последнего занятия по теме, "
                                  "нужно {}".format(pause, CLOSE_PAUSE_DAYS)))
 
-    if rec.get("closed_at_difficulty") is not None:
-        grew = data["meta"].get("difficulty", 4) - rec["closed_at_difficulty"]
+    closed_at = rec.get("closed_at_difficulty")
+    if closed_at is not None:
+        grew = data["meta"].get("difficulty", 4) - closed_at
         if grew > 0:
             out.append(("difficulty",
                         "сложность выросла на {} с момента закрытия — "
                         "нужно переподтверждение".format(grew)))
 
-    if not [c for c, _ in out if c != "rounds"] and len(counted_days(rec)) < CLOSE_ROUNDS:
+    # Счётчик кругов показываем последним и только когда всё остальное снято: пока
+    # мешает что-то ещё, «кругов 1 из 2» — не то, что нужно делать дальше.
+    if not out and len(counted_days(rec)) < CLOSE_ROUNDS:
         out.append(("rounds", "успешных кругов испытания {} из {} "
                               "(второй — через интервал)".format(
                                   len(counted_days(rec)), CLOSE_ROUNDS)))
     return out
 
 
-def hard_blockers(blockers):
+def hard_blockers(blockers: list[tuple[str, str]]) -> list[str]:
     """Жёсткие — всё, кроме счётчика кругов. Отбор по коду, не по тексту."""
     return [t for c, t in blockers if c != "rounds"]
 
 
-def show_blockers(blockers):
+def show_blockers(blockers: list[tuple[str, str]]) -> list[str]:
     """Для показа человеку — не длиннее трёх пунктов: длинный список это приговор."""
     return [t for _, t in blockers][:BLOCKERS_SHOWN]
 
 
-def topic_shake(data, tp, reason=""):
+def topic_shake(data: Data, tp: str, reason: str = "") -> str | None:
     """Ошибка по теме: снимает право на закрытие, закрытую двигает к возврату.
 
     За одно занятие тема получает не больше одного удара: штатный конвейер на один
@@ -467,7 +685,7 @@ def topic_shake(data, tp, reason=""):
     return None
 
 
-def all_topics(data):
+def all_topics(data: Data) -> list[str]:
     """Все известные темы: из записей, из элементов и из ошибок."""
     tps = set(data["topics"])
     tps |= {it.get("topic", "") for it in data["items"].values()}
@@ -475,14 +693,23 @@ def all_topics(data):
     return sorted(tp for tp in tps if tp)
 
 
-def cmd_lesson(data, args):
-    """Отметить занятие по теме. Двигает только паузу, ничего больше."""
+def cmd_lesson(data: Data, args: argparse.Namespace) -> None:
+    """Отметить занятие по теме. Двигает только паузу, ничего больше.
+
+    Тема должна быть известна — та же защита от опечатки в номере, что и в `close`:
+    занятие отмечается после `import`, поэтому заводить тему отсюда нечем и незачем.
+    """
+    if args.topic not in all_topics(data):
+        print("темы {} в трекере нет — проверь номер (`tracker.py topics`). "
+              "Если тема новая, сперва импортируй её лексику "
+              "(`tracker.py import`).".format(args.topic), file=sys.stderr)
+        sys.exit(1)
     rec = get_topic(data, args.topic, title=args.title)
     rec["last_lesson"] = today().strftime(DATE_FMT)
     print("OK: занятие по теме {} отмечено {}".format(args.topic, rec["last_lesson"]))
 
 
-def cmd_topics(data, args):
+def cmd_topics(data: Data, args: argparse.Namespace) -> None:
     """Таблица состояний тем — статус словами, без звёздочек и процентов."""
     tps = all_topics(data)
     if args.topic:
@@ -510,7 +737,7 @@ def cmd_topics(data, args):
             tp, TOPIC_STATUS_RU.get(st, st), lvl["core"], lvl["median"], tail))
 
 
-def cmd_blockers(data, args):
+def cmd_blockers(data: Data, args: argparse.Namespace) -> None:
     tp = args.topic
     rec = get_topic(data, tp, create=False)
     lvl = topic_level(data, tp, rec)
@@ -530,9 +757,17 @@ def cmd_blockers(data, args):
         print("  (и ещё {} — покажу, когда снимешь эти)".format(hidden))
 
 
-def cmd_close(data, args):
+def cmd_close(data: Data, args: argparse.Namespace) -> None:
     """Фиксирует попытку закрытия. Ворота проверяются здесь, а не на глаз."""
     tp = args.topic
+    # Закрывать можно только известную тему. Раньше опечатка в номере заводила новую
+    # запись, и «9.9» навсегда оседала в `topics` со статусом «нет критерия» — снять
+    # её можно было только правкой файла руками.
+    if tp not in all_topics(data):
+        print("темы {} в трекере нет — проверь номер (`tracker.py topics`). "
+              "Если тема новая, сперва импортируй её лексику "
+              "(`tracker.py import`).".format(tp), file=sys.stderr)
+        sys.exit(1)
     rec = get_topic(data, tp, title=args.title)
     t = today()
     stamp = t.strftime(DATE_FMT)
@@ -555,10 +790,12 @@ def cmd_close(data, args):
                 args.accuracy, CLOSE_MIN_ACCURACY))
 
     counted = args.result == "ok" and not hard
-    rec["attempts"].append({
-        "date": stamp, "result": args.result, "accuracy": args.accuracy,
-        "counted": counted, "blocked_by": hard,
-    })
+    attempt: Attempt = {
+        "date": stamp, "result": str(args.result),
+        "accuracy": args.accuracy, "counted": counted,
+        "blocked_by": hard, "voided": False,
+    }
+    rec["attempts"].append(attempt)
 
     if args.result == "fail":
         # Провал контроля закрытой темы — это откат, а не «остаётся в работе».
@@ -616,17 +853,17 @@ def cmd_close(data, args):
 
 # ---------- команды ----------
 
-def closed_topics(data):
+def closed_topics(data: Data) -> set[str]:
     """Темы, ушедшие из спирали: их элементы не выдаются как самостоятельный повтор."""
     return {tp for tp, rec in data["topics"].items()
             if topic_status(rec) == "closed"}
 
 
-def cmd_due(data, args):
+def cmd_due(data: Data, args: argparse.Namespace) -> None:
     t = today()
     closed = closed_topics(data)
-    due_items = []
-    background = []
+    due_items: list[tuple[str, Item]] = []
+    background: list[tuple[str, Item]] = []
     for key, it in data["items"].items():
         dd = parse_date(it.get("due_date", "1970-01-01"))
         if dd > t:
@@ -640,8 +877,12 @@ def cmd_due(data, args):
     # приоритет: низкий mastery, затем ранняя due_date
     due_items.sort(key=lambda kv: (kv[1].get("mastery", 0),
                                    parse_date(kv[1].get("due_date", "1970-01-01"))))
+    # Фон режется до BACKGROUND_LIMIT, поэтому его тоже надо упорядочить: иначе в
+    # задание попадали первые попавшиеся по порядку словаря, а не самые слабые.
+    background.sort(key=lambda kv: (kv[1].get("mastery", 0),
+                                    parse_date(kv[1].get("due_date", "1970-01-01"))))
 
-    due_mistakes = []
+    due_mistakes: list[tuple[str, Mistake]] = []
     for key, m in data["mistakes"].items():
         if m.get("status", "active") not in ("active", "critical"):
             continue
@@ -652,7 +893,7 @@ def cmd_due(data, args):
                                       -kv[1].get("frequency", 0)))
 
     limit = args.limit
-    out = {
+    out: dict[str, list[dict[str, Any]]] = {
         "mistakes_due": [
             {"pattern": k, "category": m.get("category", ""),
              "topic": m.get("topic", ""), "status": m.get("status", "active"),
@@ -676,9 +917,9 @@ def cmd_due(data, args):
     print(json.dumps(out, ensure_ascii=False, indent=2))
 
 
-def cmd_record(data, args):
+def cmd_record(data: Data, args: argparse.Namespace) -> None:
     key = nfc(args.item)
-    it = data["items"].get(key, dict(DEFAULT_ITEM))
+    it = data["items"].get(key, new_item())
     if args.type:
         it["type"] = args.type
     if args.topic:
@@ -741,10 +982,13 @@ def cmd_record(data, args):
             print(note)
 
 
-def cmd_mistake(data, args):
+def cmd_mistake(data: Data, args: argparse.Namespace) -> None:
     key = args.pattern
     t = today()
-    m = normalize_mistake(data["mistakes"].get(key, {}), args.category)
+    # Заготовка под новый паттерн: normalize_mistake заполняет её через setdefault,
+    # поэтому словарь нужен свежий на каждый вызов.
+    blank: dict[str, Any] = {}
+    m = normalize_mistake(data["mistakes"].get(key, blank), args.category)
     if args.category:
         m["category"] = args.category
     if args.topic:
@@ -775,7 +1019,7 @@ def cmd_mistake(data, args):
         print(note)
 
 
-def cmd_resolve(data, args):
+def cmd_resolve(data: Data, args: argparse.Namespace) -> None:
     key = args.pattern
     if key in data["mistakes"]:
         data["mistakes"][key]["status"] = "resolved"
@@ -784,7 +1028,7 @@ def cmd_resolve(data, args):
         print(f"нет такого паттерна: {key}", file=sys.stderr)
 
 
-def mistake_view(key, m):
+def mistake_view(key: str, m: Mistake) -> dict[str, Any]:
     """Компактное представление паттерна для JSON-выдачи."""
     return {
         "pattern": key,
@@ -802,9 +1046,11 @@ def mistake_view(key, m):
     }
 
 
-def select_mistakes(data, status=None, topic=None, category=None, due_only=False):
+def select_mistakes(data: Data, status: str | None = None, topic: str | None = None,
+                    category: str | None = None,
+                    due_only: bool = False) -> list[tuple[str, Mistake]]:
     t = today()
-    out = []
+    out: list[tuple[str, Mistake]] = []
     for key, m in data["mistakes"].items():
         m = normalize_mistake(m)
         st = m.get("status", "active")
@@ -827,7 +1073,7 @@ def select_mistakes(data, status=None, topic=None, category=None, due_only=False
     return out
 
 
-def cmd_mistakes(data, args):
+def cmd_mistakes(data: Data, args: argparse.Namespace) -> None:
     sel = select_mistakes(data, status=args.status, topic=args.topic,
                           category=args.category, due_only=args.due)
     if args.limit:
@@ -836,7 +1082,7 @@ def cmd_mistakes(data, args):
                      ensure_ascii=False, indent=2))
 
 
-def cmd_drill_plan(data, args):
+def cmd_drill_plan(data: Data, args: argparse.Namespace) -> None:
     """План работы над ошибками: группировка по темам, режимы, объём заданий.
 
     Объём: 3 задания за первую ошибку темы + 1 за каждую следующую, потолок 10.
@@ -844,7 +1090,7 @@ def cmd_drill_plan(data, args):
     """
     sel = select_mistakes(data, topic=args.topic, category=args.category,
                           due_only=args.due)
-    groups = {}
+    groups: dict[str, DrillGroup] = {}
     for key, m in sel:
         topic = m.get("topic", "")
         gid = topic or "cat:" + (m.get("category", "") or "—")
@@ -854,12 +1100,12 @@ def cmd_drill_plan(data, args):
         if mode not in g["modes"]:
             g["modes"].append(mode)
 
-    out = []
+    out: list[dict[str, Any]] = []
     for gid, g in groups.items():
         weight = sum(2 if mm["frequency"] >= 2 else 1 for mm in g["mistakes"])
         tasks = min(10, 3 + max(0, weight - 1))
         drill_modes = [md for md in g["modes"] if md != "reference"]
-        entry = {
+        entry: dict[str, Any] = {
             "group": gid,
             "topic": g["topic"],
             "modes": g["modes"],
@@ -870,7 +1116,7 @@ def cmd_drill_plan(data, args):
             "mistakes": g["mistakes"],
         }
         if "vocab" in g["modes"] and g["topic"]:
-            pool = [
+            pool: list[VocabEntry] = [
                 {"item": k, "translation": it.get("translation", ""),
                  "translit": it.get("translit", ""), "mastery": it.get("mastery", 0)}
                 for k, it in data["items"].items()
@@ -885,7 +1131,7 @@ def cmd_drill_plan(data, args):
                      ensure_ascii=False, indent=2))
 
 
-def cmd_attempt(data, args):  # noqa: C901
+def cmd_attempt(data: Data, args: argparse.Namespace) -> None:  # noqa: C901
     """Итог круга отработки: ok — ошибка снята в этом круге, fail — повторилась."""
     key = args.pattern
     if key not in data["mistakes"]:
@@ -957,7 +1203,7 @@ EXIT_ITEM_RE = re.compile(r"^(?:[-*+]|\d+[.)])\s+")
 EXIT_DECOR_RE = re.compile(r"^[\s✅✔☑•▪–—-]+")
 
 
-def read_exit_task(path):
+def read_exit_task(path: str) -> str:
     """Критерий закрытия темы из её файла.
 
     Берём только пункты списка под markdown-заголовком: таблицы, комментарии и прочий
@@ -976,8 +1222,9 @@ def read_exit_task(path):
               file=sys.stderr)
         return ""
 
-    found = {EXIT_HEADING: [], EXIT_HEADING_FALLBACK: []}
-    grab, fenced = None, False
+    found: dict[str, list[str]] = {EXIT_HEADING: [], EXIT_HEADING_FALLBACK: []}
+    grab: str | None = None
+    fenced = False
     for line in text.splitlines():
         stripped = line.strip()
         if stripped.startswith("```"):
@@ -1000,13 +1247,13 @@ def read_exit_task(path):
     return " · ".join(items).strip()
 
 
-def clean_cell(s):
+def clean_cell(s: str) -> str:
     s = s.strip()
     s = s.replace("**", "").strip()
     return s
 
 
-def cmd_import(data, args):
+def cmd_import(data: Data, args: argparse.Namespace) -> None:
     if not os.path.exists(args.source):
         print(f"файл не найден: {args.source}", file=sys.stderr)
         sys.exit(1)
@@ -1037,15 +1284,13 @@ def cmd_import(data, args):
             if thai in data["items"]:
                 skipped += 1
                 continue
-            it = dict(DEFAULT_ITEM)
+            it = new_item()
             it.update({
-                "translation": translation, "type": "word",
+                "translation": translation, "translit": translit, "type": "word",
                 "topic": args.topic or "",
                 "due_date": today().strftime(DATE_FMT),  # сразу due
                 "last_seen": "1970-01-01",
             })
-            # транскрипцию храним в notes-поле translation? оставим отдельно:
-            it["translit"] = translit
             data["items"][thai] = it
             added += 1
     print(f"Импорт из {os.path.basename(args.source)}: добавлено {added}, "
@@ -1065,16 +1310,16 @@ def cmd_import(data, args):
               f"статус «нет критерия», закрыть её нельзя.")
 
 
-def stars(m):
+def stars(m: int) -> str:
     return "⭐" * m + "☆" * (5 - m)
 
 
-def cmd_progress(data, args):
+def cmd_progress(data: Data, args: argparse.Namespace) -> None:
     meta = data["meta"]
     t = today()
     items = data["items"]
     # средний mastery по темам
-    by_topic = {}
+    by_topic: dict[str, list[int]] = {}
     for it in items.values():
         tp = it.get("topic", "") or "—"
         by_topic.setdefault(tp, []).append(it.get("mastery", 0))
@@ -1107,7 +1352,7 @@ def cmd_progress(data, args):
             print(f"  • {m.get('category','')}: {k} — {m.get('frequency',0)}×{mark}")
 
 
-def cmd_set_meta(data, args):
+def cmd_set_meta(data: Data, args: argparse.Namespace) -> None:
     if args.difficulty is not None:
         data["meta"]["difficulty"] = args.difficulty
     if args.recent_accuracy is not None:
@@ -1115,24 +1360,41 @@ def cmd_set_meta(data, args):
     print(f"OK: meta обновлена → {json.dumps(data['meta'], ensure_ascii=False)}")
 
 
-def main():
+def add_cmd(sub: Any, name: str, handler: Callable[[Data, argparse.Namespace], None],
+            writes: bool, descr: str) -> argparse.ArgumentParser:
+    """Зарегистрировать команду вместе с обработчиком и признаком записи.
+
+    `sub` объявлен как Any намеренно: точный тип — `argparse._SubParsersAction`,
+    приватный, публичного псевдонима argparse не даёт.
+
+    «Меняет ли команда файл» — свойство самой команды, поэтому объявляется здесь,
+    рядом с ней. Раньше это жило отдельным множеством имён в конце main, параллельно
+    таблице обработчиков: два перечисления одних и тех же строк рассыхаются молча —
+    новая пишущая команда, забытая во втором списке, просто не сохранила бы результат.
+
+    Первым позиционным аргументом у всех команд идёт путь к трекеру — он тоже здесь.
+    """
+    sp = sub.add_parser(name, help=descr)
+    sp.add_argument("path")
+    sp.set_defaults(func=handler, writes=writes)
+    return sp
+
+
+def main() -> None:
     p = argparse.ArgumentParser(description="Трекер прогресса thai-tasks (SM-2 + ошибки)")
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    d = sub.add_parser("due", help="что пора повторить")
-    d.add_argument("path")
+    d = add_cmd(sub, "due", cmd_due, False, "что пора повторить")
     d.add_argument("--limit", type=int, default=None)
 
-    r = sub.add_parser("record", help="SM-2 по качеству ответа 0–5")
-    r.add_argument("path")
+    r = add_cmd(sub, "record", cmd_record, True, "SM-2 по качеству ответа 0–5")
     r.add_argument("item")
     r.add_argument("quality", type=int, choices=range(0, 6))
     r.add_argument("--type", choices=["word", "rule", "construction"])
     r.add_argument("--topic")
     r.add_argument("--translation")
 
-    m = sub.add_parser("mistake", help="записать паттерн ошибки")
-    m.add_argument("path")
+    m = add_cmd(sub, "mistake", cmd_mistake, True, "записать паттерн ошибки")
     m.add_argument("pattern")
     m.add_argument("--category")
     m.add_argument("--topic", help="тема ошибки (например 6.1.2) — по ней собирается дрилл")
@@ -1142,60 +1404,51 @@ def main():
     m.add_argument("--context")
     m.add_argument("--notes")
 
-    ms = sub.add_parser("mistakes", help="список паттернов ошибок (JSON)")
-    ms.add_argument("path")
+    ms = add_cmd(sub, "mistakes", cmd_mistakes, False, "список паттернов ошибок (JSON)")
     ms.add_argument("--topic")
     ms.add_argument("--category")
     ms.add_argument("--status", choices=["active", "critical", "resolved"])
     ms.add_argument("--due", action="store_true", help="только те, что пора повторить")
     ms.add_argument("--limit", type=int, default=None)
 
-    dp = sub.add_parser("drill-plan", help="план работы над ошибками (JSON)")
-    dp.add_argument("path")
+    dp = add_cmd(sub, "drill-plan", cmd_drill_plan, False,
+                 "план работы над ошибками (JSON)")
     dp.add_argument("--topic")
     dp.add_argument("--category")
     dp.add_argument("--due", action="store_true")
 
-    at = sub.add_parser("attempt", help="итог круга отработки ошибки")
-    at.add_argument("path")
+    at = add_cmd(sub, "attempt", cmd_attempt, True, "итог круга отработки ошибки")
     at.add_argument("pattern")
     at.add_argument("--result", choices=["ok", "fail"], required=True)
     at.add_argument("--your")
     at.add_argument("--correct")
     at.add_argument("--context")
 
-    rv = sub.add_parser("resolve", help="закрыть паттерн ошибки")
-    rv.add_argument("path")
+    rv = add_cmd(sub, "resolve", cmd_resolve, True, "закрыть паттерн ошибки")
     rv.add_argument("pattern")
 
-    im = sub.add_parser("import", help="импорт словаря из glava-файла")
-    im.add_argument("path")
+    im = add_cmd(sub, "import", cmd_import, True, "импорт словаря из glava-файла")
     im.add_argument("source")
     im.add_argument("--topic")
 
-    pr = sub.add_parser("progress", help="обзор прогресса")
-    pr.add_argument("path")
+    add_cmd(sub, "progress", cmd_progress, False, "обзор прогресса")
 
-    sm = sub.add_parser("set-meta", help="обновить meta")
-    sm.add_argument("path")
+    sm = add_cmd(sub, "set-meta", cmd_set_meta, True, "обновить meta")
     sm.add_argument("--difficulty", type=int)
     sm.add_argument("--recent-accuracy", type=float, dest="recent_accuracy")
 
-    ls = sub.add_parser("lesson", help="отметить занятие по теме (двигает паузу)")
-    ls.add_argument("path")
+    ls = add_cmd(sub, "lesson", cmd_lesson, True,
+                 "отметить занятие по теме (двигает паузу)")
     ls.add_argument("topic")
     ls.add_argument("--title")
 
-    tp = sub.add_parser("topics", help="состояния тем")
-    tp.add_argument("path")
+    tp = add_cmd(sub, "topics", cmd_topics, False, "состояния тем")
     tp.add_argument("--topic")
 
-    bl = sub.add_parser("blockers", help="что мешает закрыть тему")
-    bl.add_argument("path")
+    bl = add_cmd(sub, "blockers", cmd_blockers, False, "что мешает закрыть тему")
     bl.add_argument("topic")
 
-    cl = sub.add_parser("close", help="попытка закрытия темы")
-    cl.add_argument("path")
+    cl = add_cmd(sub, "close", cmd_close, True, "попытка закрытия темы")
     cl.add_argument("topic")
     cl.add_argument("--result", choices=["ok", "fail"], required=True)
     cl.add_argument("--accuracy", type=float, default=None,
@@ -1209,22 +1462,17 @@ def main():
                     help="прогноз ученицы разошёлся с фактом не больше чем на 1 пункт")
 
     args = p.parse_args()
-    data = load(args.path)
+    data, merged = load(args.path)
+    if merged:
+        print("нормализовано ключей (NFC): {}".format(", ".join(merged)), file=sys.stderr)
 
-    handlers = {
-        "due": cmd_due, "record": cmd_record, "mistake": cmd_mistake,
-        "mistakes": cmd_mistakes, "drill-plan": cmd_drill_plan,
-        "attempt": cmd_attempt,
-        "resolve": cmd_resolve, "import": cmd_import, "progress": cmd_progress,
-        "set-meta": cmd_set_meta,
-        "topics": cmd_topics, "blockers": cmd_blockers, "close": cmd_close,
-        "lesson": cmd_lesson,
-    }
-    handlers[args.cmd](data, args)
+    args.func(data, args)
 
-    # команды, меняющие состояние, сохраняют файл
-    if args.cmd in {"record", "mistake", "attempt", "resolve", "import", "set-meta",
-                    "close", "lesson"}:
+    # Пишет только та команда, которая объявила себя пишущей. Слияние ключей NFC сюда
+    # не добавляется намеренно: иначе `due` — первая команда занятия — переписывала бы
+    # трекер и затирала `.bak`, ту самую «последнюю целую копию», на которую ссылается
+    # сообщение об ошибке в `load`.
+    if args.writes:
         save(args.path, data)
 
 

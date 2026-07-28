@@ -92,9 +92,21 @@ once at the top of the file so the next reader does not "fix" the Russian parts.
 
 ## Scripts
 
-Only the Python standard library, 3.8+, fully offline — no network calls, no third-party
-packages. A module docstring that states what the script is for and lists its commands; the
-docstring is the interface documentation, since `--help` renders it.
+Only the Python standard library, 3.8+, and no third-party packages. Offline means nothing
+reaches the internet; talking to a service on `127.0.0.1` is allowed and is how `typhoon.py`
+uses the local Ollama. A module docstring that states what the script is for and lists its
+commands; the docstring is the interface documentation, since `--help` renders it.
+
+Type annotations are expected but not enforced by anything in the workflow: `pyrightconfig.json`
+in the project root checks the scripts in `strict` mode, and `npx pyright --stats` should
+report every script found and zero errors. It is a convenience, not a gate — nothing breaks
+if it is never run, and pyright is deliberately not a project dependency. Read the file count
+as well as the error count; the config explains why in a comment.
+
+Because 3.8 is the floor, keep builtin generics (`dict[str, str]`, `list[int]`) inside
+annotations, where `from __future__ import annotations` makes them lazy. A generic evaluated
+at runtime — a module-level alias, a `functools.cache` decorator — needs 3.9 and does not
+belong here; use `typing.Dict` and `functools.lru_cache(maxsize=None)` instead.
 
 ## Course files (`Thai A2/**`, `Thai B1/**`, `Helpers/**`)
 
@@ -113,8 +125,8 @@ topic may leave the spiral. The existing 36 files already carry it as «Резю
 has to be retrofitted. When writing a **new** topic, either keep that summary in the same
 shape or use the explicit heading below; the parser prefers the explicit one. Without
 either, the topic is stuck at «нет критерия» and can never be closed. The format is strict:
-`tracker.py read_exit_task` takes only list items under a markdown heading, so a bolded line
-or a table yields nothing.
+the parser (`read_exit_task` inside `tracker.py`, reached through `tracker.py import`) takes
+only list items under a markdown heading, so a bolded line or a table yields nothing.
 
 ```markdown
 ## Тема закрыта, если ты можешь

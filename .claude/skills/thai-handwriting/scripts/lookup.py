@@ -19,15 +19,31 @@
 Только стандартная библиотека, офлайн.
 """
 
+from __future__ import annotations  # аннотации ленивые: скрипт идёт на Python 3.8+
+
 import argparse
 import json
 import re
 import sys
 from collections import Counter
 from pathlib import Path
+from typing import Any, TypedDict, cast
 
 THAI_RUN = re.compile(r"[ก-๛]+")
 THAI_ONE = "[ก-๛]"
+
+
+class Entry(TypedDict):
+    """Что известно о слове из progress.json — всё, что показывает строка выдачи."""
+    translation: str
+    translit: str
+    topic: str
+
+# Каталоги внутри проекта, которые не являются учебными материалами: тайского в них
+# нет, а прочитанными они попадают в частоты и портят ранжирование. Дерево при этом
+# всё равно обходится целиком — `rglob` не умеет обрезать ветки, и экономится чтение
+# файлов, а не обход.
+SKIP_DIRS = {".git", ".venv", "node_modules", "__pycache__", ".cache"}
 
 
 def repo_root(start: Path) -> Path:
@@ -38,25 +54,39 @@ def repo_root(start: Path) -> Path:
     return start
 
 
-def load_lexicon(root: Path):
+def load_lexicon(root: Path) -> tuple[dict[str, Entry], Counter[str]]:
     """Возвращает (словарь из progress.json, частоты слов в материалах)."""
-    known = {}
+    known: dict[str, Entry] = {}
     progress = root / "progress.json"
     if progress.exists():
+        # UnicodeDecodeError — подкласс ValueError, а не OSError, поэтому перечислен
+        # отдельно. Форма проверяется явно: `{"items": []}` разбирается как корректный
+        # JSON и раньше падал AttributeError уже после except.
         try:
-            items = json.loads(progress.read_text(encoding="utf-8")).get("items", {})
-            for word, meta in items.items():
+            parsed: Any = json.loads(progress.read_text(encoding="utf-8"))
+            items_obj: Any = (cast("dict[str, Any]", parsed).get("items")
+                              if isinstance(parsed, dict) else None)
+            if not isinstance(items_obj, dict):
+                raise ValueError("нет объекта «items»")
+            for word, meta in cast("dict[str, Any]", items_obj).items():
+                rec = cast("dict[str, Any]", meta if isinstance(meta, dict) else {})
                 known[word] = {
-                    "translation": (meta or {}).get("translation", ""),
-                    "translit": (meta or {}).get("translit", ""),
-                    "topic": (meta or {}).get("topic", ""),
+                    "translation": rec.get("translation", ""),
+                    "translit": rec.get("translit", ""),
+                    "topic": rec.get("topic", ""),
                 }
-        except (json.JSONDecodeError, OSError) as e:
-            print(f"lookup: не читается progress.json ({e})", file=sys.stderr)
+        except (ValueError, OSError) as e:
+            # Не падаем: словарь из progress.json — подспорье, а материалы (*.md)
+            # читаются независимо и одни дают полезную выдачу.
+            print(f"lookup: progress.json не прочитан ({e}) — ищу только по материалам",
+                  file=sys.stderr)
 
-    freq = Counter()
+    freq: Counter[str] = Counter()
     for md in root.rglob("*.md"):
-        if ".git" in md.parts:
+        # Смотрим путь ОТНОСИТЕЛЬНО корня: `md.parts` содержит и каталоги выше проекта,
+        # так что репозиторий, лежащий, например, внутри `~/.cache`, отбрасывал бы сам
+        # себя целиком — и скрипт уверенно печатал бы «нет кандидатов».
+        if SKIP_DIRS.intersection(md.relative_to(root).parts):
             continue
         try:
             text = md.read_text(encoding="utf-8", errors="ignore")
@@ -66,8 +96,9 @@ def load_lexicon(root: Path):
     return known, freq
 
 
-def build_regex(pattern: str) -> re.Pattern:
-    out, i = [], 0
+def build_regex(pattern: str) -> re.Pattern[str]:
+    out: list[str] = []
+    i = 0
     while i < len(pattern):
         ch = pattern[i]
         if ch == "?":
@@ -87,7 +118,7 @@ def build_regex(pattern: str) -> re.Pattern:
     return re.compile("".join(out))
 
 
-def main():
+def main() -> None:
     ap = argparse.ArgumentParser(add_help=True, description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("pattern", help="шаблон слова (? * [..] или regex)")
@@ -97,8 +128,18 @@ def main():
     args = ap.parse_args()
 
     root = Path(args.root).resolve() if args.root else repo_root(Path.cwd())
+    # Шаблон разбираем до чтения материалов: незачем обходить весь репозиторий,
+    # чтобы упасть на первой же компиляции регулярки.
+    try:
+        rx = build_regex(args.pattern)
+    except re.error as e:
+        # Совет — про конкретную поломку, а не про класс символов: regex поддерживается
+        # намеренно, и `ก(ิ|ี)น` — рабочий шаблон. Раньше здесь предлагалось экранировать
+        # скобки, что сломало бы такой шаблон вместо того, чтобы починить незакрытый.
+        sys.exit(f"lookup: шаблон «{args.pattern}» не разобран как регулярное выражение: "
+                 f"{e}.\nЧаще всего это незакрытая скобка — проверь пары ( ) и [ ]. "
+                 f"Если скобка нужна буквально, экранируй именно её: \\(")
     known, freq = load_lexicon(root)
-    rx = build_regex(args.pattern)
     match = rx.search if args.sub else rx.fullmatch
 
     candidates = {w for w in list(known) + list(freq) if match(w)}
@@ -112,9 +153,9 @@ def main():
     print(f"кандидатов: {len(ranked)}   (корень: {root})\n")
     for word in ranked[:args.limit]:
         mark = "★" if word in known else " "
-        info = known.get(word, {})
-        gloss = info.get("translation", "")
-        translit = info.get("translit", "")
+        info = known.get(word)
+        gloss = info["translation"] if info else ""
+        translit = info["translit"] if info else ""
         tail = f"  [{translit}]" if translit else ""
         count = freq.get(word, 0)
         seen = f"  ×{count}" if count else ""

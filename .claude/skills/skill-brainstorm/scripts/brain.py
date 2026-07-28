@@ -32,28 +32,37 @@ Adapted from bmad-brainstorming (BMAD Method, MIT) — see ATTRIBUTION.md.
 from __future__ import annotations  # аннотации ленивые: скрипт идёт на Python 3.8+
 
 import argparse
+import colorsys
 import csv
+import functools
 import hashlib
 import html
 import json
 import random
 import sys
 from pathlib import Path
+from typing import Any, Dict, cast
 
 DEFAULT_FILE = Path(__file__).resolve().parent.parent / "assets" / "brain-methods.csv"
+
+# A catalog row after `load` has normalized it: every FIELDS key present, every value a
+# string. Named so the shape travels through every function instead of being re-guessed.
+# `typing.Dict` rather than `dict[...]`: an alias is a real assignment evaluated at
+# import time, and the builtin-generic form needs 3.9 while the project standard is 3.8+.
+Row = Dict[str, str]
+
 FIELDS = ("category", "technique_name", "description", "detail", "provenance", "good_for", "audience")
-# Optional columns beyond the original four — absent in older CSVs and in --extra
-# overlays, so always read through .get/setdefault. `provenance` (classic|signature|
-# playful) drives the "Proven & Professional" lead group; `good_for` (a |-separated
-# list of goal tags) drives the browse page's goal filter; `audience` (solo|group|either)
-# is advisory.
-OPTIONAL_FIELDS = ("detail", "provenance", "good_for", "audience")
+# `detail`, `provenance`, `good_for` and `audience` are optional columns beyond the
+# original four — absent in older CSVs and in --extra overlays, so always read through
+# .get/setdefault. `provenance` (classic|signature|playful) drives the "Proven &
+# Professional" lead group; `good_for` (a |-separated list of goal tags) drives the
+# browse page's goal filter; `audience` (solo|group|either) is advisory.
 
 
-def load(file: Path) -> list[dict]:
+def load(file: Path) -> list[Row]:
     # utf-8-sig: tolerate BOM-prefixed catalogs (Excel "CSV UTF-8", Notepad)
     with open(file, newline="", encoding="utf-8-sig") as f:
-        rows = list(csv.DictReader(f))
+        rows = cast("list[Row]", list(csv.DictReader(f)))
     for r in rows:
         for k in FIELDS:
             r.setdefault(k, "")
@@ -61,19 +70,20 @@ def load(file: Path) -> list[dict]:
     return rows
 
 
-def load_extra(file: Path) -> list[dict]:
+def load_extra(file: Path) -> list[Row]:
     """Merge-in techniques from a JSON overlay — a list of
     {category, technique_name, description[, detail]} objects. This is how
     customize.toml's `additional_techniques` become first-class across *every*
     subcommand (categories/list/random/show/html), so the browse page and
     category draws include them too, not just the in-chat flows."""
-    data = json.loads(file.read_text(encoding="utf-8-sig"))
+    data: Any = json.loads(file.read_text(encoding="utf-8-sig"))
     if not isinstance(data, list):
         raise ValueError("--extra must be a JSON array of objects")
-    rows = []
-    for item in data:
-        if not isinstance(item, dict):
-            raise ValueError(f"each --extra entry must be a JSON object, got: {item!r}")
+    rows: list[Row] = []
+    for raw in cast("list[Any]", data):
+        if not isinstance(raw, dict):
+            raise ValueError(f"each --extra entry must be a JSON object, got: {raw!r}")
+        item = cast("dict[str, Any]", raw)
         rows.append({
             "category": str(item.get("category", "")).strip(),
             "technique_name": str(item.get("technique_name", "")).strip(),
@@ -86,7 +96,7 @@ def load_extra(file: Path) -> list[dict]:
     return rows
 
 
-def merge_extra(rows: list[dict], extras: list[dict]) -> list[dict]:
+def merge_extra(rows: list[Row], extras: list[Row]) -> list[Row]:
     """Extras replace a catalog row with the same technique_name (case-insensitive),
     otherwise append — the same overlay semantics as pick_methods.py, so
     customize.toml additional_* entries behave identically across sibling skills."""
@@ -102,30 +112,34 @@ def merge_extra(rows: list[dict], extras: list[dict]) -> list[dict]:
     return merged
 
 
-def categories(rows: list[dict]) -> list[tuple[str, int]]:
+def categories(rows: list[Row]) -> list[tuple[str, int]]:
     counts: dict[str, int] = {}
     for r in rows:
         counts[r["category"]] = counts.get(r["category"], 0) + 1
     return sorted(counts.items())
 
 
-def filter_cats(rows: list[dict], cats: list[str] | None) -> list[dict]:
+def filter_cats(rows: list[Row], cats: list[str] | None) -> list[Row]:
     if not cats:
         return rows
     wanted = {c.lower() for c in cats}
     return [r for r in rows if r["category"].lower() in wanted]
 
 
-def find(rows: list[dict], names: list[str]) -> tuple[list[dict], list[str]]:
+def find(rows: list[Row], names: list[str]) -> tuple[list[Row], list[str]]:
     by_name = {r["technique_name"].lower(): r for r in rows}
-    found, missing = [], []
+    found: list[Row] = []
+    missing: list[str] = []
     for n in names:
         r = by_name.get(n.strip().lower())
-        (found if r else missing).append(r if r else n)
+        if r is None:
+            missing.append(n)
+        else:
+            found.append(r)
     return found, missing
 
 
-def resolve_detail(row: dict, csv_dir: Path) -> str | None:
+def resolve_detail(row: Row, csv_dir: Path) -> str | None:
     """Return the contents of a row's detail file, or None if there is no detail
     (or the file is missing — a missing file is reported to stderr, not fatal)."""
     if not row.get("detail"):
@@ -143,15 +157,15 @@ def fmt_categories(cats: list[tuple[str, int]], as_json: bool) -> str:
     return "\n".join(f"{c}\t{n}" for c, n in cats)
 
 
-def fmt_list(rows: list[dict], as_json: bool) -> str:
+def fmt_list(rows: list[Row], as_json: bool) -> str:
     if as_json:
         return json.dumps([{k: r[k] for k in ("category", "technique_name", "description")} for r in rows])
     return "\n".join(f"{r['category']}\t{r['technique_name']}\t{r['description']}" for r in rows)
 
 
-def fmt_show(rows: list[dict], csv_dir: Path, as_json: bool) -> str:
+def fmt_show(rows: list[Row], csv_dir: Path, as_json: bool) -> str:
     if as_json:
-        out = []
+        out: list[dict[str, str]] = []
         for r in rows:
             d = resolve_detail(r, csv_dir)
             entry = {k: r[k] for k in ("category", "technique_name", "description")}
@@ -159,7 +173,7 @@ def fmt_show(rows: list[dict], csv_dir: Path, as_json: bool) -> str:
                 entry["detail"] = d
             out.append(entry)
         return json.dumps(out)
-    blocks = []
+    blocks: list[str] = []
     for r in rows:
         block = f"## {r['technique_name']}  [{r['category']}]\n{r['description']}"
         d = resolve_detail(r, csv_dir)
@@ -218,9 +232,14 @@ _FALLBACK_TECH = (
 )
 
 
-def _load_icons(file: Path = ICON_FILE) -> tuple[dict, dict]:
+@functools.lru_cache(maxsize=None)  # not functools.cache: that is 3.9+, the standard is 3.8+
+def _load_icons(file: Path = ICON_FILE) -> tuple[dict[str, dict[str, str]], dict[str, str]]:
     """Read the icon sidecar: (category slug -> {hue, glyph}, technique name -> svg).
-    A missing or malformed file is non-fatal — everything then uses the fallbacks below."""
+    A missing or malformed file is non-fatal — everything then falls back to the
+    _FALLBACK_* constants defined just above.
+
+    Cached rather than read at import: only `html` draws icons, so `categories`, `list`,
+    `show` and `random` used to pay a disk read for a sidecar they never look at."""
     try:
         data = json.loads(file.read_text(encoding="utf-8"))
     except (OSError, ValueError):
@@ -228,19 +247,14 @@ def _load_icons(file: Path = ICON_FILE) -> tuple[dict, dict]:
     return (data.get("categories") or {}), (data.get("techniques") or {})
 
 
-_CATEGORY_STYLES, _TECH_ICONS = _load_icons()
-
-
 def _hsl_hex(deg: int, s: float, lt: float) -> str:
-    import colorsys
-
     r, g, b = colorsys.hls_to_rgb((deg % 360) / 360, lt, s)
     return "#%02x%02x%02x" % (round(r * 255), round(g * 255), round(b * 255))
 
 
 def category_style(cat: str) -> tuple[str, str]:
     """(hue, glyph markup) for a category — from the sidecar for the shipped set, derived for extras."""
-    style = _CATEGORY_STYLES.get(cat)
+    style = _load_icons()[0].get(cat)
     if style and style.get("hue"):
         return style["hue"], style.get("glyph") or _FALLBACK_GLYPH
     deg = int(hashlib.md5(cat.encode("utf-8")).hexdigest(), 16) % 360
@@ -249,7 +263,7 @@ def category_style(cat: str) -> tuple[str, str]:
 
 def tech_icon(name: str) -> str:
     """The hand-picked line-icon for a specific technique (neutral mark if unknown)."""
-    return _TECH_ICONS.get(name, _FALLBACK_TECH)
+    return _load_icons()[1].get(name, _FALLBACK_TECH)
 
 
 SELECTOR_TEMPLATE = r"""<!DOCTYPE html>
@@ -601,7 +615,7 @@ def _svg(inner: str) -> str:
     return f'<svg class="ico" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">{CHIP}{inner}</svg>'
 
 
-def _card(r: dict, lead: bool = False) -> str:
+def _card(r: Row, lead: bool = False) -> str:
     """One technique card. `lead=True` cards live in the cross-cutting professional group;
     they carry their own category hue (inline --c) and data-lead so selection can de-dupe."""
     name = html.escape(r["technique_name"])
@@ -632,7 +646,7 @@ def _invent_card(disp_cat: str, glyph: str) -> str:
     )
 
 
-def html_doc(rows: list[dict]) -> str:
+def html_doc(rows: list[Row]) -> str:
     """Render the self-contained 'browse all techniques' selection page from the catalog.
 
     Deterministic ordering so the shipped asset can be snapshot-tested against the CSV:
@@ -641,7 +655,7 @@ def html_doc(rows: list[dict]) -> str:
     "More" alphabetically. Techniques render in file order within a category. A `classic`
     row appears both in the lead group and its home category; the page de-dupes on select.
     """
-    groups: dict[str, list[dict]] = {}
+    groups: dict[str, list[Row]] = {}
     for r in rows:
         groups.setdefault(r["category"], []).append(r)
 
@@ -671,7 +685,7 @@ def html_doc(rows: list[dict]) -> str:
         )
 
     # 2) shipped categories, in super-group order
-    placed = set()
+    placed: set[str] = set()
     for group_title, cats in CATEGORY_GROUPS:
         present = [c for c in cats if c in groups]
         if not present:

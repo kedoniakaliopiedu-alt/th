@@ -3,7 +3,7 @@ name: skill-review
 description: >
   Adversarial review of this repository's own skills and course material — parallel
   review layers plus structured triage. Reviews SKILL.md files, their references/,
-  scripts (tracker.py, thaiocr, brain.py) and the lesson files under Thai A2/ and
+  the scripts under .claude/skills/*/scripts/ and the lesson files under Thai A2/ and
   Thai B1/. Use when the user asks to review, audit or check the instrument itself:
   «отревьюй скилл», «проверь, что я написала в SKILL.md», «разбери мои правки»,
   «аудит thai-tasks», «что не так с этим скиллом». Do NOT use to check the
