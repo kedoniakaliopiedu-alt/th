@@ -12,6 +12,7 @@ tracker.py — учёт прогресса для skill thai-tasks (SM-2 + ба�
   mistakes   — список паттернов с фильтрами (для skill thai-mistakes)
   drill-plan — план работы над ошибками: группы по темам, режимы, объём
   attempt    — итог круга отработки (снята / повторилась)
+  resolve    — закрыть паттерн ошибки вручную
   import     — импортировать словарь из glava-файла в трекер
   progress   — краткий обзор прогресса
   set-meta   — обновить meta (difficulty, recent_accuracy)
@@ -47,6 +48,7 @@ import re
 import shutil
 import sys
 import tempfile
+import time
 import unicodedata
 from collections.abc import Callable
 from datetime import date, datetime, timedelta
@@ -266,11 +268,11 @@ SUSPICION_LIMIT = 2
 MASTERY_UP_AFTER = 3
 MASTERY_DOWN_AFTER = 3
 
-# Интервалы после успешного круга отработки: 1-й ок → +3д, 2-й → +7д, дальше +16д.
+# Интервалы после успешного круга отработки: 1-й ок → +3д, 2-й → +7д. Второй чистый
+# круг закрывает паттерн (resolved), поэтому +16д достаётся только тому, кого
+# прогнали ещё раз вручную по уже закрытому паттерну.
 DRILL_INTERVALS = {1: 3, 2: 7}
 DRILL_INTERVAL_LONG = 16
-# Сколько кругов за одно занятие максимум (дальше — на следующее занятие).
-MAX_ROUNDS_PER_DAY = 2
 
 
 def today() -> date:
@@ -324,7 +326,7 @@ def nfc(key: str) -> str:
     return unicodedata.normalize("NFC", key)
 
 
-def merge_denormalized_keys(items: dict[str, Item]) -> list[str]:
+def merge_denormalized_keys(data: Data) -> list[str]:
     """Свести накопленные до нормализации дубли к одному ключу.
 
     При коллизии историю берём у той записи, где её больше, а описательные поля —
@@ -333,17 +335,25 @@ def merge_denormalized_keys(items: dict[str, Item]) -> list[str]:
     транскрипцию и тему: слово оставалось в выдаче, но собрать по нему задание было
     уже нельзя.
 
-    Возвращает список слитых ключей, а не счётчик: молчаливое слияние по имени
+    Возвращает список слитых ключей без повторов, а не счётчик: молчаливое слияние
     невозможно проверить, а называть изменённое слово — единственный способ заметить,
-    что тронули не то.
+    что тронули не то. Расхождения в непустых полях и переносы в ядрах тем печатаются
+    отдельно: они меняют смысл, а не только форму ключа.
+
+    Берёт весь `data`, а не только `items`: ключи темы продублированы в
+    `topics[*].core` (ручная разметка ядра), и без переноса ядро молча пересобиралось
+    бы автоматически — готовая к закрытию тема становилась незакрываемой.
     """
+    items = data["items"]
     merged: list[str] = []
+    renamed: dict[str, str] = {}
     for key in list(items):
         canon = nfc(key)
         if canon == key:
             continue
         existing = items.get(canon)
         candidate = items.pop(key)
+        renamed[key] = canon
         if existing is None:
             items[canon] = candidate
         else:
@@ -359,8 +369,26 @@ def merge_denormalized_keys(items: dict[str, Item]) -> list[str]:
                 rich["translit"] = poor["translit"]
             if not rich.get("topic") and poor.get("topic"):
                 rich["topic"] = poor["topic"]
+            # Тема — не описание, а принадлежность: от неё зависят ядро и ворота
+            # закрытия сразу двух тем. Молча выбрать одну из двух непустых нельзя,
+            # поэтому оставляем как есть и говорим вслух.
+            if (poor.get("topic") and rich.get("topic")
+                    and poor["topic"] != rich["topic"]):
+                print("внимание: у «{}» столкнулись темы {} и {} — оставлена {}, "
+                      "проверь вручную".format(canon, rich["topic"], poor["topic"],
+                                               rich["topic"]), file=sys.stderr)
             items[canon] = rich
-        merged.append(canon)
+        if canon not in merged:
+            merged.append(canon)
+
+    # Ядра тем: ключ мог быть размечен вручную в старой форме.
+    for tp, rec in data["topics"].items():
+        core = rec.get("core") or []
+        moved = [renamed.get(k, k) for k in core]
+        if moved != core:
+            rec["core"] = moved
+            print("ядро темы {}: ключи приведены к NFC ({} шт.)".format(
+                tp, sum(1 for a, b in zip(core, moved) if a != b)), file=sys.stderr)
     return merged
 
 
@@ -392,6 +420,22 @@ def check_shape(data: Any) -> None:
             if not isinstance(rec, dict):
                 raise ValueError("запись «{}» в «{}» — {}, а нужен объект".format(
                     key, name, type(rec).__name__))
+            if name != "topics":
+                continue
+            # Списки внутри темы проверяем здесь же: `list("abc")` тихо давал
+            # ['a','b','c'], и падение случалось далеко от причины.
+            for field in ("attempts", "core"):
+                seq = cast("dict[str, Any]", rec).get(field)
+                if seq is None or isinstance(seq, list):
+                    continue
+                raise ValueError("«{}» у темы «{}» — {}, а нужен список".format(
+                    field, key, type(seq).__name__))
+            attempts: Any = cast("dict[str, Any]", rec).get("attempts")
+            for a in cast("list[Any]", attempts or []):
+                if not isinstance(a, dict):
+                    raise ValueError(
+                        "попытка у темы «{}» — {}, а нужен объект".format(
+                            key, type(a).__name__))
 
 
 def load(path: str) -> tuple[Data, list[str]]:
@@ -450,7 +494,7 @@ def load(path: str) -> tuple[Data, list[str]]:
     # Приведение опирается на проверки выше: четыре раздела на месте и все они словари
     # словарей. Полноту полей внутри записей оно НЕ обещает — см. комментарий к схеме.
     checked = cast(Data, data)
-    return checked, merge_denormalized_keys(checked["items"])
+    return checked, merge_denormalized_keys(checked)
 
 
 def save(path: str, data: Data) -> None:
@@ -465,12 +509,18 @@ def save(path: str, data: Data) -> None:
     directory = os.path.dirname(os.path.abspath(path))
     # Подмести хвосты от прошлых аварийных обрывов: подмена не состоялась,
     # временный файл остался.
+    # Только заведомо брошенные: временный файл параллельного процесса живёт
+    # секунды, и удалить его — значит уронить чужую запись на os.replace.
+    cutoff = 3600
     for stale in os.listdir(directory):
-        if stale.startswith(".tracker-") and stale.endswith(".json"):
-            try:
-                os.remove(os.path.join(directory, stale))
-            except OSError:
-                pass
+        if not (stale.startswith(".tracker-") and stale.endswith(".json")):
+            continue
+        full = os.path.join(directory, stale)
+        try:
+            if time.time() - os.path.getmtime(full) > cutoff:
+                os.remove(full)
+        except OSError:
+            pass
     tmp = None
     try:
         fd, tmp = tempfile.mkstemp(dir=directory, prefix=".tracker-", suffix=".json")
@@ -635,9 +685,18 @@ def topic_blockers(data: Data, tp: str, rec: TopicRec) -> list[tuple[str, str]]:
     return out
 
 
+# Коды блокеров, которые НЕ отклоняют попытку закрытия. Отбор по коду, не по тексту.
+#   rounds     — счётчик кругов: попытка и есть очередной круг;
+#   difficulty — «сложность выросла, нужно переподтверждение»: попытка и есть это
+#                переподтверждение. Пока код был жёстким, тема после роста сложности
+#                не закрывалась никогда: единственный способ переподтвердить сам себя
+#                и запрещал.
+SOFT_BLOCKERS = ("rounds", "difficulty")
+
+
 def hard_blockers(blockers: list[tuple[str, str]]) -> list[str]:
-    """Жёсткие — всё, кроме счётчика кругов. Отбор по коду, не по тексту."""
-    return [t for c, t in blockers if c != "rounds"]
+    """Блокеры, отклоняющие попытку закрытия."""
+    return [t for c, t in blockers if c not in SOFT_BLOCKERS]
 
 
 def show_blockers(blockers: list[tuple[str, str]]) -> list[str]:
@@ -739,6 +798,12 @@ def cmd_topics(data: Data, args: argparse.Namespace) -> None:
 
 def cmd_blockers(data: Data, args: argparse.Namespace) -> None:
     tp = args.topic
+    # Как в `lesson` и `close`: на опечатку в номере команда раньше печатала
+    # правдоподобный отчёт по несуществующей теме.
+    if tp not in all_topics(data):
+        print("темы {} в трекере нет — проверь номер (`tracker.py topics`)."
+              .format(tp), file=sys.stderr)
+        sys.exit(1)
     rec = get_topic(data, tp, create=False)
     lvl = topic_level(data, tp, rec)
     print("Тема {} — {} (ядро {} эл., медиана mastery {}, худший {}, "
@@ -829,6 +894,10 @@ def cmd_close(data: Data, args: argparse.Namespace) -> None:
         rec["control_step"] = step
         rec["next_control"] = (t + timedelta(days=CONTROL_STEPS[step])).strftime(DATE_FMT)
         rec["suspicion"] = 0
+        # Планка сложности переезжает на сегодняшнюю: тема подтверждена на ней, и
+        # блокер «сложность выросла» гаснет. Без этого он висел бы вечно, требуя
+        # переподтверждения, которое уже состоялось.
+        rec["closed_at_difficulty"] = data["meta"].get("difficulty", 4)
         print("Контроль по теме {} пройден. Следующий — {}.".format(
             tp, rec["next_control"]))
         return
@@ -1021,11 +1090,13 @@ def cmd_mistake(data: Data, args: argparse.Namespace) -> None:
 
 def cmd_resolve(data: Data, args: argparse.Namespace) -> None:
     key = args.pattern
-    if key in data["mistakes"]:
-        data["mistakes"][key]["status"] = "resolved"
-        print(f"OK: паттерн «{key}» помечен resolved")
-    else:
+    # Отказ до записи и с ненулевым кодом — как в `attempt`. Иначе опечатка в имени
+    # паттерна выглядела как успех и вхолостую ротировала `.bak`.
+    if key not in data["mistakes"]:
         print(f"нет такого паттерна: {key}", file=sys.stderr)
+        sys.exit(1)
+    data["mistakes"][key]["status"] = "resolved"
+    print(f"OK: паттерн «{key}» помечен resolved")
 
 
 def mistake_view(key: str, m: Mistake) -> dict[str, Any]:
@@ -1131,7 +1202,7 @@ def cmd_drill_plan(data: Data, args: argparse.Namespace) -> None:
                      ensure_ascii=False, indent=2))
 
 
-def cmd_attempt(data: Data, args: argparse.Namespace) -> None:  # noqa: C901
+def cmd_attempt(data: Data, args: argparse.Namespace) -> None:
     """Итог круга отработки: ok — ошибка снята в этом круге, fail — повторилась."""
     key = args.pattern
     if key not in data["mistakes"]:
@@ -1170,10 +1241,12 @@ def cmd_attempt(data: Data, args: argparse.Namespace) -> None:  # noqa: C901
             m["next_review"] = t.strftime(DATE_FMT)
             msg = (f"паттерн «{key}» повторился (частота {m['frequency']}). "
                    f"Положен второй круг — с другой стороны и мельче шагом.")
-    if args.context:
+    # Условие то же, что в `mistake`: раньше пример терялся молча, если передали
+    # --your и --correct, но забыли --context.
+    if args.your or args.correct or args.context:
         m["examples"].append({
             "your_answer": args.your or "", "correct_answer": args.correct or "",
-            "context": args.context, "date": t.strftime(DATE_FMT),
+            "context": args.context or "", "date": t.strftime(DATE_FMT),
         })
     data["mistakes"][key] = m
     print("OK: " + msg)
@@ -1188,7 +1261,8 @@ def cmd_attempt(data: Data, args: argparse.Namespace) -> None:  # noqa: C901
 # регуляркой: жадная склеивала первые две колонки в один ключ.
 ROW_RE = re.compile(r"^\s*\|(.+)\|\s*$")
 THAI_RE = re.compile(r"[\u0e00-\u0e7f]")
-HEADER_WORDS = {"тайский", "транскрипция", "перевод", "term", ""}
+# Заголовок таблицы и строка-разделитель отсеиваются раньше, на поиске колонки с
+# тайским: тайских букв в них нет, и `idx` выходит None.
 
 
 # Критерий закрытия ищем в двух местах, в этом порядке. Первый — явная секция для
@@ -1258,41 +1332,46 @@ def cmd_import(data: Data, args: argparse.Namespace) -> None:
         print(f"файл не найден: {args.source}", file=sys.stderr)
         sys.exit(1)
     added, skipped = 0, 0
-    with open(args.source, "r", encoding="utf-8") as f:
-        for line in f:
-            mm = ROW_RE.match(line)
-            if not mm:
-                continue
-            cells = [clean_cell(c) for c in mm.group(1).split("|")]
-            if len(cells) < 3:
-                continue
-            # Тайское слово не всегда в первой колонке: бывает «| Час | Тайский |
-            # Транскрипция | Смысл |». Ищем колонку с тайским, остальное — вокруг неё.
-            idx = next((i for i, c in enumerate(cells) if THAI_RE.search(c)), None)
-            if idx is None:
-                continue
-            thai = cells[idx]
-            nxt = cells[idx + 1] if idx + 1 < len(cells) else ""
-            translit = "" if THAI_RE.search(nxt) else nxt
-            rest = [c for i, c in enumerate(cells)
-                    if c and i != idx and (not translit or c != translit)]
-            translation = " · ".join(rest)
-            # пропустить заголовки и разделители таблиц
-            if thai.lower() in HEADER_WORDS or set(thai) <= set("-: "):
-                continue
-            thai = nfc(thai)
-            if thai in data["items"]:
-                skipped += 1
-                continue
-            it = new_item()
-            it.update({
-                "translation": translation, "translit": translit, "type": "word",
-                "topic": args.topic or "",
-                "due_date": today().strftime(DATE_FMT),  # сразу due
-                "last_seen": "1970-01-01",
-            })
-            data["items"][thai] = it
-            added += 1
+    try:
+        source_text = open(args.source, "r", encoding="utf-8").read()
+    except UnicodeDecodeError:
+        print("файл {} не в UTF-8 — импортировать нечего".format(args.source),
+              file=sys.stderr)
+        sys.exit(2)
+    except OSError as e:
+        print("файл {} не открылся ({})".format(args.source, e), file=sys.stderr)
+        sys.exit(2)
+    for line in source_text.splitlines():
+        mm = ROW_RE.match(line)
+        if not mm:
+            continue
+        cells = [clean_cell(c) for c in mm.group(1).split("|")]
+        if len(cells) < 3:
+            continue
+        # Тайское слово не всегда в первой колонке: бывает «| Час | Тайский |
+        # Транскрипция | Смысл |». Ищем колонку с тайским, остальное — вокруг неё.
+        idx = next((i for i, c in enumerate(cells) if THAI_RE.search(c)), None)
+        if idx is None:
+            continue
+        thai = cells[idx]
+        nxt = cells[idx + 1] if idx + 1 < len(cells) else ""
+        translit = "" if THAI_RE.search(nxt) else nxt
+        rest = [c for i, c in enumerate(cells)
+                if c and i != idx and (not translit or c != translit)]
+        translation = " · ".join(rest)
+        thai = nfc(thai)
+        if thai in data["items"]:
+            skipped += 1
+            continue
+        it = new_item()
+        it.update({
+            "translation": translation, "translit": translit, "type": "word",
+            "topic": args.topic or "",
+            "due_date": today().strftime(DATE_FMT),  # сразу due
+            "last_seen": "1970-01-01",
+        })
+        data["items"][thai] = it
+        added += 1
     print(f"Импорт из {os.path.basename(args.source)}: добавлено {added}, "
           f"пропущено (уже были) {skipped}")
 
@@ -1306,8 +1385,10 @@ def cmd_import(data: Data, args: argparse.Namespace) -> None:
             rec["status"] = "in_progress"
     elif not rec["exit_task"] and rec["status"] == "in_progress" and not rec["attempts"]:
         rec["status"] = "no_criterion"
-        print(f"Тема {args.topic}: в файле нет секции «{EXIT_HEADING}» — "
-              f"статус «нет критерия», закрыть её нельзя.")
+        print(f"Тема {args.topic}: критерий не найден — ни секции «{EXIT_HEADING}», "
+              f"ни списка «должна уметь» в «{EXIT_HEADING_FALLBACK}». Статус «нет "
+              f"критерия», закрыть тему нельзя. Обычно дело в формате резюме: "
+              f"парсер берёт только пункты списка под заголовком.")
 
 
 def stars(m: int) -> str:
@@ -1318,7 +1399,7 @@ def cmd_progress(data: Data, args: argparse.Namespace) -> None:
     meta = data["meta"]
     t = today()
     items = data["items"]
-    # средний mastery по темам
+    # темы и число элементов в каждой; уровень считает topic_level по ядру
     by_topic: dict[str, list[int]] = {}
     for it in items.values():
         tp = it.get("topic", "") or "—"
@@ -1360,6 +1441,23 @@ def cmd_set_meta(data: Data, args: argparse.Namespace) -> None:
     print(f"OK: meta обновлена → {json.dumps(data['meta'], ensure_ascii=False)}")
 
 
+def share(value: str) -> float:
+    """Доля 0..1 для argparse.
+
+    Отдельный тип, а не `float`: `--accuracy 90` вместо `0.9` — опечатка на один
+    символ, и без проверки она проводила тему через ворота как блестящий результат.
+    Обратная (`-5`) печаталась как «результат -500%».
+    """
+    try:
+        f = float(value)
+    except ValueError:
+        raise argparse.ArgumentTypeError("нужно число от 0 до 1, а не {!r}".format(value))
+    if not 0.0 <= f <= 1.0:
+        raise argparse.ArgumentTypeError(
+            "доля задаётся числом от 0 до 1 (85% — это 0.85), а не {}".format(value))
+    return f
+
+
 def add_cmd(sub: Any, name: str, handler: Callable[[Data, argparse.Namespace], None],
             writes: bool, descr: str) -> argparse.ArgumentParser:
     """Зарегистрировать команду вместе с обработчиком и признаком записи.
@@ -1397,7 +1495,8 @@ def main() -> None:
     m = add_cmd(sub, "mistake", cmd_mistake, True, "записать паттерн ошибки")
     m.add_argument("pattern")
     m.add_argument("--category")
-    m.add_argument("--topic", help="тема ошибки (например 6.1.2) — по ней собирается дрилл")
+    m.add_argument("--topic", required=True,
+                   help="тема ошибки (например 6.1.2) — по ней собирается дрилл")
     m.add_argument("--mode", choices=sorted(MODE_TITLES), help="режим отработки вручную")
     m.add_argument("--your")
     m.add_argument("--correct")
@@ -1435,7 +1534,7 @@ def main() -> None:
 
     sm = add_cmd(sub, "set-meta", cmd_set_meta, True, "обновить meta")
     sm.add_argument("--difficulty", type=int)
-    sm.add_argument("--recent-accuracy", type=float, dest="recent_accuracy")
+    sm.add_argument("--recent-accuracy", type=share, dest="recent_accuracy")
 
     ls = add_cmd(sub, "lesson", cmd_lesson, True,
                  "отметить занятие по теме (двигает паузу)")
@@ -1451,7 +1550,7 @@ def main() -> None:
     cl = add_cmd(sub, "close", cmd_close, True, "попытка закрытия темы")
     cl.add_argument("topic")
     cl.add_argument("--result", choices=["ok", "fail"], required=True)
-    cl.add_argument("--accuracy", type=float, default=None,
+    cl.add_argument("--accuracy", type=share, default=None,
                     help="доля верного 0..1; при --result ok обязателен")
     cl.add_argument("--title")
     cl.add_argument("--production", action="store_true",

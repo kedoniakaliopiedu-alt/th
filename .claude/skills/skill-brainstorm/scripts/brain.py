@@ -19,14 +19,15 @@ Commands:
 rather than stdout: dumping the full catalog into context is a footgun, so reaching the
 whole library at once must always be an explicit, deliberate choice.
 
-`--extra PATH` merges a JSON overlay of additional techniques (customize.toml's
-`additional_techniques`) into every command. An extra whose technique_name matches
-a shipped row (case-insensitive) REPLACES it — retune a shipped technique; others
-append, so custom techniques and whole new categories are first-class everywhere —
-including the browse page and category draws. (Same overlay semantics as
-bmad-advanced-elicitation's pick_methods.py.)
+`--extra PATH` merges a JSON overlay of additional techniques into every command; in
+this repository that overlay is `assets/extra-techniques.json`. An extra whose
+technique_name matches a shipped row (case-insensitive) REPLACES it — retune a shipped
+technique; others append, so custom techniques and whole new categories are first-class
+everywhere, including the browse page and category draws.
 
-Default output is lean text for an LLM to read; pass --json for structured output.
+Default output is lean text for an LLM to read; `--json` gives structured output. Both
+`--file` and `--json` are global flags: they go BEFORE the subcommand
+(`brain.py --json categories`, not `brain.py categories --json`).
 Adapted from bmad-brainstorming (BMAD Method, MIT) — see ATTRIBUTION.md.
 """
 from __future__ import annotations  # аннотации ленивые: скрипт идёт на Python 3.8+
@@ -56,7 +57,8 @@ FIELDS = ("category", "technique_name", "description", "detail", "provenance", "
 # original four — absent in older CSVs and in --extra overlays, so always read through
 # .get/setdefault. `provenance` (classic|signature|playful) drives the "Proven &
 # Professional" lead group; `good_for` (a |-separated list of goal tags) drives the
-# browse page's goal filter; `audience` (solo|group|either) is advisory.
+# browse page's goal filter. `audience` (solo|group|either) is carried through but not
+# consumed anywhere yet — it survives a round-trip so the column is not lost on edit.
 
 
 def load(file: Path) -> list[Row]:
@@ -71,11 +73,12 @@ def load(file: Path) -> list[Row]:
 
 
 def load_extra(file: Path) -> list[Row]:
-    """Merge-in techniques from a JSON overlay — a list of
-    {category, technique_name, description[, detail]} objects. This is how
-    customize.toml's `additional_techniques` become first-class across *every*
-    subcommand (categories/list/random/show/html), so the browse page and
-    category draws include them too, not just the in-chat flows."""
+    """Merge-in techniques from a JSON overlay — a list of objects carrying any of
+    the FIELDS keys (`category`, `technique_name`, `description`, plus the optional
+    `detail`, `provenance`, `good_for`, `audience`). Missing keys become "". This is
+    how extra techniques become first-class across *every* subcommand
+    (categories/list/random/show/html), so the browse page and category draws include
+    them too, not just the in-chat flows."""
     data: Any = json.loads(file.read_text(encoding="utf-8-sig"))
     if not isinstance(data, list):
         raise ValueError("--extra must be a JSON array of objects")
@@ -98,8 +101,8 @@ def load_extra(file: Path) -> list[Row]:
 
 def merge_extra(rows: list[Row], extras: list[Row]) -> list[Row]:
     """Extras replace a catalog row with the same technique_name (case-insensitive),
-    otherwise append — the same overlay semantics as pick_methods.py, so
-    customize.toml additional_* entries behave identically across sibling skills."""
+    otherwise append. Replacement is how a shipped technique gets retuned without
+    editing the vendored CSV, which is overwritten on update."""
     merged = list(rows)
     index = {r["technique_name"].lower(): i for i, r in enumerate(merged)}
     for e in extras:
@@ -420,11 +423,15 @@ SELECTOR_TEMPLATE = r"""<!DOCTYPE html>
   function setHint(){ $('modehint').textContent = MODE_HINTS[state.mode] || ''; }
 
   var themeBtn = $('theme');
-  function setThemeIcon(){ themeBtn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀' : '☾'; }
+  function setThemeIcon(){
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    themeBtn.textContent = dark ? '☀' : '☾';
+    themeBtn.title = themeBtn.ariaLabel = dark ? 'Светлая тема' : 'Тёмная тема';
+  }
   themeBtn.addEventListener('click', function(){
     var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);
-    try { localStorage.setItem('bmad-theme', next); } catch(e){}
+    try { localStorage.setItem('skillkit-theme', next); } catch(e){}
     setThemeIcon();
   });
 
@@ -553,11 +560,11 @@ SELECTOR_TEMPLATE = r"""<!DOCTYPE html>
     b.classList.toggle('fail', !ok);
     b.innerHTML = ok
       ? '✓ Скопировано! Вставь в чат, чтобы начать сессию.'
-      : '⚠ Couldn’t reach the clipboard — copy the text in the box, then paste it into the chat.';
+      : '⚠ Не достучались до буфера обмена — скопируй текст из окошка и вставь в чат.';
     b.classList.add('show');
     setTimeout(function(){ b.classList.remove('show'); }, 4500);
     // Last resort on a hard failure: a prefilled, selectable prompt so the text is never lost.
-    if (!ok){ window.prompt('Copy this, then paste it into the chat:', text); }
+    if (!ok){ window.prompt('Скопируй это и вставь в чат:', text); }
   }
 
   $('copy').addEventListener('click', function(){
@@ -623,14 +630,13 @@ def _card(r: Row, lead: bool = False) -> str:
     hue, glyph = category_style(r["category"])
     disp_cat = html.escape(pretty(r["category"]))
     good = html.escape(r.get("good_for", ""))
-    prov = html.escape(r.get("provenance", ""))
     style = f' style="--c:{hue}"' if lead else ""
     lead_attr = ' data-lead="1"' if lead else ""
     gf = _good_for_label(r.get("good_for", ""))
     gf_html = f'<span class="gf">{html.escape(gf)}</span>' if gf else ""
     return (
         f'<label class="tech"{style}><input type="checkbox" '
-        f'data-name="{name}" data-cat="{disp_cat}" data-desc="{desc}" data-good="{good}" data-prov="{prov}"{lead_attr}>'
+        f'data-name="{name}" data-cat="{disp_cat}" data-desc="{desc}" data-good="{good}"{lead_attr}>'
         f'<span class="ic2">{_svg(glyph)}{_svg(tech_icon(r["technique_name"]))}</span>'
         f'<span><span class="n">{name}</span><span class="d">{desc}</span>{gf_html}</span></label>'
     )
@@ -641,8 +647,8 @@ def _invent_card(disp_cat: str, glyph: str) -> str:
     return (
         f'<label class="tech invent"><input type="checkbox" data-invent="{disp_cat}">'
         f'<span class="ic2">{_svg(glyph)}</span>'
-        f'<span><span class="n">✨ Invent a {disp_cat} technique</span>'
-        f'<span class="d">Make up a brand-new technique on the fly, in the spirit of {disp_cat}</span></span></label>'
+        f'<span><span class="n">✨ Придумать технику: {disp_cat}</span>'
+        f'<span class="d">Сочинить новую технику на ходу, в духе категории «{disp_cat}»</span></span></label>'
     )
 
 

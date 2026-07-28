@@ -32,8 +32,8 @@ must contain:
    types, in Russian;
 3. **when NOT to use it**, naming the sibling skill that should fire instead.
 
-That third part is not optional here. Seven skills share one repository and several are
-adjacent; without an explicit exclusion the wrong one fires. Compare `thai-tasks`
+That third part is not optional here. A dozen skills share one repository and several
+are adjacent; without an explicit exclusion the wrong one fires. Compare `thai-tasks`
 («Не использовать для простого перевода одного слова… тогда достаточно thai-learning») and
 `thai-mistakes`.
 
