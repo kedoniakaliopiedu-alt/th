@@ -50,7 +50,7 @@ mistake repeats, or the user asks), give the correct version and unpack it:
 - **what exactly** was wrong in the user's answer;
 - **why it is otherwise** — which rule applies and how it produces the right form.
 
-> Пример: «Правильно кхâау (нисходящий). У тебя был средний. ข — высокий класс, знак
+> Пример: «Правильно кхâау (нисходящий). У тебя был средний. ข — высокий класс, знак
 > ้ (ไม้โท) на высоком классе в этом слоге даёт нисходящий тон, а не средний.»
 
 In **tests** there are no hints (see thai-learning): verdict and review straight away.

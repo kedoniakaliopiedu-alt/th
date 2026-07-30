@@ -1,25 +1,38 @@
 # Project Thailand — working rules
 
 A repository for learning Thai: lesson material (`Thai A2/`, `Thai B1/`, `Helpers/`), the
-progress tracker (`progress.json`) and the tutor skills in `.Codex/skills/` (overview —
-`.Codex/skills/README.md`).
+progress tracker (`progress.json`) and the tutor skills in `.agents/skills/` (overview —
+`.agents/skills/README.md`).
 
 Instructions here are in English; **everything the user reads is in Russian** (see «Working
 on the skills themselves»).
 
 ## Images
 
-**An image arrived — the very first thing to invoke is the `thai-handwriting` skill.** No
-exceptions: a photo of a notebook, a screenshot, a sign, a textbook page, a frame from a
-whiteboard. This holds even when the message carries no text at all, or when the request
-sounds like «переведи» / «проверь» / «что тут написано».
+**The trigger is the `Handwriting/` folder, not the presence of a picture.** An image in the
+message is not by itself a reason to start the pipeline — the user also pastes ordinary
+screenshots, and answering those with a recognition run is wrong. Before deciding anything
+about a picture, look in the folder:
 
-Reading Thai off an image by eye, bypassing the skill's pipeline, is forbidden: a whole page
-is recognized markedly worse than one sliced into lines, and an unflagged guess breaks the
-learning loop — the review then runs on a misread word.
+```bash
+find Handwriting -maxdepth 1 -type f ! -name README.md -newermt "$(date +%F)"
+```
+
+- **Today's files are there** → invoke `thai-handwriting` and work **only over those
+  files**, never over the picture embedded in the message.
+- **Empty** → do not run the pipeline. If the picture is clearly handwritten Thai to be
+  read or checked, offer `scripts/intake` (it lifts the image from the clipboard into
+  `Handwriting/`), and after it lands, go through the folder. If it is an ordinary
+  screenshot — just answer, no skill.
+- Files older than today do not count: they belong to a finished session. Treat them as
+  absent, and clean them when new work starts.
+
+Once the skill is running, reading Thai off an image by eye, bypassing its pipeline, is
+still forbidden: a whole page is recognized markedly worse than one sliced into lines, and
+an unflagged guess breaks the learning loop — the review then runs on a misread word.
 
 **The command «clean photo»** (even with no image in the message) → clear the `Handwriting/`
-folder with `.Codex/skills/thai-handwriting/scripts/clean`. Details are in the
+folder with `.agents/skills/thai-handwriting/scripts/clean`. Details are in the
 `thai-handwriting` skill.
 
 ## Thai
@@ -28,10 +41,59 @@ folder with `.Codex/skills/thai-handwriting/scripts/clean`. Details are in the
 - **Answers checked — go straight to `thai-mistakes`**: a report over the sheet
   (✅ / 🟡 / ❌ + the correct version) and drilling the mistakes as a whole topic. Do not
   substitute an ad-hoc review of your own.
+- **Tasks are worded in plain, concrete language.** No linguistic metalanguage (แม่/«мать»,
+  มาตรา, คำเป็น/คำตาย, IPA), no term the course has not taught, no «охарактеризуй» /
+  «определи природу» abstractions. Ask about what can be seen or heard («на какой звук
+  заканчивается», «какой значок стоит над буквой»), offer options as real sounds rather than
+  codes, keep the instruction to one short sentence and the answer format to a second. The
+  test before issuing: someone who knows the words but no grammar terms understands on first
+  reading what to do and what to send. If not — rewrite the item; do not bolt an explanation
+  of the term onto it. A turn spent decoding the question teaches no Thai.
 - Transcription is Cyrillic only, per `thai-phonetics`.
 - Tones are verified against an authoritative source before any verdict, never from memory.
 - Progress and mistakes are written to `progress.json` through
-  `.Codex/skills/thai-tasks/scripts/tracker.py`.
+  `.agents/skills/thai-tasks/scripts/tracker.py`.
+
+## Corrections and reports
+
+Learned the hard way, 2026-07-29 — a graded report went through six rounds of patches
+because corrections were sent as deltas instead of the whole thing, and because verdicts
+were issued on a first-pass, low-confidence reading instead of a checked one.
+
+- **Any correction to a report, sheet, or list is a full resend, never a delta.** The user
+  should never have to hold a mental diff between messages. Fix the item internally, then
+  output the entire document again from the top — every time, no exceptions, no matter how
+  small the fix.
+- **«You misread that» / «I wrote something else» starts a fixed sequence**: re-check
+  against the source (a zoomed crop for handwriting, `thai-phonetics/references/*` for
+  spelling and transcription, an authoritative dictionary for tone) → recompute everything
+  that hung off the item (marker, correct version, score, percentage, the category
+  breakdown, «Калибровка», «В работу», tracker entries) → **resend the whole report from the
+  top**. Never «here is the fixed item 4, the rest is unchanged» — and this holds on the
+  third round of corrections exactly as on the first.
+- **Every non-✅ item carries the correct answer.** A 🟡 or ❌ is never shipped without
+  «→ **Верно:** …» — including items she skipped or answered «не знаю», and including ones
+  whose correct version already appeared earlier in the sheet. Give it in full, in the
+  format the task asked for, not as a fragment. The only exception is not knowing it
+  yourself: then mark the item as being checked and come back with the answer, rather than
+  writing ❌ with nothing next to it.
+- **Show the user's literal answer for every item, including skipped ones.** If they wrote
+  `?` or marked a flag, show that mark — never paraphrase a skip as «нет ответа» or invent
+  wording they didn't write.
+- **Before flagging an orthography, transliteration, or tone as wrong, check the project's
+  own reference files** (`thai-phonetics/references/*`) — not memory, not a generic IPA
+  chart, not a lesson file's rough intro table. This project makes deliberate, documented
+  choices (e.g. ก → «г», explained in `consonants.md`) that diverge from outside sources on
+  purpose; contradicting them from memory is a false «error».
+- **On handwriting, a first low-res pass is not a verdict.** Before marking anything ❌ or
+  🟡, crop and zoom the specific answer region — tone marks and diacritics are the first
+  thing lost at page-level resolution, and a missed mark produces a false negative, not a
+  real mistake. Two visually similar letters in this handwriting (ฎ/ฏ, ย/ญ) are not to be
+  guessed apart — crop closer or flag uncertain, never assert.
+- **A student's own notation can already answer a question.** If her transcription
+  convention encodes an answer (e.g. doubling a vowel letter for length), take that as the
+  answer — don't mark it incomplete for not restating in prose what the notation already
+  shows.
 
 ## Working on the skills themselves
 
