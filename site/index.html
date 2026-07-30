@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тайский — курс</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="home-page">
+<div class="wrap home">
+  <header class="head">
+    <div class="eyebrow">Курс тайского языка</div>
+    <h1>Тайский<span class="sub">материалы курса по уровням</span></h1>
+    <button class="theme-toggle" type="button" title="Светлая / тёмная тема">◐</button>
+  </header>
+  <section class="levels"><a class="level-card" href="a2/index.html">
+  <span class="level-badge">A2</span>
+  <span class="level-caption">Алфавит, тоны, базовое общение и бытовые темы</span>
+  <span class="level-meta">7 глав · 28 тем</span>
+</a><a class="level-card" href="b1/index.html">
+  <span class="level-badge">B1</span>
+  <span class="level-caption">Фонетика связной речи и словообразование</span>
+  <span class="level-meta">2 главы · 8 тем</span>
+</a></section>
+  <section class="block"><h2>Справочники</h2><ul class="plain"><li><a href="helpers/thai_cyrillic_vowels_doubleletters.html">Тайская кириллическая система гласных (без макрона)</a></li><li><a href="helpers/тайские_направительные_частицы.html">Тайские направительные частицы (Directional Verbs)</a></li></ul></section>
+</div>
+<script>
+  (function () {
+    var key = "thai-theme";
+    var root = document.documentElement;
+    var saved = localStorage.getItem(key);
+    if (saved) root.setAttribute("data-theme", saved);
+    var btn = document.querySelector(".theme-toggle");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      var dark = root.getAttribute("data-theme") === "dark"
+        || (!root.getAttribute("data-theme")
+            && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      var next = dark ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      localStorage.setItem(key, next);
+    });
+  })();
+</script>
+</body>
+</html>

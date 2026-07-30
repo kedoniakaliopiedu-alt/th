@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тайская кириллическая система гласных (без макрона)</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body class="">
+<div class="wrap topic-page">
+  <nav class="crumbs"><a href="../index.html">← Главная</a></nav>
+  <header class="head">
+    <h1>Тайская кириллическая система гласных (без макрона)</h1>
+    <button class="theme-toggle" type="button" title="Светлая / тёмная тема">◐</button>
+  </header>
+  <nav class="toc"><div class="toc-label">На странице</div><ul><li><a href="#простые-гласные">Простые гласные</a></li><li><a href="#дифтонги">Дифтонги</a></li><li><a href="#особые-случаи">Особые случаи</a></li><li><a href="#правила">Правила</a></li></ul></nav>
+  <article class="prose"><h2 id="простые-гласные">Простые гласные<a class="anchor" href="#простые-гласные" aria-hidden="true">#</a></h2>
+<p>Тайский   Кириллица --------- ----------- ะ / -ั     а า         аа ิ         и ี         ии ึ         ы ื         ыы ุ         у ู         уу เ-ะ       ӭ เ-        ӭӭ แ-ะ       э แ-        ээ โ-ะ       ȯ โ-        ȯȯ เ-าะ      о -อ        оо เ-อะ      ӧ เ-อ       ӧӧ</p>
+<h2 id="дифтонги">Дифтонги<a class="anchor" href="#дифтонги" aria-hidden="true">#</a></h2>
+<p>Тайский   Кириллица --------- ----------- เ-ียะ      иа เ-ีย       ииа เ-ือะ      ыа เ-ือ       ыыа -ัวะ       уа -ัว        ууа เ-า       ау -าว       аау ไ- / ใ-   ай -าย       аай -อย       оой -วย       ууай เ-ย       ӧӧй โ-ย       ȯȯй เ-ว       ӭӭу แ-ว       ээу เ-ียว      ииау เ-ือย      ыыай</p>
+<h2 id="особые-случаи">Особые случаи<a class="anchor" href="#особые-случаи" aria-hidden="true">#</a></h2>
+<p>Тайский   Кириллица --------- ----------- ำ         ам ฤ         ры / ри ฤๅ        рыы ฦ         лы ฦๅ        лыы</p>
+<h2 id="правила">Правила<a class="anchor" href="#правила" aria-hidden="true">#</a></h2>
+<ul><li>Долгие гласные передаются удвоением буквы.</li><li>В дифтонгах удваивается только долгий компонент.</li><li>เ-า → ау</li><li>ไ- / ใ- → ай</li><li>ำ → ам</li></ul></article>
+</div>
+<script>
+  (function () {
+    var key = "thai-theme";
+    var root = document.documentElement;
+    var saved = localStorage.getItem(key);
+    if (saved) root.setAttribute("data-theme", saved);
+    var btn = document.querySelector(".theme-toggle");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      var dark = root.getAttribute("data-theme") === "dark"
+        || (!root.getAttribute("data-theme")
+            && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      var next = dark ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      localStorage.setItem(key, next);
+    });
+  })();
+</script>
+</body>
+</html>
