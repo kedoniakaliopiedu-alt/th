@@ -4,7 +4,8 @@ Loaded when the user wants a document checked against the house standard. This i
 lighter, single-document check; a full adversarial audit across skills is `skill-review`.
 Say so if the request is really the latter.
 
-Output is Russian. Read `skill-doc-standards.md` first if you haven't.
+Output is Russian. **Read `skill-doc-standards.md` before checking anything** — it is the
+standard you check against, and it is not loaded until you get here.
 
 ## Process
 

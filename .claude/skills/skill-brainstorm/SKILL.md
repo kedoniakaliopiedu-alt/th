@@ -53,7 +53,7 @@ the switch is written to the memlog.
 1. **Subagents.** Wrap-up artifacts are best delegated to subagents (see
    `references/finalize.md`). If you need explicit user permission to run them, ask
    **once now, for the whole session** — not per call.
-2. **Project context.** Read `.claude/skills/README.md` — the map of skills and what
+2. **Project context.** Read `.claude/skills/MAP.md` — the map of skills and what
    each owns. Hold it as background for the whole session: an idea that duplicates an
    existing mechanic must be recognized as a duplicate, not sold as new. If the topic
    targets a specific skill, read that skill's `SKILL.md` too.
@@ -117,67 +117,10 @@ the question and confirm; read anything they point you to.
 
 Derive a kebab-case `{topic-slug}` and bind `{W} = .claude/brainstorms/{topic-slug}-{date}/`.
 
-Now set the **stance** and the **technique batch** in one step — the composer page does
-both, so make it the default.
-
-### The composer page (primary)
-
-The generated page lives at `{S}/assets/brain-selector.html`. If the catalog changed (the
-CSV or `extra-techniques.json` was edited), regenerate it first:
-
-```bash
-python3 $S/scripts/brain.py --extra $S/assets/extra-techniques.json \
-  html --out $S/assets/brain-selector.html
-```
-
-Try to open it (`open`), then say, in one message: *«Должна открыться в браузере — собери
-сессию, нажми **Скопировать промпт** и вставь результат сюда. Если не открылась — открой
-`<путь>` руками или скажи "давай в чате".»* You cannot see their browser, so **never claim
-the page opened.**
-
-Read the pasted block:
-
-| Line in the paste | Meaning |
-|---|---|
-| `Режим ведения: <...>` | the stance for the whole run |
-| `Техники:` + numbered list | run them as given; each one's full description is in the paste, so no `list`/`show` needed |
-| `(случайный выбор)` on an item | the technique was drawn at random — run it the same way |
-| `придумай N новых техник на ходу` | see `## Choosing techniques` |
-| `придумай 1 новую технику в духе категории «X»` | invent, but honor that category's spirit |
-| `выбери сам ещё N техник под мою цель` | see `## Choosing techniques` |
-
-### Or in chat
-
-If they can't open the page or would rather not, pick the stance here and choose
-techniques per `## Choosing techniques`.
-
-Either way, once the stance is known: create the memlog (`init` above, with
-`--field mode=`) and **load that stance's frame** for the rest of the run — Facilitator →
-`references/mode-facilitator.md`, Creative Partner → `references/mode-partner.md`, Ideate
-for me → `references/mode-autonomous.md`. Tell the user the memlog path: state is on disk
-now, so the session survives an interruption.
-
-## Choosing techniques
-
-For **Facilitator** and **Creative Partner**. (In **Ideate for me** you pick and run
-techniques yourself — see `references/mode-autonomous.md`.)
-
-Most sessions arrive with a batch already composed on the page — run it as given. Two
-parts of a paste delegate back to you:
-
-- **`придумай N новых техник на ходу`** — invent N brand-new techniques on the fly.
-  Announce the order, log each one's name + description, and at wrap-up offer to save a
-  keeper into `{S}/assets/extra-techniques.json`.
-- **`выбери сам ещё N техник`** — pick N that fit the goal; confirm exact names with a
-  scoped `list --category`. Never pull the library whole into context.
-
-If they didn't use the page, load `references/in-chat-techniques.md` and pick the batch in
-chat (**3–4 is the sweet spot**).
-
-Run each technique until it stops producing — log each idea, and log the switch itself as
-a `technique` entry when you move on — then announce the new lens and let the change of
-technique do the domain-shifting. When the batch is spent, offer three paths: another
-batch, **converge** (`## Converging`), or wrap up (`## Wrap-up`).
+Now set the **stance** and the **technique batch**: load `references/compose-session.md` and
+follow it. It covers the composer page (the default path, generated from the technique
+catalog) and how to pick the batch in chat, then hands back into the run — the stance's frame
+loaded, the memlog created, the first technique announced.
 
 ## Converging
 

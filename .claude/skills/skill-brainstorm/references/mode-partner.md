@@ -41,4 +41,4 @@ ideation:
 
 Do not supply Thai language facts from memory. Look them up or say you're unsure.
 
-Go to `## Choosing techniques` in `SKILL.md`.
+Go to `compose-session.md`, `## Running the batch`.

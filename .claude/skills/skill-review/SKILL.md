@@ -26,7 +26,8 @@ fallback.
 ## Path conventions
 
 - `{S}` = `.claude/skills/skill-review` — the skill root.
-- `{diff}` — the material under review, built in step 1.
+- `{diff}` / `{paths}` — the material under review, determined in step 1: diff text, or a list
+  of paths the review layers read themselves.
 - `{report}` = `.claude/reviews/ревью-{цель}-{ГГГГ-ММ-ДД}.md` — where findings land.
 - `{deferred}` = `.claude/reviews/отложено.md` — the running list of parked findings.
 
@@ -57,7 +58,7 @@ This uses **step-file architecture** for disciplined execution:
 ## On activation
 
 1. Ask for subagent permission once, as described above.
-2. Load `.claude/skills/README.md` — the map of skills, what each owns, and how they hand
+2. Load `.claude/skills/MAP.md` — the map of skills, what each owns, and how they hand
    off to each other. Carry it as a fact for the whole run: most severe findings in this
    repository are boundary violations between skills, and you cannot see them without the
    map.

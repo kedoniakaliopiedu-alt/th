@@ -2,13 +2,17 @@
 
 The layers this workflow runs. Each is launched as a **subagent with no prior conversation
 context** — the blindness is the point: a reviewer who watched the change being written
-inherits its assumptions. `{diff}`, `{intent_file}` and `{target}` are substituted at run
+inherits its assumptions. `{material}`, `{intent_file}` and `{target}` are substituted at run
 time by `step-02-review.md`.
 
-Every layer returns its findings as a Markdown list, **in Russian**. Each finding: a
-one-line title, the file and line (or section heading) it anchors to, and the evidence.
-A layer never assigns severity — that is triage's job in step 3, and only triage has the
-whole picture.
+`{material}` is either diff text (`{scope}` = `diff`) or a list of file paths the layer reads
+itself (`{scope}` = `skill` / `files`), narrowed to that layer's slice per step 2. A layer that
+receives paths reads them in full before judging anything.
+
+Every layer returns its findings as a Markdown list, **in Russian** — the instructions here are
+in English, the output never is. Each finding: a one-line title, the file and line (or section
+heading) it anchors to, and the evidence. A layer never assigns severity — that is triage's job
+in step 3, and only triage has the whole picture.
 
 Editing this file is how you tune the review. A layer with an empty instruction is skipped
 silently; a layer whose `when` condition isn't met is skipped with a note to the user.
@@ -21,27 +25,27 @@ silently; a layer whose `when` condition isn't met is skipped with a note to the
 
 **Instruction:**
 
-> Ты ревьюишь изменения в скиллах-инструкциях проекта Thailand — репозитория для изучения
-> тайского языка. Скилл здесь это markdown-инструкция, которую исполняет языковая модель:
-> «баг» — это место, которое можно исполнить не так, как задумано.
+> You are reviewing changes to the instruction skills of project Thailand — a repository for
+> learning Thai. A skill here is a markdown instruction executed by a language model: a "bug"
+> is a place that can be executed differently from what was intended.
 >
-> Ищи по всему материалу:
-> - **противоречия** — две строки требуют разного, и невозможно выполнить обе;
-> - **неоднозначность** — инструкция допускает два разных прочтения, и оба выглядят
->   разумно; особенно опасны количественные слова без опоры («немного», «обычно», «по
->   возможности») в местах, где от них зависит поведение;
-> - **обещание без механизма** — заявлено поведение, но не сказано, как его выполнить, или
->   названы скрипт/файл/команда, которых нет;
-> - **мёртвая инструкция** — правило, до которого исполнение никогда не дойдёт, потому что
->   более раннее правило уже закрыло этот случай;
-> - **утечка методической кухни** — то, что предназначено модели, попадает в текст, который
->   увидит ученик (проценты спирали, mastery, названия скиллов, служебные пометки).
+> Search the whole material for:
+> - **contradictions** — two lines demand different things and both cannot be satisfied;
+> - **ambiguity** — the instruction admits two readings and both look reasonable; quantity
+>   words with nothing behind them («немного», «обычно», «по возможности») are especially
+>   dangerous where behaviour depends on them;
+> - **a promise with no mechanism** — a behaviour is declared but not how to carry it out, or
+>   a script / file / command is named that does not exist;
+> - **a dead instruction** — a rule execution never reaches, because an earlier rule already
+>   closed that case;
+> - **methodology leaking** — something meant for the model ends up in text the learner will
+>   see (spiral percentages, mastery, skill names, internal marks).
 >
-> Выдай находки списком в Markdown, по-русски. На каждую: заголовок в одну строку, файл и
-> строка (или заголовок раздела), и цитата-доказательство из материала.
+> Выдай находки списком в Markdown, **по-русски**. For each: a one-line title, the file and
+> line (or section heading), and a quote from the material as evidence.
 >
-> Материал:
-> {diff}
+> Material:
+> {material}
 
 ---
 
@@ -51,27 +55,27 @@ silently; a layer whose `when` condition isn't met is skipped with a note to the
 
 **Instruction:**
 
-> Ты ищешь краевые случаи в инструкции скилла для проекта Thailand (изучение тайского).
-> Инструкцию исполняет модель, поэтому краевой случай — это ситуация, в которой инструкция
-> молчит и модель начнёт импровизировать.
+> You hunt edge cases in a skill instruction for project Thailand (learning Thai). The
+> instruction is executed by a model, so an edge case is a situation the instruction is silent
+> about and the model starts improvising.
 >
-> Прогони материал через эти сценарии и для каждого скажи, что произойдёт:
-> - **источника нет**: файл темы не написан, папка не подключена, `progress.json` пуст или
->   битый, глава есть в плане, но не в репозитории;
-> - **вход не тот**: картинка нечитаемая или не тайская; ученик отвечает по-русски там, где
->   ждали тайский; ответ пустой; ответ верный, но угаданный;
-> - **масштаб на границе**: запрос на одно слово против запроса на целую главу; тема,
->   которая пересекает две главы;
-> - **пользователь сопротивляется**: «просто скажи ответ», спорит с оценкой, просит
->   пропустить шаг, который инструкция объявила обязательным;
-> - **состояние из прошлого**: ошибка, которая уже отрабатывалась и повторилась; элемент,
->   просроченный по интервальному повтору; незавершённая сессия.
+> Run the material through these scenarios and say what happens in each:
+> - **the source is missing**: the topic file was never written, a folder is not wired in,
+>   `progress.json` is empty or corrupt, a chapter exists in the plan but not in the repository;
+> - **the input is wrong**: the image is unreadable or not Thai; the learner answers in Russian
+>   where Thai was expected; the answer is empty; the answer is right but guessed;
+> - **scale at the boundary**: a request for one word versus a whole chapter; a topic straddling
+>   two chapters;
+> - **the user pushes back**: «просто скажи ответ», argues with the verdict, asks to skip a step
+>   the instruction declared mandatory;
+> - **state from the past**: a mistake already drilled that came back; an item overdue by spaced
+>   repetition; an unfinished session.
 >
-> Не выдумывай сценарии, которых материал не касается. Выдай находки списком в Markdown,
-> по-русски: заголовок, файл/раздел, и что именно пойдёт не так.
+> Do not invent scenarios the material does not touch. Выдай находки списком в Markdown,
+> **по-русски**: title, file/section, and what exactly will go wrong.
 >
-> Материал:
-> {diff}
+> Material:
+> {material}
 
 ---
 
@@ -81,28 +85,27 @@ silently; a layer whose `when` condition isn't met is skipped with a note to the
 
 **Instruction:**
 
-> Ты проверяешь, можно ли вообще убедиться, что инструкция выполнена. Материал — скилл
-> проекта Thailand (изучение тайского), исполняемый языковой моделью.
+> You check whether it is possible at all to confirm the instruction was carried out. The
+> material is a skill of project Thailand (learning Thai), executed by a language model.
 >
-> Для каждого заявленного поведения ответь: как посторонний убедится, что оно случилось?
-> Помечай как находку:
-> - **непроверяемое требование** — «качественно», «естественно», «интересно» без критерия,
->   образца или примера рядом;
-> - **правило без примера** — сложное требование к формату, показанное только прозой; для
->   формата вывода образец обязателен;
-> - **порог без числа** — «достаточно», «мало», «слишком длинно» там, где решение зависит
->   от границы;
-> - **шаг без наблюдаемого следа** — инструкция говорит что-то сделать, но по результату
->   нельзя понять, сделано ли (например «занеси в трекер» без указания команды и без
->   требования показать вывод);
-> - **критерий закрытия отсутствует** — сказано, как начать, но не сказано, когда считать
->   законченным.
+> For every declared behaviour answer: how would an outsider confirm it happened? Report as a
+> finding:
+> - **an unverifiable requirement** — «качественно», «естественно», «интересно» with no
+>   criterion, sample or example beside it;
+> - **a rule with no example** — a complex format requirement shown only in prose; for an output
+>   format a sample is mandatory;
+> - **a threshold with no number** — «достаточно», «мало», «слишком длинно» where the decision
+>   turns on the boundary;
+> - **a step with no observable trace** — the instruction says to do something, but the result
+>   does not show whether it was done (e.g. «занеси в трекер» with no command named and no
+>   requirement to show the output);
+> - **no closing criterion** — how to start is stated, when to consider it finished is not.
 >
-> Выдай находки списком в Markdown, по-русски: заголовок, файл/раздел, и чего именно не
-> хватает, чтобы поведение стало проверяемым.
+> Выдай находки списком в Markdown, **по-русски**: title, file/section, and what exactly is
+> missing before the behaviour becomes verifiable.
 >
-> Материал:
-> {diff}
+> Material:
+> {material}
 
 ---
 
@@ -113,30 +116,30 @@ repository, so never disable it.
 
 **Instruction:**
 
-> Ты аудитор границ между скиллами в репозитории проекта Thailand. Прочитай
-> `.claude/skills/README.md` (карта скиллов и их зон) и `CLAUDE.md` (правила проекта,
-> которые главнее всего остального), затем ревьюй материал.
+> You audit the boundaries between skills in the project Thailand repository. Read
+> `.claude/skills/MAP.md` (the map of skills and their zones) and `CLAUDE.md` (project rules
+> that override everything else), then review the material.
 >
-> Ищи:
-> - **нарушение правила из `CLAUDE.md`** — например чтение тайского с картинки в обход
->   `thai-handwriting`, латинская транскрипция вместо кириллицы, оценка тонов по памяти без
->   сверки с авторитетным источником, запись прогресса мимо `tracker.py`. Это самое тяжёлое,
->   что тут бывает;
-> - **захват чужой зоны** — скилл начинает делать то, что по карте принадлежит другому
->   (например разбор ошибок «на ходу» вместо передачи хода в `thai-mistakes`);
-> - **сломанная передача хода** — заявленный переход к другому скиллу без условия, по
->   которому он срабатывает, или ссылка на скилл, которого нет;
-> - **конфликт триггеров** — поле `description` во фронтматтере пересекается с описанием
->   соседнего скилла так, что непонятно, какой должен сработать. Сочини 5 фраз пользователя
->   на границе и покажи, для каких из них ответ неоднозначен;
-> - **дубль механики** — то же самое уже описано в другом скилле, и теперь есть две версии,
->   которые разойдутся при следующей правке.
+> Look for:
+> - **a violation of a `CLAUDE.md` rule** — e.g. reading Thai off an image bypassing
+>   `thai-handwriting`, Latin transcription instead of Cyrillic, judging tones from memory
+>   without an authoritative source, writing progress past `tracker.py`. This is the gravest
+>   thing here;
+> - **a land grab** — a skill starts doing what the map assigns to another (e.g. reviewing
+>   mistakes on the fly instead of handing the turn to `thai-mistakes`);
+> - **a broken hand-off** — a declared transition to another skill with no condition that
+>   triggers it, or a reference to a skill that does not exist;
+> - **a trigger conflict** — the frontmatter `description` overlaps a neighbouring skill's so
+>   that it is unclear which should fire. Invent 5 user phrases on the boundary and show which
+>   of them are ambiguous;
+> - **a duplicated mechanic** — the same thing is already described in another skill, and now
+>   there are two versions that will diverge at the next edit.
 >
-> Выдай находки списком в Markdown, по-русски: заголовок, файл/раздел, какое правило или
-> чья зона задеты, и цитата-доказательство.
+> Выдай находки списком в Markdown, **по-русски**: title, file/section, which rule or whose zone
+> is touched, and a quote as evidence.
 >
-> Материал:
-> {diff}
+> Material:
+> {material}
 
 ---
 
@@ -148,33 +151,32 @@ Skip for pure tooling changes (a script, this skill, `skill-writer`).
 
 **Instruction:**
 
-> Ты методический аудитор учебного инструмента для изучения тайского. Ученица учится **на
-> практике**; сухая теория не укладывается. Опорные принципы проекта — в
-> `.claude/skills/thai-tasks/SKILL.md`, раздел «Три опоры»: задание есть действие в
-> контексте, а не проверка теории; толкать в продукцию (рус→тай), а не только в узнавание;
-> новое живёт через старое (спираль 60/40); примеры свежие, а не переписанные из учебного
-> файла. Правило вводится индуктивно: сначала примеры, потом формулировка.
+> You are the pedagogy auditor of a Thai-learning instrument. The learner learns **by
+> practice**; dry theory does not stick. The project's founding principles are in
+> `.claude/skills/thai-tasks/SKILL.md`, section «Три опоры»: a task is an action in context,
+> not a theory quiz; push into production (рус→тай), not only recognition; the new lives
+> through the old (a 60/40 spiral); examples are fresh, not copied out of the course file. A
+> rule is introduced inductively: examples first, formulation after.
 >
-> Ревьюй материал против этих принципов. Ищи:
-> - задания, проверяющие теорию вместо действия («перечисли правила», «назови класс»);
-> - перекос в узнавание: тай→рус и выбор из вариантов есть, продукции нет;
-> - повтор, вынесенный отдельным скучным блоком вместо вплетения в новую тему;
-> - примеры, дословно взятые из раздела «Практические упражнения» учебного файла;
-> - правило, объявленное до примеров, там где напрашивается индуктивный вывод;
-> - подсказку, выдающую готовый ответ вместо наводки;
-> - в материале для ученика — тайский текст без нужды в транскрипции, или транскрипцию не
->   кириллицей, или тоновый знак не над гласной.
+> Review the material against these principles. Look for:
+> - tasks that test theory instead of action («перечисли правила», «назови класс»);
+> - a tilt toward recognition: тай→рус and multiple choice are there, production is not;
+> - revision split off as a separate boring block instead of woven into the new topic;
+> - examples lifted verbatim from the «Практические упражнения» section of a course file;
+> - a rule stated before the examples where an inductive derivation is the natural move;
+> - a hint that hands over the finished answer instead of nudging;
+> - in learner-facing material — Thai text without the transcription it needs, or transcription
+>   not in Cyrillic, or a tone mark not over the vowel.
 >
-> **Не выдумывай тайский язык.** Если находка зависит от тона, написания или значения —
-> либо сверься с файлами курса в репозитории, либо честно пометь находку как требующую
-> проверки по thai-language.com. Уверенное утверждение по памяти здесь хуже, чем его
-> отсутствие.
+> **Do not invent Thai.** If a finding depends on a tone, a spelling or a meaning — either check
+> it against the course files in the repository, or mark the finding honestly as needing
+> verification on thai-language.com. A confident claim from memory is worse here than no claim.
 >
-> Выдай находки списком в Markdown, по-русски: заголовок, файл/раздел, какой принцип задет,
-> цитата.
+> Выдай находки списком в Markdown, **по-русски**: title, file/section, which principle is
+> touched, and a quote.
 >
-> Материал:
-> {diff}
+> Material:
+> {material}
 
 ---
 
@@ -184,29 +186,28 @@ Skip for pure tooling changes (a script, this skill, `skill-writer`).
 
 **Instruction:**
 
-> Ты ревьюишь скрипты вспомогательного инструментария: всё исполняемое в
-> `.claude/skills/*/scripts/` — сейчас это `tracker.py`, `thaiocr` (+`thaiocr.swift`),
-> `lookup.py`, `typhoon.py`, `brain.py`, `memlog.py`, `clean`, `intake`. Список
-> справочный, а не закрытый: появившийся там файл тоже твой. Ограничения проекта: только
-> стандартная библиотека Python 3.8+ и никаких внешних зависимостей; офлайн — то есть
-> наружу скрипты не ходят. Обращение к службе на `127.0.0.1` нарушением не считается:
-> так устроен `typhoon.py` (локальный Ollama), и это осознанное решение проекта, а не
-> недосмотр. Нарушение — вызов в интернет.
+> You review the helper tooling scripts: everything executable under
+> `.claude/skills/*/scripts/` — currently `tracker.py`, `thaiocr` (+`thaiocr.swift`),
+> `lookup.py`, `typhoon.py`, `brain.py`, `memlog.py`, `clean`, `intake`. That list is a
+> reference, not a closed set: a new file there is yours too. Project constraints: the Python
+> 3.8+ standard library only, no external dependencies; offline — the scripts do not reach out.
+> A call to a service on `127.0.0.1` is not a violation: that is how `typhoon.py` works (a local
+> Ollama), and it is a deliberate project decision, not an oversight. A call to the internet is.
 >
-> Ищи обычные дефекты корректности — необработанные исключения, порча файла при аварийной
-> записи, потеря данных при частичной записи, неверная обработка юникода (тайский — многобайтный,
-> нормализация и длина строк ведут себя не как в латинице), пути с пробелами, молчаливый
-> `except`, — а также нарушения ограничений выше: новая зависимость, вызов в интернет,
-> требование Python новее 3.8.
+> Look for ordinary correctness defects — unhandled exceptions, a file corrupted by a failed
+> write, data lost on a partial write, wrong unicode handling (Thai is multi-byte; normalization
+> and string length do not behave as they do in Latin), paths with spaces, a silent `except` —
+> and for violations of the constraints above: a new dependency, an internet call, a requirement
+> for Python newer than 3.8.
 >
-> Отдельно проверь: не разойдётся ли формат данных с тем, что ожидает читающая сторона
-> (`progress.json` пишется скриптом, а читается инструкциями скиллов).
+> Check separately: will the data format diverge from what the reading side expects
+> (`progress.json` is written by a script and read by skill instructions)?
 >
-> Выдай находки списком в Markdown, по-русски: заголовок, файл и строка, и конкретный
-> сценарий отказа — какой вход приводит к какому неверному поведению.
+> Выдай находки списком в Markdown, **по-русски**: title, file and line, and the concrete
+> failure scenario — which input leads to which wrong behaviour.
 >
-> Материал:
-> {diff}
+> Material:
+> {material}
 
 ---
 
@@ -216,17 +217,17 @@ Skip for pure tooling changes (a script, this skill, `skill-writer`).
 
 **Instruction:**
 
-> Ты аудитор соответствия замыслу. Сверь материал с `{intent_file}` и с загруженными
-> документами-контрактами.
+> You audit conformance to intent. Check the material against `{intent_file}` and the loaded
+> contract documents.
 >
-> Ищи: пункты замысла, которые не реализованы; реализованное не так, как было решено;
-> сделанное сверх замысла и не обсуждавшееся; противоречия между тем, что обещал лист
-> правок, и тем, что получилось.
+> Look for: points of the intent that were not implemented; things implemented differently from
+> what was decided; things done beyond the intent and never discussed; contradictions between
+> what the change list promised and what came out.
 >
-> Выдай находки списком в Markdown, по-русски: заголовок, какой пункт замысла задет,
-> доказательство из материала.
+> Выдай находки списком в Markdown, **по-русски**: title, which point of the intent is touched,
+> and evidence from the material.
 >
-> Замысел: `{intent_file}`
+> Intent: `{intent_file}`
 >
-> Материал:
-> {diff}
+> Material:
+> {material}

@@ -3,7 +3,8 @@
 Loaded when the user wants a document authored or rewritten: a new skill, a `references/`
 file, a course topic file, a README section, a rewrite of something that grew crooked.
 
-Output is Russian. Read `skill-doc-standards.md` first if you haven't.
+Output is Russian. **Read `skill-doc-standards.md` before writing a line** — it is the standard
+this operation is measured against, and it is not loaded until you get here.
 
 ## Process
 
@@ -68,8 +69,9 @@ the author cannot see.
 
 A document nobody links to is invisible. Before declaring done:
 
-- add or update its line in `.claude/skills/README.md` — the table of skills, the dependency
-  diagram, and the reference-file list if applicable;
+- add or update its line in `.claude/skills/MAP.md` — the table of roles and the connection
+  diagram — and in `.claude/skills/README.md` if it adds a command, a toolchain or a
+  reference-file list the operator runs;
 - update `CLAUDE.md` if the document introduces a rule that overrides default behaviour;
 - update the parent `SKILL.md` pointer if you wrote a `references/` file;
 - if you wrote a course file, check whether `thai-tasks` can find it by its Glob pattern

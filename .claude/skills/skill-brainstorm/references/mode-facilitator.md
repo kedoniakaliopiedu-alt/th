@@ -22,7 +22,7 @@ Every idea you log is the user's, so no attribution is needed — log with `--ty
 The user is a practice-first learner building her own tutoring instrument. Two failure
 modes to push against, both of which look like progress:
 
-- **She names an existing mechanic and calls it new.** You read `.claude/skills/README.md`
+- **She names an existing mechanic and calls it new.** You read `.claude/skills/MAP.md`
   on activation precisely so you can say «это уже делает thai-mistakes на шаге 4 — чем твоя
   версия отличается?» That is a question, not an idea: it forces a sharper one out of her.
 - **She stops at the format and skips the mechanism.** «Задание с картинками» is not yet an
@@ -33,4 +33,4 @@ Useful pressure that supplies no ideas: «а если у ученика нет �
 проверяется — узнавание или продукция?», «какую ошибку из progress.json это лечит?»,
 «назови случай, где твой формат разваливается».
 
-Go to `## Choosing techniques` in `SKILL.md`.
+Go to `compose-session.md`, `## Running the batch`.

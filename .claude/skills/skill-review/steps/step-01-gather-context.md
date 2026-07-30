@@ -1,5 +1,6 @@
 ---
-diff: ''          # set at runtime: the material under review
+diff: ''          # set at runtime: diff text, when scope = "diff"; empty otherwise
+paths: ''         # set at runtime: list of file paths, when scope = "skill" | "files"; empty otherwise
 scope: ''         # set at runtime: "diff" | "skill" | "files"
 target: ''        # set at runtime: human name of what is reviewed (e.g. "thai-tasks")
 intent_file: ''   # set at runtime: path to the stated intent, or empty
@@ -65,9 +66,14 @@ Ask, in Russian: **«Что ревьюим?»** Present these options:
 4. **Скилл целиком** (ask which one)
 5. **Конкретные файлы** (ask for paths)
 
-### 3. Build `{diff}`
+### 3. Build the material
 
-- `scope` = `diff`:
+The layers read the material themselves, in their own contexts. **Your job here is to
+determine what the material is, not to hold it.** Never read a file into this session just to
+pass it on — a copy here is a copy paid again in every layer.
+
+- `scope` = `diff` → build `{diff}` as text; a diff is compact and the layers need it
+  verbatim. Leave `{paths}` empty.
   - uncommitted → `git diff HEAD`
   - staged → `git diff --cached`
   - branch → verify the base branch exists first; HALT and ask if it doesn't
@@ -76,14 +82,14 @@ Ask, in Russian: **«Что ревьюим?»** Present these options:
     `git ls-files --others --exclude-standard` and append each via
     `git diff --no-index /dev/null <path>`. A brand-new `references/` file is exactly the
     kind of thing worth reviewing, and it is the easiest to miss.
-- `scope` = `skill` → read every file under `.claude/skills/<target>/` and use the full
-  contents as `{diff}`. Note in the summary that this is a full-file audit, not a diff:
-  findings about pre-existing text are in scope here, whereas in a diff review they are
+- `scope` = `skill` → `{paths}` = every file under `.claude/skills/<target>/` (Glob, do not
+  read them). Leave `{diff}` empty. Note in the summary that this is a full-file audit, not a
+  diff: findings about pre-existing text are in scope here, whereas in a diff review they are
   `defer` by default.
-- `scope` = `files` → read the named files in full.
+- `scope` = `files` → `{paths}` = the named paths, verified to exist. Leave `{diff}` empty.
 
-After building `{diff}`, verify it is non-empty. If empty, HALT and say there is nothing to
-review.
+Verify the material is non-empty — a non-empty `{diff}`, or a `{paths}` list with at least one
+existing file. If empty, HALT and say there is nothing to review.
 
 ### 4. Set the intent context
 
@@ -99,23 +105,24 @@ Whatever the answer, always load these as the standing contract — they play th
 plays elsewhere, and they exist for every review:
 
 - `CLAUDE.md` — project rules that override everything;
-- `.claude/skills/README.md` — skill boundaries and hand-offs;
+- `.claude/skills/MAP.md` — skill boundaries and hand-offs;
 - for a skill under review: its own `SKILL.md` frontmatter `description`, which is the
   contract for *when the skill fires*.
 
 ### 5. Size check
 
-If `{diff}` exceeds roughly 2000 lines, warn the user and offer to chunk the review by
-file group (e.g. one skill's `SKILL.md` + its `references/` per run).
+If the material is large — `{diff}` over roughly 2000 lines, or `{paths}` over roughly 150 KB
+by `wc -c` (each layer reads all of it) — warn the user and offer to chunk the review by file
+group (e.g. one skill's `SKILL.md` + its `references/` per run).
 
-- Chunking → agree on the first group, narrow `{diff}`, and list the remaining groups so
-  she can note them for follow-up runs.
+- Chunking → agree on the first group, narrow `{diff}` / `{paths}` to it, and list the
+  remaining groups so she can note them for follow-up runs.
 - Declining → proceed with the whole thing.
 
 ### CHECKPOINT
 
-Present a summary before proceeding, in Russian: what is being reviewed (files, and
-lines added/removed if it's a diff), `{scope}`, `{review_mode}`, and which contract
+Present a summary before proceeding, in Russian: what is being reviewed — the list of file
+paths, plus lines added/removed if it's a diff — `{scope}`, `{review_mode}`, and which contract
 documents were loaded. **HALT** and wait for confirmation.
 
 ## NEXT

@@ -12,7 +12,7 @@ Reconstruct the picture, then reflect back where things stand — topic, what's 
 mined, which threads felt live — to re-establish shared state before continuing. Do this in
 Russian and keep it short: a paragraph, not a replay of the log.
 
-Also re-read `.claude/skills/README.md` and the target skill's `SKILL.md` before continuing.
+Also re-read `.claude/skills/MAP.md` and the target skill's `SKILL.md` before continuing.
 The repository may have moved since the session was paused, and an idea that was novel then
 may already be implemented now — say so plainly if you find it, and log it as a `note`.
 

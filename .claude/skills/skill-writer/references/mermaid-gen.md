@@ -10,7 +10,7 @@ goes straight into the document.
 
 Reach for one when the subject has **more than three moving parts and the relationships
 matter more than the details**. Do not diagram a linear procedure — a numbered list is
-clearer and diffs better. `.claude/skills/README.md` currently draws the skill graph as an
+clearer and diffs better. `.claude/skills/MAP.md` currently draws the skill graph as an
 ASCII tree; a Mermaid version is an improvement only if the graph has stopped being a tree.
 
 ## Choosing the type

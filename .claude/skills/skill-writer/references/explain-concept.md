@@ -28,7 +28,7 @@ Say so plainly and offer to route it to `skill-review`.
 ## Process
 
 1. **Locate the mechanism** — which skill owns it, which reference file holds the full
-   version, which script implements it. `.claude/skills/README.md` is the map.
+   version, which script implements it. `.claude/skills/MAP.md` is the map.
 2. **Read all three layers** where they exist: the summary in `SKILL.md`, the detail in
    `references/`, the implementation in `scripts/`. The interesting part is usually where
    they differ in emphasis.

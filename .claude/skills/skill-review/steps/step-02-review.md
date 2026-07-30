@@ -19,26 +19,42 @@ failed_layers: ''  # set at runtime: comma-separated names of layers that failed
 2. For each layer, decide whether it is active:
    - empty instruction → drop it silently (it was deliberately disabled);
    - `when` condition present and not satisfied by the current context (`{scope}`,
-     `{review_mode}`, what file types `{diff}` actually contains) → drop it and tell the
+     `{review_mode}`, what file types the material actually contains) → drop it and tell the
      user, e.g. «Ревьюер скриптов пропущен — скриптов в изменениях нет.»;
    - otherwise → active.
 
    If no layer is active, HALT with the blocking condition «нет активных слоёв ревью».
 
-3. Run all active layers **in parallel**: substitute `{diff}`, `{intent_file}` and
-   `{target}` into each layer's instruction, then launch one subagent per layer with no
-   prior conversation context, following the instruction verbatim.
+3. **Give each layer only its own slice.** A layer that cannot act on a file gains nothing
+   from receiving it, and every extra file is paid again in that layer's context. Narrow
+   `{paths}` per layer before launching — the `when` conditions already say who cares about
+   what:
+
+   | Layer | Gets |
+   |---|---|
+   | `ревьюер-скриптов` | only `*.py`, `*.swift` and shell scripts from `{paths}` |
+   | `методический-аудитор` | only `thai-*` skill files and `Thai A2/` · `Thai B1/` · `Helpers/` material |
+   | `границы-скиллов` | the `SKILL.md` of every skill in `{paths}` (it reads `MAP.md` and `CLAUDE.md` itself) |
+   | all others | the whole of `{paths}` |
+
+   When `{scope}` = `diff` there is nothing to narrow: pass `{diff}` whole to every layer.
+
+4. Run all active layers **in parallel**: substitute `{material}` — the `{diff}` text, or that
+   layer's slice of `{paths}` — plus `{intent_file}` and `{target}` into the layer's
+   instruction, then launch one subagent per layer with no prior conversation context,
+   following the instruction verbatim. A layer given paths reads those files itself — do not
+   read them here.
 
    **If subagents are unavailable**, write each active layer's fully-substituted prompt to
    `.claude/reviews/промпты/<layer-id>.md` and HALT. Ask the user to run each in a separate
    session — ideally in a different model — and paste the findings back. When findings are
    pasted, treat them as those layers' output and resume from this point.
 
-4. **Layer failure handling.** If a layer fails, times out, or returns nothing, append its
+5. **Layer failure handling.** If a layer fails, times out, or returns nothing, append its
    name to `{failed_layers}` (comma-separated) and proceed with the remaining layers. Do not
    silently retry a layer more than once.
 
-5. Collect all findings, keeping track of which layer `id` produced each one.
+6. Collect all findings, keeping track of which layer `id` produced each one.
 
 ## What not to do here
 

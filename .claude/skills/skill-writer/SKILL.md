@@ -37,7 +37,7 @@ share one file tree:
 | Document | Reader | Consequence of getting it wrong |
 |---|---|---|
 | `SKILL.md`, `references/*.md` | **a language model executing it** | ambiguity becomes inconsistent behaviour between runs |
-| `.claude/skills/README.md`, `CLAUDE.md` | **the author**, orienting or deciding | a stale map means skills drift apart unnoticed |
+| `.claude/skills/MAP.md`, `README.md`, `CLAUDE.md` | **the author**, orienting or deciding | a stale map means skills drift apart unnoticed |
 | `Thai A2/**`, `Thai B1/**`, `Helpers/**` | **the model**, which generates fresh exercises from it | material written as a finished worksheet gets copied verbatim instead of used as a source |
 | anything quoted into a worksheet | **the learner** | methodology leaking onto her page (spiral percentages, mastery, skill names) |
 
@@ -46,15 +46,16 @@ elegance; a README needs a map, not exhaustiveness.
 
 ## On activation
 
-1. Read `.claude/skills/README.md` — the map of skills and their boundaries. Every document
+1. Read `.claude/skills/MAP.md` — the map of skills and their boundaries. Every document
    you write sits somewhere on that map, and the map itself usually needs updating when you
    are done.
 2. Read `CLAUDE.md` — the rules that override everything else in this project.
 3. If the task targets an existing document, read it **in full** before proposing anything.
    Read its siblings too: a `SKILL.md` is only half a document without its `references/`.
-4. Load `references/skill-doc-standards.md` — the house style for this repository. It is the
-   standard both `write-document` and `validate-doc` measure against, so read it before
-   either.
+
+`references/skill-doc-standards.md` — the house style — is loaded by the operations that
+measure against it (**НД** and **ПД**), not up front: explaining a mechanism or drawing a
+diagram does not need it.
 
 ## Operations
 
