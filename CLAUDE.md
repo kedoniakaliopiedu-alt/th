@@ -50,7 +50,12 @@ folder with `.claude/skills/thai-handwriting/scripts/clean`. Details are in the
   reading what to do and what to send. If not — rewrite the item; do not bolt an explanation
   of the term onto it. A turn spent decoding the question teaches no Thai.
 - Transcription is Cyrillic only, per `thai-phonetics`.
-- Tones are verified against an authoritative source before any verdict, never from memory.
+- **Tones are verified against thai-language.com before any verdict, never from memory** —
+  the query protocol and how to pick among several entries are in `thai-verify`. It is the
+  project's only tone source and has no substitute: while the dictionary is unreachable the
+  tone is not graded at all — the item is postponed. Which source owns which question
+  (word / single sign / vocabulary) is divided up in `RESOURCES.md`, and a conflict between
+  them is marked «спорно» and kept off the learner's sheet.
 - Progress and mistakes are written to `progress.json` through
   `.claude/skills/thai-tasks/scripts/tracker.py`.
 
@@ -98,7 +103,8 @@ were issued on a first-pass, low-confidence reading instead of a checked one.
 ## Working on the skills themselves
 
 The meta layer is separate from the teaching one: `skill-*` work on the instrument,
-`thai-*` on Thai.
+`thai-*` on Thai. Who owns what, and where a turn goes next, is in
+`.claude/skills/MAP.md`; the commands are in `.claude/skills/README.md`.
 
 - Invent a mechanic, an exercise format, the structure of a topic → `skill-brainstorm`.
 - Write or rewrite a `SKILL.md`, a reference, a topic file; explain a mechanism; draw a
@@ -117,6 +123,21 @@ tokens, yet the measurement on `checking.md` came out at only 26%: a fifth of th
 to stay Russian, and the price of an accidental error in a tuned instruction outweighs the
 gain. What is never translated — in
 `skill-writer/references/skill-doc-standards.md`.
+
+## Checks
+
+Editing data or a script is not finished until the matching check has run. Both are offline,
+stdlib only; the full command set is in `.claude/skills/README.md`.
+
+- Touched `thai-phonetics/references/*.md`, its `data/*.json`, or a transcription in a course
+  file → `python3 .claude/skills/thai-phonetics/scripts/phonetics.py check`. It catches what
+  the eye does not: latin homoglyphs wearing tone marks (`â` for `а̂`), leftover macrons, and
+  drift between a `SKILL.md` and `consonants.md`. `--course` also scans `Thai A2/`, `Thai B1/`
+  and `Helpers/`, but reads as leads rather than a verdict — course tables use headers the
+  scanner does not know yet.
+- Touched a script under `.claude/skills/*/scripts/` → `npx pyright --stats` (`strict`, 3.8).
+  Read the file count, not only the error count: an empty file set also reports «0 errors».
+  Why `exclude` must not gain `**/.*` is in `pyrightconfig.json` — do not silence it.
 
 ## Console output
 
