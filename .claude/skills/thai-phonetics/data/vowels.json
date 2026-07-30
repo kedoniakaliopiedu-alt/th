@@ -1,0 +1,205 @@
+{
+ "_": "Гласные. Ключ — тайский знак; одна запись на один искомый знак.\n  cyrillic         — наша запись;\n  length           — краткая или долгая;\n  closes_syllable  — закрывает ли знак слог (только у простых).\nПравила: долгота удвоением, невидимые гласные, май тайху, ก็ — references/vowels.md.",
+ "built": "2026-07-30",
+ "simple": {
+  "ะ": {
+   "cyrillic": "а",
+   "length": "краткая",
+   "closes_syllable": "да"
+  },
+  "-ั": {
+   "cyrillic": "а",
+   "length": "краткая",
+   "closes_syllable": "нет"
+  },
+  "า": {
+   "cyrillic": "аа",
+   "length": "долгая",
+   "closes_syllable": "нет"
+  },
+  "ิ": {
+   "cyrillic": "и",
+   "length": "краткая",
+   "closes_syllable": "нет"
+  },
+  "ี": {
+   "cyrillic": "ии",
+   "length": "долгая",
+   "closes_syllable": "нет"
+  },
+  "ึ": {
+   "cyrillic": "ы",
+   "length": "краткая",
+   "closes_syllable": "нет"
+  },
+  "ื": {
+   "cyrillic": "ыы",
+   "length": "долгая",
+   "closes_syllable": "нет"
+  },
+  "ุ": {
+   "cyrillic": "у",
+   "length": "краткая",
+   "closes_syllable": "нет"
+  },
+  "ู": {
+   "cyrillic": "уу",
+   "length": "долгая",
+   "closes_syllable": "нет"
+  },
+  "เ-ะ": {
+   "cyrillic": "ӭ",
+   "length": "краткая",
+   "closes_syllable": "да"
+  },
+  "เ-": {
+   "cyrillic": "ӭӭ",
+   "length": "долгая",
+   "closes_syllable": "нет"
+  },
+  "แ-ะ": {
+   "cyrillic": "э",
+   "length": "краткая",
+   "closes_syllable": "да"
+  },
+  "แ-": {
+   "cyrillic": "ээ",
+   "length": "долгая",
+   "closes_syllable": "нет"
+  },
+  "โ-ะ": {
+   "cyrillic": "ȯ",
+   "length": "краткая",
+   "closes_syllable": "да"
+  },
+  "โ-": {
+   "cyrillic": "ȯȯ",
+   "length": "долгая",
+   "closes_syllable": "нет"
+  },
+  "เ-าะ": {
+   "cyrillic": "о",
+   "length": "краткая",
+   "closes_syllable": "да"
+  },
+  "-อ": {
+   "cyrillic": "оо",
+   "length": "долгая",
+   "closes_syllable": "нет"
+  },
+  "เ-อะ": {
+   "cyrillic": "ӧ",
+   "length": "краткая",
+   "closes_syllable": "да"
+  },
+  "เ-อ": {
+   "cyrillic": "ӧӧ",
+   "length": "долгая",
+   "closes_syllable": "нет"
+  }
+ },
+ "diphthongs": {
+  "เ-ียะ": {
+   "cyrillic": "иа",
+   "length": "краткая"
+  },
+  "เ-ีย": {
+   "cyrillic": "ииа",
+   "length": "долгая"
+  },
+  "เ-ือะ": {
+   "cyrillic": "ыа",
+   "length": "краткая"
+  },
+  "เ-ือ": {
+   "cyrillic": "ыыа",
+   "length": "долгая"
+  },
+  "-ัวะ": {
+   "cyrillic": "уа",
+   "length": "краткая"
+  },
+  "-ัว": {
+   "cyrillic": "ууа",
+   "length": "долгая"
+  },
+  "เ-า": {
+   "cyrillic": "ау",
+   "length": "краткая"
+  },
+  "-าว": {
+   "cyrillic": "аау",
+   "length": "долгая"
+  },
+  "ไ-": {
+   "cyrillic": "ай",
+   "length": "краткая"
+  },
+  "ใ-": {
+   "cyrillic": "ай",
+   "length": "краткая"
+  },
+  "-ัย": {
+   "cyrillic": "ай",
+   "length": "краткая"
+  },
+  "-าย": {
+   "cyrillic": "аай",
+   "length": "долгая"
+  },
+  "-อย": {
+   "cyrillic": "оой",
+   "length": "долгая"
+  },
+  "-วย": {
+   "cyrillic": "ууай",
+   "length": "долгая"
+  },
+  "เ-ย": {
+   "cyrillic": "ӧӧй",
+   "length": "долгая"
+  },
+  "โ-ย": {
+   "cyrillic": "ȯȯй",
+   "length": "долгая"
+  },
+  "เ-ว": {
+   "cyrillic": "ӭӭу",
+   "length": "долгая"
+  },
+  "แ-ว": {
+   "cyrillic": "ээу",
+   "length": "долгая"
+  },
+  "เ-ียว": {
+   "cyrillic": "ииау",
+   "length": "долгая"
+  },
+  "เ-ือย": {
+   "cyrillic": "ыыай",
+   "length": "долгая"
+  }
+ },
+ "special": {
+  "ำ": {
+   "reading": "ам",
+   "note": "Исторически อะ + ม; удвоения не получает"
+  },
+  "ฤ": {
+   "reading": "ры / ри",
+   "note": "Выбор зависит от слова — сверять по словарю, не по правилу"
+  },
+  "ฤๅ": {
+   "reading": "рыы",
+   "note": ""
+  },
+  "ฦ": {
+   "reading": "лы",
+   "note": "Устаревшее"
+  },
+  "ฦๅ": {
+   "reading": "лыы",
+   "note": "Устаревшее"
+  }
+ }
+}

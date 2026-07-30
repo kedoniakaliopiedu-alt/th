@@ -1,0 +1,173 @@
+{
+ "_": "Инвентарь знаков. alphabet: ключ — кириллический знак (code, form, name).\ntones: ключ — название тона (mark, code, example).\nНичего вне этого списка в транскрипции стоять не может. Ловушки — references/alphabet.md.",
+ "built": "2026-07-30",
+ "alphabet": {
+  "а": {
+   "code": "U+0430",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER A"
+  },
+  "б": {
+   "code": "U+0431",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER BE"
+  },
+  "в": {
+   "code": "U+0432",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER VE"
+  },
+  "г": {
+   "code": "U+0433",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER GHE"
+  },
+  "д": {
+   "code": "U+0434",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER DE"
+  },
+  "з": {
+   "code": "U+0437",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER ZE"
+  },
+  "и": {
+   "code": "U+0438",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER I"
+  },
+  "й": {
+   "code": "U+0439",
+   "form": "цельный (не и + U+0306)",
+   "name": "CYRILLIC SMALL LETTER SHORT I"
+  },
+  "к": {
+   "code": "U+043A",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER KA"
+  },
+  "л": {
+   "code": "U+043B",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER EL"
+  },
+  "м": {
+   "code": "U+043C",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER EM"
+  },
+  "н": {
+   "code": "U+043D",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER EN"
+  },
+  "о": {
+   "code": "U+043E",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER O"
+  },
+  "п": {
+   "code": "U+043F",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER PE"
+  },
+  "р": {
+   "code": "U+0440",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER ER"
+  },
+  "с": {
+   "code": "U+0441",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER ES"
+  },
+  "т": {
+   "code": "U+0442",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER TE"
+  },
+  "у": {
+   "code": "U+0443",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER U"
+  },
+  "ф": {
+   "code": "U+0444",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER EF"
+  },
+  "х": {
+   "code": "U+0445",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER HA"
+  },
+  "щ": {
+   "code": "U+0449",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER SHCHA"
+  },
+  "ы": {
+   "code": "U+044B",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER YERU"
+  },
+  "ь": {
+   "code": "U+044C",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER SOFT SIGN"
+  },
+  "э": {
+   "code": "U+044D",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER E"
+  },
+  "ң": {
+   "code": "U+04A3",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER EN WITH DESCENDER"
+  },
+  "ӧ": {
+   "code": "U+04E7",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER O WITH DIAERESIS"
+  },
+  "ӭ": {
+   "code": "U+04ED",
+   "form": "цельный",
+   "name": "CYRILLIC SMALL LETTER E WITH DIAERESIS"
+  },
+  "ȯ": {
+   "code": "U+022F",
+   "form": "цельный",
+   "name": "LATIN SMALL LETTER O WITH DOT ABOVE"
+  }
+ },
+ "tones": {
+  "Средний": {
+   "mark": "—",
+   "code": "—",
+   "example": "не обозначается"
+  },
+  "Низкий": {
+   "mark": "◌̀",
+   "code": "U+0300",
+   "example": "а̀"
+  },
+  "Нисходящий": {
+   "mark": "◌̂",
+   "code": "U+0302",
+   "example": "а̂"
+  },
+  "Высокий": {
+   "mark": "◌́",
+   "code": "U+0301",
+   "example": "а́"
+  },
+  "Восходящий": {
+   "mark": "◌̌",
+   "code": "U+030C",
+   "example": "а̌"
+  }
+ }
+}

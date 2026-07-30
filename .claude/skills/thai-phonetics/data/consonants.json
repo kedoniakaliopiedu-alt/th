@@ -1,0 +1,315 @@
+{
+ "_": "Согласные. Ключ — тайский знак.\n  class      — высокий/средний/низкий: вход в тональное правило;\n  subclass   — сонорный/глухой, только у низкого класса: живой или мёртвый слог,\n               и только перед одиночным низким сонорным ставится ห-наводящая;\n  initial    — кириллическая запись в начале слога;\n  final      — кириллическая запись в конце слога, «—» если не встречается;\n  example    — слово-пример с переводом;\n  also_heard — как знак ещё звучит, списком.\n               Это НЕ варианты записи: на лист идут только initial и final.\nОговорки и расхождения с источником — references/consonants.md.",
+ "built": "2026-07-30",
+ "consonants": {
+  "ข": {
+   "class": "высокий",
+   "subclass": null,
+   "initial": "кх",
+   "final": "к",
+   "example": "ไข่ — яйцо"
+  },
+  "ฉ": {
+   "class": "высокий",
+   "subclass": null,
+   "initial": "щ",
+   "final": "—",
+   "example": "ฉิ่ง",
+   "also_heard": [
+    "ч",
+    "чх"
+   ]
+  },
+  "ส": {
+   "class": "высокий",
+   "subclass": null,
+   "initial": "с",
+   "final": "т",
+   "example": "เสือ — тигр"
+  },
+  "ษ": {
+   "class": "высокий",
+   "subclass": null,
+   "initial": "с",
+   "final": "т",
+   "example": "ฤๅษี — отшельник"
+  },
+  "ศ": {
+   "class": "высокий",
+   "subclass": null,
+   "initial": "с",
+   "final": "т",
+   "example": "ศาลา — павильон"
+  },
+  "ถ": {
+   "class": "высокий",
+   "subclass": null,
+   "initial": "тьх",
+   "final": "т",
+   "example": "ถุง — мешок, сумка"
+  },
+  "ฐ": {
+   "class": "высокий",
+   "subclass": null,
+   "initial": "тьх",
+   "final": "т",
+   "example": "ฐาน — основание"
+  },
+  "ผ": {
+   "class": "высокий",
+   "subclass": null,
+   "initial": "пх",
+   "final": "—",
+   "example": "ผึ้ง — пчела"
+  },
+  "ฝ": {
+   "class": "высокий",
+   "subclass": null,
+   "initial": "ф",
+   "final": "—",
+   "example": "ฝา — крышка"
+  },
+  "ห": {
+   "class": "высокий",
+   "subclass": null,
+   "initial": "х",
+   "final": "—",
+   "example": "หีบ — сундук"
+  },
+  "ก": {
+   "class": "средний",
+   "subclass": null,
+   "initial": "г",
+   "final": "к",
+   "example": "ไก่ — курица"
+  },
+  "จ": {
+   "class": "средний",
+   "subclass": null,
+   "initial": "дьз",
+   "final": "т",
+   "example": "จาน — тарелка",
+   "also_heard": [
+    "дьж",
+    "ц"
+   ]
+  },
+  "ด": {
+   "class": "средний",
+   "subclass": null,
+   "initial": "д",
+   "final": "т",
+   "example": "เด็ก — ребёнок"
+  },
+  "ฎ": {
+   "class": "средний",
+   "subclass": null,
+   "initial": "д",
+   "final": "т",
+   "example": "ชฎา — головной убор «чада»"
+  },
+  "ต": {
+   "class": "средний",
+   "subclass": null,
+   "initial": "т",
+   "final": "т",
+   "example": "เต่า — черепаха"
+  },
+  "ฏ": {
+   "class": "средний",
+   "subclass": null,
+   "initial": "т",
+   "final": "т",
+   "example": "ปฏัก"
+  },
+  "บ": {
+   "class": "средний",
+   "subclass": null,
+   "initial": "б",
+   "final": "п",
+   "example": "ใบไม้ — лист"
+  },
+  "ป": {
+   "class": "средний",
+   "subclass": null,
+   "initial": "п",
+   "final": "п",
+   "example": "ปลา — рыба"
+  },
+  "อ": {
+   "class": "средний",
+   "subclass": null,
+   "initial": "—",
+   "final": "—",
+   "example": "อ่าง"
+  },
+  "น": {
+   "class": "низкий",
+   "subclass": "сонорный",
+   "initial": "н",
+   "final": "н",
+   "example": "หนู — мышь"
+  },
+  "ณ": {
+   "class": "низкий",
+   "subclass": "сонорный",
+   "initial": "н",
+   "final": "н",
+   "example": "เณร — послушник"
+  },
+  "ง": {
+   "class": "низкий",
+   "subclass": "сонорный",
+   "initial": "ң",
+   "final": "ң",
+   "example": "งู — змея"
+  },
+  "ม": {
+   "class": "низкий",
+   "subclass": "сонорный",
+   "initial": "м",
+   "final": "м",
+   "example": "ม้า — лошадь"
+  },
+  "ย": {
+   "class": "низкий",
+   "subclass": "сонорный",
+   "initial": "й",
+   "final": "й",
+   "example": "ยักษ์"
+  },
+  "ญ": {
+   "class": "низкий",
+   "subclass": "сонорный",
+   "initial": "й",
+   "final": "н",
+   "example": "หญิง — женщина"
+  },
+  "ว": {
+   "class": "низкий",
+   "subclass": "сонорный",
+   "initial": "в",
+   "final": "у",
+   "example": "แหวน — кольцо"
+  },
+  "ล": {
+   "class": "низкий",
+   "subclass": "сонорный",
+   "initial": "л",
+   "final": "н",
+   "example": "ลิง — обезьяна"
+  },
+  "ฬ": {
+   "class": "низкий",
+   "subclass": "сонорный",
+   "initial": "л",
+   "final": "н",
+   "example": "จุฬา — воздушный змей"
+  },
+  "ร": {
+   "class": "низкий",
+   "subclass": "сонорный",
+   "initial": "р",
+   "final": "н",
+   "example": "เรือ — лодка",
+   "also_heard": [
+    "л (в беглой речи)"
+   ]
+  },
+  "ค": {
+   "class": "низкий",
+   "subclass": "глухой",
+   "initial": "кх",
+   "final": "к",
+   "example": "ควาย — буйвол"
+  },
+  "ฆ": {
+   "class": "низкий",
+   "subclass": "глухой",
+   "initial": "кх",
+   "final": "к",
+   "example": "ระฆัง — колокол"
+  },
+  "ช": {
+   "class": "низкий",
+   "subclass": "глухой",
+   "initial": "щ",
+   "final": "т",
+   "example": "ช้าง — слон",
+   "also_heard": [
+    "ч",
+    "чх"
+   ]
+  },
+  "ฌ": {
+   "class": "низкий",
+   "subclass": "глухой",
+   "initial": "щ",
+   "final": "—",
+   "example": "เฌอ — дерево «чо»"
+  },
+  "ซ": {
+   "class": "низкий",
+   "subclass": "глухой",
+   "initial": "с",
+   "final": "т",
+   "example": "โซ่ — цепь"
+  },
+  "ท": {
+   "class": "низкий",
+   "subclass": "глухой",
+   "initial": "тьх",
+   "final": "т",
+   "example": "ทหาร — солдат"
+  },
+  "ธ": {
+   "class": "низкий",
+   "subclass": "глухой",
+   "initial": "тьх",
+   "final": "т",
+   "example": "ธง — флаг"
+  },
+  "ฑ": {
+   "class": "низкий",
+   "subclass": "глухой",
+   "initial": "тьх",
+   "final": "т",
+   "example": "มณโฑ"
+  },
+  "ฒ": {
+   "class": "низкий",
+   "subclass": "глухой",
+   "initial": "тьх",
+   "final": "т",
+   "example": "ผู้เฒ่า — старик"
+  },
+  "พ": {
+   "class": "низкий",
+   "subclass": "глухой",
+   "initial": "пх",
+   "final": "п",
+   "example": "พาน"
+  },
+  "ภ": {
+   "class": "низкий",
+   "subclass": "глухой",
+   "initial": "пх",
+   "final": "п",
+   "example": "สำเภา — джонка"
+  },
+  "ฟ": {
+   "class": "низкий",
+   "subclass": "глухой",
+   "initial": "ф",
+   "final": "п",
+   "example": "ฟัน — зубы"
+  },
+  "ฮ": {
+   "class": "низкий",
+   "subclass": "глухой",
+   "initial": "х",
+   "final": "—",
+   "example": "นกฮูก — сова"
+  }
+ }
+}

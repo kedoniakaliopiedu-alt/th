@@ -1,0 +1,4644 @@
+{
+ "_": "Локальный словарь транскрипции. Ключ — тайское написание.\n  dictionary — запись thai-language.com (слоги + буква тона M/L/F/H/R);\n  ours       — наша транскрипция; внесена только если ТОНЫ совпали со словарной,\n               буквы этой сверкой не проверяются;\n  tones_ok   — сошлись ли тоны.\nСобирается скриптом, руками не править. Протокол сверки — skill thai-verify.",
+ "source": "thai-language.com",
+ "built": "2026-07-30",
+ "count": 927,
+ "tones_ok": 828,
+ "words": {
+  "กง": {
+   "ours": "коң",
+   "tones_ok": true,
+   "dictionary": "gohng M"
+  },
+  "กน": {
+   "ours": "кон",
+   "tones_ok": true,
+   "dictionary": "gohnM"
+  },
+  "กบ": {
+   "ours": "гȯ̀п",
+   "tones_ok": true,
+   "dictionary": "gohp L"
+  },
+  "กม": {
+   "ours": "кам",
+   "tones_ok": true,
+   "dictionary": "gohmM"
+  },
+  "กรรม": {
+   "ours": "гам",
+   "tones_ok": true,
+   "dictionary": "gam M"
+  },
+  "กระจก": {
+   "ours": "гра̀-дьзо̀к",
+   "tones_ok": true,
+   "dictionary": "graL johkL"
+  },
+  "กระดาษ": {
+   "ours": "гра̀-да̀ат",
+   "tones_ok": true,
+   "dictionary": "gra L daat L"
+  },
+  "กระดูก": {
+   "ours": "гра̀-ду̀ук",
+   "tones_ok": true,
+   "dictionary": "gra L duuk L"
+  },
+  "กระทรวง": {
+   "ours": "гра̀-сууаң",
+   "tones_ok": true,
+   "dictionary": "gra L suaang M"
+  },
+  "กระทรวงการต่างประเทศ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "graL suaangM gaanM dtaangL bpraL thaehtF"
+  },
+  "กระทรวงศึกษาธิการ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "graL suaangM seukL saaR thiH gaanM"
+  },
+  "กระเป๋า": {
+   "ours": "гра̀-па̌у",
+   "tones_ok": true,
+   "dictionary": "graL bpaoR"
+  },
+  "กระเป๋าเดินทาง": {
+   "ours": "гра̀-па̌у дӧӧн-тьхааң",
+   "tones_ok": true,
+   "dictionary": "graL bpaoR deernM thaangM"
+  },
+  "กระเพาะ": {
+   "ours": "гра̀-пхо́",
+   "tones_ok": true,
+   "dictionary": "graL phawH"
+  },
+  "กระโปรง": {
+   "ours": "гра̀-прȯȯң",
+   "tones_ok": true,
+   "dictionary": "graL bpro:hngM"
+  },
+  "กรุงเทพมหานคร": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "groongM thaehpF maH haaR naH khaawnM"
+  },
+  "กรุงเทพฯ": {
+   "ours": "груң-тьхӭ̂ӭп",
+   "tones_ok": true,
+   "dictionary": "groongM thaehpF"
+  },
+  "กรุณา": {
+   "ours": "га̀-ру́-наа",
+   "tones_ok": true,
+   "dictionary": "gaL rooH naaM"
+  },
+  "กลอน": {
+   "ours": "клон",
+   "tones_ok": true,
+   "dictionary": "glaawnM"
+  },
+  "กลับ": {
+   "ours": "гла̀п",
+   "tones_ok": true,
+   "dictionary": "glap L"
+  },
+  "กลับบ้าน": {
+   "ours": "гла̀п-ба̂ан",
+   "tones_ok": true,
+   "dictionary": "glapL baanF"
+  },
+  "กลับมา": {
+   "ours": "гла̀п-маа",
+   "tones_ok": true,
+   "dictionary": "glapL maaM"
+  },
+  "กลัว": {
+   "ours": "глуа",
+   "tones_ok": true,
+   "dictionary": "gluaa M"
+  },
+  "กลาง": {
+   "ours": "глааң",
+   "tones_ok": true,
+   "dictionary": "glaang M"
+  },
+  "กลิ่นเหม็น": {
+   "ours": "глѝн мӭ̌н",
+   "tones_ok": true,
+   "dictionary": "glinL menR"
+  },
+  "กลีบ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "gleepL"
+  },
+  "กล้วย": {
+   "ours": "глуа̂й",
+   "tones_ok": true,
+   "dictionary": "gluay F"
+  },
+  "กล้า": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "glaa F"
+  },
+  "กวาด": {
+   "ours": "гуа̀ат",
+   "tones_ok": true,
+   "dictionary": "gwaatL"
+  },
+  "กว่า": {
+   "ours": "гва̀а",
+   "tones_ok": true,
+   "dictionary": "gwaa L"
+  },
+  "กว้าง": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "gwaang F"
+  },
+  "กษัตริย์": {
+   "ours": "га̀-са̀т",
+   "tones_ok": true,
+   "dictionary": "ga L sat L"
+  },
+  "กะ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "ga L"
+  },
+  "กัก": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "gakL"
+  },
+  "กังวล": {
+   "ours": "ган-вон",
+   "tones_ok": true,
+   "dictionary": "gangM wohnM"
+  },
+  "กัน": {
+   "ours": "кан",
+   "tones_ok": true,
+   "dictionary": "gan M"
+  },
+  "กับ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "gap L"
+  },
+  "กับข้าว": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "gapL khaaoF"
+  },
+  "กา": {
+   "ours": "нулевая",
+   "tones_ok": true,
+   "dictionary": "gaaM"
+  },
+  "กางเกง": {
+   "ours": "гааң гээң",
+   "tones_ok": true,
+   "dictionary": "gaangM gaehngM"
+  },
+  "กางเกงขาสั้น": {
+   "ours": "гааң гээң кха̌а са̂н",
+   "tones_ok": true,
+   "dictionary": "gaangM gaehngM khaaR sanF"
+  },
+  "การบ้าน": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "gaanM baanF"
+  },
+  "กาแฟ": {
+   "ours": "гаа-фэӭ",
+   "tones_ok": true,
+   "dictionary": "gaaM faaeM"
+  },
+  "กำลัง": {
+   "ours": "гам-лаң",
+   "tones_ok": true,
+   "dictionary": "gam M lang M"
+  },
+  "กำลังจะ": {
+   "ours": "гам-лаң дьза̀",
+   "tones_ok": true,
+   "dictionary": "gamM langM jaL"
+  },
+  "กิน": {
+   "ours": "гин",
+   "tones_ok": true,
+   "dictionary": "ginM"
+  },
+  "กินข้าว": {
+   "ours": "гин-кха̂ау",
+   "tones_ok": true,
+   "dictionary": "ginM khaaoF"
+  },
+  "กินใจ": {
+   "ours": "гин-дьзай",
+   "tones_ok": true,
+   "dictionary": "ginM jaiM"
+  },
+  "กิ๊ก": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "gik H"
+  },
+  "กี่": {
+   "ours": "гѝи",
+   "tones_ok": true,
+   "dictionary": "gee L"
+  },
+  "กี่โมง": {
+   "ours": "гѝи-мȯȯȯң",
+   "tones_ok": true,
+   "dictionary": "geeL mo:hngM"
+  },
+  "กุ้ง": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "goongF"
+  },
+  "กู": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "guuM"
+  },
+  "ก็": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "gaaw F"
+  },
+  "ก็คือ": {
+   "ours": "го̂о кхыы",
+   "tones_ok": true,
+   "dictionary": "gaawF kheuuM"
+  },
+  "ก็ได้": {
+   "ours": "го̂о да̂й",
+   "tones_ok": true,
+   "dictionary": "gaawF daiF"
+  },
+  "ก่อน": {
+   "ours": "го̀он",
+   "tones_ok": true,
+   "dictionary": "gaawn L"
+  },
+  "ก่อนหน้านี้": {
+   "ours": "го̀он на̂а ни́и",
+   "tones_ok": true,
+   "dictionary": "gaawnL naaF neeH"
+  },
+  "ก่า": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "gaaL"
+  },
+  "ก้าว": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "gaaoF"
+  },
+  "ก๊อก": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "gaawkH"
+  },
+  "ก๋วยเตี๋ยว": {
+   "ours": "гуа̌й ти̌иу",
+   "tones_ok": true,
+   "dictionary": "guayR dtiaaoR"
+  },
+  "ก๋า": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "gaaR"
+  },
+  "ขนม": {
+   "ours": "кха̀-но̌м",
+   "tones_ok": true,
+   "dictionary": "khaL nohmR"
+  },
+  "ขนาด": {
+   "ours": "кха̀-на̀ат",
+   "tones_ok": true,
+   "dictionary": "kha L naat L"
+  },
+  "ขนุน": {
+   "ours": "кха̀-ну̌н",
+   "tones_ok": true,
+   "dictionary": "khaL noonR"
+  },
+  "ขม": {
+   "ours": "кхȯ̌м",
+   "tones_ok": true,
+   "dictionary": "khohmR"
+  },
+  "ขยะ": {
+   "ours": "кха̀-йа̀",
+   "tones_ok": true,
+   "dictionary": "kha L ya L"
+  },
+  "ขรึม": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khreumR"
+  },
+  "ขลุ่ย": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khluyL"
+  },
+  "ขวด": {
+   "ours": "кхуа̀т",
+   "tones_ok": true,
+   "dictionary": "khuaat L"
+  },
+  "ขวัญ": {
+   "ours": "кхуа̌н",
+   "tones_ok": true,
+   "dictionary": "khwanR"
+  },
+  "ขอ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khaaw R"
+  },
+  "ของ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khaawng R"
+  },
+  "ขอบคุณ": {
+   "ours": "кхо̀оп-кхун",
+   "tones_ok": true,
+   "dictionary": "khaawpL khoonM"
+  },
+  "ขอบคุณมาก": {
+   "ours": "кхо̀оп-кхун-ма̂ак",
+   "tones_ok": true,
+   "dictionary": "khaawpL khoonM maakF"
+  },
+  "ขอบใจ": {
+   "ours": "кхо̀оп-дьзай",
+   "tones_ok": true,
+   "dictionary": "khaawpL jaiM"
+  },
+  "ขอโทษ": {
+   "ours": "кхо̌о-тьхо̂от",
+   "tones_ok": true,
+   "dictionary": "khaawR tho:htF"
+  },
+  "ขับ": {
+   "ours": "кха̀п",
+   "tones_ok": true,
+   "dictionary": "khap L"
+  },
+  "ขา": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khaa R"
+  },
+  "ขาย": {
+   "ours": "кха̌ай",
+   "tones_ok": true,
+   "dictionary": "khaai R"
+  },
+  "ขายของ": {
+   "ours": "кха̌ай-кхо̌оң",
+   "tones_ok": true,
+   "dictionary": "khaaiR khaawngR"
+  },
+  "ขี่": {
+   "ours": "кхѝи",
+   "tones_ok": true,
+   "dictionary": "khee L"
+  },
+  "ขี้": {
+   "ours": "кхи̂и",
+   "tones_ok": true,
+   "dictionary": "kheeF"
+  },
+  "ขี้กลัว": {
+   "ours": "кхи̂и-глуа",
+   "tones_ok": true,
+   "dictionary": "kheeF gluaaM"
+  },
+  "ขี้ขลาด": {
+   "ours": "кхи̂и-кла̀ат",
+   "tones_ok": true,
+   "dictionary": "kheeF khlaatL"
+  },
+  "ขี้ตื่น": {
+   "ours": "кхи̂и-ты̀ын",
+   "tones_ok": true,
+   "dictionary": "kheeF dteuunL"
+  },
+  "ขี้บ่น": {
+   "ours": "кхи̂и-бо̀н",
+   "tones_ok": true,
+   "dictionary": "kheeF bohnL"
+  },
+  "ขี้ระแวง": {
+   "ours": "кхи̂и-ра́-вээң",
+   "tones_ok": true,
+   "dictionary": "kheeF raH waaengM"
+  },
+  "ขี้ลืม": {
+   "ours": "кхи̂и-лыыум",
+   "tones_ok": true,
+   "dictionary": "kheeF leuumM"
+  },
+  "ขี้สงสัย": {
+   "ours": "кхи̂и-со̌ң-са̌й",
+   "tones_ok": true,
+   "dictionary": "kheeF sohngR saiR"
+  },
+  "ขี้สงสาร": {
+   "ours": "кхи̂и-со̌ң-са̌ан",
+   "tones_ok": true,
+   "dictionary": "kheeF sohngR saanR"
+  },
+  "ขี้หึง": {
+   "ours": "кхи̂и-хы̌ң",
+   "tones_ok": true,
+   "dictionary": "kheeF heungR"
+  },
+  "ขี้อาย": {
+   "ours": "кхи̂и-аай",
+   "tones_ok": true,
+   "dictionary": "kheeF aaiM"
+  },
+  "ขี้เกียจ": {
+   "ours": "кхи̂и-гѝиат",
+   "tones_ok": true,
+   "dictionary": "kheeF giiatL"
+  },
+  "ขี้เหนียว": {
+   "ours": "кхи̂и-ни̌иау",
+   "tones_ok": true,
+   "dictionary": "kheeF niaaoR"
+  },
+  "ขี้แย": {
+   "ours": "кхи̂и-йээ",
+   "tones_ok": true,
+   "dictionary": "kheeF yaaeM"
+  },
+  "ขึ้น": {
+   "ours": "кхы̂н",
+   "tones_ok": true,
+   "dictionary": "kheun F"
+  },
+  "ข่า": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khaaL"
+  },
+  "ข้อมือ": {
+   "ours": "кхо̂о-мыы",
+   "tones_ok": true,
+   "dictionary": "khaawF meuuM"
+  },
+  "ข้า": {
+   "ours": "кха̂а",
+   "tones_ok": true,
+   "dictionary": "khaa F"
+  },
+  "ข้าง": {
+   "ours": "кха̂аң",
+   "tones_ok": true,
+   "dictionary": "khaang F"
+  },
+  "ข้างขวา": {
+   "ours": "кха̂аң кхуа̌а",
+   "tones_ok": true,
+   "dictionary": "khaangF khwaaR"
+  },
+  "ข้างซ้าย": {
+   "ours": "кха̂аң са́ай",
+   "tones_ok": true,
+   "dictionary": "khaangF saaiH"
+  },
+  "ข้างหน้า": {
+   "ours": "кха̂аң на̂а",
+   "tones_ok": true,
+   "dictionary": "khaangF naaF"
+  },
+  "ข้างหลัง": {
+   "ours": "кха̂аң ла̌ң",
+   "tones_ok": true,
+   "dictionary": "khaangF langR"
+  },
+  "ข้างๆ": {
+   "ours": "кха̂аң-кха̂аң",
+   "tones_ok": true,
+   "dictionary": "khaangF khaangF"
+  },
+  "ข้าพเจ้า": {
+   "ours": "кха̂а-пха́-дьза̂у",
+   "tones_ok": true,
+   "dictionary": "khaa F pha H jao F"
+  },
+  "ข้าม": {
+   "ours": "кха̂ам",
+   "tones_ok": true,
+   "dictionary": "khaam F"
+  },
+  "ข้าว": {
+   "ours": "кха̂ау",
+   "tones_ok": true,
+   "dictionary": "khaao F"
+  },
+  "ข้าวเหนียว": {
+   "ours": "кха̂ау ни̌иау",
+   "tones_ok": true,
+   "dictionary": "khaaoF niaaoR"
+  },
+  "คงจะ": {
+   "ours": "кхоң дьза̀",
+   "tones_ok": true,
+   "dictionary": "khohngM jaL"
+  },
+  "คน": {
+   "ours": "кхȯн",
+   "tones_ok": true,
+   "dictionary": "khohn M"
+  },
+  "คนจีน": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khohnM jeenM"
+  },
+  "คนนี้": {
+   "ours": "кхон-ни́и",
+   "tones_ok": true,
+   "dictionary": "khohnM neeH"
+  },
+  "คนรัก": {
+   "ours": "кхон-ра́к",
+   "tones_ok": true,
+   "dictionary": "khohnM rakH"
+  },
+  "คนอเมริกัน": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khohnM aL maehM riH ganM"
+  },
+  "คนใช้": {
+   "ours": "кхон-ща́й",
+   "tones_ok": true,
+   "dictionary": "khohnM chaiH"
+  },
+  "คนไข้": {
+   "ours": "кхон кха̂й",
+   "tones_ok": true,
+   "dictionary": "khohnM khaiF"
+  },
+  "คนไทย": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khohnM thaiM"
+  },
+  "ครอบครัว": {
+   "ours": "кхро̂оп-кхруа",
+   "tones_ok": true,
+   "dictionary": "khraawp F khruaa M"
+  },
+  "ครับ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khrap H"
+  },
+  "ครัว": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khruaaM"
+  },
+  "ครั้ง": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khrang H"
+  },
+  "ครึ่ง": {
+   "ours": "кхры̂ң",
+   "tones_ok": true,
+   "dictionary": "khreung F"
+  },
+  "ครู": {
+   "ours": "кхруу",
+   "tones_ok": true,
+   "dictionary": "khruu M"
+  },
+  "คลื่น": {
+   "ours": "кхлы̂ын",
+   "tones_ok": true,
+   "dictionary": "khleuun F"
+  },
+  "คล้าย": {
+   "ours": "кхла́ай",
+   "tones_ok": true,
+   "dictionary": "khlaaiH"
+  },
+  "ควร": {
+   "ours": "кхуан",
+   "tones_ok": true,
+   "dictionary": "khuaan M"
+  },
+  "ความจริง": {
+   "ours": "кхуаам дьзиң",
+   "tones_ok": true,
+   "dictionary": "khwaamM jingM"
+  },
+  "ความรัก": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khwaamM rakH"
+  },
+  "ความสุข": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khwaamM sookL"
+  },
+  "ความเศร้า": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khwaamM saoF"
+  },
+  "คอ": {
+   "ours": "кхоо",
+   "tones_ok": true,
+   "dictionary": "khaaw M"
+  },
+  "คอนโด": {
+   "ours": "кхон-доо",
+   "tones_ok": true,
+   "dictionary": "khaawnM do:hM"
+  },
+  "คอมพิวเตอร์": {
+   "ours": "кхоом-пхиу-тӧӧ",
+   "tones_ok": true,
+   "dictionary": "khaawmM phiuM dtuuhrM"
+  },
+  "คะ": {
+   "ours": "кха́",
+   "tones_ok": true,
+   "dictionary": "kha H"
+  },
+  "คัน": {
+   "ours": "кхан",
+   "tones_ok": true,
+   "dictionary": "khanM"
+  },
+  "คับ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khap H"
+  },
+  "คาง": {
+   "ours": "кхааң",
+   "tones_ok": true,
+   "dictionary": "khaangM"
+  },
+  "คำ": {
+   "ours": "кхам",
+   "tones_ok": true,
+   "dictionary": "kham M"
+  },
+  "คิดถึง": {
+   "ours": "кхи́т-тьхы̌ң",
+   "tones_ok": true,
+   "dictionary": "khitH theungR"
+  },
+  "คิดมาก": {
+   "ours": "кхи́т-ма̂ак",
+   "tones_ok": true,
+   "dictionary": "khitH maakF"
+  },
+  "คิว": {
+   "ours": "кхиу",
+   "tones_ok": true,
+   "dictionary": "khiuM"
+  },
+  "คิ้ว": {
+   "ours": "кхиу́",
+   "tones_ok": true,
+   "dictionary": "khiuH"
+  },
+  "คืนนี้": {
+   "ours": "кхыын-ни́и",
+   "tones_ok": true,
+   "dictionary": "kheuunM neeH"
+  },
+  "คือ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "kheuu M"
+  },
+  "คุณ": {
+   "ours": "кхун",
+   "tones_ok": true,
+   "dictionary": "khoon M"
+  },
+  "คุณนาย": {
+   "ours": "кхун-наай",
+   "tones_ok": true,
+   "dictionary": "khoonM naaiM"
+  },
+  "คุณพ่อ": {
+   "ours": "кхун-пхо̂о",
+   "tones_ok": true,
+   "dictionary": "khoonM phaawF"
+  },
+  "คุณแม่": {
+   "ours": "кхун-мэ̂э",
+   "tones_ok": true,
+   "dictionary": "khoonM maaeF"
+  },
+  "คุย": {
+   "ours": "кхуй",
+   "tones_ok": true,
+   "dictionary": "khuyM"
+  },
+  "คุ้ม": {
+   "ours": "кху́м",
+   "tones_ok": true,
+   "dictionary": "khoomH"
+  },
+  "คู่": {
+   "ours": "кху̂у",
+   "tones_ok": true,
+   "dictionary": "khuuF"
+  },
+  "คู่รัก": {
+   "ours": "кху̂у-ра́к",
+   "tones_ok": true,
+   "dictionary": "khuuF rakH"
+  },
+  "คู่สมรส": {
+   "ours": "кху̂у-со̌м-ро́т",
+   "tones_ok": true,
+   "dictionary": "khuuF sohmR rohtH"
+  },
+  "คู่หมั้น": {
+   "ours": "кху̂у-ма̂н",
+   "tones_ok": true,
+   "dictionary": "khuuF manF"
+  },
+  "ค่อนข้าง": {
+   "ours": "кхо̂н-кха̂аң",
+   "tones_ok": true,
+   "dictionary": "khaawnF khaangF"
+  },
+  "ค่อยๆ": {
+   "ours": "кхо̂й-кхо̂й",
+   "tones_ok": true,
+   "dictionary": "khaawyF khaawyF"
+  },
+  "ค่ะ": {
+   "ours": "кха̂",
+   "tones_ok": true,
+   "dictionary": "kha F"
+  },
+  "ค่า": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khaa F"
+  },
+  "ค่าบริการ": {
+   "ours": "кха̂а-боо-ри́-гаан",
+   "tones_ok": true,
+   "dictionary": "khaaF baawM riH gaanM"
+  },
+  "งาม": {
+   "ours": "ңаам",
+   "tones_ok": true,
+   "dictionary": "ngaam M"
+  },
+  "ง่วง": {
+   "ours": "ңуа̂ң",
+   "tones_ok": true,
+   "dictionary": "nguaangF"
+  },
+  "จมูก": {
+   "ours": "дьза̀-му̀ук",
+   "tones_ok": true,
+   "dictionary": "ja L muuk L"
+  },
+  "จริงๆ": {
+   "ours": "дьзиң-дьзиң",
+   "tones_ok": true,
+   "dictionary": "jingM jingM"
+  },
+  "จอง": {
+   "ours": "дьзооң",
+   "tones_ok": true,
+   "dictionary": "jaawngM"
+  },
+  "จอด": {
+   "ours": "дьзо̀от",
+   "tones_ok": true,
+   "dictionary": "jaawtL"
+  },
+  "จะ": {
+   "ours": "дьза̀",
+   "tones_ok": true,
+   "dictionary": "ja L"
+  },
+  "จักรยาน": {
+   "ours": "дьза̀к-гра̀-йаан",
+   "tones_ok": true,
+   "dictionary": "jakL graL yaanM"
+  },
+  "จัง": {
+   "ours": "дьзаң",
+   "tones_ok": true,
+   "dictionary": "jang M"
+  },
+  "จังหวัด": {
+   "ours": "дьзаң-уа̀т",
+   "tones_ok": true,
+   "dictionary": "jang M wat L"
+  },
+  "จาน": {
+   "ours": "дьзаан",
+   "tones_ok": true,
+   "dictionary": "jaan M"
+  },
+  "จาม": {
+   "ours": "дьзаам",
+   "tones_ok": true,
+   "dictionary": "jaamM"
+  },
+  "จำเป็น": {
+   "ours": "дьзам пэн",
+   "tones_ok": true,
+   "dictionary": "jamM bpenM"
+  },
+  "จีบ": {
+   "ours": "дьзѝип",
+   "tones_ok": true,
+   "dictionary": "jeepL"
+  },
+  "จืด": {
+   "ours": "дьзы̀ыт",
+   "tones_ok": true,
+   "dictionary": "jeuutL"
+  },
+  "จ่าย": {
+   "ours": "дьза̀ай",
+   "tones_ok": true,
+   "dictionary": "jaai L"
+  },
+  "ฉลอง": {
+   "ours": "ща̀-ло̌оң",
+   "tones_ok": true,
+   "dictionary": "chaL laawngR"
+  },
+  "ฉลาด": {
+   "ours": "ща̀-ла̀ат",
+   "tones_ok": true,
+   "dictionary": "cha L laat L"
+  },
+  "ฉัน": {
+   "ours": "ща̌н",
+   "tones_ok": true,
+   "dictionary": "chan R"
+  },
+  "ฉีดยา": {
+   "ours": "щѝит йаа",
+   "tones_ok": true,
+   "dictionary": "cheetL yaaM"
+  },
+  "ชอบ": {
+   "ours": "що̂п",
+   "tones_ok": true,
+   "dictionary": "chaawp F"
+  },
+  "ชั่วโมง": {
+   "ours": "щуа̂-мȯȯң",
+   "tones_ok": true,
+   "dictionary": "chuaa F mo:hng M"
+  },
+  "ชั้น": {
+   "ours": "ща́н",
+   "tones_ok": true,
+   "dictionary": "chan H"
+  },
+  "ชั้นบน": {
+   "ours": "ща́н-бон",
+   "tones_ok": true,
+   "dictionary": "chanH bohnM"
+  },
+  "ชา": {
+   "ours": "щаа",
+   "tones_ok": true,
+   "dictionary": "chaa M"
+  },
+  "ชาเย็น": {
+   "ours": "щаа йэн",
+   "tones_ok": true,
+   "dictionary": "chaaM yenM"
+  },
+  "ชิ้น": {
+   "ours": "щи́н",
+   "tones_ok": true,
+   "dictionary": "chinH"
+  },
+  "ชื่อ": {
+   "ours": "щы̂ы",
+   "tones_ok": true,
+   "dictionary": "cheuu F"
+  },
+  "ชื่อเล่น": {
+   "ours": "щы̂ы-лӭ̂н",
+   "tones_ok": true,
+   "dictionary": "cheuuF lenF"
+  },
+  "ชุด": {
+   "ours": "щу́т",
+   "tones_ok": true,
+   "dictionary": "chootH"
+  },
+  "ชุดนอน": {
+   "ours": "щу́т-ноон",
+   "tones_ok": true,
+   "dictionary": "chootH naawnM"
+  },
+  "ช่วย": {
+   "ours": "щу̂ай",
+   "tones_ok": true,
+   "dictionary": "chuay F"
+  },
+  "ช้า": {
+   "ours": "ща́а",
+   "tones_ok": true,
+   "dictionary": "chaa H"
+  },
+  "ช้าๆ": {
+   "ours": "ща́а ща́а",
+   "tones_ok": true,
+   "dictionary": "chaaH chaaH"
+  },
+  "ซอย": {
+   "ours": "соой",
+   "tones_ok": true,
+   "dictionary": "saawyM"
+  },
+  "ซัก": {
+   "ours": "са́к",
+   "tones_ok": true,
+   "dictionary": "sakH"
+  },
+  "ซักผ้า": {
+   "ours": "са́к пха̂а",
+   "tones_ok": true,
+   "dictionary": "sakH phaaF"
+  },
+  "ซื้อ": {
+   "ours": "сы́ы",
+   "tones_ok": true,
+   "dictionary": "seuu H"
+  },
+  "ญาติ": {
+   "ours": "йа̂ат",
+   "tones_ok": true,
+   "dictionary": "yaat F"
+  },
+  "ดวง": {
+   "ours": "дуаң",
+   "tones_ok": true,
+   "dictionary": "duaang M"
+  },
+  "ดวงจันทร์": {
+   "ours": "дуаң дьзан",
+   "tones_ok": true,
+   "dictionary": "duaangM janM"
+  },
+  "ดวงดาว": {
+   "ours": "дуаң даау",
+   "tones_ok": true,
+   "dictionary": "duaangM daaoM"
+  },
+  "ดวงดี": {
+   "ours": "дуаң дии",
+   "tones_ok": true,
+   "dictionary": "duaangM deeM"
+  },
+  "ดวงตา": {
+   "ours": "дуаң таа",
+   "tones_ok": true,
+   "dictionary": "duaangM dtaaM"
+  },
+  "ดอก": {
+   "ours": "до̀ок",
+   "tones_ok": true,
+   "dictionary": "daawk L"
+  },
+  "ดอกไม้": {
+   "ours": "до̀ок ма́й",
+   "tones_ok": true,
+   "dictionary": "daawkL maaiH"
+  },
+  "ดั่ง": {
+   "ours": "да̀ң",
+   "tones_ok": true,
+   "dictionary": "dangL"
+  },
+  "ดิฉัน": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "diL chanR"
+  },
+  "ดีกว่า": {
+   "ours": "дии-гва̀а",
+   "tones_ok": true,
+   "dictionary": "deeM gwaaL"
+  },
+  "ดีใจ": {
+   "ours": "дии-дьзай",
+   "tones_ok": true,
+   "dictionary": "deeM jaiM"
+  },
+  "ดีๆ": {
+   "ours": "дии-дии",
+   "tones_ok": true,
+   "dictionary": "deeM deeM"
+  },
+  "ดื่ม": {
+   "ours": "ды̀ым",
+   "tones_ok": true,
+   "dictionary": "deuum L"
+  },
+  "ดุจ": {
+   "ours": "ду̀т",
+   "tones_ok": true,
+   "dictionary": "doot L"
+  },
+  "ดู": {
+   "ours": "дуу",
+   "tones_ok": true,
+   "dictionary": "duu M"
+  },
+  "ดูแล": {
+   "ours": "дуу-лээ",
+   "tones_ok": true,
+   "dictionary": "duuM laaeM"
+  },
+  "ตกใจ": {
+   "ours": "то̀к-дьзай",
+   "tones_ok": true,
+   "dictionary": "dtohkL jaiM"
+  },
+  "ตรง": {
+   "ours": "троң",
+   "tones_ok": true,
+   "dictionary": "dtrohng M"
+  },
+  "ตรงข้าม": {
+   "ours": "троң-кха̂ам",
+   "tones_ok": true,
+   "dictionary": "dtrohngM khaamF"
+  },
+  "ตรงไป": {
+   "ours": "троң пай",
+   "tones_ok": true,
+   "dictionary": "dtrohngM bpaiM"
+  },
+  "ตรวจ": {
+   "ours": "трруа̀т",
+   "tones_ok": true,
+   "dictionary": "dtruaat L"
+  },
+  "ตรัส": {
+   "ours": "тра̀т",
+   "tones_ok": true,
+   "dictionary": "dtrat L"
+  },
+  "ตลก": {
+   "ours": "та̀-ло̀к",
+   "tones_ok": true,
+   "dictionary": "dtaL lohkL"
+  },
+  "ตลอดเวลา": {
+   "ours": "та̀-ло̀от вӭӭ-лаа",
+   "tones_ok": true,
+   "dictionary": "dtaL laawtL waehM laaM"
+  },
+  "ตลาด": {
+   "ours": "та̀-ла̀ат",
+   "tones_ok": true,
+   "dictionary": "dta L laat L"
+  },
+  "ตลาดนัด": {
+   "ours": "та̀-ла̀ат на́т",
+   "tones_ok": true,
+   "dictionary": "dtaL laatL natH"
+  },
+  "ตอน": {
+   "ours": "тон",
+   "tones_ok": true,
+   "dictionary": "dtaawn M"
+  },
+  "ตอนนี้": {
+   "ours": "тон-ни́и",
+   "tones_ok": true,
+   "dictionary": "dtaawnM neeH"
+  },
+  "ตอนบ่าย": {
+   "ours": "тон-ба̀ай",
+   "tones_ok": true,
+   "dictionary": "dtaawnM baaiL"
+  },
+  "ตอนเย็น": {
+   "ours": "тон-йэн",
+   "tones_ok": true,
+   "dictionary": "dtaawnM yenM"
+  },
+  "ตอนแรก": {
+   "ours": "тон-рэ̂эк",
+   "tones_ok": true,
+   "dictionary": "dtaawnM raaekF"
+  },
+  "ตัว": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "dtuaa M"
+  },
+  "ตั้งใจ": {
+   "ours": "та̂ң-дьзай",
+   "tones_ok": true,
+   "dictionary": "dtangF jaiM"
+  },
+  "ตั๋ว": {
+   "ours": "туа̌",
+   "tones_ok": true,
+   "dictionary": "dtuaaR"
+  },
+  "ตั๋วเครื่องบิน": {
+   "ours": "туа̌ кхрыыа̂ң бин",
+   "tones_ok": true,
+   "dictionary": "dtuaaR khreuuangF binM"
+  },
+  "ตา": {
+   "ours": "нет",
+   "tones_ok": true,
+   "dictionary": "dtaa M"
+  },
+  "ตาก": {
+   "ours": "та̀ак",
+   "tones_ok": true,
+   "dictionary": "dtaakL"
+  },
+  "ตาย": {
+   "ours": "таай",
+   "tones_ok": true,
+   "dictionary": "dtaai M"
+  },
+  "ตายแล้ว": {
+   "ours": "таай лэ́эу",
+   "tones_ok": true,
+   "dictionary": "dtaaiM laaeoH"
+  },
+  "ติ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "dtiL"
+  },
+  "ตี": {
+   "ours": "тии",
+   "tones_ok": true,
+   "dictionary": "dtee M"
+  },
+  "ตีสอง": {
+   "ours": "тии-со̌оң",
+   "tones_ok": true,
+   "dictionary": "dteeM saawngR"
+  },
+  "ตีหนึ่ง": {
+   "ours": "тии-ны̀ң",
+   "tones_ok": true,
+   "dictionary": "dteeM neungL"
+  },
+  "ตื่น": {
+   "ours": "ты̀ын",
+   "tones_ok": true,
+   "dictionary": "dteuunL"
+  },
+  "ตู้": {
+   "ours": "ту̂у",
+   "tones_ok": true,
+   "dictionary": "dtuu F"
+  },
+  "ตู้เย็น": {
+   "ours": "ту̂у-йэн",
+   "tones_ok": true,
+   "dictionary": "dtuuF yenM"
+  },
+  "ต่างกัน": {
+   "ours": "та̀аң-ган",
+   "tones_ok": true,
+   "dictionary": "dtaangL ganM"
+  },
+  "ต้น": {
+   "ours": "то̂н",
+   "tones_ok": true,
+   "dictionary": "dtohn F"
+  },
+  "ต้ม": {
+   "ours": "то̂м",
+   "tones_ok": true,
+   "dictionary": "dtohmF"
+  },
+  "ต้มยำกุ้ง": {
+   "ours": "то̂м йам гу̂ң",
+   "tones_ok": true,
+   "dictionary": "dtohmF yamM goongF"
+  },
+  "ต้อง": {
+   "ours": "то̂ң",
+   "tones_ok": true,
+   "dictionary": "dtawng F"
+  },
+  "ต้องการ": {
+   "ours": "то̂ң гаан",
+   "tones_ok": true,
+   "dictionary": "dtawngF gaanM"
+  },
+  "ถนน": {
+   "ours": "тьха̀-но̌н",
+   "tones_ok": true,
+   "dictionary": "tha L nohn R"
+  },
+  "ถุงน่อง": {
+   "ours": "тьху̌ң но̂ң",
+   "tones_ok": true,
+   "dictionary": "thoongR naawngF"
+  },
+  "ถุงเท้า": {
+   "ours": "тьху̌нг тьха́ау",
+   "tones_ok": true,
+   "dictionary": "thoongR thaaoH"
+  },
+  "ถู": {
+   "ours": "тьху̌у",
+   "tones_ok": true,
+   "dictionary": "thuuR"
+  },
+  "ถูก": {
+   "ours": "тьху̀ук",
+   "tones_ok": true,
+   "dictionary": "thuuk L"
+  },
+  "ถ้วย": {
+   "ours": "тьху̂ай",
+   "tones_ok": true,
+   "dictionary": "thuayF"
+  },
+  "ทรง": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "sohng M"
+  },
+  "ทรมาน": {
+   "ours": "тьхоо-ра́-маан",
+   "tones_ok": true,
+   "dictionary": "thaawM raH maanM"
+  },
+  "ทรัพยากร": {
+   "ours": "са́п-пха́-йаа-гоон",
+   "tones_ok": true,
+   "dictionary": "sapH phaH yaaM gaawnM"
+  },
+  "ทราย": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "saaiM"
+  },
+  "ทอด": {
+   "ours": "тьхо̂от",
+   "tones_ok": true,
+   "dictionary": "thaawt F"
+  },
+  "ทะเล": {
+   "ours": "тьха́-лӭӭ",
+   "tones_ok": true,
+   "dictionary": "tha H laeh M"
+  },
+  "ทันที": {
+   "ours": "тьхан-тьхии",
+   "tones_ok": true,
+   "dictionary": "thanM theeM"
+  },
+  "ทั้งวัน": {
+   "ours": "тьха́н-ван",
+   "tones_ok": true,
+   "dictionary": "thangH wanM"
+  },
+  "ทั้งหมด": {
+   "ours": "тьха́ң мо̀т",
+   "tones_ok": true,
+   "dictionary": "thangH mohtL"
+  },
+  "ทาง": {
+   "ours": "тьхааң",
+   "tones_ok": true,
+   "dictionary": "thaang M"
+  },
+  "ทำกับข้าว": {
+   "ours": "тьхам-га̀п-кха̂ау",
+   "tones_ok": true,
+   "dictionary": "thamM gapL khaaoF"
+  },
+  "ทำความสะอาด": {
+   "ours": "тьхам-кхуаам-са̀-а̀т",
+   "tones_ok": true,
+   "dictionary": "thamM khwaamM saL aatL"
+  },
+  "ทำงาน": {
+   "ours": "тьхам-ңаан",
+   "tones_ok": true,
+   "dictionary": "thamM ngaanM"
+  },
+  "ทำบุญ": {
+   "ours": "тьхам бун",
+   "tones_ok": true,
+   "dictionary": "thamM boonM"
+  },
+  "ทำเป็น": {
+   "ours": "тьхам-пэн",
+   "tones_ok": true,
+   "dictionary": "thamM bpenM"
+  },
+  "ทำได้": {
+   "ours": "тьхам да̂й",
+   "tones_ok": true,
+   "dictionary": "thamM daiF"
+  },
+  "ทำไม": {
+   "ours": "тьхам-май",
+   "tones_ok": true,
+   "dictionary": "tham M mai M"
+  },
+  "ทิ้ง": {
+   "ours": "тьхи́ң",
+   "tones_ok": true,
+   "dictionary": "thing H"
+  },
+  "ทีม": {
+   "ours": "тиим",
+   "tones_ok": true,
+   "dictionary": "theemM"
+  },
+  "ทีวี": {
+   "ours": "тии-вии",
+   "tones_ok": true,
+   "dictionary": "theeM weeM"
+  },
+  "ที่": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "thee F"
+  },
+  "ที่นั่ง": {
+   "ours": "тьхи̂и на̂ң",
+   "tones_ok": true,
+   "dictionary": "theeF nangF"
+  },
+  "ที่รัก": {
+   "ours": "тьхи̂и-ра́к",
+   "tones_ok": true,
+   "dictionary": "theeF rakH"
+  },
+  "ที่สุด": {
+   "ours": "тьхи̂и-су̀т",
+   "tones_ok": true,
+   "dictionary": "theeF sootL"
+  },
+  "ที่อยู่": {
+   "ours": "тьхи̂и йу̀у",
+   "tones_ok": true,
+   "dictionary": "theeF yuuL"
+  },
+  "ที่ไหน": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "theeF naiR"
+  },
+  "ทุกคืน": {
+   "ours": "тьху́к-кхыын",
+   "tones_ok": true,
+   "dictionary": "thookH kheuunM"
+  },
+  "ทุกปี": {
+   "ours": "тьху́к-пии",
+   "tones_ok": true,
+   "dictionary": "thookH bpeeM"
+  },
+  "ทุกวัน": {
+   "ours": "тьху́к-ван",
+   "tones_ok": true,
+   "dictionary": "thookH wanM"
+  },
+  "ทุกๆ": {
+   "ours": "тьху́к тьху́к",
+   "tones_ok": true,
+   "dictionary": "thookH thookH"
+  },
+  "ทุเรียน": {
+   "ours": "тьху́-рииан",
+   "tones_ok": true,
+   "dictionary": "thooH riianM"
+  },
+  "ทุ่ม": {
+   "ours": "тьху̂м",
+   "tones_ok": true,
+   "dictionary": "thoomF"
+  },
+  "ท่องเที่ยว": {
+   "ours": "тьхо̂ң тьхи̂иа̂у",
+   "tones_ok": true,
+   "dictionary": "thaawngF thiaaoF"
+  },
+  "ท่าน": {
+   "ours": "тьха̂ан",
+   "tones_ok": true,
+   "dictionary": "than F"
+  },
+  "ท้อง": {
+   "ours": "тьхо́ң",
+   "tones_ok": true,
+   "dictionary": "thaawng H"
+  },
+  "ธุรกิจ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "thooH raH gitL"
+  },
+  "นอน": {
+   "ours": "ноон",
+   "tones_ok": true,
+   "dictionary": "naawn M"
+  },
+  "นะ": {
+   "ours": "на́",
+   "tones_ok": true,
+   "dictionary": "naH"
+  },
+  "นักท่องเที่ยว": {
+   "ours": "на́к тьхо̂ң тьхи̂иау",
+   "tones_ok": true,
+   "dictionary": "nakH thaawngF thiaaoF"
+  },
+  "นัด": {
+   "ours": "на́т",
+   "tones_ok": true,
+   "dictionary": "natH"
+  },
+  "นั่ง": {
+   "ours": "на̂ң",
+   "tones_ok": true,
+   "dictionary": "nang F"
+  },
+  "นาน": {
+   "ours": "наан",
+   "tones_ok": true,
+   "dictionary": "naan M"
+  },
+  "นามสกุล": {
+   "ours": "наам-са̀-гун",
+   "tones_ok": true,
+   "dictionary": "naamM saL goonM"
+  },
+  "นาย": {
+   "ours": "наай",
+   "tones_ok": true,
+   "dictionary": "naaiM"
+  },
+  "นายกรัฐมนตรี": {
+   "ours": "наа-йо́к ра́т-та̀-мон-трии",
+   "tones_ok": true,
+   "dictionary": "naaM yohkH ratH thaL mohnM dtreeM"
+  },
+  "นาฬิกา": {
+   "ours": "наа-ли́-гаа",
+   "tones_ok": true,
+   "dictionary": "naa M li H gaa M"
+  },
+  "นิ้ว": {
+   "ours": "ниу́",
+   "tones_ok": true,
+   "dictionary": "niu H"
+  },
+  "น่ากิน": {
+   "ours": "на̂а гин",
+   "tones_ok": true,
+   "dictionary": "naaF ginM"
+  },
+  "น่าจะ": {
+   "ours": "на̂а дьза̀",
+   "tones_ok": true,
+   "dictionary": "naaF jaL"
+  },
+  "น่ารัก": {
+   "ours": "на̂а-ра́к",
+   "tones_ok": true,
+   "dictionary": "naaF rakH"
+  },
+  "น่าเกลียด": {
+   "ours": "на̂а-глѝиат",
+   "tones_ok": true,
+   "dictionary": "naaF gliiatL"
+  },
+  "น้อง": {
+   "ours": "но́оң",
+   "tones_ok": true,
+   "dictionary": "naawng H"
+  },
+  "น้องชาย": {
+   "ours": "но́оң-щаай",
+   "tones_ok": true,
+   "dictionary": "naawngH chaaiM"
+  },
+  "น้องสาว": {
+   "ours": "но́оң-са̌ау",
+   "tones_ok": true,
+   "dictionary": "naawngH saaoR"
+  },
+  "น้อย": {
+   "ours": "но́й",
+   "tones_ok": true,
+   "dictionary": "naawy H"
+  },
+  "น้อยกว่า": {
+   "ours": "но́й-гва̀а",
+   "tones_ok": true,
+   "dictionary": "naawyH gwaaL"
+  },
+  "น้า": {
+   "ours": "на́а",
+   "tones_ok": true,
+   "dictionary": "naaH"
+  },
+  "น้ำ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "naam H"
+  },
+  "น้ำตา": {
+   "ours": "на́ам таа",
+   "tones_ok": true,
+   "dictionary": "namH dtaaM"
+  },
+  "น้ำมะนาว": {
+   "ours": "на́ам ма́-наау",
+   "tones_ok": true,
+   "dictionary": "naamH maH naaoM"
+  },
+  "น้ำส้ม": {
+   "ours": "на́ам со̂м",
+   "tones_ok": true,
+   "dictionary": "namH sohmF"
+  },
+  "น้ำแข็ง": {
+   "ours": "на́ам кхэ̌ң",
+   "tones_ok": true,
+   "dictionary": "namH khaengR"
+  },
+  "บน": {
+   "ours": "бȯн",
+   "tones_ok": true,
+   "dictionary": "bohn M"
+  },
+  "บริการ": {
+   "ours": "боо-ри́-гаан",
+   "tones_ok": true,
+   "dictionary": "baawM riH gaanM"
+  },
+  "บอก": {
+   "ours": "бо̀ок",
+   "tones_ok": true,
+   "dictionary": "baawk L"
+  },
+  "บะหมี่": {
+   "ours": "ба̀ мѝи",
+   "tones_ok": true,
+   "dictionary": "baL meeL"
+  },
+  "บัตร": {
+   "ours": "ба̀т",
+   "tones_ok": true,
+   "dictionary": "batL"
+  },
+  "บันได": {
+   "ours": "бан-дай",
+   "tones_ok": true,
+   "dictionary": "banM daiM"
+  },
+  "บางครั้ง": {
+   "ours": "бааң-кхра́ң",
+   "tones_ok": true,
+   "dictionary": "baangM khrangH"
+  },
+  "บางที": {
+   "ours": "бааң-тьхии",
+   "tones_ok": true,
+   "dictionary": "baangM theeM"
+  },
+  "บาท": {
+   "ours": "ба̀ат",
+   "tones_ok": true,
+   "dictionary": "baat L"
+  },
+  "บาป": {
+   "ours": "ба̀ап",
+   "tones_ok": true,
+   "dictionary": "baapL"
+  },
+  "บาลี": {
+   "ours": "баа-лии",
+   "tones_ok": true,
+   "dictionary": "baaM leeM"
+  },
+  "บิล": {
+   "ours": "бин",
+   "tones_ok": true,
+   "dictionary": "bin M"
+  },
+  "บุญ": {
+   "ours": "бун",
+   "tones_ok": true,
+   "dictionary": "boon M"
+  },
+  "บ่อยๆ": {
+   "ours": "бо̀й бо̀й",
+   "tones_ok": true,
+   "dictionary": "baawyL baawyL"
+  },
+  "บ่าย": {
+   "ours": "ба̀ай",
+   "tones_ok": true,
+   "dictionary": "baai L"
+  },
+  "บ่ายโมง": {
+   "ours": "ба̀ай-мȯȯȯң",
+   "tones_ok": true,
+   "dictionary": "baaiL mo:hngM"
+  },
+  "บ้า": {
+   "ours": "ба̂а",
+   "tones_ok": true,
+   "dictionary": "baaF"
+  },
+  "บ้าน": {
+   "ours": "ба̂ан",
+   "tones_ok": true,
+   "dictionary": "baan F"
+  },
+  "บ้านเกิด": {
+   "ours": "ба̂ан-гы̀эт",
+   "tones_ok": true,
+   "dictionary": "baanF geertL"
+  },
+  "บ้านเรือน": {
+   "ours": "ба̂ан рыыаан",
+   "tones_ok": true,
+   "dictionary": "baanF reuuanM"
+  },
+  "ปฏิบัติ": {
+   "ours": "па̀-тѝ-ба̀т",
+   "tones_ok": true,
+   "dictionary": "bpa L dti L bat L"
+  },
+  "ประชาธิปไตย": {
+   "ours": "пра̀-щаа-тьхи́п-па̀-тай",
+   "tones_ok": true,
+   "dictionary": "bpraL chaaM thipH bpaL dtaiM"
+  },
+  "ประตู": {
+   "ours": "пра̀-туу",
+   "tones_ok": true,
+   "dictionary": "bpra L dtuu M"
+  },
+  "ประหลาดใจ": {
+   "ours": "пра̀-ла̀ат-дьзай",
+   "tones_ok": true,
+   "dictionary": "bpraL laatL jaiM"
+  },
+  "ปรับ": {
+   "ours": "пра̀п",
+   "tones_ok": true,
+   "dictionary": "bprapL"
+  },
+  "ปรารถนา": {
+   "ours": "пра̀ат-тьха̀-на̌а",
+   "tones_ok": true,
+   "dictionary": "bpraatL thaL naaR"
+  },
+  "ปลด": {
+   "ours": "пло̀т",
+   "tones_ok": true,
+   "dictionary": "bplohtL"
+  },
+  "ปลอม": {
+   "ours": "плоом",
+   "tones_ok": true,
+   "dictionary": "bplaawmM"
+  },
+  "ปลา": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "bplaa M"
+  },
+  "ปวด": {
+   "ours": "пуа̀т",
+   "tones_ok": true,
+   "dictionary": "bpuaatL"
+  },
+  "ปวดร้าว": {
+   "ours": "пуа̀т ра́ау",
+   "tones_ok": true,
+   "dictionary": "bpuaatL raaoH"
+  },
+  "ปอก": {
+   "ours": "по̀ок",
+   "tones_ok": true,
+   "dictionary": "bpaawkL"
+  },
+  "ปอด": {
+   "ours": "по̀от",
+   "tones_ok": true,
+   "dictionary": "bpaawtL"
+  },
+  "ปัด": {
+   "ours": "па̀т",
+   "tones_ok": true,
+   "dictionary": "bpatL"
+  },
+  "ปาก": {
+   "ours": "па̀ак",
+   "tones_ok": true,
+   "dictionary": "bpaak L"
+  },
+  "ปิด": {
+   "ours": "пѝт",
+   "tones_ok": true,
+   "dictionary": "bpit L"
+  },
+  "ปี": {
+   "ours": "пии",
+   "tones_ok": true,
+   "dictionary": "bpee M"
+  },
+  "ปีที่แล้ว": {
+   "ours": "пии тьхи̂и лэ́эу",
+   "tones_ok": true,
+   "dictionary": "bpeeM theeF laaeoH"
+  },
+  "ปีนี้": {
+   "ours": "пии-ни́и",
+   "tones_ok": true,
+   "dictionary": "bpeeM neeH"
+  },
+  "ปีหน้า": {
+   "ours": "пии-на̂а",
+   "tones_ok": true,
+   "dictionary": "bpeeM naaF"
+  },
+  "ปีใหม่": {
+   "ours": "пии-ма̀й",
+   "tones_ok": true,
+   "dictionary": "bpeeM maiL"
+  },
+  "ปู": {
+   "ours": "пуу",
+   "tones_ok": true,
+   "dictionary": "bpuuM"
+  },
+  "ปู่": {
+   "ours": "пу̀у",
+   "tones_ok": true,
+   "dictionary": "bpuuL"
+  },
+  "ป่วย": {
+   "ours": "пуа̀й",
+   "tones_ok": true,
+   "dictionary": "bpuayL"
+  },
+  "ป้า": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "bpaaF"
+  },
+  "ป้าย": {
+   "ours": "па̂ай",
+   "tones_ok": true,
+   "dictionary": "bpaaiF"
+  },
+  "ผม": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "phohm R"
+  },
+  "ผล": {
+   "ours": "пхо̌н",
+   "tones_ok": true,
+   "dictionary": "phohn R"
+  },
+  "ผลิต": {
+   "ours": "пха̀-лѝт",
+   "tones_ok": true,
+   "dictionary": "phaL litL"
+  },
+  "ผลไม้": {
+   "ours": "пхо̌н-ла́-ма́й",
+   "tones_ok": true,
+   "dictionary": "phohnR laH maaiH"
+  },
+  "ผอม": {
+   "ours": "пхо̌м",
+   "tones_ok": true,
+   "dictionary": "phaawmR"
+  },
+  "ผัก": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "phakL"
+  },
+  "ผัด": {
+   "ours": "пха̀т",
+   "tones_ok": true,
+   "dictionary": "phatL"
+  },
+  "ผัดกะเพรา": {
+   "ours": "пха̀т га̀ пхрау",
+   "tones_ok": true,
+   "dictionary": "phatL gaL phraoM"
+  },
+  "ผัว": {
+   "ours": "пхуа̌",
+   "tones_ok": true,
+   "dictionary": "phuaaR"
+  },
+  "ผิดหวัง": {
+   "ours": "пхѝт ва̌ң",
+   "tones_ok": true,
+   "dictionary": "phitL wangR"
+  },
+  "ผี": {
+   "ours": "пхи̌и",
+   "tones_ok": true,
+   "dictionary": "phee R"
+  },
+  "ผู้คน": {
+   "ours": "пху̂у кхон",
+   "tones_ok": true,
+   "dictionary": "phuuF khohnM"
+  },
+  "ผู้ใหญ่": {
+   "ours": "пху̂у-йа̀й",
+   "tones_ok": true,
+   "dictionary": "phuuF yaiL"
+  },
+  "ผ่าตัด": {
+   "ours": "пха̀а та̀т",
+   "tones_ok": true,
+   "dictionary": "phaaL dtatL"
+  },
+  "ผ่าน": {
+   "ours": "пха̀ан",
+   "tones_ok": true,
+   "dictionary": "phaan L"
+  },
+  "ฝน": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "fohn R"
+  },
+  "ฝนตก": {
+   "ours": "фо̌н-то̀к",
+   "tones_ok": true,
+   "dictionary": "fohnR dtohkL"
+  },
+  "ฝัน": {
+   "ours": "фа̌н",
+   "tones_ok": true,
+   "dictionary": "fanR"
+  },
+  "ฝันดี": {
+   "ours": "фа̌н-дии",
+   "tones_ok": true,
+   "dictionary": "fanR deeM"
+  },
+  "พนักงาน": {
+   "ours": "пха́-на́к-ңаан",
+   "tones_ok": true,
+   "dictionary": "phaH nakH ngaanM"
+  },
+  "พยาบาล": {
+   "ours": "пха́-йаа-баан",
+   "tones_ok": true,
+   "dictionary": "phaH yaaM baanM"
+  },
+  "พระ": {
+   "ours": "пхра́",
+   "tones_ok": true,
+   "dictionary": "phra H"
+  },
+  "พระธรรม": {
+   "ours": "пхра́ тьхам",
+   "tones_ok": true,
+   "dictionary": "phraH thamM"
+  },
+  "พระพุทธเจ้า": {
+   "ours": "пхра́ пху́т-тьха́-дьза̂у",
+   "tones_ok": true,
+   "dictionary": "phraH phootH thaH jaoF"
+  },
+  "พระมหากษัตริย์": {
+   "ours": "пхра́ ма́-ха̌а га̀-са̀т",
+   "tones_ok": true,
+   "dictionary": "phraH maH haaR gaL satL"
+  },
+  "พระราชินี": {
+   "ours": "пхра́ раа-щи́-нии",
+   "tones_ok": true,
+   "dictionary": "phraH raaM chiH neeM"
+  },
+  "พระสงฆ์": {
+   "ours": "пхра́ со̌ң",
+   "tones_ok": true,
+   "dictionary": "phra H sohng R"
+  },
+  "พระหัตถ์": {
+   "ours": "пхра́ ха̀т",
+   "tones_ok": true,
+   "dictionary": "phraH hatL"
+  },
+  "พระเครื่อง": {
+   "ours": "пхра́ кхрыыа̂ң",
+   "tones_ok": true,
+   "dictionary": "phraH khreuuangF"
+  },
+  "พระเจ้า": {
+   "ours": "пхра́ дьза̂у",
+   "tones_ok": true,
+   "dictionary": "phraH jaoF"
+  },
+  "พระเนตร": {
+   "ours": "пхра́ нэ̂эт",
+   "tones_ok": true,
+   "dictionary": "phraH naehtF"
+  },
+  "พรุ่งนี้": {
+   "ours": "пхру̂ң-ни́и",
+   "tones_ok": true,
+   "dictionary": "phroongF neeH"
+  },
+  "พรุ่งนี้เช้า": {
+   "ours": "пхру̂ң-ни́и-ща́у",
+   "tones_ok": true,
+   "dictionary": "phroongF neeH chaaoH"
+  },
+  "พลัง": {
+   "ours": "пха́-лаң",
+   "tones_ok": true,
+   "dictionary": "phaH langM"
+  },
+  "พอ": {
+   "ours": "пхоо",
+   "tones_ok": true,
+   "dictionary": "phaaw M"
+  },
+  "พอดี": {
+   "ours": "пхоо-дии",
+   "tones_ok": true,
+   "dictionary": "phaawM deeM"
+  },
+  "พักผ่อน": {
+   "ours": "пха́к пхо̀он",
+   "tones_ok": true,
+   "dictionary": "phakH phaawnL"
+  },
+  "พัดลม": {
+   "ours": "пха́т-лом",
+   "tones_ok": true,
+   "dictionary": "phatH lohmM"
+  },
+  "พัน": {
+   "ours": "пхан",
+   "tones_ok": true,
+   "dictionary": "phan M"
+  },
+  "พันล้าน": {
+   "ours": "пхан-ла́ан",
+   "tones_ok": true,
+   "dictionary": "phanM laanH"
+  },
+  "พายุ": {
+   "ours": "пхаа-йу́",
+   "tones_ok": true,
+   "dictionary": "phaaM yooH"
+  },
+  "พี่": {
+   "ours": "пхи̂и",
+   "tones_ok": true,
+   "dictionary": "phee F"
+  },
+  "พี่ชาย": {
+   "ours": "пхи̂и-щаай",
+   "tones_ok": true,
+   "dictionary": "pheeF chaaiM"
+  },
+  "พี่น้อง": {
+   "ours": "пхи̂и-но́оң",
+   "tones_ok": true,
+   "dictionary": "pheeF naawngH"
+  },
+  "พ่อ": {
+   "ours": "пхо̂о",
+   "tones_ok": true,
+   "dictionary": "phaaw F"
+  },
+  "พ่อตา": {
+   "ours": "пхо̂о-таа",
+   "tones_ok": true,
+   "dictionary": "phaawF dtaaM"
+  },
+  "พ่อแม่": {
+   "ours": "пхо̂о-мэ̂э",
+   "tones_ok": true,
+   "dictionary": "phaawF maaeF"
+  },
+  "ฟรี": {
+   "ours": "фрии",
+   "tones_ok": true,
+   "dictionary": "freeM"
+  },
+  "ฟัง": {
+   "ours": "фаң",
+   "tones_ok": true,
+   "dictionary": "fang M"
+  },
+  "ฟัน": {
+   "ours": "фан",
+   "tones_ok": true,
+   "dictionary": "fan M"
+  },
+  "ฟ้า": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "faa H"
+  },
+  "ภาษา": {
+   "ours": "пхаа-са̌а",
+   "tones_ok": true,
+   "dictionary": "phaa M saa R"
+  },
+  "ภาษาอีสาน": {
+   "ours": "пхаа-са̌а ии-са̌ан",
+   "tones_ok": true,
+   "dictionary": "phaaM saaR eeM saanR"
+  },
+  "ภูมิใจ": {
+   "ours": "пхуум-дьзай",
+   "tones_ok": true,
+   "dictionary": "phuumM jaiM"
+  },
+  "ภูเก็ต": {
+   "ours": "пхуу-гӭ̀т",
+   "tones_ok": true,
+   "dictionary": "phuuM getL"
+  },
+  "มนุษย์": {
+   "ours": "ма́-ну́т",
+   "tones_ok": true,
+   "dictionary": "ma H noot H"
+  },
+  "มหาวิทยาลัย": {
+   "ours": "ма́-ха̌а ви́т-тьха́-йаа-лай",
+   "tones_ok": true,
+   "dictionary": "maH haaR witH thaH yaaM laiM"
+  },
+  "มอเตอร์ไซค์": {
+   "ours": "моо-тӧӧ-сай",
+   "tones_ok": true,
+   "dictionary": "maawM dtuuhrM saiM"
+  },
+  "มะพร้าว": {
+   "ours": "ма́-пхрау́",
+   "tones_ok": true,
+   "dictionary": "maH phraaoH"
+  },
+  "มะม่วง": {
+   "ours": "ма́-муа̂ң",
+   "tones_ok": true,
+   "dictionary": "ma H muaang F"
+  },
+  "มัน": {
+   "ours": "ман",
+   "tones_ok": true,
+   "dictionary": "man M"
+  },
+  "มั้ย": {
+   "ours": "ма́й",
+   "tones_ok": true,
+   "dictionary": "maiH"
+  },
+  "มาก": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "maak F"
+  },
+  "มากกว่า": {
+   "ours": "ма̂ак-гва̀а",
+   "tones_ok": true,
+   "dictionary": "maakF gwaaL"
+  },
+  "มากที่สุด": {
+   "ours": "ма̂ак тьхи̂и су̀т",
+   "tones_ok": true,
+   "dictionary": "maakF theeF sootL"
+  },
+  "มากๆ": {
+   "ours": "ма̂ак-ма̂ак",
+   "tones_ok": true,
+   "dictionary": "maakF maakF"
+  },
+  "มาจาก": {
+   "ours": "маа-дьза̀ак",
+   "tones_ok": true,
+   "dictionary": "maaM jaakL"
+  },
+  "มาตรา": {
+   "ours": "ма̂ат-траа",
+   "tones_ok": true,
+   "dictionary": "maatF dtraaM"
+  },
+  "มิ": {
+   "ours": "ми́",
+   "tones_ok": true,
+   "dictionary": "miH"
+  },
+  "มี": {
+   "ours": "мии",
+   "tones_ok": true,
+   "dictionary": "mee M"
+  },
+  "มึง": {
+   "ours": "мың",
+   "tones_ok": true,
+   "dictionary": "meungM"
+  },
+  "มือ": {
+   "ours": "мыы",
+   "tones_ok": true,
+   "dictionary": "meuu M"
+  },
+  "ยัง": {
+   "ours": "йаң",
+   "tones_ok": true,
+   "dictionary": "yang M"
+  },
+  "ยังไม่ได้": {
+   "ours": "йаң ма̂й да̂й",
+   "tones_ok": true,
+   "dictionary": "yangM maiF daiF"
+  },
+  "ยา": {
+   "ours": "йаа",
+   "tones_ok": true,
+   "dictionary": "yaa M"
+  },
+  "ยาฆ่าเชื้อ": {
+   "ours": "йаа кха̂а щы́ыа",
+   "tones_ok": true,
+   "dictionary": "yaaM khaaF cheuuaH"
+  },
+  "ยาย": {
+   "ours": "йаай",
+   "tones_ok": true,
+   "dictionary": "yaaiM"
+  },
+  "ยาแก้ปวด": {
+   "ours": "йаа гэ̂э пуа̀т",
+   "tones_ok": true,
+   "dictionary": "yaaM gaaeF bpuaatL"
+  },
+  "ยินดีที่ได้รู้จัก": {
+   "ours": "йин-дии тьхи̂и да̂й ру́у-дьза̀к",
+   "tones_ok": true,
+   "dictionary": "yinM deeM theeF daiF ruuH jakL"
+  },
+  "ย่า": {
+   "ours": "йа̂а",
+   "tones_ok": true,
+   "dictionary": "yaaF"
+  },
+  "รถ": {
+   "ours": "рȯ́т",
+   "tones_ok": true,
+   "dictionary": "roht H"
+  },
+  "รถตู้": {
+   "ours": "ро́т ту̂у",
+   "tones_ok": true,
+   "dictionary": "rohtH dtuuF"
+  },
+  "รถบัส": {
+   "ours": "ро́т ба̀т",
+   "tones_ok": true,
+   "dictionary": "rohtH batL"
+  },
+  "รถยนต์": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "rohtH yohnM"
+  },
+  "รถเมล์": {
+   "ours": "ро́т мее",
+   "tones_ok": true,
+   "dictionary": "rohtH maehM"
+  },
+  "รถไฟ": {
+   "ours": "ро́т фай",
+   "tones_ok": true,
+   "dictionary": "rohtH faiM"
+  },
+  "รถไฟฟ้า": {
+   "ours": "ро́т фай фа́а",
+   "tones_ok": true,
+   "dictionary": "rohtH faiM faaH"
+  },
+  "รถไฟใต้ดิน": {
+   "ours": "ро́т фай та̂й дин",
+   "tones_ok": true,
+   "dictionary": "rohtH faiM dtaiF dinM"
+  },
+  "รวม": {
+   "ours": "руам",
+   "tones_ok": true,
+   "dictionary": "ruaam M"
+  },
+  "รส": {
+   "ours": "рȯ́т",
+   "tones_ok": true,
+   "dictionary": "rohtH"
+  },
+  "รองเท้า": {
+   "ours": "рооң тьха́ау",
+   "tones_ok": true,
+   "dictionary": "raawngM thaaoH"
+  },
+  "รองเท้าหนัง": {
+   "ours": "рооң тьха́ау на̌ң",
+   "tones_ok": true,
+   "dictionary": "raawngM thaaoH nangR"
+  },
+  "รองเท้าแตะ": {
+   "ours": "рооң тьха́ау тэ̀",
+   "tones_ok": true,
+   "dictionary": "raawngM thaaoH dtaeL"
+  },
+  "ระหว่าง": {
+   "ours": "ра́-уа̀аң",
+   "tones_ok": true,
+   "dictionary": "ra H waang L"
+  },
+  "ระเบียง": {
+   "ours": "ра́-бииаң",
+   "tones_ok": true,
+   "dictionary": "raH biiangM"
+  },
+  "รัก": {
+   "ours": "ра́к",
+   "tones_ok": true,
+   "dictionary": "rak H"
+  },
+  "รับ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "rap H"
+  },
+  "ราคา": {
+   "ours": "ра-кхаа",
+   "tones_ok": true,
+   "dictionary": "raa M khaa M"
+  },
+  "ราชา": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "raa M chaa M"
+  },
+  "ราว": {
+   "ours": "рау",
+   "tones_ok": true,
+   "dictionary": "raao M"
+  },
+  "ราวกับ": {
+   "ours": "рау-га̀п",
+   "tones_ok": true,
+   "dictionary": "raaoM gapL"
+  },
+  "รีด": {
+   "ours": "ри̂ит",
+   "tones_ok": true,
+   "dictionary": "reetF"
+  },
+  "ร่ำรวย": {
+   "ours": "ра̂м руай",
+   "tones_ok": true,
+   "dictionary": "ramF ruayM"
+  },
+  "ร้องไห้": {
+   "ours": "ро́оң ха̂ай",
+   "tones_ok": true,
+   "dictionary": "raawngH haiF"
+  },
+  "ร้อน": {
+   "ours": "ро́он",
+   "tones_ok": true,
+   "dictionary": "raawn H"
+  },
+  "ร้อย": {
+   "ours": "ро́ой",
+   "tones_ok": true,
+   "dictionary": "raawy H"
+  },
+  "ร้าน": {
+   "ours": "ра́ан",
+   "tones_ok": true,
+   "dictionary": "raan H"
+  },
+  "ร้านขายของ": {
+   "ours": "ра́ан кха̌ай кхо̌оң",
+   "tones_ok": true,
+   "dictionary": "raanH khaaiR khaawngR"
+  },
+  "ร้านค้า": {
+   "ours": "ра́ан кха́а",
+   "tones_ok": true,
+   "dictionary": "raanH khaaH"
+  },
+  "ร้านอาหาร": {
+   "ours": "ра́ан аа-ха̌ан",
+   "tones_ok": true,
+   "dictionary": "raanH aaM haanR"
+  },
+  "ฤกษ์": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "reerkF"
+  },
+  "ฤดู": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "reuH duuM"
+  },
+  "ฤทธิ์": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "ritH"
+  },
+  "ฤๅ": {
+   "ours": "рыы",
+   "tones_ok": true,
+   "dictionary": "reuuM"
+  },
+  "ลง": {
+   "ours": "лȯң",
+   "tones_ok": true,
+   "dictionary": "lohng M"
+  },
+  "ลด": {
+   "ours": "лȯ́т",
+   "tones_ok": true,
+   "dictionary": "loht H"
+  },
+  "ลดราคา": {
+   "ours": "ло́т ра-кхаа",
+   "tones_ok": true,
+   "dictionary": "lohtH raaM khaaM"
+  },
+  "ลม": {
+   "ours": "лȯм",
+   "tones_ok": true,
+   "dictionary": "lohm M"
+  },
+  "ลอง": {
+   "ours": "лооң",
+   "tones_ok": true,
+   "dictionary": "laawng M"
+  },
+  "ลาก่อน": {
+   "ours": "лаа-го̀он",
+   "tones_ok": true,
+   "dictionary": "laaM gaawnL"
+  },
+  "ลาบ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "laapF"
+  },
+  "ลิ้น": {
+   "ours": "ли́н",
+   "tones_ok": true,
+   "dictionary": "lin H"
+  },
+  "ลุก": {
+   "ours": "лу́к",
+   "tones_ok": true,
+   "dictionary": "look H"
+  },
+  "ลุง": {
+   "ours": "луң",
+   "tones_ok": true,
+   "dictionary": "loong M"
+  },
+  "ลูก": {
+   "ours": "лу̂ук",
+   "tones_ok": true,
+   "dictionary": "luuk F"
+  },
+  "ลูกชาย": {
+   "ours": "лу̂ук-щаай",
+   "tones_ok": true,
+   "dictionary": "luukF chaaiM"
+  },
+  "ลูกสาว": {
+   "ours": "лу̂ук-са̌ау",
+   "tones_ok": true,
+   "dictionary": "luukF saaoR"
+  },
+  "ลูกหลาน": {
+   "ours": "лу̂ук ла̌ан",
+   "tones_ok": true,
+   "dictionary": "luukF laanR"
+  },
+  "ลูกเขย": {
+   "ours": "лу̂ук-кхэ̌эй",
+   "tones_ok": true,
+   "dictionary": "luukF kheeuyR"
+  },
+  "ล้าง": {
+   "ours": "ла́аң",
+   "tones_ok": true,
+   "dictionary": "laang H"
+  },
+  "ล้าน": {
+   "ours": "ла́ан",
+   "tones_ok": true,
+   "dictionary": "laan H"
+  },
+  "วัด": {
+   "ours": "ва́т",
+   "tones_ok": true,
+   "dictionary": "wat H"
+  },
+  "วัน": {
+   "ours": "ван",
+   "tones_ok": true,
+   "dictionary": "wan M"
+  },
+  "วันนี้": {
+   "ours": "ван-ни́и",
+   "tones_ok": true,
+   "dictionary": "wanM neeH"
+  },
+  "วันพ่อ": {
+   "ours": "ван пхо̂о",
+   "tones_ok": true,
+   "dictionary": "wanM phaawF"
+  },
+  "วันหยุด": {
+   "ours": "ван-йу̀т",
+   "tones_ok": true,
+   "dictionary": "wanM yootL"
+  },
+  "วัยรุ่น": {
+   "ours": "вай-ру̂н",
+   "tones_ok": true,
+   "dictionary": "waiM roonF"
+  },
+  "วิตามิน": {
+   "ours": "ви́-таа-мин",
+   "tones_ok": true,
+   "dictionary": "wiH dtaaM minM"
+  },
+  "วิ่ง": {
+   "ours": "ви̂нг",
+   "tones_ok": true,
+   "dictionary": "wing F"
+  },
+  "วีซ่า": {
+   "ours": "вии-са̂а",
+   "tones_ok": true,
+   "dictionary": "weeM saaF"
+  },
+  "ศรี": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "seeR"
+  },
+  "ศาสนาพุทธ": {
+   "ours": "са̀ат-са̀-на̌а пху́т",
+   "tones_ok": true,
+   "dictionary": "saatL saL naaR phootH"
+  },
+  "ศูนย์": {
+   "ours": "су̌ун",
+   "tones_ok": true,
+   "dictionary": "suun R"
+  },
+  "สงกรานต์": {
+   "ours": "со̌ң-граан",
+   "tones_ok": true,
+   "dictionary": "sohng R graan M"
+  },
+  "สด": {
+   "ours": "сȯ̀т",
+   "tones_ok": true,
+   "dictionary": "soht L"
+  },
+  "สตางค์": {
+   "ours": "са̀-тааң",
+   "tones_ok": true,
+   "dictionary": "sa L dtaang M"
+  },
+  "สถานี": {
+   "ours": "са̀-тьха̌а-нии",
+   "tones_ok": true,
+   "dictionary": "sa L thaa R nee M"
+  },
+  "สถานีรถไฟ": {
+   "ours": "са̀-тьха̌а-нии ро́т фай",
+   "tones_ok": true,
+   "dictionary": "saL thaaR neeM rohtH faiM"
+  },
+  "สนุก": {
+   "ours": "са̀-ну̀к",
+   "tones_ok": true,
+   "dictionary": "sa L nook L"
+  },
+  "สนใจ": {
+   "ours": "со̌н-дьзай",
+   "tones_ok": true,
+   "dictionary": "sohnR jaiM"
+  },
+  "สบาย": {
+   "ours": "са̀-баай",
+   "tones_ok": true,
+   "dictionary": "sa L baai M"
+  },
+  "สบายดี": {
+   "ours": "са̀-баай-дии",
+   "tones_ok": true,
+   "dictionary": "saL baaiM deeM"
+  },
+  "สระ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "sa L ra L"
+  },
+  "สร้อย": {
+   "ours": "со̂й",
+   "tones_ok": true,
+   "dictionary": "saawyF"
+  },
+  "สร้าง": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "saang F"
+  },
+  "สวน": {
+   "ours": "су̌ан",
+   "tones_ok": true,
+   "dictionary": "suaan R"
+  },
+  "สวย": {
+   "ours": "су̌ай",
+   "tones_ok": true,
+   "dictionary": "suay R"
+  },
+  "สวัสดี": {
+   "ours": "са̀-ва̀т-дии",
+   "tones_ok": true,
+   "dictionary": "saL watL deeM"
+  },
+  "สอง": {
+   "ours": "со̌оң",
+   "tones_ok": true,
+   "dictionary": "saawng R"
+  },
+  "สะพาน": {
+   "ours": "са̀-пхаан",
+   "tones_ok": true,
+   "dictionary": "sa L phaan M"
+  },
+  "สัตว์": {
+   "ours": "са̀т",
+   "tones_ok": true,
+   "dictionary": "sat L"
+  },
+  "สัปดาห์": {
+   "ours": "са̀п-даа",
+   "tones_ok": true,
+   "dictionary": "sapL daaM"
+  },
+  "สั่ง": {
+   "ours": "са̀ң",
+   "tones_ok": true,
+   "dictionary": "sang L"
+  },
+  "สาม": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "saam R"
+  },
+  "สามล้อ": {
+   "ours": "са̌ам ло́о",
+   "tones_ok": true,
+   "dictionary": "saamR laawH"
+  },
+  "สามสิบ": {
+   "ours": "са̌ам-сѝп",
+   "tones_ok": true,
+   "dictionary": "saamR sipL"
+  },
+  "สามี": {
+   "ours": "са̌а-мии",
+   "tones_ok": true,
+   "dictionary": "saa R mee M"
+  },
+  "สาว": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "saao R"
+  },
+  "สิ": {
+   "ours": "сѝ",
+   "tones_ok": true,
+   "dictionary": "siL"
+  },
+  "สินค้า": {
+   "ours": "си̌н-кха́а",
+   "tones_ok": true,
+   "dictionary": "sinR khaaH"
+  },
+  "สิบ": {
+   "ours": "сѝп",
+   "tones_ok": true,
+   "dictionary": "sip L"
+  },
+  "สิบสอง": {
+   "ours": "сѝп-со̌оң",
+   "tones_ok": true,
+   "dictionary": "sipL saawngR"
+  },
+  "สิบสาม": {
+   "ours": "сѝп-са̌ам",
+   "tones_ok": true,
+   "dictionary": "sipL saamR"
+  },
+  "สิ่งแวดล้อม": {
+   "ours": "сѝң ва̂ат ло́м",
+   "tones_ok": true,
+   "dictionary": "singL waaetF laawmH"
+  },
+  "สี": {
+   "ours": "си̌и",
+   "tones_ok": true,
+   "dictionary": "see R"
+  },
+  "สีขาว": {
+   "ours": "си̌и кха̌ау",
+   "tones_ok": true,
+   "dictionary": "seeR khaaoR"
+  },
+  "สีชมพู": {
+   "ours": "си̌и щом-пхуу",
+   "tones_ok": true,
+   "dictionary": "seeR chohmM phuuM"
+  },
+  "สีดำ": {
+   "ours": "си̌и дам",
+   "tones_ok": true,
+   "dictionary": "seeR damM"
+  },
+  "สีทอง": {
+   "ours": "си̌и тьхооң",
+   "tones_ok": true,
+   "dictionary": "seeR thaawngM"
+  },
+  "สีน้ำตาล": {
+   "ours": "си̌и на́м таан",
+   "tones_ok": true,
+   "dictionary": "seeR namH dtaanM"
+  },
+  "สีฟ้า": {
+   "ours": "си̌и фа́а",
+   "tones_ok": true,
+   "dictionary": "seeR faaH"
+  },
+  "สีม่วง": {
+   "ours": "си̌и муа̂ң",
+   "tones_ok": true,
+   "dictionary": "seeR muaangF"
+  },
+  "สีส้ม": {
+   "ours": "си̌и со̂м",
+   "tones_ok": true,
+   "dictionary": "seeR sohmF"
+  },
+  "สีเขียว": {
+   "ours": "си̌и кхи̌иау",
+   "tones_ok": true,
+   "dictionary": "seeR khiaaoR"
+  },
+  "สีเงิน": {
+   "ours": "си̌и ңӧн",
+   "tones_ok": true,
+   "dictionary": "seeR ngernM"
+  },
+  "สีเทา": {
+   "ours": "си̌и тьхау",
+   "tones_ok": true,
+   "dictionary": "seeR thaoM"
+  },
+  "สีเหลือง": {
+   "ours": "си̌и лу̌аң",
+   "tones_ok": true,
+   "dictionary": "seeR leuuangR"
+  },
+  "สีแดง": {
+   "ours": "си̌и дээң",
+   "tones_ok": true,
+   "dictionary": "seeR daaengM"
+  },
+  "สี่": {
+   "ours": "сѝи",
+   "tones_ok": true,
+   "dictionary": "see L"
+  },
+  "สุข": {
+   "ours": "су̀к",
+   "tones_ok": true,
+   "dictionary": "sook L"
+  },
+  "สุดท้าย": {
+   "ours": "су̀т-тьха́ай",
+   "tones_ok": true,
+   "dictionary": "sootL thaaiH"
+  },
+  "สุดๆ": {
+   "ours": "су̀т-су̀т",
+   "tones_ok": true,
+   "dictionary": "sootL sootL"
+  },
+  "สูง": {
+   "ours": "су̌уң",
+   "tones_ok": true,
+   "dictionary": "suung R"
+  },
+  "ส่ง": {
+   "ours": "со̀ң",
+   "tones_ok": true,
+   "dictionary": "sohng L"
+  },
+  "ส้มตำ": {
+   "ours": "со̂м там",
+   "tones_ok": true,
+   "dictionary": "sohmF dtamM"
+  },
+  "หก": {
+   "ours": "хо̀к",
+   "tones_ok": true,
+   "dictionary": "hohk L"
+  },
+  "หงาย": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "ngaaiR"
+  },
+  "หงุดหงิด": {
+   "ours": "ңу̀т-ңѝт",
+   "tones_ok": true,
+   "dictionary": "ngootL ngitL"
+  },
+  "หญิง": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "ying R"
+  },
+  "หดหู่": {
+   "ours": "хо̀т ху̀у",
+   "tones_ok": true,
+   "dictionary": "hohtL huuL"
+  },
+  "หนาว": {
+   "ours": "на̌ау",
+   "tones_ok": true,
+   "dictionary": "naao R"
+  },
+  "หนึ่ง": {
+   "ours": "ны̀ң",
+   "tones_ok": true,
+   "dictionary": "neung L"
+  },
+  "หนุ่ม": {
+   "ours": "ну̀м",
+   "tones_ok": true,
+   "dictionary": "noom L"
+  },
+  "หนู": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "nuu R"
+  },
+  "หน่อย": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "naawy L"
+  },
+  "หน้า": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "naa F"
+  },
+  "หน้าตา": {
+   "ours": "на̂а-таа",
+   "tones_ok": true,
+   "dictionary": "naaF dtaaM"
+  },
+  "หน้าต่าง": {
+   "ours": "на̂а-та̀аң",
+   "tones_ok": true,
+   "dictionary": "naaF dtaangL"
+  },
+  "หน้าผาก": {
+   "ours": "на̂а-пха̀ак",
+   "tones_ok": true,
+   "dictionary": "naaF phaakL"
+  },
+  "หมวก": {
+   "ours": "му̀ак",
+   "tones_ok": true,
+   "dictionary": "muaak L"
+  },
+  "หมอ": {
+   "ours": "мо̌о",
+   "tones_ok": true,
+   "dictionary": "maaw R"
+  },
+  "หมอดู": {
+   "ours": "мо̌о дуу",
+   "tones_ok": true,
+   "dictionary": "maawR duuM"
+  },
+  "หมา": {
+   "ours": "ма̌а",
+   "tones_ok": true,
+   "dictionary": "maa R"
+  },
+  "หมื่น": {
+   "ours": "мы̀ын",
+   "tones_ok": true,
+   "dictionary": "meuunL"
+  },
+  "หมู": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "muu R"
+  },
+  "หม่อม": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "maawmL"
+  },
+  "หย่า": {
+   "ours": "йа̀а",
+   "tones_ok": true,
+   "dictionary": "yaaL"
+  },
+  "หลวงปู่": {
+   "ours": "лу̌аң пу̀у",
+   "tones_ok": true,
+   "dictionary": "luaangR bpuuL"
+  },
+  "หลวงพ่อ": {
+   "ours": "лу̌аң пхо̂о",
+   "tones_ok": true,
+   "dictionary": "luaangR phaawF"
+  },
+  "หลวม": {
+   "ours": "лу̌ам",
+   "tones_ok": true,
+   "dictionary": "luaamR"
+  },
+  "หลอก": {
+   "ours": "ло̀ок",
+   "tones_ok": true,
+   "dictionary": "laawkL"
+  },
+  "หลัง": {
+   "ours": "ла̌ң",
+   "tones_ok": true,
+   "dictionary": "lang R"
+  },
+  "หลังจากนั้น": {
+   "ours": "ла̌ң-дьза̀ак-на́н",
+   "tones_ok": true,
+   "dictionary": "langR jaakL nanH"
+  },
+  "หลาน": {
+   "ours": "ла̌ан",
+   "tones_ok": true,
+   "dictionary": "laan R"
+  },
+  "หลาย": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "laai R"
+  },
+  "หล่อ": {
+   "ours": "ло̀",
+   "tones_ok": true,
+   "dictionary": "laawL"
+  },
+  "หล่อน": {
+   "ours": "ло̀н",
+   "tones_ok": true,
+   "dictionary": "laawnL"
+  },
+  "หวง": {
+   "ours": "хуа̌ң",
+   "tones_ok": true,
+   "dictionary": "huaangR"
+  },
+  "หวาน": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "waan R"
+  },
+  "หัว": {
+   "ours": "хуа̌",
+   "tones_ok": true,
+   "dictionary": "huaa R"
+  },
+  "หัวใจ": {
+   "ours": "хуа̌-дьзай",
+   "tones_ok": true,
+   "dictionary": "huaaR jaiM"
+  },
+  "หั่น": {
+   "ours": "ха̀н",
+   "tones_ok": true,
+   "dictionary": "hanL"
+  },
+  "หาก": {
+   "ours": "ха̀ак",
+   "tones_ok": true,
+   "dictionary": "haak L"
+  },
+  "หิว": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "hiuR"
+  },
+  "หึง": {
+   "ours": "хы̌ң",
+   "tones_ok": true,
+   "dictionary": "heungR"
+  },
+  "หู": {
+   "ours": "ху̌у",
+   "tones_ok": true,
+   "dictionary": "huu R"
+  },
+  "ห่วย": {
+   "ours": "ху̀ай",
+   "tones_ok": true,
+   "dictionary": "huayL"
+  },
+  "ห้อง": {
+   "ours": "хо̂ң",
+   "tones_ok": true,
+   "dictionary": "haawng F"
+  },
+  "ห้องน้ำ": {
+   "ours": "хо̂ң-на́ам",
+   "tones_ok": true,
+   "dictionary": "haawngF naamH"
+  },
+  "ห้า": {
+   "ours": "ха̂а",
+   "tones_ok": true,
+   "dictionary": "haa F"
+  },
+  "ห้าง": {
+   "ours": "ха̂аң",
+   "tones_ok": true,
+   "dictionary": "haangF"
+  },
+  "ห้างสรรพสินค้า": {
+   "ours": "ха̂аң са̀п-пха́-си̌н-кха́а",
+   "tones_ok": true,
+   "dictionary": "haangF sapL phaH sinR khaaH"
+  },
+  "ห้าม": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "haam F"
+  },
+  "ห้าสิบ": {
+   "ours": "ха̂а-сѝп",
+   "tones_ok": true,
+   "dictionary": "haaF sipL"
+  },
+  "อก": {
+   "ours": "о̀к",
+   "tones_ok": true,
+   "dictionary": "ohk L"
+  },
+  "อกหัก": {
+   "ours": "о̀к-ха̀к",
+   "tones_ok": true,
+   "dictionary": "ohkL hakL"
+  },
+  "องศา": {
+   "ours": "оң-са̌а",
+   "tones_ok": true,
+   "dictionary": "ohngM saaR"
+  },
+  "อนุญาต": {
+   "ours": "а̀-ну́-йа̂ат",
+   "tones_ok": true,
+   "dictionary": "a L noo H yaat F"
+  },
+  "อนุญาตให้": {
+   "ours": "а̀-ну́-йа̂ат ха̂й",
+   "tones_ok": true,
+   "dictionary": "aL nooH yaatF haiF"
+  },
+  "อนุสาวรีย์": {
+   "ours": "а̀-ну́-са̌а-ва́-рии",
+   "tones_ok": true,
+   "dictionary": "aL nooH saaR waH reeM"
+  },
+  "อยาก": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "yaak L"
+  },
+  "อยากกิน": {
+   "ours": "йа̀ак гин",
+   "tones_ok": true,
+   "dictionary": "yaakL ginM"
+  },
+  "อยากจะ": {
+   "ours": "йа̀ак дьза̀",
+   "tones_ok": true,
+   "dictionary": "yaakL jaL"
+  },
+  "อยากได้": {
+   "ours": "йа̀ак да̂й",
+   "tones_ok": true,
+   "dictionary": "yaakL daiF"
+  },
+  "อยู่": {
+   "ours": "йу̀у",
+   "tones_ok": true,
+   "dictionary": "yuu L"
+  },
+  "อย่า": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "yaaL"
+  },
+  "อย่าง": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "yaang L"
+  },
+  "อย่างยิ่ง": {
+   "ours": "йа̀аң-йи̂ң",
+   "tones_ok": true,
+   "dictionary": "yaangL yingF"
+  },
+  "อร่อย": {
+   "ours": "а̀-ро̀й",
+   "tones_ok": true,
+   "dictionary": "aL raawyL"
+  },
+  "ออก": {
+   "ours": "о̀к",
+   "tones_ok": true,
+   "dictionary": "aawk L"
+  },
+  "ออกกำลังกาย": {
+   "ours": "о̀к-гам-лаң-гаай",
+   "tones_ok": true,
+   "dictionary": "aawkL gamM langM gaaiM"
+  },
+  "ออกไป": {
+   "ours": "о̀к-пай",
+   "tones_ok": true,
+   "dictionary": "aawkL bpaiM"
+  },
+  "อะไร": {
+   "ours": "а̀-рай",
+   "tones_ok": true,
+   "dictionary": "a L rai M"
+  },
+  "อัน": {
+   "ours": "ан",
+   "tones_ok": true,
+   "dictionary": "an M"
+  },
+  "อา": {
+   "ours": "аа",
+   "tones_ok": true,
+   "dictionary": "aaM"
+  },
+  "อากาศ": {
+   "ours": "аа-га̀ат",
+   "tones_ok": true,
+   "dictionary": "aa M gaat L"
+  },
+  "อาณาจักร": {
+   "ours": "аа-наа-дьза̀к",
+   "tones_ok": true,
+   "dictionary": "aaM naaM jakL"
+  },
+  "อาทิตย์": {
+   "ours": "аа-тьхи́т",
+   "tones_ok": true,
+   "dictionary": "aa M thit H"
+  },
+  "อาทิตย์หน้า": {
+   "ours": "аа-тьхи́т на̂а",
+   "tones_ok": true,
+   "dictionary": "aaM thitH naaF"
+  },
+  "อาบน้ำ": {
+   "ours": "а̀п-на́ам",
+   "tones_ok": true,
+   "dictionary": "aapL naamH"
+  },
+  "อาย": {
+   "ours": "аай",
+   "tones_ok": true,
+   "dictionary": "aaiM"
+  },
+  "อายุ": {
+   "ours": "аа-йу́",
+   "tones_ok": true,
+   "dictionary": "aaM yooH"
+  },
+  "อาวุโส": {
+   "ours": "аа-у́-со̌о",
+   "tones_ok": true,
+   "dictionary": "aaM wooH so:hR"
+  },
+  "อาศัยอยู่": {
+   "ours": "аа-са̌й-йу̀у",
+   "tones_ok": true,
+   "dictionary": "aaM saiR yuuL"
+  },
+  "อิจฉา": {
+   "ours": "ѝт-ща̌а",
+   "tones_ok": true,
+   "dictionary": "itL chaaR"
+  },
+  "อิสรภาพ": {
+   "ours": "ѝт-са̀-ра̀-пха̂п",
+   "tones_ok": true,
+   "dictionary": "itL saL raL phaapF"
+  },
+  "อิ่ม": {
+   "ours": "ѝм",
+   "tones_ok": true,
+   "dictionary": "imL"
+  },
+  "อี": {
+   "ours": "ии",
+   "tones_ok": true,
+   "dictionary": "eeM"
+  },
+  "อีก": {
+   "ours": "ѝик",
+   "tones_ok": true,
+   "dictionary": "eek L"
+  },
+  "อีสาน": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "eeM saanR"
+  },
+  "อีเมล": {
+   "ours": "ии-мӭӭн",
+   "tones_ok": true,
+   "dictionary": "eeM maehnM"
+  },
+  "อุณหภูมิ": {
+   "ours": "ун-ха̀-пхуум",
+   "tones_ok": true,
+   "dictionary": "oonM haL phuumM"
+  },
+  "อุตสาหกรรม": {
+   "ours": "у̀т-са̌а-ха̀-гам",
+   "tones_ok": true,
+   "dictionary": "ootL saaR haL gamM"
+  },
+  "อุ๊ย": {
+   "ours": "у́й",
+   "tones_ok": true,
+   "dictionary": "uyH"
+  },
+  "อ่อนแอ": {
+   "ours": "о̀н-ээ",
+   "tones_ok": true,
+   "dictionary": "aawnL aaeM"
+  },
+  "อ่าน": {
+   "ours": "а̀ан",
+   "tones_ok": true,
+   "dictionary": "aan L"
+  },
+  "อ้วน": {
+   "ours": "уа̂н",
+   "tones_ok": true,
+   "dictionary": "uaan F"
+  },
+  "อ้อ": {
+   "ours": "о̂о",
+   "tones_ok": true,
+   "dictionary": "aawF"
+  },
+  "เกรงใจ": {
+   "ours": "грӭӭ̈ң-дьзай",
+   "tones_ok": true,
+   "dictionary": "graehngM jaiM"
+  },
+  "เกลียด": {
+   "ours": "глѝиат",
+   "tones_ok": true,
+   "dictionary": "gliiatL"
+  },
+  "เกิด": {
+   "ours": "гы̀эт",
+   "tones_ok": true,
+   "dictionary": "geert L"
+  },
+  "เกียรติ": {
+   "ours": "гииа̀т",
+   "tones_ok": true,
+   "dictionary": "giiatL"
+  },
+  "เกือบ": {
+   "ours": "гы̀ыап",
+   "tones_ok": true,
+   "dictionary": "geuuap L"
+  },
+  "เก็บ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "gep L"
+  },
+  "เก็บเงิน": {
+   "ours": "гӧ̀п ңӧн",
+   "tones_ok": true,
+   "dictionary": "gepL ngernM"
+  },
+  "เก้า": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "gaao F"
+  },
+  "เก้าอี้": {
+   "ours": "га̂у-и̂и",
+   "tones_ok": true,
+   "dictionary": "gao F ee F"
+  },
+  "เขมร": {
+   "ours": "кха̀-мӭ̌ӭн",
+   "tones_ok": true,
+   "dictionary": "khaL maehnR"
+  },
+  "เขิน": {
+   "ours": "кхо̌эн",
+   "tones_ok": true,
+   "dictionary": "kheernR"
+  },
+  "เขียน": {
+   "ours": "кхи̌иан",
+   "tones_ok": true,
+   "dictionary": "khiian R"
+  },
+  "เข่า": {
+   "ours": "кха̀у",
+   "tones_ok": true,
+   "dictionary": "khaoL"
+  },
+  "เข้า": {
+   "ours": "кха̂у",
+   "tones_ok": true,
+   "dictionary": "khao F"
+  },
+  "เข้าใจ": {
+   "ours": "кха̂у-дьзай",
+   "tones_ok": true,
+   "dictionary": "khaoF jaiM"
+  },
+  "เคย": {
+   "ours": "кхӧӧэй",
+   "tones_ok": true,
+   "dictionary": "kheeuy M"
+  },
+  "เคราะห์": {
+   "ours": "кхро́",
+   "tones_ok": true,
+   "dictionary": "khrawH"
+  },
+  "เครียด": {
+   "ours": "кхри̂иат",
+   "tones_ok": true,
+   "dictionary": "khriiatF"
+  },
+  "เครื่อง": {
+   "ours": "кхрыыа̂ң",
+   "tones_ok": true,
+   "dictionary": "khreuuang F"
+  },
+  "เครื่องบิน": {
+   "ours": "кхрыыа̂ң бин",
+   "tones_ok": true,
+   "dictionary": "khreuuangF binM"
+  },
+  "เครื่องประดับ": {
+   "ours": "кхрыыа̂ң пра̀-да̀п",
+   "tones_ok": true,
+   "dictionary": "khreuuangF bpraL dapL"
+  },
+  "เครื่องราง": {
+   "ours": "кхрыыа̂ң рааң",
+   "tones_ok": true,
+   "dictionary": "khreuuangF raangM"
+  },
+  "เคาน์เตอร์": {
+   "ours": "кхау-тӧӧ",
+   "tones_ok": true,
+   "dictionary": "khaoM dtuuhrM"
+  },
+  "เคารพ": {
+   "ours": "кхау-ро́п",
+   "tones_ok": true,
+   "dictionary": "khaoM rohpH"
+  },
+  "เค็ม": {
+   "ours": "кхэм",
+   "tones_ok": true,
+   "dictionary": "khemM"
+  },
+  "เงา": {
+   "ours": "ңау",
+   "tones_ok": true,
+   "dictionary": "ngaoM"
+  },
+  "เงิน": {
+   "ours": "ңӧн",
+   "tones_ok": true,
+   "dictionary": "ngern M"
+  },
+  "เงินทอง": {
+   "ours": "ңӧн тьхооң",
+   "tones_ok": true,
+   "dictionary": "ngernM thaawngM"
+  },
+  "เงินสด": {
+   "ours": "ңӧн со̀т",
+   "tones_ok": true,
+   "dictionary": "ngernM sohtL"
+  },
+  "เจดีย์": {
+   "ours": "дьзӭӭ-дии",
+   "tones_ok": true,
+   "dictionary": "jaehM deeM"
+  },
+  "เจริญ": {
+   "ours": "дьза̀-рӧӧн",
+   "tones_ok": true,
+   "dictionary": "ja L reern M"
+  },
+  "เจ็ด": {
+   "ours": "дьзэ̀т",
+   "tones_ok": true,
+   "dictionary": "jet L"
+  },
+  "เจ็บ": {
+   "ours": "дьзӭ̀п",
+   "tones_ok": true,
+   "dictionary": "jep L"
+  },
+  "เจ้า": {
+   "ours": "дьза̂у",
+   "tones_ok": true,
+   "dictionary": "jao F"
+  },
+  "เจ้านาย": {
+   "ours": "дьза̂у-наай",
+   "tones_ok": true,
+   "dictionary": "jaoF naaiM"
+  },
+  "เจ๊": {
+   "ours": "дьзӭӭ̈́",
+   "tones_ok": true,
+   "dictionary": "jehH"
+  },
+  "เชียงใหม่": {
+   "ours": "щииаң-ма̀й",
+   "tones_ok": true,
+   "dictionary": "chiiangM maiL"
+  },
+  "เชื่อใจ": {
+   "ours": "щы̂ыа-дьзай",
+   "tones_ok": true,
+   "dictionary": "cheuuaF jaiM"
+  },
+  "เช็คบิล": {
+   "ours": "щӭ́к бин",
+   "tones_ok": true,
+   "dictionary": "chekH binM"
+  },
+  "เช็ด": {
+   "ours": "щӭ́т",
+   "tones_ok": true,
+   "dictionary": "chetH"
+  },
+  "เช้านี้": {
+   "ours": "ща́у-ни́и",
+   "tones_ok": true,
+   "dictionary": "chaaoH neeH"
+  },
+  "เซียน": {
+   "ours": "сиан",
+   "tones_ok": true,
+   "dictionary": "siianM"
+  },
+  "เซเว่น": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "saehM wenF"
+  },
+  "เซ็นต์": {
+   "ours": "центы",
+   "tones_ok": true,
+   "dictionary": "senM"
+  },
+  "เณร": {
+   "ours": "нээн",
+   "tones_ok": true,
+   "dictionary": "naehnM"
+  },
+  "เดิน": {
+   "ours": "дӧӧн",
+   "tones_ok": true,
+   "dictionary": "deern M"
+  },
+  "เดินทาง": {
+   "ours": "дӧӧн-тьхааң",
+   "tones_ok": true,
+   "dictionary": "deernM thaangM"
+  },
+  "เดี๋ยว": {
+   "ours": "ди̌иау",
+   "tones_ok": true,
+   "dictionary": "diaao R"
+  },
+  "เดี๋ยวนี้": {
+   "ours": "ди̌иау ни́и",
+   "tones_ok": true,
+   "dictionary": "diaaoR neeH"
+  },
+  "เดือน": {
+   "ours": "дыыан",
+   "tones_ok": true,
+   "dictionary": "deuuan M"
+  },
+  "เดือนที่แล้ว": {
+   "ours": "дыыан тьхи̂и лэ́эу",
+   "tones_ok": true,
+   "dictionary": "deuuanM theeF laaeoH"
+  },
+  "เดือนนี้": {
+   "ours": "дыыан-ни́и",
+   "tones_ok": true,
+   "dictionary": "deuuanM neeH"
+  },
+  "เดือนหน้า": {
+   "ours": "дыыан-на̂а",
+   "tones_ok": true,
+   "dictionary": "deuuanM naaF"
+  },
+  "เด็ก": {
+   "ours": "дэ̀к",
+   "tones_ok": true,
+   "dictionary": "dek L"
+  },
+  "เด็กๆ": {
+   "ours": "дэ̀к-дэ̀к",
+   "tones_ok": true,
+   "dictionary": "dekL dekL"
+  },
+  "เตียง": {
+   "ours": "тииаң",
+   "tones_ok": true,
+   "dictionary": "dtiiang M"
+  },
+  "เตี้ย": {
+   "ours": "тииа̂",
+   "tones_ok": true,
+   "dictionary": "dtiiaF"
+  },
+  "เต็มใจ": {
+   "ours": "тэм-дьзай",
+   "tones_ok": true,
+   "dictionary": "dtemM jaiM"
+  },
+  "เต้าหู้": {
+   "ours": "та̂ау-ху̂у",
+   "tones_ok": true,
+   "dictionary": "dtaoF huuF"
+  },
+  "เถ้าแก่": {
+   "ours": "та̂ау гэ̀э",
+   "tones_ok": true,
+   "dictionary": "thaoF gaaeL"
+  },
+  "เทคโนโลยี": {
+   "ours": "тьхӭ̂ӭк-нȯȯ-лȯȯ-йи",
+   "tones_ok": true,
+   "dictionary": "thaehkF no:hM lo:hM yeeM"
+  },
+  "เทพ": {
+   "ours": "тьхӭ̂ӭп",
+   "tones_ok": true,
+   "dictionary": "thaehp F"
+  },
+  "เทศกาล": {
+   "ours": "тьхӭ̂ӭт-са̀-гаан",
+   "tones_ok": true,
+   "dictionary": "thaehtF saL gaanM"
+  },
+  "เทศน์": {
+   "ours": "тьхӭ̂ӭт",
+   "tones_ok": true,
+   "dictionary": "thaehtF"
+  },
+  "เที่ยง": {
+   "ours": "тьхи̂иаң",
+   "tones_ok": true,
+   "dictionary": "thiiang F"
+  },
+  "เที่ยงคืน": {
+   "ours": "тьхи̂иаң-кхыын",
+   "tones_ok": true,
+   "dictionary": "thiiangF kheuunM"
+  },
+  "เที่ยว": {
+   "ours": "тьхи̂иа̂у",
+   "tones_ok": true,
+   "dictionary": "thiaao F"
+  },
+  "เท่ากับ": {
+   "ours": "тьха̂у-га̀п",
+   "tones_ok": true,
+   "dictionary": "thaoF gapL"
+  },
+  "เท่าไหร่": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "thaoF raiL"
+  },
+  "เท้า": {
+   "ours": "тьха́ау",
+   "tones_ok": true,
+   "dictionary": "thaao H"
+  },
+  "เธอ": {
+   "ours": "тьхӧӧ",
+   "tones_ok": true,
+   "dictionary": "thuuhr M"
+  },
+  "เนื้อ": {
+   "ours": "ны́ыа",
+   "tones_ok": true,
+   "dictionary": "neuua H"
+  },
+  "เน่า": {
+   "ours": "на̂у",
+   "tones_ok": true,
+   "dictionary": "naoF"
+  },
+  "เบาๆ": {
+   "ours": "бау бау",
+   "tones_ok": true,
+   "dictionary": "baoM baoM"
+  },
+  "เบียร์": {
+   "ours": "биа",
+   "tones_ok": true,
+   "dictionary": "biia M"
+  },
+  "เบื่อ": {
+   "ours": "бы̀ыа",
+   "tones_ok": true,
+   "dictionary": "beuuaL"
+  },
+  "เปรี้ยว": {
+   "ours": "при̂иау",
+   "tones_ok": true,
+   "dictionary": "bpriaaoF"
+  },
+  "เปลี่ยน": {
+   "ours": "плѝиан",
+   "tones_ok": true,
+   "dictionary": "bpliian L"
+  },
+  "เปล่า": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "bplaao L"
+  },
+  "เปิด": {
+   "ours": "пӧ̀эт",
+   "tones_ok": true,
+   "dictionary": "bpeert L"
+  },
+  "เป็น": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "bpen M"
+  },
+  "เป็นทุกข์": {
+   "ours": "пӭн тьху́к",
+   "tones_ok": true,
+   "dictionary": "bpenM thookH"
+  },
+  "เป็นประจำ": {
+   "ours": "пэн-пра̀-дьзам",
+   "tones_ok": true,
+   "dictionary": "bpenM bpraL jamM"
+  },
+  "เป็นหวัด": {
+   "ours": "пэн ва̀т",
+   "tones_ok": true,
+   "dictionary": "bpenM watL"
+  },
+  "เป็นห่วง": {
+   "ours": "пэн-ху̀аң",
+   "tones_ok": true,
+   "dictionary": "bpenM huaangL"
+  },
+  "เป็นไข้": {
+   "ours": "пэн кха̂й",
+   "tones_ok": true,
+   "dictionary": "bpenM khaiF"
+  },
+  "เผือก": {
+   "ours": "пхы̀ыак",
+   "tones_ok": true,
+   "dictionary": "pheuuak L"
+  },
+  "เผ็ด": {
+   "ours": "пхӭ̀т",
+   "tones_ok": true,
+   "dictionary": "phetL"
+  },
+  "เผ็ดร้อน": {
+   "ours": "пхӭ̀т ро́он",
+   "tones_ok": true,
+   "dictionary": "phetL raawnH"
+  },
+  "เพราะ": {
+   "ours": "пхро́",
+   "tones_ok": true,
+   "dictionary": "phraw H"
+  },
+  "เพิ่ง": {
+   "ours": "пхэ̂ң",
+   "tones_ok": true,
+   "dictionary": "pheerngF"
+  },
+  "เพิ่ม": {
+   "ours": "пхӧ̂ӧм",
+   "tones_ok": true,
+   "dictionary": "pheerm F"
+  },
+  "เพียง": {
+   "ours": "пхииаң",
+   "tones_ok": true,
+   "dictionary": "phiiang M"
+  },
+  "เพื่อ": {
+   "ours": "пхы̂ыа",
+   "tones_ok": true,
+   "dictionary": "pheuua F"
+  },
+  "เพื่อนฝูง": {
+   "ours": "пхы̂ыан фу̌уң",
+   "tones_ok": true,
+   "dictionary": "pheuuanF fuungR"
+  },
+  "เมฆ": {
+   "ours": "мэ̂эк",
+   "tones_ok": true,
+   "dictionary": "maehk F"
+  },
+  "เมนู": {
+   "ours": "мӭӭ-нуу",
+   "tones_ok": true,
+   "dictionary": "maehM nuuM"
+  },
+  "เมีย": {
+   "ours": "мииа",
+   "tones_ok": true,
+   "dictionary": "miia M"
+  },
+  "เมือง": {
+   "ours": "мыыаң",
+   "tones_ok": true,
+   "dictionary": "meuuang M"
+  },
+  "เมื่อ": {
+   "ours": "мы̂ыа",
+   "tones_ok": true,
+   "dictionary": "meuua F"
+  },
+  "เมื่อคืน": {
+   "ours": "мы̂ыа-кхыын",
+   "tones_ok": true,
+   "dictionary": "meuuaF kheuunM"
+  },
+  "เมื่อวาน": {
+   "ours": "мы̂ыа-уаан",
+   "tones_ok": true,
+   "dictionary": "meuuaF waanM"
+  },
+  "เมื่อวานซืน": {
+   "ours": "мы̂а-уаан-сыын",
+   "tones_ok": true,
+   "dictionary": "meuuaF waanM seuunM"
+  },
+  "เมื่อไหร่": {
+   "ours": "мы̂ыа-ра̀й",
+   "tones_ok": true,
+   "dictionary": "meuuaF raiL"
+  },
+  "เย็น": {
+   "ours": "йэн",
+   "tones_ok": true,
+   "dictionary": "yen M"
+  },
+  "เรา": {
+   "ours": "рау",
+   "tones_ok": true,
+   "dictionary": "rao M"
+  },
+  "เริ่ม": {
+   "ours": "рӧ̂эм",
+   "tones_ok": true,
+   "dictionary": "reerm F"
+  },
+  "เรียก": {
+   "ours": "ри̂иак",
+   "tones_ok": true,
+   "dictionary": "riiak F"
+  },
+  "เรียน": {
+   "ours": "риан",
+   "tones_ok": true,
+   "dictionary": "riian M"
+  },
+  "เรือ": {
+   "ours": "рыыа",
+   "tones_ok": true,
+   "dictionary": "reuua M"
+  },
+  "เร็ว": {
+   "ours": "рӭу",
+   "tones_ok": true,
+   "dictionary": "reo M"
+  },
+  "เร็วๆ": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "reoM reoM"
+  },
+  "เลข": {
+   "ours": "лӭ̂х",
+   "tones_ok": true,
+   "dictionary": "laehkF"
+  },
+  "เลขมงคล": {
+   "ours": "лӭ̂х моң кхон",
+   "tones_ok": true,
+   "dictionary": "laehkF mohngM khohnM"
+  },
+  "เลขาธิการ": {
+   "ours": "лӭӭ-кха̌а-тьхи́-гаан",
+   "tones_ok": true,
+   "dictionary": "laehM khaaR thiH gaanM"
+  },
+  "เลย": {
+   "ours": "лӧӧэй",
+   "tones_ok": true,
+   "dictionary": "leeuy M"
+  },
+  "เลี้ยง": {
+   "ours": "ли́иаң",
+   "tones_ok": true,
+   "dictionary": "liiang H"
+  },
+  "เลี้ยว": {
+   "ours": "лииа́у",
+   "tones_ok": true,
+   "dictionary": "liaao H"
+  },
+  "เลือก": {
+   "ours": "лы̂ыак",
+   "tones_ok": true,
+   "dictionary": "leuuak F"
+  },
+  "เลือด": {
+   "ours": "лы̂ыат",
+   "tones_ok": true,
+   "dictionary": "leuuatF"
+  },
+  "เลือน": {
+   "ours": "лыыан",
+   "tones_ok": true,
+   "dictionary": "leuuanM"
+  },
+  "เล็ก": {
+   "ours": "лӭ́к",
+   "tones_ok": true,
+   "dictionary": "lek H"
+  },
+  "เล็กๆ": {
+   "ours": "лӭ́к лӭ́к",
+   "tones_ok": true,
+   "dictionary": "lekH lekH"
+  },
+  "เล็บ": {
+   "ours": "лӭ́п",
+   "tones_ok": true,
+   "dictionary": "lepH"
+  },
+  "เล่น": {
+   "ours": "лӭ̂н",
+   "tones_ok": true,
+   "dictionary": "len F"
+  },
+  "เล่ม": {
+   "ours": "лэ̂м",
+   "tones_ok": true,
+   "dictionary": "lem F"
+  },
+  "เวรกรรม": {
+   "ours": "вӭӭн гам",
+   "tones_ok": true,
+   "dictionary": "waehnM gamM"
+  },
+  "เวลา": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "waeh M laa M"
+  },
+  "เว็บไซต์": {
+   "ours": "вӭ́п сай",
+   "tones_ok": true,
+   "dictionary": "wepH saiM"
+  },
+  "เศร้า": {
+   "ours": "са̂у",
+   "tones_ok": true,
+   "dictionary": "saoF"
+  },
+  "เศษ": {
+   "ours": "сӭ̀т",
+   "tones_ok": true,
+   "dictionary": "saehtL"
+  },
+  "เสด็จ": {
+   "ours": "са̀-дӭ̀т",
+   "tones_ok": true,
+   "dictionary": "sa L det L"
+  },
+  "เสมอ": {
+   "ours": "са̀-мӧ̌ӧ",
+   "tones_ok": true,
+   "dictionary": "sa L muuhr R"
+  },
+  "เสร็จแล้ว": {
+   "ours": "сӭ̀т лэ́эу",
+   "tones_ok": true,
+   "dictionary": "setL laaeoH"
+  },
+  "เสวย": {
+   "ours": "са̀-уа̌ай",
+   "tones_ok": true,
+   "dictionary": "saL weeuyR"
+  },
+  "เสียใจ": {
+   "ours": "си̌иа-дьзай",
+   "tones_ok": true,
+   "dictionary": "siiaR jaiM"
+  },
+  "เสื้อ": {
+   "ours": "сы̂ыа",
+   "tones_ok": true,
+   "dictionary": "seuua F"
+  },
+  "เสื้อผ้า": {
+   "ours": "сы̂ыа пха̂а",
+   "tones_ok": true,
+   "dictionary": "seuuaF phaaF"
+  },
+  "เสื้อยืด": {
+   "ours": "сы̂а йы̂ыт",
+   "tones_ok": true,
+   "dictionary": "seuuaF yeuutF"
+  },
+  "เสื้อเชิ้ต": {
+   "ours": "сы̂ыа щӧ́эт",
+   "tones_ok": true,
+   "dictionary": "seuuaF cheertH"
+  },
+  "เสื้อโค้ท": {
+   "ours": "сы̂ыа кхо́от",
+   "tones_ok": true,
+   "dictionary": "seuuaF kho:htH"
+  },
+  "เหงา": {
+   "ours": "ңа̌у",
+   "tones_ok": true,
+   "dictionary": "ngaoR"
+  },
+  "เหนื่อย": {
+   "ours": "ны̀ынай",
+   "tones_ok": true,
+   "dictionary": "neuuayL"
+  },
+  "เหนื่อยใจ": {
+   "ours": "ны̀ынай дьзай",
+   "tones_ok": true,
+   "dictionary": "neuuayL jaiM"
+  },
+  "เหมือน": {
+   "ours": "мы̌ыан",
+   "tones_ok": true,
+   "dictionary": "meuuan R"
+  },
+  "เหมือนกัน": {
+   "ours": "мы̌ыан-ган",
+   "tones_ok": true,
+   "dictionary": "meuuanR ganM"
+  },
+  "เหลือเกิน": {
+   "ours": "лы̌а-гыыан",
+   "tones_ok": true,
+   "dictionary": "leuuaR geernM"
+  },
+  "เหี้ย": {
+   "ours": "хи̂иа",
+   "tones_ok": true,
+   "dictionary": "hiiaF"
+  },
+  "เห็น": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "hen R"
+  },
+  "เอทีเอ็ม": {
+   "ours": "ӭӭ-тьхии-эм",
+   "tones_ok": true,
+   "dictionary": "aehM theeM emM"
+  },
+  "เอย": {
+   "ours": "ээй",
+   "tones_ok": true,
+   "dictionary": "eeuyM"
+  },
+  "เอว": {
+   "ours": "ээу",
+   "tones_ok": true,
+   "dictionary": "aayoM"
+  },
+  "เอา": {
+   "ours": "ау",
+   "tones_ok": true,
+   "dictionary": "ao M"
+  },
+  "เอ็ง": {
+   "ours": "эң",
+   "tones_ok": true,
+   "dictionary": "engM"
+  },
+  "เฮ้อ": {
+   "ours": "хӧ́ӧ",
+   "tones_ok": true,
+   "dictionary": "huuhrH"
+  },
+  "แก": {
+   "ours": "гээ",
+   "tones_ok": true,
+   "dictionary": "gaae M"
+  },
+  "แก่": {
+   "ours": "гэ̀э",
+   "tones_ok": true,
+   "dictionary": "gaae L"
+  },
+  "แก้ม": {
+   "ours": "гэ̂эм",
+   "tones_ok": true,
+   "dictionary": "gaaemF"
+  },
+  "แก้ว": {
+   "ours": "гэ̂эу",
+   "tones_ok": true,
+   "dictionary": "gaaeo F"
+  },
+  "แขน": {
+   "ours": "кхэ̌эн",
+   "tones_ok": true,
+   "dictionary": "khaaenR"
+  },
+  "แข็ง": {
+   "ours": "кхэ̌ң",
+   "tones_ok": true,
+   "dictionary": "khaeng R"
+  },
+  "แค่": {
+   "ours": "кхэ̂э",
+   "tones_ok": true,
+   "dictionary": "khaaeF"
+  },
+  "แซนด์วิช": {
+   "ours": "сэн-уи́т",
+   "tones_ok": true,
+   "dictionary": "saaenM witH"
+  },
+  "แดก": {
+   "ours": "дэ̀эк",
+   "tones_ok": true,
+   "dictionary": "daaekL"
+  },
+  "แดด": {
+   "ours": "дэ̀эт",
+   "tones_ok": true,
+   "dictionary": "daaet L"
+  },
+  "แดดออก": {
+   "ours": "дэ̀эт-о̀к",
+   "tones_ok": true,
+   "dictionary": "daaetL aawkL"
+  },
+  "แต่งงาน": {
+   "ours": "тэ̀эң-ңаан",
+   "tones_ok": true,
+   "dictionary": "dtaengL ngaanM"
+  },
+  "แต่งตัว": {
+   "ours": "тэ̀эң-туа",
+   "tones_ok": true,
+   "dictionary": "dtaengL dtuaaM"
+  },
+  "แท็กซี่": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "thaek H see F"
+  },
+  "แนะนำ": {
+   "ours": "нэ́э-нам",
+   "tones_ok": true,
+   "dictionary": "naeH namM"
+  },
+  "แบบ": {
+   "ours": "бэ̀эп",
+   "tones_ok": true,
+   "dictionary": "baaep L"
+  },
+  "แบรนด์": {
+   "ours": "бээ-рȯн",
+   "tones_ok": true,
+   "dictionary": "baaeM rohnM"
+  },
+  "แปด": {
+   "ours": "пэ̀эт",
+   "tones_ok": true,
+   "dictionary": "bpaaet L"
+  },
+  "แปลกใจ": {
+   "ours": "плэ̀эк-дьзай",
+   "tones_ok": true,
+   "dictionary": "bplaaekL jaiM"
+  },
+  "แผง": {
+   "ours": "пхэ̌эң",
+   "tones_ok": true,
+   "dictionary": "phaaengR"
+  },
+  "แผนที่": {
+   "ours": "пхэ̌эн тьхи̂и",
+   "tones_ok": true,
+   "dictionary": "phaaenR theeF"
+  },
+  "แพง": {
+   "ours": "пхээң",
+   "tones_ok": true,
+   "dictionary": "phaaeng M"
+  },
+  "แพทย์": {
+   "ours": "пхэ̂эт",
+   "tones_ok": true,
+   "dictionary": "phaaetF"
+  },
+  "แพ้": {
+   "ours": "пхэ́э",
+   "tones_ok": true,
+   "dictionary": "phaae H"
+  },
+  "แฟน": {
+   "ours": "фээн",
+   "tones_ok": true,
+   "dictionary": "faaenM"
+  },
+  "แม่": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "maae F"
+  },
+  "แม่บ้าน": {
+   "ours": "мэ̂э-ба̂ан",
+   "tones_ok": true,
+   "dictionary": "maaeF baanF"
+  },
+  "แม่ยาย": {
+   "ours": "мэ̂э-йаай",
+   "tones_ok": true,
+   "dictionary": "maaeF yaaiM"
+  },
+  "แม่เลี้ยง": {
+   "ours": "мэ̂э-ли́иаң",
+   "tones_ok": true,
+   "dictionary": "maaeF liiangH"
+  },
+  "แม้": {
+   "ours": "мэ́э",
+   "tones_ok": true,
+   "dictionary": "maae H"
+  },
+  "และ": {
+   "ours": "лэ́",
+   "tones_ok": true,
+   "dictionary": "lae H"
+  },
+  "แล้ว": {
+   "ours": "лэ́эу",
+   "tones_ok": true,
+   "dictionary": "laaeo H"
+  },
+  "แล้วก็": {
+   "ours": "лэ́эу-го̂о",
+   "tones_ok": true,
+   "dictionary": "laaeoH gaawF"
+  },
+  "แสง": {
+   "ours": "сэ̌эң",
+   "tones_ok": true,
+   "dictionary": "saaeng R"
+  },
+  "แสน": {
+   "ours": "сэ̌эн",
+   "tones_ok": true,
+   "dictionary": "saaenR"
+  },
+  "แหม": {
+   "ours": "мэ̌э",
+   "tones_ok": true,
+   "dictionary": "maaeR"
+  },
+  "แหวน": {
+   "ours": "вэ̌эн",
+   "tones_ok": true,
+   "dictionary": "waaenR"
+  },
+  "แอร์": {
+   "ours": "ээ",
+   "tones_ok": true,
+   "dictionary": "aaeM"
+  },
+  "โกรธ": {
+   "ours": "грȯ̀ȯт",
+   "tones_ok": true,
+   "dictionary": "gro:ht L"
+  },
+  "โกหก": {
+   "ours": "гȯȯ-хȯ̀к",
+   "tones_ok": true,
+   "dictionary": "go:hM hohkL"
+  },
+  "โขน": {
+   "ours": "кхȯ̌н",
+   "tones_ok": true,
+   "dictionary": "kho:hnR"
+  },
+  "โคตร": {
+   "ours": "кхȯ̂ȯȯт",
+   "tones_ok": true,
+   "dictionary": "kho:htF"
+  },
+  "โคมไฟ": {
+   "ours": "кхȯȯм-фай",
+   "tones_ok": true,
+   "dictionary": "kho:hmM faiM"
+  },
+  "โง่": {
+   "ours": "ңȯ̂ȯ",
+   "tones_ok": true,
+   "dictionary": "ngo:h F"
+  },
+  "โชค": {
+   "ours": "щȯ̂ȯк",
+   "tones_ok": true,
+   "dictionary": "cho:hk F"
+  },
+  "โชคดี": {
+   "ours": "щȯ̂ȯк дии",
+   "tones_ok": true,
+   "dictionary": "cho:hkF deeM"
+  },
+  "โซฟา": {
+   "ours": "сȯȯ-фаа",
+   "tones_ok": true,
+   "dictionary": "so:hM faaM"
+  },
+  "โต": {
+   "ours": "тȯȯ",
+   "tones_ok": true,
+   "dictionary": "dto:h M"
+  },
+  "โต๊ะ": {
+   "ours": "тȯ́",
+   "tones_ok": true,
+   "dictionary": "dto H"
+  },
+  "โทร": {
+   "ours": "тьхȯȯ",
+   "tones_ok": true,
+   "dictionary": "tho:hM"
+  },
+  "โทรศัพท์": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "tho:hM raH sapL"
+  },
+  "โทรหา": {
+   "ours": "тьхȯȯ ха̌а",
+   "tones_ok": true,
+   "dictionary": "tho:hM haaR"
+  },
+  "โทษที": {
+   "ours": "тьхȯ̂ȯт-тьхии",
+   "tones_ok": true,
+   "dictionary": "tho:htF theeM"
+  },
+  "โปรด": {
+   "ours": "прȯ̀ȯт",
+   "tones_ok": true,
+   "dictionary": "bpro:ht L"
+  },
+  "โมง": {
+   "ours": "мȯȯȯң",
+   "tones_ok": true,
+   "dictionary": "mo:hngM"
+  },
+  "โมโห": {
+   "ours": "мȯȯ-хȯ̌ȯ",
+   "tones_ok": true,
+   "dictionary": "mo:hM ho:hR"
+  },
+  "โยม": {
+   "ours": "йȯȯм",
+   "tones_ok": true,
+   "dictionary": "yo:hmM"
+  },
+  "โรค": {
+   "ours": "рȯ̂ȯк",
+   "tones_ok": true,
+   "dictionary": "ro:hk F"
+  },
+  "โรงพยาบาล": {
+   "ours": "рȯȯң пха́-йаа-баан",
+   "tones_ok": true,
+   "dictionary": "ro:hngM phaH yaaM baanM"
+  },
+  "โรงเรียน": {
+   "ours": "рооң рииан",
+   "tones_ok": true,
+   "dictionary": "ro:hngM riianM"
+  },
+  "โรงแรม": {
+   "ours": "рȯȯң рээм",
+   "tones_ok": true,
+   "dictionary": "ro:hngM raaemM"
+  },
+  "โว้ย": {
+   "ours": "вȯ́ȯй",
+   "tones_ok": true,
+   "dictionary": "wooyH"
+  },
+  "โอย": {
+   "ours": "оой",
+   "tones_ok": true,
+   "dictionary": "ooyM"
+  },
+  "โอ้": {
+   "ours": "о̂о",
+   "tones_ok": true,
+   "dictionary": "o:hF"
+  },
+  "โอ้โห": {
+   "ours": "о̂о-хо̌о",
+   "tones_ok": true,
+   "dictionary": "o:hF ho:hR"
+  },
+  "โอ๊ย": {
+   "ours": "о́й",
+   "tones_ok": true,
+   "dictionary": "ooyH"
+  },
+  "ใกล้": {
+   "ours": "гла̂й",
+   "tones_ok": true,
+   "dictionary": "glai F"
+  },
+  "ใกล้ๆ": {
+   "ours": "гла̂й-гла̂й",
+   "tones_ok": true,
+   "dictionary": "glaiF glaiF"
+  },
+  "ใคร": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "khrai M"
+  },
+  "ใจกว้าง": {
+   "ours": "дьзай-гва̂аң",
+   "tones_ok": true,
+   "dictionary": "jaiM gwaangF"
+  },
+  "ใจดี": {
+   "ours": "дьзай-дии",
+   "tones_ok": true,
+   "dictionary": "jaiM deeM"
+  },
+  "ใจร้อน": {
+   "ours": "дьзай-ро́он",
+   "tones_ok": true,
+   "dictionary": "jaiM raawnH"
+  },
+  "ใจร้าย": {
+   "ours": "дьзай-ра́ай",
+   "tones_ok": true,
+   "dictionary": "jaiM raaiH"
+  },
+  "ใจหาย": {
+   "ours": "дьзай-ха̌ай",
+   "tones_ok": true,
+   "dictionary": "jaiM haaiR"
+  },
+  "ใจเย็น": {
+   "ours": "дьзай-йэн",
+   "tones_ok": true,
+   "dictionary": "jaiM yenM"
+  },
+  "ใจแคบ": {
+   "ours": "дьзай-кхэ̂эп",
+   "tones_ok": true,
+   "dictionary": "jaiM khaaepF"
+  },
+  "ใช่": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "chai F"
+  },
+  "ใต้": {
+   "ours": "та̂й",
+   "tones_ok": true,
+   "dictionary": "dtai F"
+  },
+  "ใน": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "nai M"
+  },
+  "ในที่สุด": {
+   "ours": "най-тьхи̂и-су̀т",
+   "tones_ok": true,
+   "dictionary": "naiM theeF sootL"
+  },
+  "ในอนาคต": {
+   "ours": "най а̀-наа-кхо́т",
+   "tones_ok": true,
+   "dictionary": "naiM aL naaM khohtH"
+  },
+  "ใบ": {
+   "ours": "бай",
+   "tones_ok": true,
+   "dictionary": "bai M"
+  },
+  "ใบเสร็จ": {
+   "ours": "бай сӭ̀т",
+   "tones_ok": true,
+   "dictionary": "baiM setL"
+  },
+  "ใบไม้": {
+   "ours": "бай ма́й",
+   "tones_ok": true,
+   "dictionary": "baiM maaiH"
+  },
+  "ใส่": {
+   "ours": "са̀й",
+   "tones_ok": true,
+   "dictionary": "sai L"
+  },
+  "ใส่ใจ": {
+   "ours": "са̀й-дьзай",
+   "tones_ok": true,
+   "dictionary": "saiL jaiM"
+  },
+  "ใหญ่": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "yai L"
+  },
+  "ให้": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "hai F"
+  },
+  "ไกล": {
+   "ours": "глай",
+   "tones_ok": true,
+   "dictionary": "glai M"
+  },
+  "ไกลๆ": {
+   "ours": "глай глай",
+   "tones_ok": true,
+   "dictionary": "glaiM glaiM"
+  },
+  "ไก่": {
+   "ours": "га̀й",
+   "tones_ok": true,
+   "dictionary": "gai L"
+  },
+  "ไข่": {
+   "ours": "кха̀й",
+   "tones_ok": true,
+   "dictionary": "khai L"
+  },
+  "ไข้": {
+   "ours": "кха̂й",
+   "tones_ok": true,
+   "dictionary": "khai F"
+  },
+  "ได้": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "dai F"
+  },
+  "ได้ทำ": {
+   "ours": "да̂й тьхам",
+   "tones_ok": true,
+   "dictionary": "daiF thamM"
+  },
+  "ไป": {
+   "ours": "пойду",
+   "tones_ok": true,
+   "dictionary": "bpai M"
+  },
+  "ไม่ควร": {
+   "ours": "ма̂й кхуан",
+   "tones_ok": true,
+   "dictionary": "maiF khuaanM"
+  },
+  "ไม่ค่อย": {
+   "ours": "ма̂й-кхо̂й",
+   "tones_ok": true,
+   "dictionary": "maiF khaawyF"
+  },
+  "ไม่ต้อง": {
+   "ours": "ма̂й то̂ң",
+   "tones_ok": true,
+   "dictionary": "maiF dtawngF"
+  },
+  "ไม่นาน": {
+   "ours": "ма̂й-наан",
+   "tones_ok": true,
+   "dictionary": "maiF naanM"
+  },
+  "ไม่มี": {
+   "ours": "ма̂й-мии",
+   "tones_ok": true,
+   "dictionary": "maiF meeM"
+  },
+  "ไม่สบาย": {
+   "ours": "ма̂й са̀-бай",
+   "tones_ok": true,
+   "dictionary": "maiF saL baaiM"
+  },
+  "ไม่อยาก": {
+   "ours": "ма̂й йа̀ак",
+   "tones_ok": true,
+   "dictionary": "maiF yaakL"
+  },
+  "ไม่อยากเชื่อ": {
+   "ours": "ма̂й йа̀ак щы̂ыа",
+   "tones_ok": true,
+   "dictionary": "maiF yaakL cheuuaF"
+  },
+  "ไม่อยู่": {
+   "ours": "ма̂й-йу̀у",
+   "tones_ok": true,
+   "dictionary": "maiF yuuL"
+  },
+  "ไม่เคย": {
+   "ours": "ма̂й-кхӧӧэй",
+   "tones_ok": true,
+   "dictionary": "maiF kheeuyM"
+  },
+  "ไม่เป็นไร": {
+   "ours": "ма̂й-пэн-рай",
+   "tones_ok": true,
+   "dictionary": "maiF bpenM raiM"
+  },
+  "ไม่เอา": {
+   "ours": "ма̂й-ау",
+   "tones_ok": true,
+   "dictionary": "maiF aoM"
+  },
+  "ไม่ใช่": {
+   "ours": "ма̂й-ща̂й",
+   "tones_ok": true,
+   "dictionary": "maiF chaiF"
+  },
+  "ไม่ได้": {
+   "ours": "ма̂й да̂й",
+   "tones_ok": true,
+   "dictionary": "maiF daiF"
+  },
+  "ไวไฟ": {
+   "ours": "вай фай",
+   "tones_ok": true,
+   "dictionary": "waiM faiM"
+  },
+  "ไสยศาสตร์": {
+   "ours": "са̌й-йа́-са̀ат",
+   "tones_ok": true,
+   "dictionary": "saiR yaH saatL"
+  },
+  "ไหม": {
+   "ours": null,
+   "tones_ok": false,
+   "dictionary": "maiH"
+  },
+  "ไหล่": {
+   "ours": "ла̀й",
+   "tones_ok": true,
+   "dictionary": "laiL"
+  },
+  "ไอ": {
+   "ours": "ай",
+   "tones_ok": true,
+   "dictionary": "aiM"
+  },
+  "ไอศกรีม": {
+   "ours": "ай-са̀-гриим",
+   "tones_ok": true,
+   "dictionary": "aiM saL greemM"
+  },
+  "ไอ้": {
+   "ours": "а̂й",
+   "tones_ok": true,
+   "dictionary": "aiF"
+  }
+ }
+}

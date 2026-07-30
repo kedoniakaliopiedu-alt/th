@@ -1,0 +1,143 @@
+{
+ "_": "Кластеры. true: ключ — сочетание (first + second), cyrillic — слитное чтение.\nsilent_ro и thoro_s: ключ — слово, reading — чтение, meaning — перевод.\nПравила и ведущая согласная — references/clusters.md.",
+ "built": "2026-07-30",
+ "true": {
+  "กร": {
+   "first": "ก",
+   "second": "ร",
+   "cyrillic": "гр"
+  },
+  "กล": {
+   "first": "ก",
+   "second": "ล",
+   "cyrillic": "гл"
+  },
+  "กว": {
+   "first": "ก",
+   "second": "ว",
+   "cyrillic": "гв"
+  },
+  "ขร": {
+   "first": "ข",
+   "second": "ร",
+   "cyrillic": "кхр"
+  },
+  "ขล": {
+   "first": "ข",
+   "second": "ล",
+   "cyrillic": "кхл"
+  },
+  "ขว": {
+   "first": "ข",
+   "second": "ว",
+   "cyrillic": "кхв"
+  },
+  "คร": {
+   "first": "ค",
+   "second": "ร",
+   "cyrillic": "кхр"
+  },
+  "คล": {
+   "first": "ค",
+   "second": "ล",
+   "cyrillic": "кхл"
+  },
+  "คว": {
+   "first": "ค",
+   "second": "ว",
+   "cyrillic": "кхв"
+  },
+  "ตร": {
+   "first": "ต",
+   "second": "ร",
+   "cyrillic": "тр"
+  },
+  "ตล": {
+   "first": "ต",
+   "second": "ล",
+   "cyrillic": "(редко)"
+  },
+  "ปร": {
+   "first": "ป",
+   "second": "ร",
+   "cyrillic": "пр"
+  },
+  "ปล": {
+   "first": "ป",
+   "second": "ล",
+   "cyrillic": "пл"
+  },
+  "ผร": {
+   "first": "ผ",
+   "second": "ร",
+   "cyrillic": "пхр"
+  },
+  "ผล": {
+   "first": "ผ",
+   "second": "ล",
+   "cyrillic": "пхл"
+  },
+  "พร": {
+   "first": "พ",
+   "second": "ร",
+   "cyrillic": "пхр"
+  },
+  "พล": {
+   "first": "พ",
+   "second": "ล",
+   "cyrillic": "пхл"
+  }
+ },
+ "silent_ro": {
+  "จริง": {
+   "reading": "дьзиң",
+   "meaning": "правда"
+  },
+  "เศร้า": {
+   "reading": "са̂у",
+   "meaning": "грустный"
+  },
+  "สร้าง": {
+   "reading": "са̂аң",
+   "meaning": "строить"
+  },
+  "ศรี": {
+   "reading": "си̌и",
+   "meaning": "святой, благородный (в именах)"
+  },
+  "ศรัทธา": {
+   "reading": "са̀т-тьхаа",
+   "meaning": "вера"
+  },
+  "สรร": {
+   "reading": "са̌н",
+   "meaning": "избирать"
+  },
+  "สระ": {
+   "reading": "са̀",
+   "meaning": "бассейн"
+  }
+ },
+ "thoro_s": {
+  "ทราย": {
+   "reading": "саай",
+   "meaning": "песок"
+  },
+  "ทรง": {
+   "reading": "соң",
+   "meaning": "форма; королевское «делать»"
+  },
+  "ทรุด": {
+   "reading": "су́т",
+   "meaning": "опуститься, упасть"
+  },
+  "แทรก": {
+   "reading": "сэ̂эк",
+   "meaning": "вставить"
+  },
+  "ทราบ": {
+   "reading": "са̂ап",
+   "meaning": "знать (вежливое)"
+  }
+ }
+}
