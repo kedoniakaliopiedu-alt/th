@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Контрольная 1.2–1.4 — Гласные, тоны, знаки</title>
+
+<style>
+  :root {
+    --paper: #f4f5f7;
+    --card: #fbfbfc;
+    --ink: #151c26;
+    --ink-soft: #4d5866;
+    --ink-faint: #8b95a3;
+    --rule: #d7dce4;
+    --rule-soft: #e6eaf0;
+    --accent: #26497d;
+    --accent-soft: #e6ecf6;
+    --gold: #8a6420;
+    --gold-soft: #f3ecdd;
+
+    --serif: "Charter", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    /* Тайский — без своего стека: системный фолбэк, тот же, что в чате */
+    --thai: var(--sans);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0e131a;
+      --card: #151b24;
+      --ink: #e7ebf1;
+      --ink-soft: #a9b3c1;
+      --ink-faint: #6f7a89;
+      --rule: #2a323d;
+      --rule-soft: #212933;
+      --accent: #8fb0e4;
+      --accent-soft: #1b2635;
+      --gold: #d5ac66;
+      --gold-soft: #262015;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #0e131a;
+    --card: #151b24;
+    --ink: #e7ebf1;
+    --ink-soft: #a9b3c1;
+    --ink-faint: #6f7a89;
+    --rule: #2a323d;
+    --rule-soft: #212933;
+    --accent: #8fb0e4;
+    --accent-soft: #1b2635;
+    --gold: #d5ac66;
+    --gold-soft: #262015;
+  }
+
+  :root[data-theme="light"] {
+    --paper: #f4f5f7;
+    --card: #fbfbfc;
+    --ink: #151c26;
+    --ink-soft: #4d5866;
+    --ink-faint: #8b95a3;
+    --rule: #d7dce4;
+    --rule-soft: #e6eaf0;
+    --accent: #26497d;
+    --accent-soft: #e6ecf6;
+    --gold: #8a6420;
+    --gold-soft: #f3ecdd;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: clamp(1.25rem, 4vw, 3.5rem) clamp(1rem, 4vw, 2rem) 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.75rem;
+  }
+
+  .head {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: .72rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: .5rem;
+    height: .5rem;
+    border: 1.5px solid currentColor;
+    border-radius: 50%;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 6vw, 3rem);
+    line-height: 1.05;
+    font-weight: 600;
+    letter-spacing: -.015em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  h1 .sub {
+    display: block;
+    font-size: .42em;
+    font-weight: 400;
+    letter-spacing: .01em;
+    color: var(--ink-soft);
+    margin-top: .7rem;
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+
+  .fact {
+    background: var(--card);
+    padding: .7rem .85rem;
+    display: flex;
+    flex-direction: column;
+    gap: .15rem;
+  }
+
+  .fact dt {
+    font-family: var(--mono);
+    font-size: .66rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .fact dd {
+    margin: 0;
+    font-size: 1.05rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .fact.locked dd { color: var(--gold); }
+
+  .note {
+    font-size: .95rem;
+    color: var(--ink-soft);
+    max-width: 40rem;
+  }
+
+  .note b { color: var(--ink); font-weight: 600; }
+
+  code.ref {
+    font-family: var(--mono);
+    font-size: .85em;
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: .1em .4em;
+    border-radius: 2px;
+  }
+
+  .block {
+    display: grid;
+    grid-template-columns: 3.25rem 1fr;
+    gap: 0 1.25rem;
+    align-items: start;
+  }
+
+  .block-letter {
+    font-family: var(--serif);
+    font-size: 2.5rem;
+    line-height: .9;
+    color: var(--accent);
+    border-top: 2px solid var(--accent);
+    padding-top: .55rem;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .block-body {
+    border-top: 1px solid var(--rule);
+    padding-top: .6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 0;
+  }
+
+  .block-name {
+    font-family: var(--mono);
+    font-size: .68rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: -.85rem;
+  }
+
+  .task {
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+    min-width: 0;
+  }
+
+  .prompt {
+    display: grid;
+    grid-template-columns: 1.6rem 1fr;
+    gap: .5rem;
+    font-size: 1.06rem;
+    line-height: 1.5;
+  }
+
+  .prompt .n {
+    font-family: var(--mono);
+    font-weight: 600;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .prompt .opts {
+    display: block;
+    margin-top: .45rem;
+    font-size: .92rem;
+    color: var(--ink-soft);
+  }
+
+  .prompt .opts b {
+    font-family: var(--mono);
+    color: var(--ink);
+    font-weight: 600;
+    letter-spacing: .02em;
+  }
+
+  .items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1px;
+    background: var(--rule-soft);
+    border: 1px solid var(--rule-soft);
+  }
+
+  .items.cols-3 { grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); }
+  .items.cols-2 { grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr)); }
+  .items.cols-1 { grid-template-columns: 1fr; }
+
+  .items li {
+    background: var(--card);
+    padding: .8rem .9rem .85rem;
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+  }
+
+  .mark {
+    font-family: var(--mono);
+    font-size: .72rem;
+    color: var(--ink-faint);
+  }
+
+  .thai {
+    font-family: var(--thai);
+    font-size: 2.1rem;
+    line-height: 1.25;
+    font-weight: 600;
+    letter-spacing: .01em;
+  }
+
+  .thai.pair {
+    font-size: 1.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .1rem .9rem;
+    align-items: baseline;
+  }
+
+  .thai .slash {
+    color: var(--ink-faint);
+    font-weight: 400;
+    font-size: .8em;
+  }
+
+  .gloss {
+    font-size: .82rem;
+    color: var(--ink-faint);
+  }
+
+  .gloss .flag { color: var(--gold); }
+
+  .name {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.2rem;
+  }
+
+  .line {
+    margin-top: .35rem;
+    border-bottom: 1px dashed var(--rule);
+    height: 1.35rem;
+  }
+
+  .line.tall { height: 2.6rem; }
+
+  .foot {
+    border-top: 2px solid var(--ink);
+    padding-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    font-size: .95rem;
+    color: var(--ink-soft);
+  }
+
+  .foot strong { color: var(--ink); }
+
+  @media (max-width: 34rem) {
+    .block { grid-template-columns: 1fr; gap: .5rem; }
+    .block-letter {
+      text-align: left;
+      font-size: 1.9rem;
+      padding-top: .4rem;
+    }
+    .block-body { border-top: none; padding-top: 0; }
+  }
+
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .sheet { padding: 0; gap: 1.5rem; max-width: none; }
+    .block { break-inside: avoid; }
+  }
+</style>
+
+</head>
+<body>
+<div class="sheet">
+
+  <header class="head">
+    <p class="eyebrow">Подсказки недоступны</p>
+    <h1>
+      Контрольная работа
+      <span class="sub">Темы 1.2–1.4 — гласные, тоны, специальные знаки · Глава 1, Thai A2</span>
+    </h1>
+
+    <dl class="facts">
+      <div class="fact">
+        <dt>Пунктов</dt>
+        <dd>69</dd>
+      </div>
+      <div class="fact locked">
+        <dt>Порог</dt>
+        <dd>80 %</dd>
+      </div>
+      <div class="fact">
+        <dt>Покрытие</dt>
+        <dd>1.2 · 1.3 · 1.4</dd>
+      </div>
+      <div class="fact">
+        <dt>Согласные 1.1</dt>
+        <dd>сданы, не повторяю</dd>
+      </div>
+    </dl>
+
+    <p class="note">
+      Отвечай по адресу пункта: <code class="ref">A.1.в</code>, <code class="ref">G.2.б</code>.
+      Где не уверена — приписывай <b>(не уверена)</b>: это не штрафуется.
+      Можно присылать блоками, не обязательно всё сразу.
+      Где просят транскрипцию — <b>тон не нужен</b>, кроме блоков E и F, где спрашивают именно тон.
+    </p>
+  </header>
+
+  <section class="block">
+    <div class="block-letter">A</div>
+    <div class="block-body">
+      <p class="block-name">Долгий или короткий гласный</p>
+      <div class="task">
+        <p class="prompt">
+          <span class="n">1.</span>
+          <span>Гласный в слоге долгий или короткий?
+            <span class="opts">Напиши <b>долгий</b> или <b>короткий</b></span>
+          </span>
+        </p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="thai">ตี</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">ตุ</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">แก</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">เกะ</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">โต๊ะ</span><span class="line"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">B</div>
+    <div class="block-body">
+      <p class="block-name">Чтение слога</p>
+      <div class="task">
+        <p class="prompt">
+          <span class="n">1.</span>
+          <span>Запиши слог кириллицей.
+            <span class="opts">Долготу передавай двойной буквой (как <b>таа</b>), тон не нужен</span>
+          </span>
+        </p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="thai">ตา</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">ติ</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">เต</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">แต</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">ตำ</span><span class="line"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">C</div>
+    <div class="block-body">
+      <p class="block-name">Двойные гласные · ใ и ไ</p>
+
+      <div class="task">
+        <p class="prompt">
+          <span class="n">1.</span>
+          <span>Запиши слово кириллицей.
+            <span class="opts">Все звуки гласной подряд, тон не нужен</span>
+          </span>
+        </p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="thai">เสีย</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">เรือ</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">กลัว</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt">
+          <span class="n">2.</span>
+          <span>Какая буква нужна на месте пропуска — <span class="thai" style="font-size:1.2rem">ใ</span> или <span class="thai" style="font-size:1.2rem">ไ</span>?
+            <span class="opts">Напиши слово целиком тайскими буквами</span>
+          </span>
+        </p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">__จ</span><span class="gloss">сердце</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">__ป</span><span class="gloss">идти</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">__หม่</span><span class="gloss">новый</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">__ก่</span><span class="gloss">курица</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">__หน</span><span class="gloss">где</span><span class="line"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">D</div>
+    <div class="block-body">
+      <p class="block-name">Слог с согласной в конце</p>
+
+      <div class="task">
+        <p class="prompt">
+          <span class="n">1.</span>
+          <span>Запиши слово кириллицей.
+            <span class="opts">Тон не нужен. Осторожно: гласный знак виден не всегда</span>
+          </span>
+        </p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="thai">คน</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">รส</span><span class="gloss"><span class="flag">⚑</span> вкус</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">คืน</span><span class="gloss"><span class="flag">⚑</span> ночь</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">กวน</span><span class="gloss"><span class="flag">⚑</span> мешать, размешивать</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt">
+          <span class="n">2.</span>
+          <span>Допиши в конец слога букву <span class="thai" style="font-size:1.2rem">น</span> — как при этом изменится запись гласной?
+            <span class="opts">Ответ — готовый слог тайскими буквами</span>
+          </span>
+        </p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">กะ</span><span class="gloss">+ น</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">โกะ</span><span class="gloss">+ น</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">กัว</span><span class="gloss">+ น</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">กือ</span><span class="gloss">+ น</span><span class="line"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">E</div>
+    <div class="block-body">
+      <p class="block-name">Тон без тонового знака</p>
+      <div class="task">
+        <p class="prompt">
+          <span class="n">1.</span>
+          <span>Какой тон у слова?
+            <span class="opts">Выбери из: <b>средний</b> · <b>низкий</b> · <b>нисходящий</b> · <b>высокий</b> · <b>восходящий</b></span>
+          </span>
+        </p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">ปู</span><span class="gloss">краб</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">สาม</span><span class="gloss">три</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">จบ</span><span class="gloss">заканчиваться</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">สด</span><span class="gloss">свежий</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">นก</span><span class="gloss">птица</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">มืด</span><span class="gloss"><span class="flag">⚑</span> тёмный</span><span class="line"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">F</div>
+    <div class="block-body">
+      <p class="block-name">Тоновые значки</p>
+
+      <div class="task">
+        <p class="prompt">
+          <span class="n">1.</span>
+          <span>Какой тон у слова?
+            <span class="opts">Выбери из: <b>средний</b> · <b>низкий</b> · <b>нисходящий</b> · <b>высокий</b> · <b>восходящий</b></span>
+          </span>
+        </p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">พ่อ</span><span class="gloss">отец</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">ก่อน</span><span class="gloss">раньше, перед</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">ซื้อ</span><span class="gloss">покупать</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">ช้าง</span><span class="gloss">слон</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt">
+          <span class="n">2.</span>
+          <span>Поставь над буквой значок так, чтобы получился нужный тон.
+            <span class="opts">Ответ — готовый слог тайскими буквами</span>
+          </span>
+        </p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">ลา</span><span class="gloss">нужен нисходящий</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">ลา</span><span class="gloss">нужен высокий</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">ตา</span><span class="gloss">нужен восходящий</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">ผา</span><span class="gloss">нужен нисходящий</span><span class="line"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">G</div>
+    <div class="block-body">
+      <p class="block-name">Две согласные в начале слога</p>
+
+      <div class="task">
+        <p class="prompt">
+          <span class="n">1.</span>
+          <span>Читаются ли обе согласные вместе, одним звуком в начале слога?
+            <span class="opts">Напиши <b>да</b> или <b>нет</b></span>
+          </span>
+        </p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="thai">กว</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">ทร</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">ปล</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">จร</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">คร</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">สร</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt">
+          <span class="n">2.</span>
+          <span>Запиши слово кириллицей.
+            <span class="opts">Тон не нужен. Если в слове два слога — раздели дефисом</span>
+          </span>
+        </p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">ปลา</span><span class="gloss">рыба</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">ทราย</span><span class="gloss"><span class="flag">⚑</span> песок</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">ควาย</span><span class="gloss">буйвол</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">เวลา</span><span class="gloss">время</span><span class="line"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">H</div>
+    <div class="block-body">
+      <p class="block-name">Немая ห и немая อ</p>
+
+      <div class="task">
+        <p class="prompt">
+          <span class="n">1.</span>
+          <span>В какой из двух записей тон восходящий?
+            <span class="opts">Выпиши нужное слово тайскими буквами</span>
+          </span>
+        </p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai pair">นอน <span class="slash">/</span> หนอน</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai pair">ไม <span class="slash">/</span> ไหม</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai pair">วาน <span class="slash">/</span> หวาน</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai pair">ลาย <span class="slash">/</span> หลาย</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt">
+          <span class="n">2.</span>
+          <span>Напиши все четыре слова, где перед <span class="thai" style="font-size:1.2rem">ย</span> стоит <span class="thai" style="font-size:1.2rem">อ</span>, которая не читается, а только меняет тон.
+            <span class="opts">Тайскими буквами, четыре слова</span>
+          </span>
+        </p>
+        <ol class="items cols-1">
+          <li><span class="line tall"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">I</div>
+    <div class="block-body">
+      <p class="block-name">Значки над буквами · повтор слова</p>
+
+      <div class="task">
+        <p class="prompt">
+          <span class="n">1.</span>
+          <span>Какая буква в слове не читается?
+            <span class="opts">Напиши эту букву</span>
+          </span>
+        </p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">กอล์ฟ</span><span class="gloss">гольф</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">สวรรค์</span><span class="gloss"><span class="flag">⚑</span> рай</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">โทรศัพท์</span><span class="gloss">телефон</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">เซ็นต์</span><span class="gloss"><span class="flag">⚑</span> цент</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt">
+          <span class="n">2.</span>
+          <span>Запиши слово кириллицей.
+            <span class="opts">Тон не нужен. Следи за длиной гласного</span>
+          </span>
+        </p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">เป็น</span><span class="gloss">быть</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">แข็ง</span><span class="gloss"><span class="flag">⚑</span> твёрдый</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt">
+          <span class="n">3.</span>
+          <span>Запиши без значка <span class="thai" style="font-size:1.2rem">ๆ</span> — то, что он сокращает.
+            <span class="opts">Тайскими буквами</span>
+          </span>
+        </p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">เร็วๆ</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">เด็กๆ</span><span class="line"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">J</div>
+    <div class="block-body">
+      <p class="block-name">Цифры и строка без пробелов</p>
+
+      <div class="task">
+        <p class="prompt">
+          <span class="n">1.</span>
+          <span>Запиши арабскими цифрами.</span>
+        </p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">๔๙</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">๒๕๖๘</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt">
+          <span class="n">2.</span>
+          <span>Запиши тайскими цифрами.</span>
+        </p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="name">30</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="name">2026</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt">
+          <span class="n">3.</span>
+          <span>Раздели строку на слова — впиши пробелы.
+            <span class="opts">Ответ — та же строка тайскими буквами, с пробелами</span>
+          </span>
+        </p>
+        <ol class="items cols-1">
+          <li><span class="thai">ฉันกินข้าวกับเพื่อน</span><span class="line tall"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt">
+          <span class="n">4.</span>
+          <span>Какой это год по нашему календарю?
+            <span class="opts">Напиши число</span>
+          </span>
+        </p>
+        <ol class="items cols-1">
+          <li><span class="thai">พ.ศ. ๒๕๖๘</span><span class="line"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>Присылай ответы одним сообщением или блоками — текстом либо фото из тетради (тогда через <code class="ref">scripts/intake</code>).</p>
+    <p><strong>Разбор и оценка — после всех ответов.</strong> Внутри листа подсказок нет.</p>
+  </footer>
+
+</div>
+</body>
+</html>
