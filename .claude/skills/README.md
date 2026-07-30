@@ -8,98 +8,18 @@ Written in English; **everything the learner sees is in Russian**. Names in Russ
 below — statuses, section headings, category values — are literals the code or the parser
 matches on, so they are quoted exactly and never translated.
 
-The skills fall into two layers. **Teaching** ones (`thai-*`, `learn`, `teach`) run the
-lesson. **Meta** ones (`skill-*`) service the instrument itself: invent a mechanic, write a
-document, review what was written. The teaching layer is about Thai, the meta layer about
-the repository; do not mix them up — every meta skill states in its `description` what it is
-**not**.
+## The map
 
-## Cast and roles
+**Who owns what, and where the turn goes next, is in [`MAP.md`](MAP.md)** — the roles of both
+layers, the connection diagrams, the `thai-tasks` / `thai-mistakes` boundary, the meta loop and
+the fate of its artifacts. That is the file the meta skills load: deliberately small, and the
+one place a zone or a hand-off is described. This README is the operator's handbook — the
+tracker, the toolchains, how to run things.
 
-| Skill | Role |
-|---|---|
-| **thai-tasks** | The main engine. Assembles composite practical tasks on any topic, keeps the progress tracker (SM-2), the 60/40 spiral, three modes (session / worksheet / test). |
-| **thai-mistakes** | The lesson's second beat: self-assessment calibration before the verdict, a report over the checked sheet (✅/🟡/❌), writing mistakes to the tracker, drilling a whole topic in the mode matching the mistake type, a counterexample against misconceptions, the two-round rule. |
-| **thai-learning** | Rules for presenting tasks and checking answers, level structure, tests. |
-| **thai-phonetics** | Cyrillic transcription of Thai sounds, tone marks (` ˆ ´ ˇ). |
-| **thai-display** | Word styling by consonant class. Optional — only when a class breakdown is wanted. |
-| **thai-handwriting** | Reading Thai off images, handwriting above all: notebook photos, whiteboards, signs. Pipeline «preprocess → slice into lines → read → orthographic filters → dictionary». |
-| **learn** | Base pedagogy: diagnose, one step per turn, a hint instead of a ready answer. |
-| **teach** | Learning space: mission, learning-records, resources, glossary (formats). |
-
-The meta layer — work on the instrument itself:
-
-| Skill | Role |
-|---|---|
-| **skill-brainstorm** | Brainstorming over skill mechanics and exercise formats. Three stances (facilitator / creative partner / ideate-for-me), a catalog of 122 techniques, a session log on disk, resuming. |
-| **skill-review** | Adversarial review of skills, references, scripts and course files: parallel blind layers + structured triage. |
-| **skill-writer** | Technical writer: write a document, validate it against the standard, explain a mechanism, draw a mermaid diagram. |
-| **python-best-practices** | Vendor skill (installed 2026-07-28, commit `aaa9e2a`): 70 Python engineering rules with an impact level each. Consulted when writing or reviewing the scripts; it is a rule book, not part of the loop below, and its own sources are never edited — they are replaced wholesale on update. |
-
-## How they connect
-
-There are three entry points, each firing on its own trigger; below each is what it leans on.
-
-```
-thai-tasks        ← tasks, drills, practice are asked for
-├── learn            — pedagogy of the dialogue
-├── thai-learning    — rules of presenting and checking
-├── thai-phonetics   — transcription and tones
-└── thai-display     — styling by class (optional)
-        │
-        ↓ answers checked — hands the turn over
-        │
-thai-mistakes     ← answers checked; or a direct «разбери ошибки»
-├── thai-tasks       — tracker, task catalog, generation rules
-├── thai-learning    — checking rules
-└── thai-phonetics   — transcription
-
-thai-handwriting  ← the message contains an image
-├── thai-phonetics   — transcription of what was read
-├── thai-learning    — reviewing language errors in handwritten work
-├── thai-display     — styling the words reviewed
-└── thai-tasks       — tracker: record a recurring handwriting defect
-```
-
-The `tasks → mistakes` arrow is a handover, not subordination: feedback is the stronger
-half, and `thai-mistakes` borrows the tracker, the task catalog and the generation rules
-from the engine.
-
-The boundary between them is **the moment of the verdict**, and closing a topic is cut
-along the same line: the engine keeps topic states, assembles the closing sheet and sets its
-properties (share of production, the trap, the forecast before the first task); the mistakes
-workflow checks, reports and records the outcome with `close`.
-
-`teach` is deliberately absent from the diagram: it is a vendor skill (Matt Pocock) locked
-against auto-invocation (`disable-model-invocation: true`). Its practices — mission,
-learning-records, resources — are rewritten for this project in
-`thai-tasks/references/mission-and-records.md`, and the engine goes there rather than to the
-skill.
-
-The meta layer is closed into its own loop and does not overlap the teaching one:
-
-```
-skill-brainstorm  ← «давай поштурмим», «накидай идей», «придумаем формат»
-        │  change list (.claude/brainstorms/<тема>/изменения.md)
-        ↓
-skill-writer      ← «напиши скилл», «перепиши SKILL.md», «объясни, как устроено»
-        │  written files
-        ↓
-skill-review      ← «отревьюй мои правки», «аудит thai-tasks»
-        │  report (.claude/reviews/) + findings that warrant a rewrite
-        └──────────→ back into brainstorm or writer
-```
-
-The loop is not mandatory: any of the three runs on its own. Brainstorming edits nothing,
-the writer decides nothing for the author, the review writes nothing without an explicit
-choice.
-
-The loop's artifacts — the session log, the change list, the review report — live exactly
-until the work has landed as code. After that brainstorm and review **offer to delete them
-themselves**: nobody opens a closed report, and an abandoned `изменения.md` additionally
-surfaces in the next review as unfinished work. They are deleted only by consent and only
-when nothing is left open; anything committed comes back from history
-(`git show <sha>:<путь>`).
+`python-best-practices` is off the map on purpose: a vendor rule book (installed 2026-07-28,
+commit `aaa9e2a`), 70 Python engineering rules with an impact level each, consulted when
+writing or reviewing the scripts. Its own sources are never edited — they are replaced
+wholesale on update.
 
 ## Where the theory lives
 
@@ -174,6 +94,25 @@ eighty elements.
 
 The mastery growth threshold is three correct in a row, not five: five on one element
 between SM-2 intervals is practically never accumulated.
+
+## Transcription reference
+
+`thai-phonetics/scripts/phonetics.py` reads the same `references/*.md` the model reads —
+there is deliberately no second copy of the data. Stdlib only, offline.
+
+```bash
+S=.claude/skills/thai-phonetics/scripts
+python3 $S/phonetics.py sign ร            # class, initial, final, example
+python3 $S/phonetics.py finals т          # every sign that yields this final
+python3 $S/phonetics.py check             # validate the reference files
+python3 $S/phonetics.py check --course    # …and scan Thai A2/B1/Helpers as well
+```
+
+`check` catches what the eye misses: latin homoglyphs wearing tone marks (`â` for `а̂`),
+leftover macrons, `å`, `ɣ`, and any drift between `SKILL.md` and `consonants.md`. Sections
+headed «Требует сверки» or «Расхождения с источником» are exempt on purpose — they exist to
+keep the disputed material visible. `--course` is still noisy: course tables use headers the
+scanner does not know yet, so read its output as leads, not as a verdict.
 
 ## Handwriting recognition
 
@@ -334,5 +273,9 @@ a `SKILL.md`, and the ban on methodology leaking into text the learner reads.
 - Transcription is strictly Cyrillic; the tone mark sits over the vowel.
 - Tones are verified against an authoritative source (thai-language.com) before any verdict,
   never from memory.
+- `RESOURCES.md` in the project root divides the sources by zone: the dictionary owns the
+  word (spelling, meaning, tone), thai-alphabet.com owns the single sign (class, positional
+  reading, sound), the course files own the vocabulary. A conflict between them is marked
+  «спорно» and never reaches the learner's sheet.
 - The Lithuanian skills (`lithuanian-*`) belong to the separate LT project and are not
   needed here.
