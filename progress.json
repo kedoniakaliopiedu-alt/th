@@ -5,12 +5,12 @@
       0.6,
       0.7
     ],
-    "recent_accuracy": 0.85,
-    "updated": "2026-07-28"
+    "recent_accuracy": 0.83,
+    "updated": "2026-07-29"
   },
   "items": {
     "ก": {
-      "translation": "กอ ไก่ (го кай — курица) · [k] · [k̚] · г / к",
+      "translation": "กอ ไก่ (гоо га̀й — курица) · [k] · [k̚] · г / к",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -24,7 +24,7 @@
       "translit": ""
     },
     "จ": {
-      "translation": "จอ จาน (джо чан — тарелка) · [tɕ] · [t̚] · дьж / т",
+      "translation": "จอ จาน (дьзоо дьзан — тарелка) · [tɕ] · [t̚] · дьз / т",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -38,7 +38,7 @@
       "translit": ""
     },
     "ฎ": {
-      "translation": "ฎอ ชฎา (до чада — корона) · [d] · [t̚] · д / т",
+      "translation": "ฎอ ชฎา (доо щада — корона) · [d] · [t̚] · д / т",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -52,7 +52,7 @@
       "translit": ""
     },
     "ฏ": {
-      "translation": "ฏอ ปฏัก (то патак — копьё) · [t] · [t̚] · т / т",
+      "translation": "ฏอ ปฏัก (тоо патак — копьё) · [t] · [t̚] · т / т",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -66,7 +66,7 @@
       "translit": ""
     },
     "ด": {
-      "translation": "ดอ เด็ก (до дек — ребёнок) · [d] · [t̚] · д / т",
+      "translation": "ดอ เด็ก (доо дӭ̀к — ребёнок) · [d] · [t̚] · д / т",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -80,7 +80,7 @@
       "translit": ""
     },
     "ต": {
-      "translation": "ตอ เต่า (то тао — черепаха) · [t] · [t̚] · т / т",
+      "translation": "ตอ เต่า (тоо та̀у — черепаха) · [t] · [t̚] · т / т",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -94,7 +94,7 @@
       "translit": ""
     },
     "บ": {
-      "translation": "บอ ใบไม้ (бо баймай — лист) · [b] · [p̚] · б / п",
+      "translation": "บอ ใบไม้ (боо бай-ма́й — лист) · [b] · [p̚] · б / п",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -108,7 +108,7 @@
       "translit": ""
     },
     "ป": {
-      "translation": "ปอ ปลา (по пла — рыба) · [p] · [p̚] · п / п",
+      "translation": "ปอ ปลา (поо пла — рыба) · [p] · [p̚] · п / п",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -122,7 +122,7 @@
       "translit": ""
     },
     "อ": {
-      "translation": "ออ อ่าง (о анг — таз) · [ʔ] (или нулевой) · — · о (носитель гласной)",
+      "translation": "ออ อ่าง (оо а̀аң — таз) · [ʔ] (или нулевой) · — · о (носитель гласной)",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -136,7 +136,7 @@
       "translit": ""
     },
     "ข": {
-      "translation": "ขอ ไข่ (кхо̌ кхай — яйцо) · [kʰ] · [k̚] · кх / к",
+      "translation": "ขอ ไข่ (кхо̌о кха̀й — яйцо) · [kʰ] · [k̚] · кх / к",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -150,7 +150,7 @@
       "translit": ""
     },
     "ฃ": {
-      "translation": "ฃอ ฃวด (кхо̌ кхуат — бутылка) · [kʰ] · [k̚] · кх / к",
+      "translation": "ฃอ ฃวด (кхо̌о кхуат — бутылка) · [kʰ] · [k̚] · кх / к",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -164,7 +164,7 @@
       "translit": ""
     },
     "ฉ": {
-      "translation": "ฉอ ฉิ่ง (чхо̌ чхинг — кимвал) · [tɕʰ] · — · чх",
+      "translation": "ฉอ ฉิ่ง (що̌о щиң — кимвал) · [tɕʰ] · — · щ",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -178,7 +178,7 @@
       "translit": ""
     },
     "ฐ": {
-      "translation": "ฐอ ฐาน (тхо̌ тха̌ан — постамент) · [tʰ] · [t̚] · тх / т",
+      "translation": "ฐอ ฐาน (тьхо̌о тьха̌ан — постамент) · [tʰ] · [t̚] · тьх / т",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -192,7 +192,7 @@
       "translit": ""
     },
     "ถ": {
-      "translation": "ถอ ถุง (тхо̌ тху̌нг — мешок) · [tʰ] · [t̚] · тх / т",
+      "translation": "ถอ ถุง (тьхо̌о тьху̌ң — мешок) · [tʰ] · [t̚] · тьх / т",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -206,7 +206,7 @@
       "translit": ""
     },
     "ผ": {
-      "translation": "ผอ ผึ้ง (пхо̌ пхы̂нг — пчела) · [pʰ] · — · пх",
+      "translation": "ผอ ผึ้ง (пхо̌о пхы̂ң — пчела) · [pʰ] · — · пх",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -220,7 +220,7 @@
       "translit": ""
     },
     "ฝ": {
-      "translation": "ฝอ ฝา (фо̌ фа̌а — крышка) · [f] · — · ф",
+      "translation": "ฝอ ฝา (фо̌о фа̌а — крышка) · [f] · — · ф",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -234,7 +234,7 @@
       "translit": ""
     },
     "ศ": {
-      "translation": "ศอ ศาลา (со̌ са̌алаа — павильон) · [s] · [t̚] · с / т",
+      "translation": "ศอ ศาลา (со̌о са̌а-лаа — павильон) · [s] · [t̚] · с / т",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -248,7 +248,7 @@
       "translit": ""
     },
     "ษ": {
-      "translation": "ษอ ฤๅษี (со̌ рыыси̌и — отшельник) · [s] · [t̚] · с / т",
+      "translation": "ษอ ฤๅษี (со̌о рыы-си̌и — отшельник) · [s] · [t̚] · с / т",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -262,7 +262,7 @@
       "translit": ""
     },
     "ส": {
-      "translation": "สอ เสือ (со̌ сы̌ыа — тигр) · [s] · [t̚] · с / т",
+      "translation": "สอ เสือ (со̌о сы̌ыа — тигр) · [s] · [t̚] · с / т",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -276,7 +276,7 @@
       "translit": ""
     },
     "ห": {
-      "translation": "หอ หีบ (хо̌ хѝип — сундук) · [h] · — · х",
+      "translation": "หอ หีบ (хо̌о хѝип — сундук) · [h] · — · х",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -290,7 +290,7 @@
       "translit": ""
     },
     "ค": {
-      "translation": "คอ ควาย (кхо кхваай — буйвол) · [kʰ] · [k̚] · кх / к · ข",
+      "translation": "คอ ควาย (кхоо кхваай — буйвол) · [kʰ] · [k̚] · кх / к · ข",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -304,7 +304,7 @@
       "translit": ""
     },
     "ฅ": {
-      "translation": "ฅอ ฅน (кхо кхон — человек) · [kʰ] · [k̚] · кх / к · ข",
+      "translation": "ฅอ ฅน (кхоо кхон — человек) · [kʰ] · [k̚] · кх / к · ข",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -318,7 +318,7 @@
       "translit": ""
     },
     "ฆ": {
-      "translation": "ฆอ ระฆัง (кхо ракханг — гонг) · [kʰ] · [k̚] · кх / к · ข",
+      "translation": "ฆอ ระฆัง (кхоо ра́-кхаң — гоң) · [kʰ] · [k̚] · кх / к · ข",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -332,7 +332,7 @@
       "translit": ""
     },
     "ช": {
-      "translation": "ชอ ช้าง (чхо чха́анг — слон) · [tɕʰ] · [t̚] · чх / т · ฉ",
+      "translation": "ชอ ช้าง (щоо ща́аң — слон) · [tɕʰ] · [t̚] · щ / т · ฉ",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -346,7 +346,7 @@
       "translit": ""
     },
     "ซ": {
-      "translation": "ซอ โซ่ (со со̂о — цепь) · [s] · [t̚] · с / т · ส",
+      "translation": "ซอ โซ่ (соо со̂о — цепь) · [s] · [t̚] · с / т · ส",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -360,7 +360,7 @@
       "translit": ""
     },
     "ฌ": {
-      "translation": "ฌอ เฌอ (чхо чхӧӧ — дерево) · [tɕʰ] · [t̚] · чх / т · ฉ",
+      "translation": "ฌอ เฌอ (щоо щӧӧ — дерево) · [tɕʰ] · [t̚] · щ · ฉ",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -374,7 +374,7 @@
       "translit": ""
     },
     "ฑ": {
-      "translation": "ฑอ มณโฑ (тхо монтхоо — имя) · [tʰ] · [t̚] · тх / т · ถ",
+      "translation": "ฑอ มณโฑ (тьхоо монтьхоо — имя) · [tʰ] · [t̚] · тьх / т · ถ",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -388,7 +388,7 @@
       "translit": ""
     },
     "ฒ": {
-      "translation": "ฒอ ผู้เฒ่า (тхо пху̂утхао — старец) · [tʰ] · [t̚] · тх / т · ถ",
+      "translation": "ฒอ ผู้เฒ่า (тьхоо пху̂у-тьха̂у — старец) · [tʰ] · [t̚] · тьх / т · ถ",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -402,7 +402,7 @@
       "translit": ""
     },
     "ท": {
-      "translation": "ทอ ทหาร (тхо тхаха̌ан — солдат) · [tʰ] · [t̚] · тх / т · ถ",
+      "translation": "ทอ ทหาร (тьхоо тьха́-ха̌ан — солдат) · [tʰ] · [t̚] · тьх / т · ถ",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -416,7 +416,7 @@
       "translit": ""
     },
     "ธ": {
-      "translation": "ธอ ธง (тхо тхонг — флаг) · [tʰ] · [t̚] · тх / т · ถ",
+      "translation": "ธอ ธง (тьхоо тьхоң — флаг) · [tʰ] · [t̚] · тьх / т · ถ",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -430,7 +430,7 @@
       "translit": ""
     },
     "พ": {
-      "translation": "พอ พาน (пхо пхаан — поднос) · [pʰ] · [p̚] · пх / п · ผ",
+      "translation": "พอ พาน (пхоо пхаан — поднос) · [pʰ] · [p̚] · пх / п · ผ",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -444,7 +444,7 @@
       "translit": ""
     },
     "ภ": {
-      "translation": "ภอ สำเภา (пхо сампхау — джонка) · [pʰ] · [p̚] · пх / п · ผ",
+      "translation": "ภอ สำเภา (пхоо са̌м-пхау — дьзонка) · [pʰ] · [p̚] · пх / п · ผ",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -458,7 +458,7 @@
       "translit": ""
     },
     "ฟ": {
-      "translation": "ฟอ ฟัน (фо фан — зуб) · [f] · [p̚] · ф / п · ฝ",
+      "translation": "ฟอ ฟัน (фоо фан — зуб) · [f] · [p̚] · ф / п · ฝ",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -472,7 +472,7 @@
       "translit": ""
     },
     "ฮ": {
-      "translation": "ฮอ นกฮูก (хо нокхуук — сова) · [h] · — · х · ห",
+      "translation": "ฮอ นกฮูก (хоо нокхуук — сова) · [h] · — · х · ห",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -486,7 +486,7 @@
       "translit": ""
     },
     "ง": {
-      "translation": "งอ งู (нго нгуу — змея) · [ŋ] · [ŋ] · нг / нг",
+      "translation": "งอ งู (ңоо ңуу — змея) · [ŋ] · [ŋ] · ң / ң",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -500,7 +500,7 @@
       "translit": ""
     },
     "ญ": {
-      "translation": "ญอ หญิง (йо йинг — женщина) · [j] · [n] · й / н",
+      "translation": "ญอ หญิง (йоо йи̌ң — женщина) · [j] · [n] · й / н",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -514,7 +514,7 @@
       "translit": ""
     },
     "ณ": {
-      "translation": "ณอ เณร (но нееn — послушник) · [n] · [n] · н / н",
+      "translation": "ณอ เณร (ноо нееn — послушник) · [n] · [n] · н / н",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -528,7 +528,7 @@
       "translit": ""
     },
     "น": {
-      "translation": "นอ หนู (но ну̌у — мышь) · [n] · [n] · н / н",
+      "translation": "นอ หนู (ноо ну̌у — мышь) · [n] · [n] · н / н",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -542,7 +542,7 @@
       "translit": ""
     },
     "ม": {
-      "translation": "มอ ม้า (мо ма́а — лошадь) · [m] · [m] · м / м",
+      "translation": "มอ ม้า (моо ма́а — лошадь) · [m] · [m] · м / м",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -556,7 +556,7 @@
       "translit": ""
     },
     "ย": {
-      "translation": "ยอ ยักษ์ (йо йак — великан) · [j] · [j] · й / й",
+      "translation": "ยอ ยักษ์ (йоо йа́к — великан) · [j] · [j] · й / й",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -570,7 +570,7 @@
       "translit": ""
     },
     "ร": {
-      "translation": "รอ เรือ (ро рыыа — лодка) · [r] · [n] · р / н",
+      "translation": "รอ เรือ (роо рыыа — лодка) · [r] · [n] · р / н",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -584,7 +584,7 @@
       "translit": ""
     },
     "ล": {
-      "translation": "ลอ ลิง (ло линг — обезьяна) · [l] · [n] · л / н",
+      "translation": "ลอ ลิง (лоо лиң — обезьяна) · [l] · [n] · л / н",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -598,7 +598,7 @@
       "translit": ""
     },
     "ว": {
-      "translation": "วอ แหวน (во вэ̌эн — кольцо) · [w] · [w] · в / у",
+      "translation": "วอ แหวน (воо вэ̌эн — кольцо) · [w] · [w] · в / у",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -612,7 +612,7 @@
       "translit": ""
     },
     "ฬ": {
-      "translation": "ฬอ จุฬา (ло джулаа — воздушный змей) · [l] · [n] · л / н",
+      "translation": "ฬอ จุฬา (лоо дьзу̀-лаа — воздушный змей) · [l] · [n] · л / н",
       "type": "word",
       "topic": "1.1",
       "repetitions": 0,
@@ -7708,6 +7708,342 @@
       "consecutive_correct": 0,
       "consecutive_incorrect": 0,
       "translit": "вин-нии-уу́т"
+    },
+    "ไหม": {
+      "translation": "«...ли?» (литературное)",
+      "translit": "ма̌й",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "มั้ย": {
+      "translation": "«...ли?» (разговорное)",
+      "translit": "ма́й",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "รึเปล่า / หรือเปล่า": {
+      "translation": "«...или нет?»",
+      "translit": "ры́-пла̀у / ры̌-пла̀у",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "หรือ / เหรอ": {
+      "translation": "«...или?» / «правда?»",
+      "translit": "ры̌у / рӧ̌э",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "ใช่ไหม": {
+      "translation": "«...правда?» / «верно?»",
+      "translit": "ща̂й-ма̌й",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "อะไร": {
+      "translation": "что",
+      "translit": "а-рай",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "ใคร": {
+      "translation": "кто",
+      "translit": "кхрай",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "ที่ไหน": {
+      "translation": "где",
+      "translit": "тьхи̂и-на̌й",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "ไหน": {
+      "translation": "какой / куда / где (без ที่)",
+      "translit": "на̌й",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "เมื่อไหร่ / เมื่อไร": {
+      "translation": "когда",
+      "translit": "мы̂а-рай",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "ทำไม": {
+      "translation": "почему",
+      "translit": "тьхам-май",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "ยังไง / อย่างไร": {
+      "translation": "как",
+      "translit": "йаң-ңай / йа̀аң-рай",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "เท่าไหร่ / เท่าไร": {
+      "translation": "сколько",
+      "translit": "тьха̂у-ра̀й",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "กี่": {
+      "translation": "сколько (со счётным словом)",
+      "translit": "гѝи",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "ใช่": {
+      "translation": "«да» / «верно»",
+      "translit": "ща̂й",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "ไม่ใช่": {
+      "translation": "«не верно» / «не так»",
+      "translit": "ма̂й-ща̂й",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "เปล่า": {
+      "translation": "«нет» (отрицание + констатация)",
+      "translit": "пла̀у",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "ไม่": {
+      "translation": "отрицательная приставка к глаголу",
+      "translit": "ма̂й",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "ใช่ + глагол": {
+      "translation": "для подтверждения утверждения",
+      "translit": "ща̂й...",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "ครับ / ค่ะ": {
+      "translation": "вежливое «да»",
+      "translit": "кхрап / кха̂",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "ไหม / มั้ย": {
+      "translation": "ไม่ + глагол",
+      "translit": "повтор глагола",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "รึเปล่า": {
+      "translation": "повтор глагола или ใช่ · เปล่า или ไม่",
+      "translit": "",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "ยังไง": {
+      "translation": "ไง / งัย · ңай / ңай (то же) · повсеместно",
+      "translit": "",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
+    },
+    "อยู่": {
+      "translation": "ยู่ / อ๊ะอยู่ · йу̀у · очень разговорно",
+      "translit": "",
+      "type": "word",
+      "topic": "2.4",
+      "repetitions": 0,
+      "interval_days": 0,
+      "easiness_factor": 2.5,
+      "due_date": "2026-07-29",
+      "last_seen": "1970-01-01",
+      "mastery": 0,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0
     }
   },
   "mistakes": {
@@ -7914,6 +8250,72 @@
         }
       ],
       "notes": ""
+    },
+    "тоновый_знак_класс_ป_ท": {
+      "category": "Тоны",
+      "subcategory": "",
+      "topic": "1.3",
+      "frequency": 1,
+      "status": "active",
+      "last_occurred": "2026-07-29",
+      "next_review": "2026-07-30",
+      "examples": [
+        {
+          "your_answer": "ป้า=высокий",
+          "correct_answer": "ป้а=нисходящий (ma-tho на среднем классе даёт нисходящий, для высокого на среднем нужен ma-tri ๊)",
+          "context": "",
+          "date": "2026-07-29"
+        }
+      ],
+      "notes": "",
+      "mode": "",
+      "rounds": 0,
+      "drill_ok": 0,
+      "last_drill": ""
+    },
+    "хо_наводящая_тон_марка": {
+      "category": "Тоны",
+      "subcategory": "",
+      "topic": "1.2",
+      "frequency": 1,
+      "status": "active",
+      "last_occurred": "2026-07-29",
+      "next_review": "2026-07-30",
+      "examples": [
+        {
+          "your_answer": "หมู и มู่ читаются одним тоном",
+          "correct_answer": "หмู (ห-наводящая, живой) = восходящий; มู่ (низкий класс + ่) = нисходящий — разные тоны",
+          "context": "",
+          "date": "2026-07-29"
+        }
+      ],
+      "notes": "",
+      "mode": "",
+      "rounds": 0,
+      "drill_ok": 0,
+      "last_drill": ""
+    },
+    "нацио_язык_формула_неполная": {
+      "category": "Грамматика",
+      "subcategory": "",
+      "topic": "2.3",
+      "frequency": 1,
+      "status": "active",
+      "last_occurred": "2026-07-29",
+      "next_review": "2026-07-30",
+      "examples": [
+        {
+          "your_answer": "только คน+страна",
+          "correct_answer": "нужно и คน+страна (национальность), и ภาษา+страна (язык) — оба",
+          "context": "",
+          "date": "2026-07-29"
+        }
+      ],
+      "notes": "",
+      "mode": "",
+      "rounds": 0,
+      "drill_ok": 0,
+      "last_drill": ""
     }
   },
   "topics": {
@@ -7929,7 +8331,7 @@
       "control_step": 0,
       "closed_at_difficulty": null,
       "suspicion": 0,
-      "last_lesson": "",
+      "last_lesson": "2026-07-29",
       "last_shake": ""
     },
     "1.2": {
@@ -7944,8 +8346,8 @@
       "control_step": 0,
       "closed_at_difficulty": null,
       "suspicion": 0,
-      "last_lesson": "",
-      "last_shake": ""
+      "last_lesson": "2026-07-29",
+      "last_shake": "2026-07-29"
     },
     "1.3": {
       "title": "",
@@ -7959,8 +8361,8 @@
       "control_step": 0,
       "closed_at_difficulty": null,
       "suspicion": 0,
-      "last_lesson": "",
-      "last_shake": ""
+      "last_lesson": "2026-07-29",
+      "last_shake": "2026-07-29"
     },
     "1.4": {
       "title": "",
@@ -7974,7 +8376,7 @@
       "control_step": 0,
       "closed_at_difficulty": null,
       "suspicion": 0,
-      "last_lesson": "",
+      "last_lesson": "2026-07-29",
       "last_shake": ""
     },
     "3.1": {
@@ -8049,7 +8451,7 @@
       "control_step": 0,
       "closed_at_difficulty": null,
       "suspicion": 0,
-      "last_lesson": "",
+      "last_lesson": "2026-07-29",
       "last_shake": ""
     },
     "2.2": {
@@ -8064,7 +8466,7 @@
       "control_step": 0,
       "closed_at_difficulty": null,
       "suspicion": 0,
-      "last_lesson": "",
+      "last_lesson": "2026-07-29",
       "last_shake": ""
     },
     "2.3": {
@@ -8079,7 +8481,22 @@
       "control_step": 0,
       "closed_at_difficulty": null,
       "suspicion": 0,
-      "last_lesson": "",
+      "last_lesson": "2026-07-29",
+      "last_shake": "2026-07-29"
+    },
+    "2.4": {
+      "title": "",
+      "status": "in_progress",
+      "exit_task": "Образовать вопрос с **ไหม/มั้ย**, **รึเปล่า**, **ใช่ไหม**, **เหรอ** · Знать, **где ставить** вопросительные слова (на месте ответа, не в начале) · Использовать все основные вопросительные слова: **อะไร, ใคร, ที่ไหน, เมื่อไหร่, ทำไม, ยังไง, เท่าไหร่, กี่** · Различать **เท่าไหร่** (общий «сколько») и **กี่** (со счётным словом) · Понимать, почему в тайском **нет универсального «да»** · Отвечать **повтором глагола** на вопросы с ไหม · Узнавать **разговорные искажения** (ไร, ไง, คับ, อะไล, ป่ะ, 555)",
+      "core": [],
+      "attempts": [],
+      "closed_on": null,
+      "reopened_on": null,
+      "next_control": null,
+      "control_step": 0,
+      "closed_at_difficulty": null,
+      "suspicion": 0,
+      "last_lesson": "2026-07-29",
       "last_shake": ""
     }
   }
