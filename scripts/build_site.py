@@ -1008,8 +1008,11 @@ ul.plain li { padding: .35rem 0; }
   text-align: left;
   padding: .55rem .8rem;
   border-bottom: 1px solid var(--rule-soft);
+  border-right: 1px solid var(--rule-soft);
   vertical-align: top;
 }
+
+.prose th:last-child, .prose td:last-child { border-right: 0; }
 
 .prose thead th {
   background: var(--card);
@@ -1019,6 +1022,7 @@ ul.plain li { padding: .35rem 0; }
   text-transform: uppercase;
   color: var(--ink-faint);
   border-bottom: 1px solid var(--rule);
+  border-right-color: var(--rule);
   white-space: nowrap;
 }
 
