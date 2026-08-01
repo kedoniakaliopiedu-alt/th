@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3.3 — Запоминалка: дни и месяцы</title>
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+  .card-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .memorize-card {
+    perspective: 1200px;
+  }
+  .memorize-card__inner {
+    position: relative;
+    width: 100%;
+    min-height: 200px;
+    border-radius: 1rem;
+    transform-style: preserve-3d;
+    transition: transform .45s ease;
+    box-shadow: 0 18px 45px rgba(14, 35, 60, .14);
+    cursor: pointer;
+    background: var(--card);
+    border: 1px solid var(--rule);
+  }
+  .memorize-card.is-flipped .memorize-card__inner { transform: rotateY(180deg); }
+  .memorize-card__face {
+    position: absolute;
+    inset: 0;
+    padding: 1.4rem 1.3rem;
+    border-radius: 1rem;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--card);
+  }
+  .memorize-card__face--front { background: var(--card); }
+  .memorize-card__face--back { transform: rotateY(180deg); background: var(--card); }
+  .memorize-card__thai {
+    font-size: clamp(2.7rem, 3.3vw, 3.6rem);
+    line-height: 1.05;
+    margin: 0;
+    font-weight: 700;
+  }
+  .memorize-card__transcription { margin: .8rem 0 0; color: var(--ink-soft); font-size: .98rem; }
+  .memorize-card__meta { display: flex; align-items: center; justify-content: space-between; gap: .75rem; margin-top: 1.1rem; }
+  .memorize-card__hint { font-size: .93rem; color: var(--ink-soft); line-height: 1.5; }
+  .memorize-card__content { display: grid; gap: .6rem; }
+  .memorize-card__title { margin: 0 0 .35rem; color: var(--accent); font-size: .98rem; font-weight: 700; }
+  .memorize-card__text { margin: 0; font-size: .95rem; line-height: 1.55; }
+  .sound-button {
+    padding: 0.35rem;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: var(--accent);
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .sound-button svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    display: block;
+  }
+  .sound-button:hover,
+  .sound-button.playing {
+    color: var(--sound-button-playing-color);
+  }
+  .sound-button:focus { outline: none; }
+  .sound-button:focus-visible { outline: none; }
+
+  .card-front-top {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 140px;
+    text-align: center;
+  }
+  .card-front-top > div {
+    width: 100%;
+    padding-top: 1.1rem;
+  }
+  .card-front-top .sound-button {
+    position: absolute;
+    top: 0.15rem;
+    right: 0.15rem;
+  }
+
+  :root {
+    --sound-button-playing-color: var(--accent);
+  }
+  :root[data-theme="dark"] {
+    --sound-button-playing-color: #ffffff;
+  }
+  :root[data-theme="light"] {
+    --sound-button-playing-color: #72b8ff;
+  }
+  .card-note { color: var(--ink-soft); font-size: .92rem; }
+  .section-intro { margin: 1rem 0 1.8rem; padding: 1rem 1.15rem; border: 1px solid var(--rule); border-radius: .85rem; background: var(--accent-soft); }
+  .hint-box { margin: 1rem 0; padding: 1rem 1.15rem; background: var(--card); border: 1px solid var(--rule); border-radius: .8rem; }
+  .hint-box strong { color: var(--accent); }
+  .single-card-wrap { display: grid; gap: 1rem; }
+  .card-nav { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .nav-button { border: 1px solid var(--rule); background: var(--card); color: var(--ink); border-radius: .75rem; padding: .85rem 1rem; cursor: pointer; font-size: .95rem; }
+  .nav-button:hover { background: var(--rule-soft); }
+  .card-progress { display: flex; flex-direction: column; align-items: center; gap: .2rem; color: var(--ink-soft); }
+  .card-counter { font-weight: 700; }
+  .card-subtitle { font-size: .92rem; }
+  .card-note--small { margin: 0; text-align: center; }
+  @media (max-width: 620px) {
+    .memorize-card__inner { min-height: 190px; }
+    .card-nav { flex-direction: column; align-items: stretch; }
+    .nav-button { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap topic-page">
+  <nav class="crumbs">
+    <a href="../index.html">Уровни</a>
+    <a href="index.html">A2</a>
+    <span>Тема 3.3</span>
+  </nav>
+  <header class="head">
+    <div class="eyebrow">Тема 3.3</div>
+    <h1>Запоминалка: дни недели и месяцы</h1>
+    <button class="theme-toggle" type="button" title="Светлая / тёмная тема">◐</button>
+  </header>
+  <article class="prose">
+    <p>Эта страница поможет сохранить в памяти только названия дней недели и месяцев. Два набора карточек сделаны для быстрого повторения: один — дни недели, второй — месяцы.</p>
+    <div class="section-intro">
+      <p><strong>Как устроены слова.</strong></p>
+      <p><strong>Дни недели:</strong> каждое слово начинается с <strong>วัน</strong> «день», а дальше идёт название планеты или светила.</p>
+      <p><strong>Месяцы:</strong> тайские названия заимствованы из санскрита и связаны со знаками зодиака, а окончание <strong>-คม</strong>, <strong>-ยน</strong> или <strong>-พันธ์</strong> даёт подсказку, сколько дней в месяце.</p>
+    </div>
+    <div class="hint-box">
+      <p><strong>Принцип</strong>: слова кошватываются по формуле.</p>
+      <p><strong>Дни:</strong> <code>วัน</code> + <em>планетный корень</em> → день недели.</p>
+      <p><strong>Месяцы:</strong> корень от зодиака + окончание, которое показывает длину месяца.</p>
+    </div>
+    <h2 id="дни-недели">Дни недели</h2>
+    <div class="single-card-wrap">
+      <div class="card-nav">
+        <button class="nav-button prev" type="button" data-target="days">← Назад</button>
+        <div class="card-progress">
+          <span class="card-counter" id="card-counter-days">1 / 7</span>
+          <span class="card-subtitle">Порядок случайный</span>
+        </div>
+        <button class="nav-button next" type="button" data-target="days">Вперёд →</button>
+      </div>
+      <div class="memorize-card" id="memorize-card-days">
+        <div class="memorize-card__inner">
+          <div class="memorize-card__face memorize-card__face--front">
+            <div class="card-front-top">
+              <div>
+                <p class="memorize-card__thai" id="card-thai-days"></p>
+                <p class="memorize-card__transcription" id="card-transcription-days"></p>
+              </div>
+              <button class="sound-button" id="sound-button-days" aria-label="Прослушать произношение" type="button">
+                <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+                  <g transform="translate(0.000000,64.000000) scale(0.100000,-0.100000)" fill="currentColor" stroke="none">
+                    <path d="M202 628 c-9 -9 -12 -87 -12 -309 0 -250 2 -298 15 -309 8 -7 22 -10 30 -6 13 5 15 45 13 318 -3 271 -5 313 -18 316 -9 1 -21 -3 -28 -10z"/>
+                    <path d="M295 518 c-3 -8 -4 -101 -3 -208 l3 -195 25 0 25 0 0 205 0 205 -23 3 c-12 2 -24 -3 -27 -10z"/>
+                    <path d="M492 518 c-9 -9 -12 -64 -12 -199 0 -153 3 -189 15 -199 8 -7 22 -10 30 -6 23 8 18 409 -5 414 -9 1 -21 -3 -28 -10z"/>
+                    <path d="M113 473 c-10 -3 -13 -44 -13 -153 0 -131 2 -149 17 -154 33 -13 43 21 43 152 0 142 -9 171 -47 155z"/>
+                    <path d="M394 407 c-3 -8 -4 -51 -2 -98 3 -73 5 -84 22 -87 10 -2 22 2 27 10 10 15 12 148 3 172 -7 19 -43 21 -50 3z"/>
+                    <path d="M12 358 c-18 -18 -15 -75 4 -82 23 -9 44 12 44 43 0 25 -15 51 -30 51 -3 0 -11 -5 -18 -12z"/>
+                    <path d="M592 358 c-31 -31 0 -105 33 -78 25 21 14 90 -15 90 -3 0 -11 -5 -18 -12z"/>
+                  </g>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="memorize-card__face memorize-card__face--back">
+            <div class="memorize-card__content">
+              <p class="memorize-card__title" id="card-title-days"></p>
+              <p class="memorize-card__text" id="card-text-days"></p>
+            </div>
+            <p class="card-note" id="card-note-days"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h2 id="месяцы">Месяцы</h2>
+    <div class="single-card-wrap">
+      <div class="card-nav">
+        <button class="nav-button prev" type="button" data-target="months">← Назад</button>
+        <div class="card-progress">
+          <span class="card-counter" id="card-counter-months">1 / 12</span>
+          <span class="card-subtitle">Порядок случайный</span>
+        </div>
+        <button class="nav-button next" type="button" data-target="months">Вперёд →</button>
+      </div>
+      <div class="memorize-card" id="memorize-card-months">
+        <div class="memorize-card__inner">
+          <div class="memorize-card__face memorize-card__face--front">
+            <div class="card-front-top">
+              <div>
+                <p class="memorize-card__thai" id="card-thai-months"></p>
+                <p class="memorize-card__transcription" id="card-transcription-months"></p>
+              </div>
+              <button class="sound-button" id="sound-button-months" aria-label="Прослушать произношение" type="button">
+                <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+                  <g transform="translate(0.000000,64.000000) scale(0.100000,-0.100000)" fill="currentColor" stroke="none">
+                    <path d="M202 628 c-9 -9 -12 -87 -12 -309 0 -250 2 -298 15 -309 8 -7 22 -10 30 -6 13 5 15 45 13 318 -3 271 -5 313 -18 316 -9 1 -21 -3 -28 -10z"/>
+                    <path d="M295 518 c-3 -8 -4 -101 -3 -208 l3 -195 25 0 25 0 0 205 0 205 -23 3 c-12 2 -24 -3 -27 -10z"/>
+                    <path d="M492 518 c-9 -9 -12 -64 -12 -199 0 -153 3 -189 15 -199 8 -7 22 -10 30 -6 23 8 18 409 -5 414 -9 1 -21 -3 -28 -10z"/>
+                    <path d="M113 473 c-10 -3 -13 -44 -13 -153 0 -131 2 -149 17 -154 33 -13 43 21 43 152 0 142 -9 171 -47 155z"/>
+                    <path d="M394 407 c-3 -8 -4 -51 -2 -98 3 -73 5 -84 22 -87 10 -2 22 2 27 10 10 15 12 148 3 172 -7 19 -43 21 -50 3z"/>
+                    <path d="M12 358 c-18 -18 -15 -75 4 -82 23 -9 44 12 44 43 0 25 -15 51 -30 51 -3 0 -11 -5 -18 -12z"/>
+                    <path d="M592 358 c-31 -31 0 -105 33 -78 25 21 14 90 -15 90 -3 0 -11 -5 -18 -12z"/>
+                  </g>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="memorize-card__face memorize-card__face--back">
+            <div class="memorize-card__content">
+              <p class="memorize-card__title" id="card-title-months"></p>
+              <p class="memorize-card__text" id="card-text-months"></p>
+            </div>
+            <p class="card-note" id="card-note-months"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hint-box">
+      <p><strong>Умная шпаргалка:</strong> запоминай окончания месяцев как «31 = คม», «30 = ยน», «февраль = พันธ์». Это основной рабочий паттерн.</p>
+      <p><strong>Если хочешь звук:</strong> кнопка рядом с тайским словом воспроизводит произношение через браузер, а ссылка на <a href="http://thai-language.com/" target="_blank" rel="noreferrer">thai-language.com</a> позволит сравнить с оригиналом.</p>
+    </div>
+  </article>
+  <nav class="pager"><a class="prev" href="glava3_tema3_dni_daty_sezony.html">← Тема 3.3</a></nav>
+</div>
+<script>
+  let currentSoundButton = null;
+  let currentUtterance = null;
+
+  function clearPlayingButton() {
+    if (currentSoundButton) {
+      currentSoundButton.classList.remove('playing');
+      currentSoundButton = null;
+    }
+    currentUtterance = null;
+  }
+
+  function speakThai(text, button) {
+    if (!window.speechSynthesis) {
+      alert('Ваш браузер не поддерживает воспроизведение речи.');
+      return;
+    }
+
+    if (currentUtterance) {
+      window.speechSynthesis.cancel();
+      clearPlayingButton();
+    }
+
+    currentSoundButton = button;
+    button.classList.add('playing');
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    currentUtterance = utterance;
+    utterance.lang = 'th-TH';
+    utterance.rate = 0.95;
+    utterance.pitch = 1.05;
+    const voices = window.speechSynthesis.getVoices();
+    const thaiVoice = voices.find(v => /thai|th-*/i.test(v.lang) || /thai/i.test(v.name));
+    if (thaiVoice) {
+      utterance.voice = thaiVoice;
+    }
+
+    utterance.addEventListener('end', clearPlayingButton);
+    utterance.addEventListener('error', clearPlayingButton);
+    utterance.addEventListener('pause', clearPlayingButton);
+
+    window.speechSynthesis.speak(utterance);
+  }
+  const daysData = [
+    { word: 'วันจันทร์', transcription: 'ван-дьзан', title: 'понедельник', text: 'Планета: Луна\nЦвет: жёлтый', note: 'Структура: วัน + จันทร์ = «день Луны».', tts: 'วันจันทร์' },
+    { word: 'วันอังคาร', transcription: 'ван-аң-кхаан', title: 'вторник', text: 'Планета: Марс\nЦвет: розовый', note: 'Структура: วัน + อังคาร = «день Марса».', tts: 'วันอังคาร' },
+    { word: 'วันพุธ', transcription: 'ван-пху́т', title: 'среда', text: 'Планета: Меркурий\nЦвет: зелёный', note: 'Структура: วัน + พุธ = «день Меркурия».', tts: 'วันพุธ' },
+    { word: 'วันพฤหัสบดี', transcription: 'ван-пхары́-ха̀т-са̀-бо-дии', title: 'четверг', text: 'Планета: Юпитер\nЦвет: оранжевый', note: 'Структура: วัน + พฤหัสบดี = «день Юпитера».', tts: 'วันพฤหัสบดี' },
+    { word: 'วันศุกร์', transcription: 'ван-су̀к', title: 'пятница', text: 'Планета: Венера\nЦвет: голубой', note: 'Структура: วัน + ศุกร์ = «день Венеры».', tts: 'วันศุกร์' },
+    { word: 'วันเสาร์', transcription: 'ван-са̌у', title: 'суббота', text: 'Планета: Сатурн\nЦвет: фиолетовый', note: 'Структура: วัน + เสาร์ = «день Сатурна».', tts: 'วันเสาร์' },
+    { word: 'วันอาทิตย์', transcription: 'ван-аа-тьхи́т', title: 'воскресенье', text: 'Планета: Солнце\nЦвет: красный', note: 'Структура: วัน + อาทิตย์ = «день Солнца».', tts: 'วันอาทิตย์' }
+  ];
+
+  const monthsData = [
+    { word: 'มกราคม', transcription: 'мȯ́к-ка-раа-кхȯм', title: 'январь', text: 'Окончание: -คม\nДней: 31', note: 'Санскрит: месяц Козерога.', tts: 'มกราคม' },
+    { word: 'กุมภาพันธ์', transcription: 'кум-пхаа-пхан', title: 'февраль', text: 'Окончание: -พันธ์\nДней: 28/29', note: 'Санскрит: месяц Водолея.', tts: 'กุมภาพันธ์' },
+    { word: 'มีนาคม', transcription: 'мии-наа-кхȯм', title: 'март', text: 'Окончание: -คม\nДней: 31', note: 'Санскрит: месяц Рыб.', tts: 'มีนาคม' },
+    { word: 'เมษายน', transcription: 'мӭӭ-са̌а-йȯн', title: 'апрель', text: 'Окончание: -ยน\nДней: 30', note: 'Санскрит: месяц Овна.', tts: 'เมษายน' },
+    { word: 'พฤษภาคม', transcription: 'пхры́т-са̀-пхаа-кхȯм', title: 'май', text: 'Окончание: -คม\nДней: 31', note: 'Санскрит: месяц Тельца.', tts: 'พฤษภาคม' },
+    { word: 'มิถุนายน', transcription: 'ми-тьху̀-наа-йȯн', title: 'июнь', text: 'Окончание: -ยน\nДней: 30', note: 'Санскрит: месяц Близнецов.', tts: 'มิถุนายน' },
+    { word: 'กรกฎาคม', transcription: 'ка-ра́-ка-даа-кхȯм', title: 'июль', text: 'Окончание: -คม\nДней: 31', note: 'Санскрит: месяц Рака.', tts: 'กรกฎาคม' },
+    { word: 'สิงหาคม', transcription: 'сиң-ха̌а-кхȯм', title: 'август', text: 'Окончание: -คม\nДней: 31', note: 'Санскрит: месяц Льва.', tts: 'สิงหาคม' },
+    { word: 'กันยายน', transcription: 'кан-йаа-йȯн', title: 'сентябрь', text: 'Окончание: -ยน\nДней: 30', note: 'Санскрит: месяц Девы.', tts: 'กันยายน' },
+    { word: 'ตุลาคม', transcription: 'ту̀-лаа-кхȯм', title: 'октябрь', text: 'Окончание: -คม\nДней: 31', note: 'Санскрит: месяц Весов.', tts: 'ตุลาคม' },
+    { word: 'พฤศจิกายน', transcription: 'пхры́т-са̀-дьзи-каа-йȯн', title: 'ноябрь', text: 'Окончание: -ยน\nДней: 30', note: 'Санскрит: месяц Скорпиона.', tts: 'พฤศจิกายน' },
+    { word: 'ธันวาคม', transcription: 'тьхан-ваа-кхȯм', title: 'декабрь', text: 'Окончание: -คม\nДней: 31', note: 'Санскрит: месяц Стрельца.', tts: 'ธันวาคม' }
+  ];
+
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  const daysOrder = [...daysData];
+  const monthsOrder = [...monthsData];
+  shuffleArray(daysOrder);
+  shuffleArray(monthsOrder);
+  let currentDayIndex = 0;
+  let currentMonthIndex = 0;
+
+  function updateCard(section, order, index) {
+    const prefix = section === 'days' ? 'days' : 'months';
+    const cardElement = document.getElementById(`memorize-card-${prefix}`);
+    const cardThai = document.getElementById(`card-thai-${prefix}`);
+    const cardTranscription = document.getElementById(`card-transcription-${prefix}`);
+    const cardTitle = document.getElementById(`card-title-${prefix}`);
+    const cardText = document.getElementById(`card-text-${prefix}`);
+    const cardNote = document.getElementById(`card-note-${prefix}`);
+    const cardCounter = document.getElementById(`card-counter-${prefix}`);
+    const item = order[index];
+
+    cardElement.classList.remove('is-flipped');
+    cardThai.textContent = item.word;
+    cardTranscription.textContent = item.transcription;
+    cardTitle.textContent = item.title;
+    cardText.innerHTML = item.text.replace(/\n/g, '<br>');
+    cardNote.textContent = item.note;
+    cardCounter.textContent = `${index + 1} / ${order.length}`;
+  }
+
+  function setupCardInteractions(prefix, order, indexRef) {
+    const cardElement = document.getElementById(`memorize-card-${prefix}`);
+    const soundButton = document.getElementById(`sound-button-${prefix}`);
+
+    cardElement.addEventListener('click', function(event) {
+      if (event.target === soundButton || event.target.closest('.sound-button')) {
+        return;
+      }
+      cardElement.classList.toggle('is-flipped');
+    });
+
+    soundButton.addEventListener('click', function(event) {
+      event.stopPropagation();
+      const activeIndex = indexRef();
+      const item = order[activeIndex];
+      speakThai(item.tts, soundButton);
+    });
+  }
+
+  function changeIndex(prefix, delta) {
+    if (prefix === 'days') {
+      const nextIndex = currentDayIndex + delta;
+      if (nextIndex >= daysOrder.length || nextIndex < 0) {
+        shuffleArray(daysOrder);
+        currentDayIndex = nextIndex >= daysOrder.length ? 0 : daysOrder.length - 1;
+      } else {
+        currentDayIndex = nextIndex;
+      }
+      updateCard('days', daysOrder, currentDayIndex);
+    } else {
+      const nextIndex = currentMonthIndex + delta;
+      if (nextIndex >= monthsOrder.length || nextIndex < 0) {
+        shuffleArray(monthsOrder);
+        currentMonthIndex = nextIndex >= monthsOrder.length ? 0 : monthsOrder.length - 1;
+      } else {
+        currentMonthIndex = nextIndex;
+      }
+      updateCard('months', monthsOrder, currentMonthIndex);
+    }
+  }
+
+  setupCardInteractions('days', daysOrder, () => currentDayIndex);
+  setupCardInteractions('months', monthsOrder, () => currentMonthIndex);
+
+  document.querySelectorAll('.card-nav .nav-button').forEach(function(button) {
+    button.addEventListener('click', function() {
+      const target = button.dataset.target;
+      const delta = button.classList.contains('next') ? 1 : -1;
+      changeIndex(target, delta);
+    });
+  });
+
+  updateCard('days', daysOrder, currentDayIndex);
+  updateCard('months', monthsOrder, currentMonthIndex);
+  const themeButton = document.querySelector('.theme-toggle');
+  if (themeButton) {
+    themeButton.addEventListener('click', function() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('thai-theme', next);
+    });
+    const savedTheme = localStorage.getItem('thai-theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+  }
+</script>
+</body>
+</html>
