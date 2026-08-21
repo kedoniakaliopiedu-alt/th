@@ -1,0 +1,1457 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Отработка по Главе 3 — словарь и грамматика</title>
+
+<style>
+  :root {
+    --paper: #f4f5f7;
+    --card: #fbfbfc;
+    --ink: #151c26;
+    --ink-soft: #4d5866;
+    --ink-faint: #8b95a3;
+    --rule: #d7dce4;
+    --rule-soft: #e6eaf0;
+    --accent: #26497d;
+    --accent-soft: #e6ecf6;
+    --gold: #8a6420;
+    --gold-soft: #f3ecdd;
+    --green: #2f6b46;
+    --green-soft: #e4f0e8;
+
+    --serif: "Charter", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --thai: var(--sans);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0e131a; --card: #151b24; --ink: #e7ebf1; --ink-soft: #a9b3c1;
+      --ink-faint: #6f7a89; --rule: #2a323d; --rule-soft: #212933;
+      --accent: #8fb0e4; --accent-soft: #1b2635; --gold: #d5ac66; --gold-soft: #262015;
+      --green: #7fc79a; --green-soft: #16241c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0e131a; --card: #151b24; --ink: #e7ebf1; --ink-soft: #a9b3c1;
+    --ink-faint: #6f7a89; --rule: #2a323d; --rule-soft: #212933;
+    --accent: #8fb0e4; --accent-soft: #1b2635; --gold: #d5ac66; --gold-soft: #262015;
+    --green: #7fc79a; --green-soft: #16241c;
+  }
+  :root[data-theme="light"] {
+    --paper: #f4f5f7; --card: #fbfbfc; --ink: #151c26; --ink-soft: #4d5866;
+    --ink-faint: #8b95a3; --rule: #d7dce4; --rule-soft: #e6eaf0;
+    --accent: #26497d; --accent-soft: #e6ecf6; --gold: #8a6420; --gold-soft: #f3ecdd;
+    --green: #2f6b46; --green-soft: #e4f0e8;
+  }
+
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--sans);
+    font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet {
+    max-width: 48rem; margin: 0 auto;
+    padding: clamp(1.25rem, 4vw, 3.5rem) clamp(1rem, 4vw, 2rem) 5rem;
+    display: flex; flex-direction: column; gap: 2.75rem;
+  }
+
+  .head {
+    display: flex; flex-direction: column; gap: 1.25rem;
+    padding-bottom: 1.75rem; border-bottom: 2px solid var(--ink);
+  }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--gold);
+    display: flex; align-items: center; gap: .55rem;
+  }
+  .eyebrow::before {
+    content: ""; width: .5rem; height: .5rem;
+    border: 1.5px solid currentColor; border-radius: 50%;
+  }
+
+  h1 {
+    font-family: var(--serif); font-size: clamp(2rem, 6vw, 3rem);
+    line-height: 1.05; font-weight: 600; letter-spacing: -.015em;
+    text-wrap: balance; margin: 0;
+  }
+  h1 .sub {
+    display: block; font-size: .42em; font-weight: 400; letter-spacing: .01em;
+    color: var(--ink-soft); margin-top: .7rem;
+  }
+
+  h2.part {
+    font-family: var(--serif); font-size: 1.7rem; font-weight: 600;
+    margin: 0; padding-bottom: .5rem; border-bottom: 2px solid var(--gold);
+    color: var(--gold);
+  }
+
+  .note { font-size: .95rem; color: var(--ink-soft); max-width: 42rem; }
+  .note b { color: var(--ink); font-weight: 600; }
+
+  code.ref {
+    font-family: var(--mono); font-size: .85em; background: var(--accent-soft);
+    color: var(--accent); padding: .1em .4em; border-radius: 2px;
+  }
+
+  .block { display: grid; grid-template-columns: 3.25rem 1fr; gap: 0 1.25rem; align-items: start; }
+  .block-letter {
+    font-family: var(--serif); font-size: 2.5rem; line-height: .9; color: var(--accent);
+    border-top: 2px solid var(--accent); padding-top: .55rem; text-align: center; font-weight: 600;
+  }
+  .block-body {
+    border-top: 1px solid var(--rule); padding-top: .6rem;
+    display: flex; flex-direction: column; gap: 1.5rem; min-width: 0;
+  }
+  .block-name {
+    font-family: var(--mono); font-size: .68rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: -.85rem;
+  }
+
+  .task { display: flex; flex-direction: column; gap: .9rem; min-width: 0; }
+
+  .prompt { display: grid; grid-template-columns: 1.6rem 1fr; gap: .5rem; font-size: 1.06rem; line-height: 1.5; }
+  .prompt .n { font-family: var(--mono); font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .prompt .opts { display: block; margin-top: .45rem; font-size: .92rem; color: var(--ink-soft); }
+  .prompt .opts b { font-family: var(--mono); color: var(--ink); font-weight: 600; letter-spacing: .02em; }
+
+  .items { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--rule-soft); border: 1px solid var(--rule-soft); }
+  .items.cols-4 { grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr)); }
+  .items.cols-3 { grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); }
+  .items.cols-2 { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+  .items.cols-1 { grid-template-columns: 1fr; }
+  .items li { background: var(--card); padding: .7rem .85rem .75rem; display: flex; flex-direction: column; gap: .3rem; }
+
+  .mark { font-family: var(--mono); font-size: .72rem; color: var(--ink-faint); }
+  .thai { font-family: var(--thai); font-size: 1.45rem; line-height: 1.3; font-weight: 600; letter-spacing: .01em; }
+  .thai.big { font-size: 1.9rem; }
+  .ru { font-size: 1rem; line-height: 1.4; }
+  .num { font-family: var(--serif); font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+  .clock { font-family: var(--mono); font-size: 1.3rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .gloss { font-size: .8rem; color: var(--ink-faint); }
+  .line { margin-top: .3rem; border-bottom: 1px dashed var(--rule); height: 1.3rem; }
+  .line.tall { height: 2.4rem; }
+
+  /* --- Крючок: мнемоническая карточка --- */
+  .hook {
+    border: 1px solid var(--gold); background: var(--gold-soft);
+    padding: .9rem 1rem; display: flex; flex-direction: column; gap: .6rem;
+  }
+  .hook .cap {
+    font-family: var(--mono); font-size: .66rem; letter-spacing: .13em;
+    text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: .4rem;
+  }
+  .hook p { margin: 0; font-size: .95rem; }
+  .hook table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+  .hook td, .hook th {
+    border-top: 1px solid color-mix(in srgb, var(--gold) 30%, transparent);
+    padding: .32rem .5rem; text-align: left; vertical-align: baseline;
+  }
+  .hook tr:first-child td, .hook tr:first-child th { border-top: none; }
+  .hook th { font-family: var(--mono); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); font-weight: 400; }
+  .hook .th { font-family: var(--thai); font-size: 1.2rem; font-weight: 600; white-space: nowrap; }
+  .hook .key { font-style: italic; color: var(--ink-soft); }
+
+  .scale {
+    display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .5rem;
+    font-family: var(--thai); font-size: 1.15rem; font-weight: 600;
+  }
+  .scale .arr { color: var(--gold); font-family: var(--sans); font-weight: 400; }
+
+  /* --- Ключ --- */
+  details.key {
+    border: 1px solid var(--rule); background: var(--card); border-radius: 2px;
+  }
+  details.key > summary {
+    cursor: pointer; padding: .5rem .8rem; font-family: var(--mono);
+    font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--green);
+    list-style: none; display: flex; align-items: center; gap: .5rem;
+  }
+  details.key > summary::-webkit-details-marker { display: none; }
+  details.key > summary::before { content: "▸"; font-size: .9rem; }
+  details.key[open] > summary::before { content: "▾"; }
+  details.key[open] { background: var(--green-soft); border-color: var(--green); }
+  details.key .ans {
+    padding: 0 .9rem .8rem; font-size: .95rem; display: flex; flex-direction: column; gap: .3rem;
+  }
+  details.key .ans span.th { font-family: var(--thai); font-size: 1.15rem; font-weight: 600; }
+  details.key .ans .why { color: var(--ink-soft); font-size: .88rem; }
+
+  .bank {
+    display: flex; flex-wrap: wrap; gap: .4rem .5rem; padding: .7rem .8rem;
+    border: 1px solid var(--rule); background: var(--accent-soft);
+  }
+  .bank .cap {
+    font-family: var(--mono); font-size: .66rem; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--accent); width: 100%;
+  }
+  .bank span.w {
+    font-family: var(--thai); font-size: 1.15rem; font-weight: 600;
+    background: var(--card); border: 1px solid var(--rule); padding: .1rem .55rem;
+  }
+
+  table.grid { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--rule); }
+  table.grid td, table.grid th { border: 1px solid var(--rule-soft); padding: .5rem .7rem; text-align: left; }
+  table.grid th { font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); font-weight: 400; }
+  table.grid td.lab { font-family: var(--thai); font-size: 1.15rem; font-weight: 600; white-space: nowrap; }
+  table.grid td.blank { height: 2.2rem; }
+
+  .foot {
+    border-top: 2px solid var(--ink); padding-top: 1.25rem;
+    display: flex; flex-direction: column; gap: .75rem; font-size: .95rem; color: var(--ink-soft);
+  }
+  .foot strong { color: var(--ink); }
+  .foot ol { margin: 0; padding-left: 1.3rem; display: flex; flex-direction: column; gap: .25rem; }
+
+  @media (max-width: 34rem) {
+    .block { grid-template-columns: 1fr; gap: .5rem; }
+    .block-letter { text-align: left; font-size: 1.9rem; padding-top: .4rem; }
+    .block-body { border-top: none; padding-top: 0; }
+  }
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .sheet { padding: 0; gap: 1.5rem; max-width: none; }
+    .block { break-inside: avoid; }
+    details.key { display: none; }
+  }
+</style>
+
+</head>
+<body>
+<div class="sheet">
+
+  <header class="head">
+    <p class="eyebrow">Тренажёр · ключи спрятаны</p>
+    <h1>
+      Отработка по Главе&nbsp;3
+      <span class="sub">Словарь тем 3.3 и 3.4 + грамматика, проваленная на контрольной · Thai A2</span>
+    </h1>
+
+    <p class="note">
+      Лист устроен так: у каждого словарного блока сверху — <b>крючок</b> (за что зацепить память),
+      дальше слово встречается <b>трижды в разных форматах</b> — узнать, вставить, произвести с нуля.
+      Между этими тремя встречами всегда стоят другие слова: так память достаёт слово заново,
+      а не подсматривает у себя же.
+    </p>
+    <p class="note">
+      <b>Главное правило: сначала отвечаешь, потом открываешь ключ.</b> Ключ — зелёная полоска
+      «Проверить» под каждым заданием. Открывать её до ответа бессмысленно: работает не чтение
+      правильного варианта, а само усилие вспомнить. Если не вспомнила — так и пиши «не знаю»
+      и открывай; это тоже засчитывается, а вот подсматривание — нет.
+    </p>
+    <p class="note">
+      Проходить весь лист за один присест не надо. График повторов — внизу листа.
+    </p>
+  </header>
+
+  <h2 class="part">Часть I · Словарь</h2>
+
+  <!-- ======================= A ======================= -->
+  <section class="block">
+    <div class="block-letter">A</div>
+    <div class="block-body">
+      <p class="block-name">Дни недели и цвета</p>
+
+      <div class="hook">
+        <span class="cap">Крючок</span>
+        <p>Тайские дни недели — это <b>планеты на санскрите</b>, те же, что в европейских языках
+        (Monday = Moon-day). Названия почти всегда созвучны своей планете — учи не семь случайных
+        слов, а семь планет.</p>
+        <table>
+          <tr><th>День</th><th>Планета</th><th>Слышится как</th><th>Цвет</th></tr>
+          <tr><td class="th">วันจันทร์</td><td>Луна</td><td class="key">чандра</td><td>🟡 жёлтый · สีเหลือง</td></tr>
+          <tr><td class="th">วันอังคาร</td><td>Марс</td><td class="key">ангарака</td><td>🌸 розовый · สีชมพู</td></tr>
+          <tr><td class="th">วันพุธ</td><td>Меркурий</td><td class="key">будха</td><td>🟢 зелёный · สีเขียว</td></tr>
+          <tr><td class="th">วันพฤหัสบดี</td><td>Юпитер</td><td class="key">брихаспати</td><td>🟠 оранжевый · สีส้ม</td></tr>
+          <tr><td class="th">วันศุกร์</td><td>Венера</td><td class="key">шукра</td><td>🔵 голубой · สีฟ้า</td></tr>
+          <tr><td class="th">วันเสาร์</td><td>Сатурн</td><td class="key">са̌у ≈ Saturn</td><td>🟣 фиолетовый · สีม่วง</td></tr>
+          <tr><td class="th">วันอาทิตย์</td><td>Солнце</td><td class="key">адитья</td><td>🔴 красный · สีแดง</td></tr>
+        </table>
+        <p>Три цвета держатся сами: <b>Луна жёлтая</b>, <b>Солнце красное</b>, <b>Юпитер — оранжевый гигант</b>.
+        Твой — <b>สีฟ้า</b>, пятница, Венера: это буквально твоё имя.</p>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Какой это день недели?
+          <span class="opts">Ответ по-русски</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="thai">วันเสาร์</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">วันพุธ</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">วันอาทิตย์</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">วันอังคาร</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">วันพฤหัสบดี</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">วันจันทร์</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="thai">วันศุกร์</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span>а) суббота · б) среда · в) воскресенье · г) вторник · д) четверг · е) понедельник · ж) пятница</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Какой цвет связан с этим днём?
+          <span class="opts">Ответ по-русски</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="thai">วันศุกร์</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">วันจันทร์</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">วันเสาร์</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">วันอาทิตย์</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">วันพุธ</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">วันอังคาร</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="thai">วันพฤหัสบดี</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span>а) голубой · б) жёлтый · в) фиолетовый · г) красный · д) зелёный · е) розовый · ж) оранжевый</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Напиши день недели по-тайски.
+          <span class="opts">Тайские буквы, вместе со словом «день»</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="ru">четверг</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">суббота</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">понедельник</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">воскресенье</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">среда</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">пятница</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="ru">вторник</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) วันพฤหัสบดี · б) วันเสาร์ · в) วันจันทร์ · г) วันอาทิตย์ · д) วันพุธ · е) วันศุกร์ · ж) วันอังคาร</span>
+          <span class="why">В วันพุธ последняя буква — ธ (верхняя перекладина влево), не ร.</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">4.</span><span>Напиши цвет по-тайски.
+          <span class="opts">Тайские буквы, вместе со словом «цвет»</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="ru">голубой</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">зелёный</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">красный</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">жёлтый</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">фиолетовый</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) สีฟ้า · б) สีเขียว · в) สีแดง · г) สีเหลือง · д) สีม่วง</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">5.</span><span>Посчитай день недели.
+          <span class="opts">Ответ — название дня тайскими буквами</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="ru">Сегодня <span class="thai">วันจันทร์</span>. Какой день <span class="thai">พรุ่งนี้</span>?</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">Сегодня <span class="thai">วันศุกร์</span>. Какой день <span class="thai">มะรืนนี้</span>?</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">Сегодня <span class="thai">วันพุธ</span>. Какой день был <span class="thai">เมื่อวาน</span>?</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">Сегодня <span class="thai">วันอาทิตย์</span>. Какой день был <span class="thai">เมื่อวานซืน</span>?</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">Сегодня <span class="thai">วันเสาร์</span>. Какой день <span class="thai">มะรืนนี้</span>?</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) วันอังคาร · б) วันอาทิตย์ · в) วันอังคาร · г) วันศุกร์ · д) วันจันทร์</span>
+          <span class="why">มะรืนนี้ = +2 дня, เมื่อวานซืน = −2 дня.</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= B ======================= -->
+  <section class="block">
+    <div class="block-letter">B</div>
+    <div class="block-body">
+      <p class="block-name">Вчера · сегодня · завтра · неделя · месяц · год</p>
+
+      <div class="hook">
+        <span class="cap">Крючок</span>
+        <p>Для <b>недели, месяца и года</b> работает одна и та же тройка окончаний — выучив её один
+        раз, получаешь девять выражений:</p>
+        <p><span class="th">ที่แล้ว</span> = прошлый · <span class="th">นี้</span> = этот ·
+           <span class="th">หน้า</span> = следующий («впереди»)</p>
+        <p>А дни идут отдельной линейкой, симметрично вокруг «сегодня»:</p>
+        <div class="scale">
+          <span>เมื่อวานซืน</span><span class="arr">←</span><span>เมื่อวาน</span><span class="arr">←</span>
+          <span>วันนี้</span><span class="arr">→</span><span>พรุ่งนี้</span><span class="arr">→</span><span>มะรืนนี้</span>
+        </div>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Заполни решётку по-тайски.
+          <span class="opts">Девять клеток, тайские буквы</span></span></p>
+        <table class="grid">
+          <tr><th></th><th>прошлый</th><th>этот</th><th>следующий</th></tr>
+          <tr><td class="lab">อาทิตย์</td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+          <tr><td class="lab">เดือน</td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+          <tr><td class="lab">ปี</td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+        </table>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">อาทิตย์ที่แล้ว · อาทิตย์นี้ · อาทิตย์หน้า</span>
+          <span class="th">เดือนที่แล้ว · เดือนนี้ · เดือนหน้า</span>
+          <span class="th">ปีที่แล้ว · ปีนี้ · ปีหน้า</span>
+          <span class="why">อาทิตย์ значит и «солнце», и «воскресенье», и «неделя» — различает контекст.</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Напиши по-тайски.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="ru">позавчера</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">послезавтра</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">вчера</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">завтра</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">выходной</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">рабочий день</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) เมื่อวานซืน · б) มะรืนนี้ · в) เมื่อวาน · г) พรุ่งนี้ · д) วันหยุด · е) วันทำงาน</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Переведи на русский.
+          <span class="opts">Одним словом или коротким оборотом</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="thai">ปีหน้า</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">อาทิตย์ที่แล้ว</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">เดือนหน้า</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">สัปดาห์</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">ปีที่แล้ว</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span>а) в следующем году · б) на прошлой неделе · в) в следующем месяце · г) неделя (формальное) · д) в прошлом году</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= C ======================= -->
+  <section class="block">
+    <div class="block-letter">C</div>
+    <div class="block-body">
+      <p class="block-name">Месяцы</p>
+
+      <div class="hook">
+        <span class="cap">Крючок</span>
+        <p>Название месяца = <b>знак зодиака + окончание</b>, а окончание сразу говорит,
+        сколько в месяце дней. Это не двенадцать слов, а двенадцать знаков и три окончания.</p>
+        <p><span class="th">-คม</span> = 31 день · <span class="th">-ยน</span> = 30 дней ·
+           <span class="th">-พันธ์</span> = 28/29 (только февраль)</p>
+        <table>
+          <tr><th>Месяц</th><th>Знак</th><th>Зацепка</th></tr>
+          <tr><td class="th">มกราคม</td><td>Козерог</td><td class="key">มกร «макара»</td></tr>
+          <tr><td class="th">กุมภาพันธ์</td><td>Водолей</td><td class="key">กุมภ์ «кумбха» — кувшин</td></tr>
+          <tr><td class="th">มีนาคม</td><td>Рыбы</td><td class="key">มีน «мина» — рыба</td></tr>
+          <tr><td class="th">เมษายน</td><td>Овен</td><td class="key">เมษ «меша» — баран</td></tr>
+          <tr><td class="th">พฤษภาคม</td><td>Телец</td><td class="key">พฤษภ «вришабха» — бык</td></tr>
+          <tr><td class="th">มิถุนายน</td><td>Близнецы</td><td class="key">มิถุน «митхуна» — пара</td></tr>
+          <tr><td class="th">กรกฎาคม</td><td>Рак</td><td class="key">กรกฎ «карката» — краб</td></tr>
+          <tr><td class="th">สิงหาคม</td><td>Лев</td><td class="key">สิงห «сингха» — лев, как пиво Singha</td></tr>
+          <tr><td class="th">กันยายน</td><td>Дева</td><td class="key">กัญญา «канья» — девушка</td></tr>
+          <tr><td class="th">ตุลาคม</td><td>Весы</td><td class="key">ตุลา «тула» — весы</td></tr>
+          <tr><td class="th">พฤศจิกายน</td><td>Скорпион</td><td class="key">พฤศจิก «вришчика»</td></tr>
+          <tr><td class="th">ธันวาคม</td><td>Стрелец</td><td class="key">ธนู «дхану» — лук</td></tr>
+        </table>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Какой это месяц?
+          <span class="opts">Ответ по-русски</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="thai">ตุลาคม</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">กุมภาพันธ์</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">กรกฎาคม</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">พฤษภาคม</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">กันยายน</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">ธันวาคม</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="thai">มีนาคม</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="thai">มิถุนายน</span><span class="line"></span></li>
+          <li><span class="mark">и)</span><span class="thai">พฤศจิกายน</span><span class="line"></span></li>
+          <li><span class="mark">к)</span><span class="thai">มกราคม</span><span class="line"></span></li>
+          <li><span class="mark">л)</span><span class="thai">เมษายน</span><span class="line"></span></li>
+          <li><span class="mark">м)</span><span class="thai">สิงหาคม</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span>а) октябрь · б) февраль · в) июль · г) май · д) сентябрь · е) декабрь</span>
+          <span>ж) март · з) июнь · и) ноябрь · к) январь · л) апрель · м) август</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Сколько дней в месяце?
+          <span class="opts">Ответ — число. Смотри только на окончание</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="thai">กันยายน</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">ตุลาคม</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">กุมภาพันธ์</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">มิถุนายน</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">กรกฎาคม</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">เมษายน</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span>а) 30 · б) 31 · в) 28/29 · г) 30 · д) 31 · е) 30</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Напиши месяц по-тайски.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="ru">май</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">июль</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">октябрь</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">январь</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">февраль</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">апрель</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="ru">сентябрь</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="ru">ноябрь</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) พฤษภาคม · б) กรกฎาคม · в) ตุลาคม · г) มกราคม</span>
+          <span class="th">д) กุมภาพันธ์ · е) เมษายน · ж) กันยายน · з) พฤศจิกายน</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">4.</span><span>Какой месяц назван этим знаком зодиака?
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="ru">Лев</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">Весы</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">Рыбы</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">Стрелец</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">Водолей</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) สิงหาคม · б) ตุลาคม · в) มีนาคม · г) ธันวาคม · д) กุมภาพันธ์</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">5.</span><span>Запиши дату так, как её пишут в Таиланде.
+          <span class="opts">Тайские цифры, тайский год, со словом «число» в начале</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">5 мая 2026</span><span class="line tall"></span></li>
+          <li><span class="mark">б)</span><span class="ru">20 июля 2025</span><span class="line tall"></span></li>
+          <li><span class="mark">в)</span><span class="ru">31 октября 2027</span><span class="line tall"></span></li>
+          <li><span class="mark">г)</span><span class="ru">9 сентября 2024</span><span class="line tall"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) วันที่ ๕ พฤษภาคม ๒๕๖๙</span>
+          <span class="th">б) วันที่ ๒๐ กรกฎาคม ๒๕๖๘</span>
+          <span class="th">в) วันที่ ๓๑ ตุลาคม ๒๕๗๐</span>
+          <span class="th">г) วันที่ ๙ กันยายน ๒๕๖๗</span>
+          <span class="why">Число — знаком (๕), не словом (ห้า). Это как раз то, на чём ты потеряла балл.</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= D ======================= -->
+  <section class="block">
+    <div class="block-letter">D</div>
+    <div class="block-body">
+      <p class="block-name">Тайский календарь · пересчёт годов</p>
+
+      <div class="hook">
+        <span class="cap">Крючок</span>
+        <p><b>พ.ศ. = ค.ศ. + 543.</b> В обратную сторону — минус 543. Проверка на месте:
+        последняя цифра тайского года и последняя цифра нашего <b>всегда отличаются на 3</b>
+        (…9 ↔ …6, …0 ↔ …7, …5 ↔ …2). Если сходится — арифметика не поехала.</p>
+        <p>Опора, которую ты уже знаешь наизусть: <b>๒๕๖๙ = 2026</b>. От неё можно отсчитывать.</p>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Какой это год по тайскому календарю?
+          <span class="opts">Арабскими цифрами</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="num">1970</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="num">1995</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="num">2010</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="num">2024</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="num">2030</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span>а) 2513 · б) 2538 · в) 2553 · г) 2567 · д) 2573</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Какой это год по нашему календарю?
+          <span class="opts">Арабскими цифрами</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="thai">พ.ศ. ๒๕๐๐</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">พ.ศ. ๒๔๙๙</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">พ.ศ. ๒๕๒๐</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">พ.ศ. ๒๕๔๕</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">พ.ศ. ๒๕๗๑</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span>а) 1957 · б) <b>1956</b> · в) 1977 · г) 2002 · д) 2028</span>
+          <span class="why">б) — тот самый пункт: 2499 − 543 = 1956, а не 1945. Проверка по последней цифре: 9 и 6 отличаются на 3 ✔</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Запиши число тайскими цифрами.
+          <span class="opts">Только цифры</span></span></p>
+        <ol class="items cols-4">
+          <li><span class="mark">а)</span><span class="num">2569</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="num">1987</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="num">14</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="num">31</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) ๒๕๖๙ · б) ๑๙๘๗ · в) ๑๔ · г) ๓๑</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= E ======================= -->
+  <section class="block">
+    <div class="block-letter">E</div>
+    <div class="block-body">
+      <p class="block-name">Сезоны и погода</p>
+
+      <div class="hook">
+        <span class="cap">Крючок</span>
+        <p>Сезонов <b>три</b>, и каждый — это просто «сезон + свойство». Разговорное слово для
+        сезона — <span class="th">หน้า</span>:</p>
+        <table>
+          <tr><td class="th">หน้าร้อน</td><td>«сезон-жарко»</td><td>март–май</td></tr>
+          <tr><td class="th">หน้าฝน</td><td>«сезон-дождь»</td><td>июнь–октябрь</td></tr>
+          <tr><td class="th">หน้าหนาว</td><td>«сезон-холодно»</td><td>ноябрь–февраль</td></tr>
+        </table>
+        <p>Погода строится двумя готовыми схемами, и обе — из двух слов:</p>
+        <p><b>อากาศ + какая</b> (อากาศร้อน, อากาศเย็น, อากาศดี) ·
+           <b>явление + что делает</b> (ฝนตก «дождь падает», แดดออก «солнце вышло», ลมแรง «ветер сильный»)</p>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Какой сезон в этом месяце?
+          <span class="opts">Ответ — название сезона тайскими буквами</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="thai">มกราคม</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">เมษายน</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">กรกฎาคม</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">พฤศจิกายน</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">พฤษภาคม</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">กันยายน</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="thai">ธันวาคม</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="thai">มีนาคม</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) หน้าหนาว · б) หน้าร้อน · в) หน้าฝน · г) หน้าหนาว</span>
+          <span class="th">д) หน้าร้อน · е) หน้าฝน · ж) หน้าหนาว · з) หน้าร้อน</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Напиши по-тайски.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">идёт дождь</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">солнечно</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">сильный ветер</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">сильный дождь</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">погода жаркая</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">погода хорошая</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="ru">погода прохладная</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="ru">холодно</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) ฝนตก · б) แดดออก · в) ลมแรง · г) ฝนตกหนัก</span>
+          <span class="th">д) อากาศร้อน · е) อากาศดี · ж) อากาศเย็น · з) อากาศหนาว</span>
+          <span class="why">в) и г) — те самые «сильный»: у ветра แรง, у дождя หนัก. Одно голое ลม — это просто «ветер».</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Переведи на русский.
+          <span class="opts">Одна фраза</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="thai">วันนี้อากาศดี</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">พรุ่งนี้ฝนจะตก</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">หน้าร้อนอากาศร้อนมาก</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">ที่เชียงใหม่หน้าหนาวอากาศเย็น</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">วันนี้ลมแรงและฝนตกหนัก</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span>а) Сегодня погода хорошая.</span>
+          <span>б) Завтра пойдёт дождь.</span>
+          <span>в) В жаркий сезон погода очень жаркая.</span>
+          <span>г) В Чиангмае в прохладный сезон погода прохладная.</span>
+          <span>д) Сегодня сильный ветер и сильный дождь.</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= F ======================= -->
+  <section class="block">
+    <div class="block-letter">F</div>
+    <div class="block-body">
+      <p class="block-name">Глаголы дня</p>
+
+      <div class="hook">
+        <span class="cap">Крючок</span>
+        <p>Утро — это <b>цепочка</b>, а не список. Прогоняй её в порядке действий, тогда каждый
+        следующий глагол тянет за собой предыдущий:</p>
+        <div class="scale">
+          <span>ตื่น</span><span class="arr">→</span><span>ล้างหน้า</span><span class="arr">→</span>
+          <span>แปรงฟัน</span><span class="arr">→</span><span>อาบน้ำ</span><span class="arr">→</span>
+          <span>แต่งตัว</span><span class="arr">→</span><span>กินข้าวเช้า</span>
+        </div>
+        <p>Второй крючок: <b>ทำ + объект</b> строит половину глаголов — ทำงาน «делать работу»,
+        ทำอาหาร «делать еду». А <span class="th">กินข้าว</span> буквально «есть рис», но значит
+        любой приём пищи, даже если ешь пиццу.</p>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Напиши глагол по-тайски.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="ru">чистить зубы</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">умываться</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">одеваться</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">принимать душ</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">проснуться</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">завтракать</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="ru">обедать</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="ru">ужинать</span><span class="line"></span></li>
+          <li><span class="mark">и)</span><span class="ru">работать</span><span class="line"></span></li>
+          <li><span class="mark">к)</span><span class="ru">ложиться спать</span><span class="line"></span></li>
+          <li><span class="mark">л)</span><span class="ru">возвращаться домой</span><span class="line"></span></li>
+          <li><span class="mark">м)</span><span class="ru">заниматься спортом</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) แปรงฟัน · б) ล้างหน้า · в) แต่งตัว · г) อาบน้ำ</span>
+          <span class="th">д) ตื่น · е) กินข้าวเช้า · ж) กินข้าวเที่ยง · з) กินข้าวเย็น</span>
+          <span class="th">и) ทำงาน · к) เข้านอน · л) กลับบ้าน · м) ออกกำลังกาย</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Переведи на русский.
+          <span class="opts">Одним словом</span></span></p>
+        <ol class="items cols-4">
+          <li><span class="mark">а)</span><span class="thai">เล่นมือถือ</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">ดื่มกาแฟ</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">โทร</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">ดูซีรีส์</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">วิ่ง</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">เดิน</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="thai">ออกไป</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="thai">ตื่นนอน</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span>а) сидеть в телефоне · б) пить кофе · в) звонить · г) смотреть сериалы</span>
+          <span>д) бегать · е) ходить · ж) уходить · з) вставать с постели</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Расставь глаголы в том порядке, в каком они происходят утром.
+          <span class="opts">Ответ — шесть слов подряд тайскими буквами</span></span></p>
+        <div class="bank">
+          <span class="cap">Вперемешку</span>
+          <span class="w">อาบน้ำ</span><span class="w">กินข้าวเช้า</span><span class="w">ตื่น</span>
+          <span class="w">แต่งตัว</span><span class="w">แปรงฟัน</span><span class="w">ล้างหน้า</span>
+        </div>
+        <div class="line tall"></div>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">ตื่น → ล้างหน้า → แปรงฟัน → อาบน้ำ → แต่งตัว → กินข้าวเช้า</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">4.</span><span>Вставь глагол в пропуск.
+          <span class="opts">Ответ — одно слово тайскими буквами</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="thai">ตอนเช้าฉัน ____ ตอนหกโมง</span><span class="gloss">утром я просыпаюсь в шесть</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">ก่อนนอนฉัน ____</span><span class="gloss">перед сном я чищу зубы</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">ฉัน ____ ทุกวันตอนเย็น</span><span class="gloss">я занимаюсь спортом каждый день вечером</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">ฉัน ____ กาแฟตอนเช้า</span><span class="gloss">я пью кофе утром</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">ฉัน ____ ภาษาไทยทุกวัน</span><span class="gloss">я учу тайский каждый день</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">เมื่อคืนฉัน ____ ไม่หลับ</span><span class="gloss">прошлой ночью я не могла заснуть</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="thai">ฉัน ____ หาแม่ทุกอาทิตย์</span><span class="gloss">я звоню маме каждую неделю</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="thai">ตอนดึกฉัน ____ มือถือ</span><span class="gloss">глубокой ночью я сижу в телефоне</span><span class="line"></span></li>
+          <li><span class="mark">и)</span><span class="thai">เธอ ____ ที่ร้านกาแฟ</span><span class="gloss">она сидит в кафе</span><span class="line"></span></li>
+          <li><span class="mark">к)</span><span class="thai">หลังเลิกงานฉัน ____</span><span class="gloss">после работы я возвращаюсь домой</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) ตื่น · б) แปรงฟัน · в) ออกกำลังกาย · г) ดื่ม · д) เรียน</span>
+          <span class="th">е) นอน · ж) โทร · з) เล่น · и) นั่ง · к) กลับบ้าน</span>
+          <span class="why">е) — устойчивое นอนไม่หลับ «лежу и не засыпаю»; это лакорное клише страданий героини.</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">5.</span><span>Собери глагол через <span class="thai" style="font-size:1.1rem">ทำ</span>.
+          <span class="opts">Ответ — тайскими буквами, два слова слитно</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">работать</span><span class="gloss">«делать работу»</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">готовить еду</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">убираться</span><span class="gloss">«делать чистоту»</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">делать домашнее задание</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) ทำงาน · б) ทำอาหาร · в) ทำความสะอาด · г) ทำการบ้าน</span>
+          <span class="why">ทำ — одна из самых частых морфем в тайском: увидев незнакомое ทำ + существительное, смысл почти всегда угадывается.</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">6.</span><span>Какое слово в ряду лишнее и почему?
+          <span class="opts">Ответ — слово тайскими буквами и причина одной фразой по-русски</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="thai">ตื่น · ล้างหน้า · แปรงฟัน · เข้านอน</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">เดิน · วิ่ง · ออกกำลังกาย · อ่าน</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">กินข้าวเช้า · กินข้าวเที่ยง · กินข้าวเย็น · ดื่มกาแฟ</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">ดูทีวี · ดูซีรีส์ · เล่นมือถือ · ทำงาน</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">นอน · เข้านอน · ตื่นนอน · ทำความสะอาด</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) เข้านอน</span><span class="why">остальные три — утро, а это про вечер</span>
+          <span class="th">б) อ่าน</span><span class="why">остальные — движение и спорт, а «читать» нет</span>
+          <span class="th">в) ดื่มกาแฟ</span><span class="why">остальные — приёмы пищи, а это питьё</span>
+          <span class="th">г) ทำงาน</span><span class="why">остальные — отдых, а это работа</span>
+          <span class="th">д) ทำความสะอาด</span><span class="why">остальные три — про сон</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">7.</span><span>Какой глагол описывает эту ситуацию?
+          <span class="opts">Ответ — тайскими буквами</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="ru">Будильник прозвенел, ты открыла глаза.</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">Ты вспотела после пробежки и идёшь в ванную.</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">Ты выбрала рубашку и надеваешь её.</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">Уже одиннадцать вечера, ты выключаешь свет и ложишься.</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">Подруга в Бангкоке, ты набираешь её номер.</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">Ты открыла дверь своей квартиры и наконец дома.</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) ตื่น · б) อาบน้ำ · в) แต่งตัว · г) เข้านอน · д) โทร · е) กลับบ้าน</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">8.</span><span>Эти глаголы легко перепутать — какой нужен?
+          <span class="opts">Ответ — тайскими буквами</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">спать, лежать — общий глагол</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">ложиться спать</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">уснуть — сам момент засыпания</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">проснуться</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">есть — вообще, любую еду</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">поесть, принять пищу</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="ru">смотреть — вообще</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="ru">сидеть в телефоне</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) นอน · б) เข้านอน · в) หลับ · г) ตื่น</span>
+          <span class="th">д) กิน · е) กินข้าว · ж) ดู · з) เล่นมือถือ</span>
+          <span class="why">เข้านอน буквально «войти в сон» — про действие лечь, а не про сам сон. И กินข้าว — «есть рис», но говорится про любой полноценный приём пищи, даже если ешь пиццу.</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">9.</span><span>Расставь восемь действий в порядке одного дня.
+          <span class="opts">Ответ — восемь слов подряд тайскими буквами</span></span></p>
+        <div class="bank">
+          <span class="cap">Вперемешку</span>
+          <span class="w">กลับบ้าน</span><span class="w">ตื่น</span><span class="w">ทำงาน</span><span class="w">กินข้าวเช้า</span>
+          <span class="w">เข้านอน</span><span class="w">อาบน้ำ</span><span class="w">กินข้าวเย็น</span><span class="w">ออกไป</span>
+        </div>
+        <div class="line tall"></div>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">ตื่น → อาบน้ำ → กินข้าวเช้า → ออกไป → ทำงาน → กลับบ้าน → กินข้าวเย็น → เข้านอน</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= G ======================= -->
+  <section class="block">
+    <div class="block-letter">G</div>
+    <div class="block-body">
+      <p class="block-name">Как часто</p>
+
+      <div class="hook">
+        <span class="cap">Крючок</span>
+        <p>Маркеры частоты — не семь отдельных слов, а <b>одна линейка</b>. Держи в голове её,
+        а не список: любое слово находится по своему месту на шкале.</p>
+        <div class="scale">
+          <span>เสมอ</span><span class="arr">›</span><span>เป็นประจำ</span><span class="arr">›</span>
+          <span>บ่อยๆ</span><span class="arr">›</span><span>บางครั้ง</span><span class="arr">›</span>
+          <span>ไม่ค่อย</span><span class="arr">›</span><span>นานๆ ครั้ง</span><span class="arr">›</span>
+          <span>ไม่เคย</span>
+        </div>
+        <p>Слева «всегда», справа «никогда». Отдельно стоит <span class="th">ทุก + период</span> —
+        ทุกวัน, ทุกเช้า, ทุกคืน, ทุกปี: это не частота «примерно», а точное «каждый».</p>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Расставь от самого частого к самому редкому.
+          <span class="opts">Ответ — семь слов подряд тайскими буквами</span></span></p>
+        <div class="bank">
+          <span class="cap">Вперемешку</span>
+          <span class="w">บ่อยๆ</span><span class="w">ไม่เคย</span><span class="w">บางครั้ง</span>
+          <span class="w">เสมอ</span><span class="w">นานๆ ครั้ง</span><span class="w">ไม่ค่อย</span>
+          <span class="w">เป็นประจำ</span>
+        </div>
+        <div class="line tall"></div>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">เสมอ → เป็นประจำ → บ่อยๆ → บางครั้ง → ไม่ค่อย → นานๆ ครั้ง → ไม่เคย</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Напиши по-тайски.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="ru">иногда</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">никогда (не делала)</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">редко</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">часто</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">всегда</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">каждое утро</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="ru">каждую ночь</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="ru">регулярно</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) บางครั้ง (или บางที) · б) ไม่เคย · в) นานๆ ครั้ง (или ไม่ค่อย) · г) บ่อยๆ</span>
+          <span class="th">д) เสมอ · е) ทุกเช้า · ж) ทุกคืน · з) เป็นประจำ</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Вставь подходящий маркер частоты.
+          <span class="opts">Ответ — одно слово тайскими буквами</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="thai">ฉันแปรงฟัน ____</span><span class="gloss">каждое утро</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">ฉัน ____ ดื่มกาแฟ</span><span class="gloss">не очень часто</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">ฉัน ____ ไปกรุงเทพ</span><span class="gloss">ни разу не была</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">เธอคิดถึงฉัน ____</span><span class="gloss">всегда</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">ฉันดูซีรีส์ ____</span><span class="gloss">часто</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">ฉันไปตลาด ____</span><span class="gloss">редко</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) ทุกเช้า · б) ไม่ค่อย · в) ไม่เคย · г) เสมอ · д) บ่อยๆ · е) นานๆ ครั้ง</span>
+          <span class="why">Заметь позицию: ไม่ค่อย и ไม่เคย стоят <b>перед</b> глаголом, а บ่อยๆ и ทุกเช้า — после.</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= H ======================= -->
+  <section class="block">
+    <div class="block-letter">H</div>
+    <div class="block-body">
+      <p class="block-name">Периоды суток</p>
+
+      <div class="hook">
+        <span class="cap">Крючок</span>
+        <p>Восемь периодов — это <b>одна линейка по часам</b>. Ставь их не по переводу, а по времени:</p>
+        <table>
+          <tr><td class="th">ตอนเช้า</td><td>5–8</td><td class="key">раннее утро</td></tr>
+          <tr><td class="th">ตอนสาย</td><td>8–11</td><td class="key">позднее утро — «уже не утро»</td></tr>
+          <tr><td class="th">ตอนเที่ยง</td><td>12</td><td class="key">полдень</td></tr>
+          <tr><td class="th">ตอนบ่าย</td><td>13–15</td><td class="key">после полудня</td></tr>
+          <tr><td class="th">ตอนเย็น</td><td>16–18</td><td class="key">ранний вечер, после работы</td></tr>
+          <tr><td class="th">ตอนค่ำ</td><td>18–20</td><td class="key">сумерки</td></tr>
+          <tr><td class="th">ตอนกลางคืน</td><td>20–24</td><td class="key">ночь вообще</td></tr>
+          <tr><td class="th">ตอนดึก</td><td>после 23</td><td class="key">глубокая ночь — «уже слишком поздно»</td></tr>
+        </table>
+        <p>И отдельная тройка, которую легко перепутать: <span class="th">คืนนี้</span> «сегодня ночью» ·
+        <span class="th">เมื่อคืน</span> «прошлой ночью» · <span class="th">ตอนดึก</span> «глубокой ночью».
+        <b>ตอนคืน не существует.</b></p>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Какой это период суток?
+          <span class="opts">Ответ тайскими буквами, вместе с ตอน</span></span></p>
+        <ol class="items cols-4">
+          <li><span class="mark">а)</span><span class="clock">06:00</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="clock">09:30</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="clock">14:00</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="clock">17:00</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="clock">19:00</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="clock">22:00</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="clock">01:00</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="clock">12:00</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) ตอนเช้า · б) ตอนสาย · в) ตอนบ่าย · г) ตอนเย็น</span>
+          <span class="th">д) ตอนค่ำ · е) ตอนกลางคืน · ж) ตอนดึก · з) ตอนเที่ยง</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Напиши по-тайски.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">глубокой ночью</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">сегодня утром</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">сегодня вечером</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">сегодня ночью</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">прошлой ночью</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">завтра утром</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="ru">завтра вечером</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="ru">поздним утром</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) ตอนดึก · б) เช้านี้ · в) เย็นนี้ · г) คืนนี้</span>
+          <span class="th">д) เมื่อคืน · е) พรุ่งนี้เช้า · ж) พรุ่งนี้เย็น · з) ตอนสาย</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Одно из двух — какое подходит?
+          <span class="opts">Выпиши нужное слово тайскими буквами</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="ru">Ночью я сплю (вообще, в течение ночи)</span><span class="thai">ตอนกลางคืน / ตอนดึก</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">Он вернулся поздно ночью, уже за полночь</span><span class="thai">ตอนกลางคืน / ตอนดึก</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">Прошлой ночью я не спала</span><span class="thai">คืนนี้ / เมื่อคืน</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">Сегодня ночью будет дождь</span><span class="thai">คืนนี้ / เมื่อคืน</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">Я встала поздно, только к десяти</span><span class="thai">ตอนเช้า / ตอนสาย</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) ตอนกลางคืน · б) ตอนดึก · в) เมื่อคืน · г) คืนนี้ · д) ตอนสาย</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <h2 class="part">Часть II · Грамматика</h2>
+
+  <!-- ======================= I ======================= -->
+  <section class="block">
+    <div class="block-letter">I</div>
+    <div class="block-body">
+      <p class="block-name">Счётное слово и указательное · твой тройной промах</p>
+
+      <div class="hook">
+        <span class="cap">Крючок · и почему твой вариант не работает</span>
+        <p>Ты написала <span class="th">หนังสือนี้เล่ม</span>. Проверим этот порядок на числе:
+        «три книги» — это <span class="th">หนังสือสามเล่ม</span>, и никто не говорит
+        <span class="th">หนังสือสามเล่ม</span> задом наперёд. <b>นี้ занимает то же место, что число</b> —
+        значит и стоять должно там же, а счётное всегда последнее… но нет: с числом счётное идёт
+        <b>после</b> числа, а указательное — <b>после счётного</b>. Один порядок на все случаи:</p>
+        <p><b>существительное → число → счётное → указательное</b></p>
+        <table>
+          <tr><td class="th">หนังสือ สาม เล่ม</td><td>три книги</td></tr>
+          <tr><td class="th">หนังสือ เล่ม นี้</td><td>эта книга <span class="key">(числа нет — счётное сразу перед นี้)</span></td></tr>
+          <tr><td class="th">หนังสือ สาม เล่ม นี้</td><td>эти три книги <span class="key">(всё вместе)</span></td></tr>
+        </table>
+        <p>Проверка одной фразой: <b>นี้ и นั้น всегда приклеены к счётному справа</b> —
+        เล่มนี้, ตัวนั้น, คันนี้. Если у тебя นี้ оторвалось от счётного — порядок сломан.</p>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Исправь порядок слов.
+          <span class="opts">Ответ — исправленная фраза тайскими буквами</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">หนังสือนี้เล่ม</span><span class="gloss">эта книга</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">รถนั้นคัน</span><span class="gloss">та машина</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">แมวนี้ตัว</span><span class="gloss">эта кошка</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">เสื้อนั้นตัว</span><span class="gloss">та рубашка</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">สามหมาตัว</span><span class="gloss">три собаки</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">ห้าคนนักเรียน</span><span class="gloss">пять учеников</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="thai">น้ำขวดสอง</span><span class="gloss">две бутылки воды</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="thai">ทุกนักเรียนคน</span><span class="gloss">все ученики</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) หนังสือเล่มนี้ · б) รถคันนั้น · в) แมวตัวนี้ · г) เสื้อตัวนั้น</span>
+          <span class="th">д) หมาสามตัว · е) นักเรียนห้าคน · ж) น้ำสองขวด · з) นักเรียนทุกคน</span>
+          <span class="why">ทุก и บาง занимают место числа: сущ → ทุก → счётное.</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Собери фразу из частей.
+          <span class="opts">Ответ — фраза тайскими буквами</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">ตัว / แมว / นี้</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">เล่ม / สอง / หนังสือ</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">คัน / รถ / นั้น</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">คน / ทุก / นักเรียน</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">ขวด / น้ำ / กี่</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">เล่ม / นี้ / สาม / หนังสือ</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) แมวตัวนี้ · б) หนังสือสองเล่ม · в) รถคันนั้น</span>
+          <span class="th">г) นักเรียนทุกคน · д) น้ำกี่ขวด · е) หนังสือสามเล่มนี้</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Напиши по-тайски.
+          <span class="opts">Тайские буквы, числа тоже словами</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">эта кошка</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">та книга</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">эта машина</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">три бутылки воды</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">эти две машины</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">каждая кошка</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="ru">некоторые ученики</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="ru">пять стаканов кофе</span><span class="line"></span></li>
+          <li><span class="mark">и)</span><span class="ru">тот стол</span><span class="line"></span></li>
+          <li><span class="mark">к)</span><span class="ru">эти четыре билета</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) แมวตัวนี้ · б) หนังสือเล่มนั้น · в) รถคันนี้ · г) น้ำสามขวด · д) รถสองคันนี้</span>
+          <span class="th">е) แมวทุกตัว · ж) นักเรียนบางคน · з) กาแฟห้าแก้ว · и) โต๊ะตัวนั้น · к) ตั๋วสี่ใบนี้</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= J ======================= -->
+  <section class="block">
+    <div class="block-letter">J</div>
+    <div class="block-body">
+      <p class="block-name">กี่ или เท่าไหร่</p>
+
+      <div class="hook">
+        <span class="cap">Крючок</span>
+        <p>Оба переводятся «сколько», но делят территорию по одному признаку:</p>
+        <table>
+          <tr><td class="th">กี่</td><td><b>сколько штук</b> — и <b>обязательно</b> тянет за собой счётное слово: กี่คน, กี่เล่ม, กี่ตัว, กี่โมง, กี่ชั่วโมง, กี่ปี</td></tr>
+          <tr><td class="th">เท่าไหร่</td><td><b>сколько стоит / насколько</b> — и стоит <b>сам по себе</b>, без счётного: ราคาเท่าไหร่, นานเท่าไหร่</td></tr>
+        </table>
+        <p>Проверка: если после «сколько» просится счётное слово — ставь กี่. Твоё
+        <span class="th">เท่าไหร่เล่ม</span> невозможно ровно потому, что เท่าไหร่ счётное не берёт.</p>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Вставь <span class="thai" style="font-size:1.1rem">กี่</span> или <span class="thai" style="font-size:1.1rem">เท่าไหร่</span>.
+          <span class="opts">Ответ — одно слово</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">คุณมีหนังสือ ____ เล่ม</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">เสื้อตัวนี้ ____</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">ในห้องมีคน ____ คน</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">ราคา ____</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">คุณรอมา ____ ชั่วโมง</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">ตอนนี้ ____ โมง</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="thai">นาน ____</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="thai">มีรถ ____ คัน</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) กี่ · б) เท่าไหร่ · в) กี่ · г) เท่าไหร่</span>
+          <span class="th">д) กี่ · е) กี่ · ж) เท่าไหร่ · з) กี่</span>
+          <span class="why">Правило видно на глаз: где справа стоит счётное (เล่ม, คน, ชั่วโมง, โมง, คัน) — там กี่.</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Напиши вопрос по-тайски.
+          <span class="opts">Тайские буквы, вежливую частицу можно не писать</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">Сколько у тебя книг?</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">Сколько стоит эта книга?</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">Сколько у тебя машин?</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">Который час?</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">Сколько часов ты работаешь?</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">Сколько стоит эта рубашка?</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) คุณมีหนังสือกี่เล่ม · б) หนังสือเล่มนี้เท่าไหร่ · в) คุณมีรถกี่คัน</span>
+          <span class="th">г) กี่โมง (или ตอนนี้กี่โมง) · д) คุณทำงานกี่ชั่วโมง · е) เสื้อตัวนี้เท่าไหร่</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Найди ошибку и напиши верный вариант.
+          <span class="opts">Ответ — исправленная фраза</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">คุณมีแมวเท่าไหร่ตัว</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">ตอนนี้เท่าไหร่โมง</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">คุณทำงานเท่าไหร่ชั่วโมง</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">หนังสือเล่มนี้กี่</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) คุณมีแมวกี่ตัว · б) ตอนนี้กี่โมง · в) คุณทำงานกี่ชั่วโมง · г) หนังสือเล่มนี้เท่าไหร่</span>
+          <span class="why">г) — обратный случай: счётного нет, значит กี่ стоять не может.</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= K ======================= -->
+  <section class="block">
+    <div class="block-letter">K</div>
+    <div class="block-body">
+      <p class="block-name">«С … до …», «целый», «ровно»</p>
+
+      <div class="hook">
+        <span class="cap">Крючок</span>
+        <p>Три конструкции, каждая — одно слово в нужном месте:</p>
+        <table>
+          <tr><td class="th">ตั้งแต่ … ถึง …</td><td>«с … до …» — обе части обязательны, как русское «от» и «до»</td></tr>
+          <tr><td class="th">ทั้ง + период</td><td>«весь, целый»: ทั้งวัน, ทั้งคืน, ทั้งสัปดาห์, ทั้งเดือน, ทั้งปี</td></tr>
+          <tr><td class="th">ตรง</td><td>«ровно» — <b>после</b> времени: แปดโมงตรง, เที่ยงตรง</td></tr>
+        </table>
+        <p>Рядом ещё два, отличающиеся стороной: <span class="th">เกือบ</span> «почти» стоит
+        <b>перед</b> временем (ещё не наступило), <span class="th">กว่า</span> «с лишним» —
+        <b>после</b> (уже прошло).</p>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Переведи на тайский.
+          <span class="opts">Тайские буквы, одно предложение</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="ru">Я работаю с восьми утра до шести вечера.</span><span class="line tall"></span></li>
+          <li><span class="mark">б)</span><span class="ru">Я сплю с десяти вечера до шести утра.</span><span class="line tall"></span></li>
+          <li><span class="mark">в)</span><span class="ru">Я учусь с полудня до трёх дня.</span><span class="line tall"></span></li>
+          <li><span class="mark">г)</span><span class="ru">Я жду с самого утра.</span><span class="line tall"></span></li>
+          <li><span class="mark">д)</span><span class="ru">Он работает с прошлого месяца.</span><span class="line tall"></span></li>
+          <li><span class="mark">е)</span><span class="ru">Я смотрю сериалы с семи до девяти вечера.</span><span class="line tall"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) ฉันทำงานตั้งแต่แปดโมงเช้าถึงหกโมงเย็น</span>
+          <span class="th">б) ฉันนอนตั้งแต่สี่ทุ่มถึงหกโมงเช้า</span>
+          <span class="th">в) ฉันเรียนตั้งแต่เที่ยงถึงบ่ายสามโมง</span>
+          <span class="th">г) ฉันรอมาตั้งแต่เช้า</span>
+          <span class="th">д) เขาทำงานมาตั้งแต่เดือนที่แล้ว</span>
+          <span class="th">е) ฉันดูซีรีส์ตั้งแต่หนึ่งทุ่มถึงสามทุ่ม</span>
+          <span class="why">Когда конец не назван («с утра», «с прошлого месяца»), ถึง не нужно, но появляется มา — «и до сих пор».</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Напиши по-тайски.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="ru">целый день</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">всю ночь</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">всю неделю</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">весь месяц</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">весь год</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) ทั้งวัน · б) ทั้งคืน · в) ทั้งสัปดาห์ · г) ทั้งเดือน · д) ทั้งปี</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Напиши по-тайски.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">ровно восемь утра</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">ровно полдень</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">почти шесть утра</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">начало седьмого вечера</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">пришёл точно вовремя</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) แปดโมงเช้าตรง · б) เที่ยงตรง · в) เกือบหกโมงเช้า · г) หกโมงเย็นกว่า · д) มาถึงพอดี</span>
+          <span class="why">б) — тот самый пункт, где ты написала просто เที่ยง.</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= L ======================= -->
+  <section class="block">
+    <div class="block-letter">L</div>
+    <div class="block-body">
+      <p class="block-name">Связки последовательности</p>
+
+      <div class="hook">
+        <span class="cap">Крючок</span>
+        <table>
+          <tr><td class="th">ก่อน</td><td>до, перед — <b>перед</b> действием: ก่อนนอน, ก่อนกินข้าว</td></tr>
+          <tr><td class="th">หลัง / หลังจาก</td><td>после: หลังกินข้าว, หลัง<b>เลิก</b>งาน «после окончания работы»</td></tr>
+          <tr><td class="th">แล้วก็</td><td>и потом — главная связка цепочки действий</td></tr>
+          <tr><td class="th">พอ … ก็</td><td>как только … так и — <b>обе части обязательны</b></td></tr>
+          <tr><td class="th">ทันที</td><td>сразу же — ставится <b>в конец</b></td></tr>
+          <tr><td class="th">ตอนแรก / ในที่สุด / ค่อยๆ</td><td>сначала / в конце концов / постепенно</td></tr>
+        </table>
+        <p>Ловушка: «после работы» — это <span class="th">หลังเลิกงาน</span>, а не หลังงาน.
+        งาน само по себе «работа» как предмет, а «закончить работу» — เลิกงาน.</p>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Вставь связку.
+          <span class="opts">Ответ — одно слово (или пара слов) тайскими буквами</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="thai">____ นอน ฉันอ่านหนังสือ</span><span class="gloss">перед сном я читаю книгу</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">ฉันตื่น ____ อาบน้ำ</span><span class="gloss">я просыпаюсь, потом принимаю душ</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">____ เขาโทรมา ฉัน ____ รับสาย</span><span class="gloss">как только он позвонил, я взяла трубку</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">____ เลิกงาน ฉันกลับบ้าน</span><span class="gloss">после работы я возвращаюсь домой</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">เขารู้ ____</span><span class="gloss">он сразу понял</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">____ ฉันไม่เข้าใจ</span><span class="gloss">сначала я не понимала</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="thai">____ เขาก็ไป</span><span class="gloss">в конце концов он ушёл</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="thai">____ พูด อย่ารีบ</span><span class="gloss">говори потихоньку, не спеши</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) ก่อน · б) แล้วก็ · в) พอ … ก็ · г) หลัง</span>
+          <span class="th">д) ทันที · е) ตอนแรก · ж) ในที่สุด (или สุดท้าย) · з) ค่อยๆ</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Переведи на тайский.
+          <span class="opts">Тайские буквы, одно предложение</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="ru">Перед сном я чищу зубы.</span><span class="line tall"></span></li>
+          <li><span class="mark">б)</span><span class="ru">После завтрака я иду на работу.</span><span class="line tall"></span></li>
+          <li><span class="mark">в)</span><span class="ru">Я просыпаюсь, потом умываюсь, потом одеваюсь.</span><span class="line tall"></span></li>
+          <li><span class="mark">г)</span><span class="ru">Как только пришла домой, сразу приняла душ.</span><span class="line tall"></span></li>
+          <li><span class="mark">д)</span><span class="ru">После работы я иногда хожу на рынок.</span><span class="line tall"></span></li>
+          <li><span class="mark">е)</span><span class="ru">Перед едой я пью воду.</span><span class="line tall"></span></li>
+          <li><span class="mark">ж)</span><span class="ru">Сначала я не понимала, потом постепенно поняла.</span><span class="line tall"></span></li>
+          <li><span class="mark">з)</span><span class="ru">Как только он вернулся домой, сразу позвонил маме.</span><span class="line tall"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) ก่อนนอนฉันแปรงฟัน</span>
+          <span class="th">б) หลังกินข้าวเช้าฉันไปทำงาน</span>
+          <span class="th">в) ฉันตื่นแล้วก็ล้างหน้าแล้วก็แต่งตัว</span>
+          <span class="th">г) พอกลับถึงบ้านก็อาบน้ำทันที</span>
+          <span class="th">д) หลังเลิกงานฉันบางครั้งไปตลาด</span>
+          <span class="th">е) ก่อนกินข้าวฉันดื่มน้ำ</span>
+          <span class="th">ж) ตอนแรกฉันไม่เข้าใจ แล้วก็ค่อยๆ เข้าใจ</span>
+          <span class="th">з) พอเขากลับถึงบ้านก็โทรหาแม่ทันที</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= M ======================= -->
+  <section class="block">
+    <div class="block-letter">M</div>
+    <div class="block-body">
+      <p class="block-name">ไม่เคย и одно отрицание</p>
+
+      <div class="hook">
+        <span class="cap">Крючок · и почему твой вариант не работает</span>
+        <p>Ты написала <span class="th">ไม่เคยไม่ดู</span>. Разложим: <span class="th">เคย</span> —
+        «доводилось, был опыт». <span class="th">ไม่เคย</span> — «не доводилось ни разу».
+        Отрицание уже стоит <b>внутри</b> ไม่เคย, поэтому второе ไม่ его снимает:
+        «мне не доводилось не смотреть» = «я всегда смотрела». Получается ровно противоположное тому,
+        что ты хотела сказать.</p>
+        <p><b>После ไม่เคย идёт голый глагол, без второго ไม่.</b>
+        «Никогда не смотрю всю ночь» = <span class="th">ไม่เคยดูทั้งคืน</span>.</p>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Исправь предложение.
+          <span class="opts">Ответ — исправленная фраза тайскими буквами</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="thai">ฉันไม่เคยไม่ไปตลาด</span><span class="gloss">я никогда не хожу на рынок</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">เขาไม่เคยไม่ดื่มกาแฟ</span><span class="gloss">он никогда не пьёт кофе</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">ฉันไม่เคยไม่ดูซีรีส์ทั้งคืน</span><span class="gloss">я никогда не смотрю сериалы всю ночь</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">ฉันไม่เคยไม่ออกกำลังกาย</span><span class="gloss">я никогда не занимаюсь спортом</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">เธอไม่เคยไม่ตื่นสาย</span><span class="gloss">она никогда не встаёт поздно</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) ฉันไม่เคยไปตลาด · б) เขาไม่เคยดื่มกาแฟ · в) ฉันไม่เคยดูซีรีส์ทั้งคืน</span>
+          <span class="th">г) ฉันไม่เคยออกกำลังกาย · д) เธอไม่เคยตื่นสาย</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Выбери: <span class="thai" style="font-size:1.1rem">เคย</span> · <span class="thai" style="font-size:1.1rem">ไม่เคย</span> · <span class="thai" style="font-size:1.1rem">ไม่ค่อย</span>.
+          <span class="opts">Ответ — фраза целиком тайскими буквами</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="ru">Я бывала в Чиангмае.</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">Я ни разу не была в Бангкоке.</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">Я не очень люблю кофе.</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">Она никогда не встаёт поздно.</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">Я редко смотрю телевизор.</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">Я никогда не смотрю сериалы всю ночь.</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) ฉันเคยไปเชียงใหม่ · б) ฉันไม่เคยไปกรุงเทพ · в) ฉันไม่ค่อยชอบกาแฟ</span>
+          <span class="th">г) เธอไม่เคยตื่นสาย · д) ฉันไม่ค่อยดูทีวี · е) ฉันไม่เคยดูซีรีส์ทั้งคืน</span>
+          <span class="why">ไม่ค่อย — смягчённое «не очень», ไม่เคย — жёсткое «ни разу».</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <h2 class="part">Часть III · Всё вперемешку</h2>
+
+  <!-- ======================= N ======================= -->
+  <section class="block">
+    <div class="block-letter">N</div>
+    <div class="block-body">
+      <p class="block-name">Контрольная смесь · темы идут не по порядку</p>
+
+      <div class="hook">
+        <span class="cap">Зачем этот блок</span>
+        <p>Когда задания одной темы идут подряд, правильный ответ подсказывает сам блок — и кажется,
+        что тема выучена. Здесь темы перемешаны нарочно: каждый пункт требует сначала <b>понять,
+        какое правило нужно</b>, и только потом его применить. Это единственный блок, который
+        показывает реальное состояние дел.</p>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Ответь на каждый пункт.
+          <span class="opts">Формат ответа указан рядом с пунктом</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="ru">эта книга</span><span class="gloss">тайскими буквами</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">Сколько у тебя машин?</span><span class="gloss">тайскими буквами</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">12:00 ровно</span><span class="gloss">тайскими буквами</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">послезавтра</span><span class="gloss">тайскими буквами</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">Я никогда не смотрю сериалы всю ночь.</span><span class="gloss">тайскими буквами</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">глубокой ночью</span><span class="gloss">тайскими буквами</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="ru">Какой сезон в <span class="thai">กรกฎาคม</span>?</span><span class="gloss">тайскими буквами</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="ru">пять бутылок воды</span><span class="gloss">тайскими буквами</span><span class="line"></span></li>
+          <li><span class="mark">и)</span><span class="thai">พ.ศ. ๒๔๙๙</span><span class="gloss">арабскими цифрами — год по-нашему</span><span class="line"></span></li>
+          <li><span class="mark">к)</span><span class="ru">После работы я возвращаюсь домой.</span><span class="gloss">тайскими буквами</span><span class="line"></span></li>
+          <li><span class="mark">л)</span><span class="ru">Какой цвет у <span class="thai">วันศุกร์</span>?</span><span class="gloss">по-русски</span><span class="line"></span></li>
+          <li><span class="mark">м)</span><span class="ru">Сколько дней в <span class="thai">พฤศจิกายน</span>?</span><span class="gloss">числом</span><span class="line"></span></li>
+          <li><span class="mark">н)</span><span class="ru">Сегодня <span class="thai">วันพฤหัสบดี</span> — какой день <span class="thai">มะรืนนี้</span>?</span><span class="gloss">тайскими буквами</span><span class="line"></span></li>
+          <li><span class="mark">о)</span><span class="ru">Я работаю с восьми утра до шести вечера.</span><span class="gloss">тайскими буквами</span><span class="line"></span></li>
+          <li><span class="mark">п)</span><span class="ru">сильный ветер</span><span class="gloss">тайскими буквами</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) หนังสือเล่มนี้</span>
+          <span class="th">б) คุณมีรถกี่คัน</span>
+          <span class="th">в) เที่ยงตรง</span>
+          <span class="th">г) มะรืนนี้</span>
+          <span class="th">д) ฉันไม่เคยดูซีรีส์ทั้งคืน</span>
+          <span class="th">е) ตอนดึก</span>
+          <span class="th">ж) หน้าฝน</span>
+          <span class="th">з) น้ำห้าขวด</span>
+          <span>и) 1956</span>
+          <span class="th">к) หลังเลิกงานฉันกลับบ้าน</span>
+          <span>л) голубой (สีฟ้า)</span>
+          <span>м) 30</span>
+          <span class="th">н) วันเสาร์</span>
+          <span class="th">о) ฉันทำงานตั้งแต่แปดโมงเช้าถึงหกโมงเย็น</span>
+          <span class="th">п) ลมแรง</span>
+          <span class="why">Все пятнадцать — ровно те места, где ты потеряла баллы на контрольной.</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p><strong>График повторов.</strong> Один проход ничего не закрепит — работает возвращение
+    через увеличивающиеся промежутки. Отмечай даты прямо здесь:</p>
+    <ol>
+      <li><strong>Сегодня</strong> — весь лист, кроме блока N. ____</li>
+      <li><strong>Через день</strong> — блоки, где было больше двух промахов, + блок N. ____</li>
+      <li><strong>Через три дня</strong> — только блок N; что провалилось, гони его блок целиком. ____</li>
+      <li><strong>Через неделю</strong> — блок N ещё раз. ____</li>
+      <li><strong>Через две недели</strong> — блок N последний раз; чисто — тема отпущена. ____</li>
+    </ol>
+    <p>Ключ открывается <strong>после</strong> ответа, не до. Если открыла раньше — этот пункт
+    не считается пройденным, вернись к нему на следующем круге.</p>
+    <p>Присылай результаты блоками — текстом либо фото из тетради (тогда через
+    <code class="ref">scripts/intake</code>). Разберу и обновлю трекер.</p>
+  </footer>
+
+</div>
+</body>
+</html>
