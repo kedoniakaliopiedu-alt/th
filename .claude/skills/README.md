@@ -114,6 +114,24 @@ headed «Требует сверки» or «Расхождения с источ
 keep the disputed material visible. `--course` is still noisy: course tables use headers the
 scanner does not know yet, so read its output as leads, not as a verdict.
 
+## Dictionary cache
+
+`thai-verify/scripts/warm.py` fills the local cache of thai-language.com pages ahead of time,
+so a lesson survives the site or DNS going down. Stdlib only — and the one script here that
+deliberately goes online, since removing that dependency is its whole point.
+
+```bash
+W=.claude/skills/thai-verify/scripts/warm.py
+python3 $W status            # how much of the vocabulary is cached — offline
+python3 $W warm              # download what is missing (~1.6 s per word, 617 words ≈ 17 min)
+python3 $W warm --limit 50   # a smaller batch
+```
+
+The cache lives in `~/.cache/thai-dict`, keyed by md5 of the word; the session folder is wiped
+and must not hold it. Runs are idempotent, so an interrupted batch is resumed by repeating the
+command. Words the dictionary has no entry for are printed as a list rather than cached —
+caching a "no results" page would make an unverified word look verified.
+
 ## Handwriting recognition
 
 The whole thai-handwriting toolchain runs offline. The main path uses what is built into
