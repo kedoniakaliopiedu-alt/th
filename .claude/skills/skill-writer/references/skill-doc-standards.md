@@ -97,6 +97,21 @@ reaches the internet; talking to a service on `127.0.0.1` is allowed and is how 
 uses the local Ollama. A module docstring that states what the script is for and lists its
 commands; the docstring is the interface documentation, since `--help` renders it.
 
+**One narrow exception to offline: a script may go online to fill a local cache**, and only
+that. `thai-verify/scripts/warm.py` downloads dictionary pages ahead of a lesson so that the
+site going down stops being able to halt one — it spends the network precisely to remove the
+lesson's dependence on it. A script that would *introduce* such a dependence is the thing the
+rule forbids, and no amount of usefulness converts one into the other. Four conditions hold
+together, and a script meeting only three is not the exception:
+
+- the source is one already named in `RESOURCES.md` — a script does not adopt a new authority;
+- the lesson runs correctly when the script has never been run, only with less in the cache;
+- the request protocol and the pause are the ones the owning `SKILL.md` states, not new ones;
+- what comes back lands in a cache outside the session folder, which is wiped.
+
+Say so in the script's docstring and in its README section: a reader who knows the offline
+rule needs to see immediately why this file is allowed to break it.
+
 Type annotations are expected but not enforced by anything in the workflow: `pyrightconfig.json`
 in the project root checks the scripts in `strict` mode, and `npx pyright --stats` should
 report every script found and zero errors. It is a convenience, not a gate — nothing breaks
