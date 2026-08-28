@@ -1,0 +1,1211 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Счётные слова и порядок слов — Глава 3</title>
+
+<style>
+  :root {
+    --paper: #f4f5f7;
+    --card: #fbfbfc;
+    --ink: #151c26;
+    --ink-soft: #4d5866;
+    --ink-faint: #8b95a3;
+    --rule: #d7dce4;
+    --rule-soft: #e6eaf0;
+    --accent: #26497d;
+    --accent-soft: #e6ecf6;
+    --gold: #8a6420;
+    --gold-soft: #f3ecdd;
+    --green: #2f6b46;
+    --green-soft: #e4f0e8;
+
+    --serif: "Charter", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --thai: var(--sans);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0e131a; --card: #151b24; --ink: #e7ebf1; --ink-soft: #a9b3c1;
+      --ink-faint: #6f7a89; --rule: #2a323d; --rule-soft: #212933;
+      --accent: #8fb0e4; --accent-soft: #1b2635; --gold: #d5ac66; --gold-soft: #262015;
+      --green: #7fc79a; --green-soft: #16241c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0e131a; --card: #151b24; --ink: #e7ebf1; --ink-soft: #a9b3c1;
+    --ink-faint: #6f7a89; --rule: #2a323d; --rule-soft: #212933;
+    --accent: #8fb0e4; --accent-soft: #1b2635; --gold: #d5ac66; --gold-soft: #262015;
+    --green: #7fc79a; --green-soft: #16241c;
+  }
+  :root[data-theme="light"] {
+    --paper: #f4f5f7; --card: #fbfbfc; --ink: #151c26; --ink-soft: #4d5866;
+    --ink-faint: #8b95a3; --rule: #d7dce4; --rule-soft: #e6eaf0;
+    --accent: #26497d; --accent-soft: #e6ecf6; --gold: #8a6420; --gold-soft: #f3ecdd;
+    --green: #2f6b46; --green-soft: #e4f0e8;
+  }
+
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--sans);
+    font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet {
+    max-width: 48rem; margin: 0 auto;
+    padding: clamp(1.25rem, 4vw, 3.5rem) clamp(1rem, 4vw, 2rem) 5rem;
+    display: flex; flex-direction: column; gap: 2.75rem;
+  }
+
+  .head {
+    display: flex; flex-direction: column; gap: 1.25rem;
+    padding-bottom: 1.75rem; border-bottom: 2px solid var(--ink);
+  }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--gold);
+    display: flex; align-items: center; gap: .55rem;
+  }
+  .eyebrow::before {
+    content: ""; width: .5rem; height: .5rem;
+    border: 1.5px solid currentColor; border-radius: 50%;
+  }
+
+  h1 {
+    font-family: var(--serif); font-size: clamp(2rem, 6vw, 3rem);
+    line-height: 1.05; font-weight: 600; letter-spacing: -.015em;
+    text-wrap: balance; margin: 0;
+  }
+  h1 .sub {
+    display: block; font-size: .42em; font-weight: 400; letter-spacing: .01em;
+    color: var(--ink-soft); margin-top: .7rem;
+  }
+
+  h2.part {
+    font-family: var(--serif); font-size: 1.7rem; font-weight: 600;
+    margin: 0; padding-bottom: .5rem; border-bottom: 2px solid var(--gold);
+    color: var(--gold);
+  }
+
+  .note { font-size: .95rem; color: var(--ink-soft); max-width: 42rem; }
+  .note b { color: var(--ink); font-weight: 600; }
+
+  code.ref {
+    font-family: var(--mono); font-size: .85em; background: var(--accent-soft);
+    color: var(--accent); padding: .1em .4em; border-radius: 2px;
+  }
+
+  .block { display: grid; grid-template-columns: 3.25rem 1fr; gap: 0 1.25rem; align-items: start; }
+  .block-letter {
+    font-family: var(--serif); font-size: 2.5rem; line-height: .9; color: var(--accent);
+    border-top: 2px solid var(--accent); padding-top: .55rem; text-align: center; font-weight: 600;
+  }
+  .block-body {
+    border-top: 1px solid var(--rule); padding-top: .6rem;
+    display: flex; flex-direction: column; gap: 1.5rem; min-width: 0;
+  }
+  .block-name {
+    font-family: var(--mono); font-size: .68rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: -.85rem;
+  }
+
+  .task { display: flex; flex-direction: column; gap: .9rem; min-width: 0; }
+
+  .prompt { display: grid; grid-template-columns: 1.6rem 1fr; gap: .5rem; font-size: 1.06rem; line-height: 1.5; }
+  .prompt .n { font-family: var(--mono); font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .prompt .opts { display: block; margin-top: .45rem; font-size: .92rem; color: var(--ink-soft); }
+  .prompt .opts b { font-family: var(--mono); color: var(--ink); font-weight: 600; letter-spacing: .02em; }
+
+  .items { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--rule-soft); border: 1px solid var(--rule-soft); }
+  .items.cols-4 { grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr)); }
+  .items.cols-3 { grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); }
+  .items.cols-2 { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+  .items.cols-1 { grid-template-columns: 1fr; }
+  .items li { background: var(--card); padding: .7rem .85rem .75rem; display: flex; flex-direction: column; gap: .3rem; }
+
+  .mark { font-family: var(--mono); font-size: .72rem; color: var(--ink-faint); }
+  .thai { font-family: var(--thai); font-size: 1.45rem; line-height: 1.3; font-weight: 600; letter-spacing: .01em; }
+  .thai.big { font-size: 1.9rem; }
+  .ru { font-size: 1rem; line-height: 1.4; }
+  .num { font-family: var(--serif); font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+  .clock { font-family: var(--mono); font-size: 1.3rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .gloss { font-size: .8rem; color: var(--ink-faint); }
+  .line { margin-top: .3rem; border-bottom: 1px dashed var(--rule); height: 1.3rem; }
+  .line.tall { height: 2.4rem; }
+
+  /* --- Крючок: мнемоническая карточка --- */
+  .hook {
+    border: 1px solid var(--gold); background: var(--gold-soft);
+    padding: .9rem 1rem; display: flex; flex-direction: column; gap: .6rem;
+  }
+  .hook .cap {
+    font-family: var(--mono); font-size: .66rem; letter-spacing: .13em;
+    text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: .4rem;
+  }
+  .hook p { margin: 0; font-size: .95rem; }
+  .hook table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+  .hook td, .hook th {
+    border-top: 1px solid color-mix(in srgb, var(--gold) 30%, transparent);
+    padding: .32rem .5rem; text-align: left; vertical-align: baseline;
+  }
+  .hook tr:first-child td, .hook tr:first-child th { border-top: none; }
+  .hook th { font-family: var(--mono); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); font-weight: 400; }
+  .hook .th { font-family: var(--thai); font-size: 1.2rem; font-weight: 600; white-space: nowrap; }
+  .hook .key { font-style: italic; color: var(--ink-soft); }
+
+  .scale {
+    display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .5rem;
+    font-family: var(--thai); font-size: 1.15rem; font-weight: 600;
+  }
+  .scale .arr { color: var(--gold); font-family: var(--sans); font-weight: 400; }
+
+  /* --- Ключ --- */
+  details.key {
+    border: 1px solid var(--rule); background: var(--card); border-radius: 2px;
+  }
+  details.key > summary {
+    cursor: pointer; padding: .5rem .8rem; font-family: var(--mono);
+    font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--green);
+    list-style: none; display: flex; align-items: center; gap: .5rem;
+  }
+  details.key > summary::-webkit-details-marker { display: none; }
+  details.key > summary::before { content: "▸"; font-size: .9rem; }
+  details.key[open] > summary::before { content: "▾"; }
+  details.key[open] { background: var(--green-soft); border-color: var(--green); }
+  details.key .ans {
+    padding: 0 .9rem .8rem; font-size: .95rem; display: flex; flex-direction: column; gap: .3rem;
+  }
+  details.key .ans span.th { font-family: var(--thai); font-size: 1.15rem; font-weight: 600; }
+  details.key .ans .why { color: var(--ink-soft); font-size: .88rem; }
+
+  .bank {
+    display: flex; flex-wrap: wrap; gap: .4rem .5rem; padding: .7rem .8rem;
+    border: 1px solid var(--rule); background: var(--accent-soft);
+  }
+  .bank .cap {
+    font-family: var(--mono); font-size: .66rem; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--accent); width: 100%;
+  }
+  .bank span.w {
+    font-family: var(--thai); font-size: 1.15rem; font-weight: 600;
+    background: var(--card); border: 1px solid var(--rule); padding: .1rem .55rem;
+  }
+
+  table.grid { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--rule); }
+  table.grid td, table.grid th { border: 1px solid var(--rule-soft); padding: .5rem .7rem; text-align: left; }
+  table.grid th { font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); font-weight: 400; }
+  table.grid td.lab { font-family: var(--thai); font-size: 1.15rem; font-weight: 600; white-space: nowrap; }
+  table.grid td.blank { height: 2.2rem; }
+
+  .foot {
+    border-top: 2px solid var(--ink); padding-top: 1.25rem;
+    display: flex; flex-direction: column; gap: .75rem; font-size: .95rem; color: var(--ink-soft);
+  }
+  .foot strong { color: var(--ink); }
+  .foot ol { margin: 0; padding-left: 1.3rem; display: flex; flex-direction: column; gap: .25rem; }
+
+  @media (max-width: 34rem) {
+    .block { grid-template-columns: 1fr; gap: .5rem; }
+    .block-letter { text-align: left; font-size: 1.9rem; padding-top: .4rem; }
+    .block-body { border-top: none; padding-top: 0; }
+  }
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .sheet { padding: 0; gap: 1.5rem; max-width: none; }
+    .block { break-inside: avoid; }
+    details.key { display: none; }
+  }
+</style>
+
+<style>
+  /* --- добавления этого листа --- */
+  .slots { display: flex; flex-wrap: wrap; gap: .4rem; align-items: stretch; }
+  .slots .slot {
+    border: 1px solid var(--accent); background: var(--accent-soft);
+    padding: .4rem .6rem; display: flex; flex-direction: column; gap: .15rem; min-width: 6.5rem; flex: 1 1 auto;
+  }
+  .slots .slot .k { font-family: var(--mono); font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+  .slots .slot .v { font-family: var(--thai); font-size: 1.1rem; font-weight: 600; }
+  .slots .slot .v.ru { font-family: var(--sans); font-size: .9rem; font-weight: 400; color: var(--ink-soft); }
+  .slots .slot.opt { border-style: dashed; background: transparent; }
+  .slots .plus { align-self: center; color: var(--gold); font-size: 1.1rem; }
+
+  .rule { border-left: 3px solid var(--accent); padding: .1rem 0 .1rem .9rem; display: flex; flex-direction: column; gap: .45rem; }
+  .rule .rname { font-family: var(--serif); font-size: 1.12rem; font-weight: 600; }
+  .rule p { margin: 0; font-size: .96rem; }
+  .rule .ex { font-family: var(--thai); font-size: 1.2rem; font-weight: 600; }
+  .rule .ex .g { font-family: var(--sans); font-size: .82rem; font-weight: 400; color: var(--ink-soft); }
+
+  .bad { color: var(--ink-faint); text-decoration: line-through; }
+  .good { color: var(--green); }
+
+  table.grid td.thcell { font-family: var(--thai); font-size: 1.2rem; font-weight: 600; white-space: nowrap; }
+  table.grid td.tr { font-family: var(--mono); font-size: .82rem; color: var(--ink-faint); white-space: nowrap; }
+  table.grid tr.sep td { background: var(--accent-soft); font-family: var(--mono); font-size: .66rem;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+
+  .warn { border: 1px dashed var(--gold); background: var(--gold-soft); padding: .7rem .9rem; font-size: .93rem; }
+  .warn b { color: var(--ink); }
+  .warn .th { font-family: var(--thai); font-size: 1.1rem; font-weight: 600; }
+
+  .toc { display: grid; gap: .3rem; font-size: .95rem; }
+  .toc a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: .25rem; }
+</style>
+
+</head>
+<body>
+<div class="sheet">
+
+  <header class="head">
+    <p class="eyebrow">Справочник + тренажёр · Глава 3</p>
+    <h1>
+      Счётные слова и порядок слов
+      <span class="sub">Числа, указательные, «каждый / все / некоторые», вопросы о количестве · Thai A2</span>
+    </h1>
+    <p class="note">
+      Первая половина листа — <b>правила</b>: одна схема порядка слов, из которой выводится всё остальное,
+      затем слова-количества, затем вопросы, затем справочник счётных слов по группам.
+      Вторая половина — <b>упражнения</b> с ключами.
+    </p>
+    <p class="note">
+      <b>Сначала отвечаешь, потом открываешь ключ.</b> Ключ — зелёная полоска «Проверить» под заданием.
+      Работает не чтение правильного варианта, а усилие вспомнить: не вспомнила — пиши «не знаю» и открывай,
+      это тоже засчитывается, подсматривание — нет.
+    </p>
+    <div class="toc">
+      <a href="#p1">Часть I · Одна схема порядка слов</a>
+      <a href="#p2">Часть II · Каждый, все, некоторые, несколько</a>
+      <a href="#p3">Часть III · Вопросы о количестве и выборе</a>
+      <a href="#p4">Часть IV · Справочник счётных слов</a>
+      <a href="#p5">Часть V · Упражнения</a>
+    </div>
+  </header>
+
+  <!-- ================= ЧАСТЬ I ================= -->
+  <h2 class="part" id="p1">Часть I · Одна схема порядка слов</h2>
+
+  <section class="block">
+    <div class="block-letter">1</div>
+    <div class="block-body">
+      <p class="block-name">Полная цепочка</p>
+
+      <div class="hook">
+        <span class="cap">Схема, из которой выводится всё</span>
+        <p>В тайском все «уточнители» стоят <b>после</b> существительного и всегда в одном и том же порядке.
+        Запомнить нужно один ряд слотов — любой пропущенный слот просто выпадает, а порядок остальных не меняется.</p>
+        <div class="slots">
+          <div class="slot"><span class="k">1 · что</span><span class="v">หนังสือ</span><span class="v ru">существительное</span></div>
+          <span class="plus">+</span>
+          <div class="slot opt"><span class="k">2 · какое</span><span class="v">สีแดง</span><span class="v ru">признак</span></div>
+          <span class="plus">+</span>
+          <div class="slot opt"><span class="k">3 · сколько</span><span class="v">สาม</span><span class="v ru">число / ทุก / บาง / หลาย / กี่</span></div>
+          <span class="plus">+</span>
+          <div class="slot"><span class="k">4 · счётное</span><span class="v">เล่ม</span><span class="v ru">классификатор</span></div>
+          <span class="plus">+</span>
+          <div class="slot opt"><span class="k">5 · которое</span><span class="v">นี้</span><span class="v ru">นี้ / นั้น / โน้น / ไหน / ที่ ๒</span></div>
+        </div>
+        <p><span class="th">หนังสือสีแดงสามเล่มนี้</span> — «эти три красные книги». Слоты 2, 3, 5 не обязательны;
+        слоты 1 и 4 держат конструкцию.</p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">Правило 1 · Считаем: сущ → число → счётное</p>
+        <p>Число никогда не стоит перед существительным, как в русском. Сначала <b>что</b>, потом <b>сколько</b>, потом <b>штука чего</b>.</p>
+        <p class="ex">หมาสามตัว <span class="g">собака-три-штука = три собаки</span></p>
+        <p class="ex">นักเรียนห้าคน <span class="g">ученик-пять-человек = пять учеников</span></p>
+        <p class="ex"><span class="bad">สามหมา</span> · <span class="bad">สามตัวหมา</span> · <span class="bad">หมาตัวสาม</span> <span class="g">— так не говорят</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">Правило 2 · Указательное приклеено к счётному справа</p>
+        <p>นี้ / นั้น / โน้น стоят <b>сразу после счётного</b> и никогда не отрываются от него.
+        Если числа нет — счётное встаёт вплотную к существительному, и получается пара «счётное + указательное».</p>
+        <p class="ex">หนังสือเล่มนี้ <span class="g">эта книга</span></p>
+        <p class="ex">รถคันนั้น <span class="g">та машина</span></p>
+        <p class="ex">บ้านหลังโน้น <span class="g">вон тот дом</span></p>
+        <p class="ex"><span class="bad">หนังสือนี้เล่ม</span> · <span class="bad">หนังสือนี้</span> <span class="g">— счётное пропускать нельзя</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">Правило 3 · Число и указательное вместе — оба на своих местах</p>
+        <p>Порядок не меняется: число перед счётным, указательное после.</p>
+        <p class="ex">หนังสือสามเล่มนี้ <span class="g">эти три книги</span></p>
+        <p class="ex">แมวสองตัวนั้น <span class="g">те две кошки</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">Правило 4 · Признак идёт сразу за существительным</p>
+        <p>Цвет, размер, материал — слот 2, <b>перед</b> числом. Русский порядок «красная рубашка» в тайском переворачивается: «рубашка красная».</p>
+        <p class="ex">เสื้อสีแดง <span class="g">красная рубашка</span></p>
+        <p class="ex">เสื้อสีแดงสองตัว <span class="g">две красные рубашки</span></p>
+        <p class="ex">เสื้อสีแดงตัวนี้ <span class="g">эта красная рубашка</span></p>
+        <p class="ex">บ้านหลังใหญ่ <span class="g">тот дом, что большой — признак встал <b>после</b> счётного, в слот 5</span></p>
+        <p>Разница простая: признак <b>перед</b> числом просто описывает вещь (เสื้อสีแดงสองตัว «две красные рубашки»), а признак <b>после</b> счётного выделяет одну из нескольких — там же, где стояло бы นี้ (เสื้อตัวสีแดง «вот та, красная»).</p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">Правило 5 · «Один» ведёт себя особенно</p>
+        <p>Со всеми числами — обычный порядок. Но <span class="th">หนึ่ง</span> в значении «какой-то один, некий»
+        ставится <b>после</b> счётного и в речи сокращается до <span class="th">นึง</span>.</p>
+        <p class="ex">หนังสือหนึ่งเล่ม <span class="g">одна книга — счёт, ровно одна</span></p>
+        <p class="ex">หนังสือเล่มหนึ่ง / หนังสือเล่มนึง <span class="g">какая-то книга, одна книжка</span></p>
+        <p class="ex">เพื่อนคนนึงบอกว่า… <span class="g">один мой друг сказал…</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">Правило 6 · Счётное без существительного = «этот, тот»</p>
+        <p>Если понятно, о чём речь, существительное выпадает, а пара «счётное + указательное» работает как местоимение.</p>
+        <p class="ex">อันนี้เท่าไหร่ <span class="g">этот (предмет) сколько стоит?</span></p>
+        <p class="ex">คนนั้นเป็นใคร <span class="g">кто тот человек?</span></p>
+        <p class="ex">เอาตัวนี้ค่ะ <span class="g">возьму вот эту (рубашку/кошку)</span></p>
+        <p class="ex">ขอสองแก้วค่ะ <span class="g">два стакана, пожалуйста</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">Правило 7 · Порядковый номер: счётное + ที่ + число</p>
+        <p><span class="th">ที่</span> перед числом делает из него «который по счёту». Стоит в слоте 5, там же, где указательное.</p>
+        <p class="ex">หนังสือเล่มที่สอง <span class="g">вторая книга</span></p>
+        <p class="ex">คนที่หนึ่ง <span class="g">первый (человек)</span></p>
+        <p class="ex">ชั้นที่สาม <span class="g">третий этаж</span></p>
+      </div>
+
+      <div class="warn">
+        <b>Когда счётное вообще не нужно.</b> В общем утверждении, где количества нет:
+        <span class="th">ฉันชอบหนังสือ</span> «я люблю книги», <span class="th">ที่นี่มีแมว</span> «здесь есть кошки».
+        Счётное появляется ровно тогда, когда есть <b>количество, указание или выбор</b>.
+      </div>
+
+      <div class="warn">
+        <b>Часть существительных сама себе счётное слово.</b> Их не нужно ничем сопровождать —
+        слово просто повторяется во втором слоте: <span class="th">ห้องสามห้อง</span> (три комнаты),
+        <span class="th">สองวัน</span>, <span class="th">ห้าปี</span>, <span class="th">สามคำ</span>,
+        <span class="th">ห้าสิบบาท</span>, <span class="th">สองชั่วโมง</span>, <span class="th">สามเพลง</span>,
+        <span class="th">สองประเทศ</span>. Сюда же посуда как мера: <span class="th">น้ำสองแก้ว</span>,
+        <span class="th">ข้าวผัดสองจาน</span>, <span class="th">เบียร์สามขวด</span>.
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ЧАСТЬ II ================= -->
+  <h2 class="part" id="p2">Часть II · Каждый, все, некоторые, несколько</h2>
+
+  <section class="block">
+    <div class="block-letter">2</div>
+    <div class="block-body">
+      <p class="block-name">Слова-количества занимают место числа</p>
+
+      <div class="hook">
+        <span class="cap">Главная мысль</span>
+        <p>Все эти слова встают <b>в слот числа</b> — то есть между существительным и счётным словом.
+        Ничего нового запоминать не нужно: где стояло <span class="th">สาม</span>, там же стоит
+        <span class="th">ทุก</span>, <span class="th">บาง</span>, <span class="th">หลาย</span>, <span class="th">กี่</span>.</p>
+        <table>
+          <tr><th>Слово</th><th>Значение</th><th>Пример</th></tr>
+          <tr><td class="th">ทุก</td><td>каждый, все (без исключения)</td><td class="th">นักเรียนทุกคน</td></tr>
+          <tr><td class="th">บาง</td><td>некоторые, кое-какие</td><td class="th">นักเรียนบางคน</td></tr>
+          <tr><td class="th">หลาย</td><td>несколько, много (штук)</td><td class="th">นักเรียนหลายคน</td></tr>
+          <tr><td class="th">ไม่กี่</td><td>немного, всего несколько</td><td class="th">นักเรียนไม่กี่คน</td></tr>
+          <tr><td class="th">กี่</td><td>сколько? (вопрос)</td><td class="th">นักเรียนกี่คน</td></tr>
+          <tr><td class="th">แต่ละ</td><td>каждый по отдельности</td><td class="th">นักเรียนแต่ละคน</td></tr>
+          <tr><td class="th">อีก</td><td>ещё (+ число)</td><td class="th">นักเรียนอีกสามคน</td></tr>
+        </table>
+      </div>
+
+      <div class="rule">
+        <p class="rname">ทุก — «каждый / все»</p>
+        <p>Ставится перед счётным. Русское «все ученики» и «каждый ученик» по-тайски выглядят одинаково.</p>
+        <p class="ex">นักเรียนทุกคน <span class="g">все ученики / каждый ученик</span></p>
+        <p class="ex">แมวทุกตัว <span class="g">все кошки</span></p>
+        <p class="ex">ทุกคน <span class="g">все, каждый — без существительного</span></p>
+        <p>С отрезками времени ทุก работает так же и даёт «каждый день, каждую неделю»:
+        <span class="ex">ทุกวัน · ทุกเช้า · ทุกอาทิตย์ · ทุกเดือน · ทุกปี</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">ทั้งหมด — «всего, целиком, в сумме»</p>
+        <p>Отличается от ทุก тем, что смотрит на группу как на <b>одно целое</b>, и ставится <b>после</b> всей связки.
+        Часто рядом с итоговой суммой.</p>
+        <p class="ex">นักเรียนทั้งหมด <span class="g">ученики в полном составе</span></p>
+        <p class="ex">นักเรียนทั้งหมดสิบคน <span class="g">учеников всего десять</span></p>
+        <p class="ex">ทั้งหมดเท่าไหร่ <span class="g">сколько всего (к оплате)?</span></p>
+        <p>Разница на пальцах: <span class="th">ทุกคนมา</span> — «пришёл каждый»,
+        <span class="th">ทั้งหมดสิบคน</span> — «всего их десять».</p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">ทั้ง + число + счётное — «все N, оба»</p>
+        <p>Когда число известно: «все три», «оба».</p>
+        <p class="ex">ทั้งสองคน <span class="g">оба (человека)</span></p>
+        <p class="ex">หนังสือทั้งสามเล่ม <span class="g">все три книги</span></p>
+        <p>Отдельно живёт <span class="th">ทั้ง</span> с отрезком времени — «целый»:
+        <span class="th">ทั้งวัน</span>, <span class="th">ทั้งคืน</span>, <span class="th">ทั้งปี</span>.</p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">บาง — «некоторые»</p>
+        <p>Только перед счётным, никогда само по себе.</p>
+        <p class="ex">เพื่อนบางคน <span class="g">некоторые друзья</span></p>
+        <p class="ex">แมวบางตัวไม่ชอบน้ำ <span class="g">некоторые кошки не любят воду</span></p>
+        <p class="ex">บางวัน <span class="g">в некоторые дни, иногда</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">หลาย — «несколько, немало»</p>
+        <p>Ведёт себя ровно как число: <span class="th">หลาย</span> + счётное.
+        Не путать с <span class="th">มาก</span> — то стоит после глагола или признака и не берёт счётное.</p>
+        <p class="ex">หนังสือหลายเล่ม <span class="g">несколько книг</span></p>
+        <p class="ex">หลายวัน <span class="g">несколько дней</span></p>
+        <p class="ex">มีคนเยอะ / คนเยอะมาก <span class="g">народу много — тут счётного нет</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">ไม่กี่ — «немного, раз-два и обчёлся»</p>
+        <p>Буквально «не сколько-то». Слот числа.</p>
+        <p class="ex">ไม่กี่คน <span class="g">всего пара человек</span></p>
+        <p class="ex">ไม่กี่วัน <span class="g">несколько дней, недолго</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">แต่ละ — «каждый по отдельности»</p>
+        <p>ทุก смотрит на всех разом, แต่ละ — на каждого по очереди. Число рядом не ставится.</p>
+        <p class="ex">แต่ละคนมีหนังสือคนละเล่ม <span class="g">у каждого своя книга</span></p>
+        <p class="ex">ห้องแต่ละห้องมีแอร์ <span class="g">в каждой комнате есть кондиционер</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">счётное + ละ — «на каждого, за штуку, в день»</p>
+        <p>Даёт «по», «за», «в»: цена за единицу и частота.</p>
+        <p class="ex">อันละยี่สิบบาท <span class="g">двадцать бат за штуку</span></p>
+        <p class="ex">คนละสองร้อย <span class="g">по двести с человека</span></p>
+        <p class="ex">วันละสองครั้ง <span class="g">два раза в день</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">อีก — «ещё» · счётное + อื่น — «другой»</p>
+        <p class="ex">ขออีกสองแก้ว <span class="g">ещё два стакана, пожалуйста</span></p>
+        <p class="ex">อีกวันหนึ่ง <span class="g">как-нибудь в другой день</span></p>
+        <p class="ex">คนอื่น · อันอื่น <span class="g">другие люди · другая вещь</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">สัก + число + счётное — «хоть, всего-то»</p>
+        <p>Смягчает просьбу или показывает «хоть один». В отрицании — «ни одного».</p>
+        <p class="ex">ขอสักแก้วได้ไหม <span class="g">можно хоть один стакан?</span></p>
+        <p class="ex">ไม่มีสักคน <span class="g">ни одного человека</span></p>
+      </div>
+
+      <div class="warn">
+        <b>Три частые ошибки.</b>
+        <span class="th">ทุกนักเรียนคน</span> — ทุก уехало не в тот слот, верно <span class="th">นักเรียนทุกคน</span>. ·
+        <span class="th">ทุกหนังสือ</span> без счётного — верно <span class="th">หนังสือทุกเล่ม</span>. ·
+        <span class="th">หลายมาก</span> вместо <span class="th">หลายเล่ม</span> — หลาย всегда тянет счётное.
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ЧАСТЬ III ================= -->
+  <h2 class="part" id="p3">Часть III · Вопросы о количестве и выборе</h2>
+
+  <section class="block">
+    <div class="block-letter">3</div>
+    <div class="block-body">
+      <p class="block-name">กี่ · เท่าไหร่ · ไหน · บ้าง</p>
+
+      <div class="hook">
+        <span class="cap">Четыре вопросительных слова и их территории</span>
+        <table>
+          <tr><th>Слово</th><th>О чём</th><th>Счётное</th><th>Пример</th></tr>
+          <tr><td class="th">กี่</td><td>сколько штук</td><td>обязательно</td><td class="th">กี่ตัว</td></tr>
+          <tr><td class="th">เท่าไหร่</td><td>сколько стоит / насколько</td><td>не берёт</td><td class="th">ราคาเท่าไหร่</td></tr>
+          <tr><td class="th">ไหน</td><td>который из них</td><td>обязательно</td><td class="th">ตัวไหน</td></tr>
+          <tr><td class="th">บ้าง</td><td>какие именно, перечисли</td><td>—</td><td class="th">อะไรบ้าง</td></tr>
+        </table>
+      </div>
+
+      <div class="rule">
+        <p class="rname">Форма 1 · Сущ + กี่ + счётное</p>
+        <p>Базовый вопрос о количестве. กี่ встаёт ровно в слот числа — вопрос строится из утверждения заменой числа.</p>
+        <p class="ex">แมวสามตัว → แมวกี่ตัว <span class="g">три кошки → сколько кошек</span></p>
+        <p class="ex">คุณมีแมวกี่ตัว <span class="g">сколько у тебя кошек?</span></p>
+        <p class="ex">คุณมีพี่น้องกี่คน <span class="g">сколько у тебя братьев и сестёр?</span></p>
+        <p class="ex">ในห้องมีเก้าอี้กี่ตัว <span class="g">сколько в комнате стульев?</span></p>
+        <p class="ex">คุณอ่านหนังสือกี่เล่มแล้ว <span class="g">сколько книг ты уже прочитала?</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">Форма 2 · Вопрос про итог — ทั้งหมดกี่ + счётное</p>
+        <p class="ex">ทั้งหมดกี่คน <span class="g">сколько всего человек?</span></p>
+        <p class="ex">ในบ้านมีห้องทั้งหมดกี่ห้อง <span class="g">сколько всего комнат в доме?</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">Форма 3 · Цена: เท่าไหร่ и กี่บาท</p>
+        <p>Оба верны. เท่าไหร่ стоит без счётного, กี่ — со счётным словом บาท.</p>
+        <p class="ex">อันนี้เท่าไหร่ · อันนี้กี่บาท <span class="g">сколько это стоит?</span></p>
+        <p class="ex">เสื้อตัวนี้ราคาเท่าไหร่ <span class="g">сколько стоит эта рубашка?</span></p>
+        <p class="ex">ทั้งหมดเท่าไหร่ <span class="g">сколько всего с меня?</span></p>
+        <p class="ex">กิโลละเท่าไหร่ <span class="g">почём килограмм?</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">Форма 4 · Мерки времени, возраста, длительности</p>
+        <p>Все эти слова — сами себе счётные, поэтому идут с กี่. Исключение — «насколько долго» вообще, там เท่าไหร่.</p>
+        <p class="ex">ตอนนี้กี่โมง <span class="g">который час?</span></p>
+        <p class="ex">คุณอายุกี่ปี · คุณอายุเท่าไหร่ <span class="g">сколько тебе лет? — оба варианта живые</span></p>
+        <p class="ex">ใช้เวลากี่ชั่วโมง <span class="g">сколько часов это занимает?</span></p>
+        <p class="ex">กี่นาที · กี่วัน · กี่ครั้ง <span class="g">сколько минут · дней · раз</span></p>
+        <p class="ex">นานเท่าไหร่ <span class="g">как долго?</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">Форма 5 · Который из них — счётное + ไหน</p>
+        <p>ไหน стоит там же, где นี้/นั้น, — сразу за счётным. Это вопрос не о количестве, а о выборе.</p>
+        <p class="ex">อันไหน <span class="g">который (предмет)?</span></p>
+        <p class="ex">เล่มไหนของคุณ <span class="g">которая книга твоя?</span></p>
+        <p class="ex">คุณชอบตัวไหน <span class="g">какая тебе нравится (рубашка, кошка)?</span></p>
+        <p class="ex">คนไหน <span class="g">кто именно, который из людей?</span></p>
+        <p>Порядковый вопрос — <span class="th">ที่เท่าไหร่</span>: <span class="th">คนที่เท่าไหร่</span> «который по счёту?»</p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">Форма 6 · Перечисли — บ้าง</p>
+        <p>บ้าง в вопросе просит <b>список</b>, а не число. Ставится в конец.</p>
+        <p class="ex">มีอะไรบ้าง <span class="g">что там есть (перечисли)?</span></p>
+        <p class="ex">คุณชอบผลไม้อะไรบ้าง <span class="g">какие фрукты ты любишь?</span></p>
+        <p class="ex">ใครมาบ้าง <span class="g">кто именно пришёл?</span></p>
+        <p class="ex">ไปที่ไหนมาบ้าง <span class="g">где успела побывать?</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">Форма 7 · Есть ли вообще — มี … ไหม</p>
+        <p class="ex">มีแมวไหม <span class="g">кошки есть?</span></p>
+        <p class="ex">มีห้องว่างไหม <span class="g">есть свободный номер?</span></p>
+        <p class="ex">มีอันอื่นไหม <span class="g">а другие есть?</span></p>
+      </div>
+
+      <div class="rule">
+        <p class="rname">Как отвечать</p>
+        <p>В ответе существительное выбрасывают — остаются число и счётное.</p>
+        <p class="ex">— แมวกี่ตัว → — สามตัว <span class="g">— сколько кошек? — три</span></p>
+        <p class="ex">— กี่คน → — คนเดียว <span class="g">— сколько человек? — один-единственный</span></p>
+        <p class="ex">— มีกี่เล่ม → — ไม่มีเลย <span class="g">— сколько книг? — вообще ни одной</span></p>
+        <p class="ex">— เล่มไหน → — เล่มนี้ <span class="g">— которая? — вот эта</span></p>
+      </div>
+
+      <div class="warn">
+        <b>Проверка на автомате:</b> если после «сколько» просится счётное слово — это <span class="th">กี่</span>.
+        Если речь о деньгах или о «насколько» — <span class="th">เท่าไหร่</span>, и счётного за ним нет.
+        <span class="th">เท่าไหร่เล่ม</span> и <span class="th">กี่</span> в одиночку невозможны одинаково.
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ЧАСТЬ IV ================= -->
+  <h2 class="part" id="p4">Часть IV · Справочник счётных слов</h2>
+
+  <section class="block">
+    <div class="block-letter">4</div>
+    <div class="block-body">
+      <p class="block-name">Дежурная дюжина — этим покрывается почти всё</p>
+
+      <table class="grid">
+        <tr><th>Счётное</th><th>Чтение</th><th>Для чего</th><th>Живые примеры</th></tr>
+        <tr><td class="thcell">คน</td><td class="tr">кхȯн</td><td>люди любого возраста и статуса</td><td class="thcell">นักเรียน · ครู · เพื่อน · หมอ · ลูก · คนไทย</td></tr>
+        <tr><td class="thcell">ตัว</td><td class="tr">туа</td><td>всё, у чего есть «тело»: животные, одежда, мебель</td><td class="thcell">หมา · แมว · นก · ปลา · เสื้อ · กางเกง · กระโปรง · โต๊ะ · เก้าอี้ · พัดลม</td></tr>
+        <tr><td class="thcell">อัน</td><td class="tr">ан</td><td>мелкие предметы и всё, чему счётное не нашлось</td><td class="thcell">ปากกา · แว่นตา · ของ · กุญแจ</td></tr>
+        <tr><td class="thcell">ใบ</td><td class="tr">бай</td><td>листовое и «ёмкости с горлышком»: бумага, билеты, сумки</td><td class="thcell">ตั๋ว · กระดาษ · กระเป๋า · ใบไม้ · หมวก</td></tr>
+        <tr><td class="thcell">ลูก</td><td class="tr">лу̂ук</td><td>круглое и плодовое</td><td class="thcell">มะม่วง · ส้ม · กล้วย · ลูกบอล · ภูเขา</td></tr>
+        <tr><td class="thcell">เล่ม</td><td class="tr">лэ̂м</td><td>книги, тетради, ножи</td><td class="thcell">หนังสือ · สมุด · มีด</td></tr>
+        <tr><td class="thcell">คัน</td><td class="tr">кхан</td><td>то, что с «ручкой» или рулём: транспорт, зонт, ложка</td><td class="thcell">รถ · จักรยาน · มอเตอร์ไซค์ · ร่ม · ช้อน</td></tr>
+        <tr><td class="thcell">เครื่อง</td><td class="tr">кхрыыа̂ң</td><td>техника и приборы</td><td class="thcell">คอมพิวเตอร์ · โทรศัพท์ · ทีวี · ตู้เย็น · แอร์</td></tr>
+        <tr><td class="thcell">หลัง</td><td class="tr">ла̌ң</td><td>дома и строения (у дома есть «спина» — крыша)</td><td class="thcell">บ้าน · ตึก</td></tr>
+        <tr><td class="thcell">ต้น</td><td class="tr">то̂н</td><td>деревья и растения целиком</td><td class="thcell">ต้นไม้ · ต้นมะม่วง</td></tr>
+        <tr><td class="thcell">ดอก</td><td class="tr">до̀ок</td><td>цветы</td><td class="thcell">ดอกไม้ · ดอกกุหลาบ</td></tr>
+        <tr><td class="thcell">คู่</td><td class="tr">кху̂у</td><td>парное</td><td class="thcell">รองเท้า · ถุงเท้า · ตะเกียบ · คู่รัก</td></tr>
+        <tr><td class="thcell">ชิ้น</td><td class="tr">щи́н</td><td>куски и порционные штучки</td><td class="thcell">เค้ก · เนื้อ · ขนม</td></tr>
+        <tr><td class="thcell">ดวง</td><td class="tr">дуаң</td><td>светила, марки, печати</td><td class="thcell">ดาว · ดวงจันทร์ · แสตมป์</td></tr>
+        <tr><td class="thcell">ผล</td><td class="tr">пхо̌н</td><td>фрукты — книжный вариант вместо ลูก</td><td class="thcell">ผลไม้ · แอปเปิล</td></tr>
+      </table>
+
+      <div class="hook">
+        <span class="cap">Посуда и еда — считается «тарой»</span>
+        <p>У еды и напитков счётным становится посуда, в которой их подают. Само слово посуды — тоже
+        существительное, и тогда его считают через <span class="th">ใบ</span>.</p>
+        <table>
+          <tr><td class="th">แก้ว</td><td>стакан чего-то: <span class="th">น้ำสองแก้ว</span>, <span class="th">กาแฟหนึ่งแก้ว</span>, <span class="th">เบียร์สามแก้ว</span></td></tr>
+          <tr><td class="th">ขวด</td><td>бутылка: <span class="th">น้ำสองขวด</span>, <span class="th">เบียร์หนึ่งขวด</span>, <span class="th">นมสามขวด</span></td></tr>
+          <tr><td class="th">ถ้วย</td><td>чашка, пиала: <span class="th">กาแฟหนึ่งถ้วย</span>, <span class="th">ซุปสองถ้วย</span></td></tr>
+          <tr><td class="th">จาน</td><td>тарелка как порция: <span class="th">ข้าวผัดสองจาน</span>, <span class="th">ผัดไทยหนึ่งจาน</span></td></tr>
+          <tr><td class="th">ชาม</td><td>миска: <span class="th">ก๋วยเตี๋ยวสองชาม</span></td></tr>
+          <tr><td class="th">ที่</td><td>порция «на одного»: <span class="th">ขอสองที่ค่ะ</span> — «две порции, пожалуйста»</td></tr>
+          <tr><td class="th">ใบ</td><td>сама посуда как предмет: <span class="th">แก้วสามใบ</span> — «три стакана» (пустых, как вещи)</td></tr>
+        </table>
+        <p><span class="th">น้ำสามแก้ว</span> — три стакана воды. <span class="th">แก้วสามใบ</span> — три стакана-предмета.
+        Разница ровно в том, что стоит на первом месте.</p>
+      </div>
+
+      <div class="hook">
+        <span class="cap">Существительные, которые сами себе счётное</span>
+        <p>Второй раз пишется то же слово — и это правильно, а не тавтология.</p>
+        <p><span class="th">ห้อง</span> комната · <span class="th">วัน</span> день ·
+           <span class="th">คืน</span> ночь · <span class="th">ปี</span> год ·
+           <span class="th">เดือน</span> месяц · <span class="th">ชั่วโมง</span> час ·
+           <span class="th">นาที</span> минута · <span class="th">ครั้ง</span> раз ·
+           <span class="th">บาท</span> бат · <span class="th">คำ</span> слово ·
+           <span class="th">ชั้น</span> этаж · <span class="th">เพลง</span> песня ·
+           <span class="th">ประเทศ</span> страна · <span class="th">จังหวัด</span> провинция</p>
+        <p><span class="th">ห้องสามห้อง</span> · <span class="th">สองครั้ง</span> · <span class="th">ห้าสิบบาท</span> ·
+           <span class="th">สามชั่วโมง</span> · <span class="th">สองเพลง</span></p>
+      </div>
+
+      <div class="hook">
+        <span class="cap">Ещё десяток — встречаются часто, но узкие</span>
+        <table>
+          <tr><td class="th">ฉบับ</td><td>письма, документы, газеты: <span class="th">จดหมาย · หนังสือพิมพ์</span></td></tr>
+          <tr><td class="th">แผ่น</td><td>плоское и листовое: <span class="th">ขนมปัง · ซีดี · กระดาษ</span></td></tr>
+          <tr><td class="th">เม็ด</td><td>таблетки, зёрна, бусины: <span class="th">ยา</span></td></tr>
+          <tr><td class="th">ฟอง</td><td>яйца: <span class="th">ไข่</span></td></tr>
+          <tr><td class="th">เรือน</td><td>часы наручные и настенные: <span class="th">นาฬิกา</span></td></tr>
+          <tr><td class="th">แห่ง</td><td>места и заведения: <span class="th">โรงแรม · ร้าน · โรงเรียน</span></td></tr>
+          <tr><td class="th">ด้าม</td><td>то, что с рукоятью, — книжное для ручки: <span class="th">ปากกา</span> (в разговоре чаще <span class="th">อัน</span>)</td></tr>
+          <tr><td class="th">แท่ง</td><td>палочки и бруски: <span class="th">ดินสอ</span></td></tr>
+          <tr><td class="th">องค์ / รูป</td><td>монахи, статуи Будды, особы королевской крови</td></tr>
+          <tr><td class="th">เชือก</td><td>слоны — торжественное счётное: <span class="th">ช้างสองเชือก</span> (в быту говорят <span class="th">ตัว</span>)</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <b>Ловушки, на которых спотыкаются все.</b><br>
+        <span class="th">ลูก</span> — как существительное «ребёнок», как счётное «круглая штука».
+        Но детей считают людьми: <span class="th">ลูกสองคน</span>, не <span class="th">ลูกสองลูก</span>. ·
+        <span class="th">เสื้อ</span> рубашка — <span class="th">ตัว</span>, а <span class="th">รองเท้า</span> обувь — <span class="th">คู่</span>. ·
+        <span class="th">โต๊ะ</span> и <span class="th">เก้าอี้</span> — тоже <span class="th">ตัว</span>, у мебели «есть тело». ·
+        <span class="th">ร่ม</span> зонт и <span class="th">ช้อน</span> ложка — <span class="th">คัน</span>, как машина: главное — рукоять. ·
+        Если счётное вылетело из головы — ставь <span class="th">อัน</span>. Это не идеально, но понятно;
+        пропуск счётного — ошибка, а <span class="th">อัน</span> — лёгкий акцент.
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ЧАСТЬ V ================= -->
+  <h2 class="part" id="p5">Часть V · Упражнения</h2>
+
+  <section class="block">
+    <div class="block-letter">A</div>
+    <div class="block-body">
+      <p class="block-name">Подбери счётное слово</p>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Какое счётное слово у этого существительного?
+          <span class="opts">Ответ — одно слово тайскими буквами</span></span></p>
+        <ol class="items cols-4">
+          <li><span class="mark">а)</span><span class="thai">หนังสือ</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">แมว</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">รถ</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">บ้าน</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">นักเรียน</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">ตั๋ว</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="thai">มะม่วง</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="thai">ต้นไม้</span><span class="line"></span></li>
+          <li><span class="mark">и)</span><span class="thai">ดอกไม้</span><span class="line"></span></li>
+          <li><span class="mark">к)</span><span class="thai">รองเท้า</span><span class="line"></span></li>
+          <li><span class="mark">л)</span><span class="thai">โทรศัพท์</span><span class="line"></span></li>
+          <li><span class="mark">м)</span><span class="thai">เก้าอี้</span><span class="line"></span></li>
+          <li><span class="mark">н)</span><span class="thai">ปากกา</span><span class="line"></span></li>
+          <li><span class="mark">о)</span><span class="thai">เค้ก</span><span class="line"></span></li>
+          <li><span class="mark">п)</span><span class="thai">ข้าวผัด</span><span class="line"></span></li>
+          <li><span class="mark">р)</span><span class="thai">จักรยาน</span><span class="line"></span></li>
+          <li><span class="mark">с)</span><span class="thai">กระเป๋า</span><span class="line"></span></li>
+          <li><span class="mark">т)</span><span class="thai">สมุด</span><span class="line"></span></li>
+          <li><span class="mark">у)</span><span class="thai">เสื้อ</span><span class="line"></span></li>
+          <li><span class="mark">ф)</span><span class="thai">ร่ม</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) เล่ม · б) ตัว · в) คัน · г) หลัง · д) คน · е) ใบ · ж) ลูก · з) ต้น · и) ดอก · к) คู่</span>
+          <span class="th">л) เครื่อง · м) ตัว · н) อัน · о) ชิ้น · п) จาน · р) คัน · с) ใบ · т) เล่ม · у) ตัว · ф) คัน</span>
+          <span class="why">ф) зонт — คัน, как машина и ложка: всё, что держат за рукоять.</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Наоборот: какие существительные считают этим счётным?
+          <span class="opts">Минимум два примера на каждое, тайскими буквами</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="thai">ตัว</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">ใบ</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">เครื่อง</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">คู่</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">ลูก</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">หลัง</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) แมว · หมา · เสื้อ · โต๊ะ · เก้าอี้ · ปลา</span>
+          <span class="th">б) ตั๋ว · กระดาษ · กระเป๋า · หมวก · แก้ว (как предмет)</span>
+          <span class="th">в) โทรศัพท์ · คอมพิวเตอร์ · ทีวี · ตู้เย็น · แอร์</span>
+          <span class="th">г) รองเท้า · ถุงเท้า · ตะเกียบ</span>
+          <span class="th">д) มะม่วง · ส้ม · กล้วย · ลูกบอล · ภูเขา</span>
+          <span class="th">е) บ้าน · ตึก</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Одно из трёх счётных здесь лишнее для этого слова. Какое?
+          <span class="opts">Ответ — лишнее счётное</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">แมว: <span class="thai">ตัว / คน / —</span></span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">ลูก (дети): <span class="thai">คน / ลูก</span></span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">รองเท้า: <span class="thai">คู่ / ตัว</span></span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">น้ำ: <span class="thai">ขวด / แก้ว / ตัว</span></span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">ก๋วยเตี๋ยว: <span class="thai">ชาม / จาน / เล่ม</span></span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">ห้อง: <span class="thai">ห้อง / อัน</span></span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) คน · б) ลูก · в) ตัว · г) ตัว · д) เล่ม · е) อัน</span>
+          <span class="why">б) детей считают людьми: ลูกสองคน. е) ห้อง — само себе счётное: ห้องสามห้อง.</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">B</div>
+    <div class="block-body">
+      <p class="block-name">Порядок слов</p>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Собери фразу из частей.
+          <span class="opts">Ответ — фраза тайскими буквами</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">ตัว / สาม / แมว</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">นี้ / หนังสือ / เล่ม</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">รถ / นั้น / คัน / สอง</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">คน / ทุก / นักเรียน</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">ขวด / น้ำ / กี่</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">เล่ม / ไหน / หนังสือ</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="thai">ใหญ่ / หลัง / บ้าน</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="thai">สีแดง / ตัว / เสื้อ / สอง</span><span class="line"></span></li>
+          <li><span class="mark">и)</span><span class="thai">แต่ละ / ห้อง / ห้อง</span><span class="line"></span></li>
+          <li><span class="mark">к)</span><span class="thai">ที่ / สอง / เล่ม / หนังสือ</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) แมวสามตัว · б) หนังสือเล่มนี้ · в) รถสองคันนั้น · г) นักเรียนทุกคน · д) น้ำกี่ขวด</span>
+          <span class="th">е) หนังสือเล่มไหน · ж) บ้านหลังใหญ่ · з) เสื้อสีแดงสองตัว · и) ห้องแต่ละห้อง · к) หนังสือเล่มที่สอง</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Исправь порядок слов.
+          <span class="opts">Ответ — исправленная фраза</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">สามแมวตัว</span><span class="gloss">три кошки</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">หนังสือนี้เล่ม</span><span class="gloss">эта книга</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">ทุกคนนักเรียน</span><span class="gloss">все ученики</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">สองรถคันนี้</span><span class="gloss">эти две машины</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">กี่ตัวแมว</span><span class="gloss">сколько кошек</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">บ้านใหญ่หลัง</span><span class="gloss">тот дом, что большой</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="thai">เสื้อสองสีแดงตัว</span><span class="gloss">две красные рубашки</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="thai">น้ำขวดสาม</span><span class="gloss">три бутылки воды</span><span class="line"></span></li>
+          <li><span class="mark">и)</span><span class="thai">เล่มหนังสือไหน</span><span class="gloss">которая книга</span><span class="line"></span></li>
+          <li><span class="mark">к)</span><span class="thai">หลายหนังสือเล่ม</span><span class="gloss">несколько книг</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) แมวสามตัว · б) หนังสือเล่มนี้ · в) นักเรียนทุกคน · г) รถสองคันนี้ · д) แมวกี่ตัว</span>
+          <span class="th">е) บ้านหลังใหญ่ · ж) เสื้อสีแดงสองตัว · з) น้ำสามขวด · и) หนังสือเล่มไหน · к) หนังสือหลายเล่ม</span>
+          <span class="why">Во всех случаях лечение одно: существительное вперёд, счётное после числа, указательное/выбор в самый хвост.</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Напиши по-тайски.
+          <span class="opts">Тайские буквы, числа словами</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">три собаки</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">пять учеников</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">две книги</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">четыре машины</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">один дом</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">шесть манго</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="ru">два билета</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="ru">три стакана воды</span><span class="line"></span></li>
+          <li><span class="mark">и)</span><span class="ru">две пары обуви</span><span class="line"></span></li>
+          <li><span class="mark">к)</span><span class="ru">семь стульев</span><span class="line"></span></li>
+          <li><span class="mark">л)</span><span class="ru">два телефона</span><span class="line"></span></li>
+          <li><span class="mark">м)</span><span class="ru">десять бат</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) หมาสามตัว · б) นักเรียนห้าคน · в) หนังสือสองเล่ม · г) รถสี่คัน · д) บ้านหนึ่งหลัง · е) มะม่วงหกลูก</span>
+          <span class="th">ж) ตั๋วสองใบ · з) น้ำสามแก้ว · и) รองเท้าสองคู่ · к) เก้าอี้เจ็ดตัว · л) โทรศัพท์สองเครื่อง · м) สิบบาท</span>
+          <span class="why">м) บาท само себе счётное — второго слова не нужно.</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">4.</span><span>Напиши по-тайски — с указательным.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">эта кошка</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">та книга</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">вон тот дом</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">эта рубашка</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">эти три машины</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">те два стула</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="ru">этот человек</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="ru">эта штука (вещь)</span><span class="line"></span></li>
+          <li><span class="mark">и)</span><span class="ru">вторая книга</span><span class="line"></span></li>
+          <li><span class="mark">к)</span><span class="ru">эти четыре билета</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) แมวตัวนี้ · б) หนังสือเล่มนั้น · в) บ้านหลังโน้น · г) เสื้อตัวนี้ · д) รถสามคันนี้</span>
+          <span class="th">е) เก้าอี้สองตัวนั้น · ж) คนนี้ · з) อันนี้ · и) หนังสือเล่มที่สอง · к) ตั๋วสี่ใบนี้</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">5.</span><span>Признак в цепочке: напиши по-тайски.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">красная рубашка</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">две красные рубашки</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">эта красная рубашка</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">три больших дома</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">тот дом, что большой</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">маленькая кошка</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="ru">эта чёрная собака</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="ru">голубая книга</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) เสื้อสีแดง · б) เสื้อสีแดงสองตัว · в) เสื้อสีแดงตัวนี้ · г) บ้านใหญ่สามหลัง</span>
+          <span class="th">д) บ้านหลังใหญ่ · е) แมวตัวเล็ก · ж) หมาสีดำตัวนี้ · з) หนังสือสีฟ้า</span>
+          <span class="why">г) и д) — не опечатка: признак перед числом просто описывает («три больших дома»), признак после счётного выделяет один из нескольких («вон тот, большой»).</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">C</div>
+    <div class="block-body">
+      <p class="block-name">Каждый · все · некоторые · несколько</p>
+
+      <div class="bank">
+        <span class="cap">Банк слов для задания 1</span>
+        <span class="w">ทุก</span><span class="w">บาง</span><span class="w">หลาย</span><span class="w">ทั้งหมด</span>
+        <span class="w">ทั้ง</span><span class="w">แต่ละ</span><span class="w">ไม่กี่</span><span class="w">อีก</span>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Вставь нужное слово из банка.
+          <span class="opts">Ответ — одно слово; слова можно использовать повторно</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">นักเรียน ____ คนชอบเรียนภาษาไทย</span><span class="gloss">все ученики</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">แมว ____ ตัวไม่ชอบน้ำ</span><span class="gloss">некоторые кошки</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">ฉันมีหนังสือ ____ เล่ม</span><span class="gloss">несколько книг</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">ในห้องมีคน ____ สิบคน</span><span class="gloss">всего десять</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">____ คนมีห้องของตัวเอง</span><span class="gloss">у каждого своя комната</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">ขอ ____ สองแก้วค่ะ</span><span class="gloss">ещё два стакана</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="thai">ที่นี่มีคน ____ คน</span><span class="gloss">народу немного</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="thai">หนังสือ ____ สามเล่มเป็นของฉัน</span><span class="gloss">все три книги</span><span class="line"></span></li>
+          <li><span class="mark">и)</span><span class="thai">ฉันไปตลาด ____ วัน</span><span class="gloss">каждый день</span><span class="line"></span></li>
+          <li><span class="mark">к)</span><span class="thai">____ วันฉันตื่นสาย</span><span class="gloss">в некоторые дни</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) ทุก · б) บาง · в) หลาย · г) ทั้งหมด · д) แต่ละ</span>
+          <span class="th">е) อีก · ж) ไม่กี่ · з) ทั้ง · и) ทุก · к) บาง</span>
+          <span class="why">г) ทั้งหมด стоит после связки и смотрит на группу целиком; з) ทั้ง + число + счётное — «все три».</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Напиши по-тайски.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">все ученики</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">некоторые кошки</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">несколько книг</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">каждый день</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">всего десять человек</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">обе машины</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="ru">каждая комната</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="ru">ещё три бутылки</span><span class="line"></span></li>
+          <li><span class="mark">и)</span><span class="ru">по двести бат с человека</span><span class="line"></span></li>
+          <li><span class="mark">к)</span><span class="ru">два раза в день</span><span class="line"></span></li>
+          <li><span class="mark">л)</span><span class="ru">всего пара человек</span><span class="line"></span></li>
+          <li><span class="mark">м)</span><span class="ru">другие люди</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) นักเรียนทุกคน · б) แมวบางตัว · в) หนังสือหลายเล่ม · г) ทุกวัน · д) ทั้งหมดสิบคน · е) รถทั้งสองคัน</span>
+          <span class="th">ж) ห้องแต่ละห้อง · з) อีกสามขวด · и) คนละสองร้อยบาท · к) วันละสองครั้ง · л) ไม่กี่คน · м) คนอื่น</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>В каждой паре одна фраза невозможна. Вычеркни её и объясни одним словом почему.
+          <span class="opts">Ответ — верная фраза + причина</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="thai">ทุกหนังสือ / หนังสือทุกเล่ม</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">นักเรียนหลายมาก / นักเรียนหลายคน</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">บางแมวตัว / แมวบางตัว</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">ทั้งหมดคน / คนทั้งหมด</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">แต่ละสองคน / แต่ละคน</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) หนังสือทุกเล่ม</span><span class="why">ทุก требует счётного, а не самого существительного.</span>
+          <span class="th">б) นักเรียนหลายคน</span><span class="why">หลาย тянет счётное; «очень много» — это เยอะมาก.</span>
+          <span class="th">в) แมวบางตัว</span><span class="why">บาง стоит в слоте числа, то есть после существительного.</span>
+          <span class="th">г) คนทั้งหมด</span><span class="why">ทั้งหมด идёт после, а не перед.</span>
+          <span class="th">д) แต่ละคน</span><span class="why">แต่ละ не сочетается с числом — оно и значит «по одному».</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">D</div>
+    <div class="block-body">
+      <p class="block-name">Вопросы</p>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Задай вопрос по-тайски.
+          <span class="opts">Тайские буквы, вежливую частицу можно не писать</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">Сколько у тебя кошек?</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">Сколько в комнате стульев?</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">Сколько у тебя книг?</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">Сколько у тебя братьев и сестёр?</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">Сколько это стоит?</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">Который час?</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="ru">Сколько тебе лет?</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="ru">Сколько всего комнат в доме?</span><span class="line"></span></li>
+          <li><span class="mark">и)</span><span class="ru">Сколько бутылок воды ты пьёшь в день?</span><span class="line"></span></li>
+          <li><span class="mark">к)</span><span class="ru">Сколько дней ты будешь в Бангкоке?</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) คุณมีแมวกี่ตัว · б) ในห้องมีเก้าอี้กี่ตัว · в) คุณมีหนังสือกี่เล่ม · г) คุณมีพี่น้องกี่คน</span>
+          <span class="th">д) อันนี้เท่าไหร่ (или อันนี้กี่บาท) · е) ตอนนี้กี่โมง · ж) คุณอายุกี่ปี (или คุณอายุเท่าไหร่)</span>
+          <span class="th">з) ในบ้านมีห้องทั้งหมดกี่ห้อง · и) คุณดื่มน้ำวันละกี่ขวด · к) คุณจะอยู่กรุงเทพกี่วัน</span>
+          <span class="why">и) «в день» — это วันละ перед вопросом о количестве.</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Вставь <span class="thai" style="font-size:1.1rem">กี่</span> или <span class="thai" style="font-size:1.1rem">เท่าไหร่</span>.
+          <span class="opts">Ответ — одно слово</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">คุณมีหนังสือ ____ เล่ม</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">เสื้อตัวนี้ ____</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">ตอนนี้ ____ โมง</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">ทั้งหมด ____</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">คุณรอมา ____ ชั่วโมง</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">กิโลละ ____</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="thai">มีรถ ____ คัน</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="thai">นาน ____</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) กี่ · б) เท่าไหร่ · в) กี่ · г) เท่าไหร่ · д) กี่ · е) เท่าไหร่ · ж) กี่ · з) เท่าไหร่</span>
+          <span class="why">Где справа стоит счётное (เล่ม, โมง, ชั่วโมง, คัน) — там กี่.</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>«Который из них?» — напиши вопрос по-тайски.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">Которая книга?</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">Которая кошка твоя?</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">Которую машину ты хочешь?</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">Который дом твой?</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">Который из людей?</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="ru">Которая вещь?</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="ru">Которая рубашка тебе нравится?</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="ru">Который по счёту?</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) เล่มไหน · б) แมวตัวไหนของคุณ · в) คุณอยากได้รถคันไหน · г) บ้านหลังไหนของคุณ</span>
+          <span class="th">д) คนไหน · е) อันไหน · ж) คุณชอบเสื้อตัวไหน · з) ที่เท่าไหร่</span>
+          <span class="why">ไหน занимает то же место, что นี้ и นั้น, — сразу за счётным.</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">4.</span><span>Ответь коротко — без существительного.
+          <span class="opts">Ответ тайскими буквами, в скобках дано, что ответить</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">คุณมีแมวกี่ตัว</span><span class="gloss">(две)</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">มีหนังสือกี่เล่ม</span><span class="gloss">(ни одной)</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">เล่มไหนของคุณ</span><span class="gloss">(эта)</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">ทั้งหมดกี่คน</span><span class="gloss">(пять)</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">อันนี้เท่าไหร่</span><span class="gloss">(50 бат)</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">ตอนนี้กี่โมง</span><span class="gloss">(9 утра)</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) สองตัว · б) ไม่มีเลย · в) เล่มนี้ · г) ห้าคน · д) ห้าสิบบาท · е) เก้าโมงเช้า</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">5.</span><span>Задай вопрос так, чтобы попросили <b>перечислить</b>, а не назвать число.
+          <span class="opts">Тайские буквы, со словом บ้าง</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">Что здесь есть?</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">Какие фрукты ты любишь?</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">Кто именно пришёл?</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">Где ты успела побывать?</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) มีอะไรบ้าง · б) คุณชอบผลไม้อะไรบ้าง · в) ใครมาบ้าง · г) ไปที่ไหนมาบ้าง</span>
+          <span class="why">บ้าง в вопросе просит список; กี่ просит число. Это разные вопросы к одной ситуации.</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">E</div>
+    <div class="block-body">
+      <p class="block-name">Чтение и смешанный контроль</p>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Прочитай и переведи на русский.
+          <span class="opts">Ответ по-русски, целым предложением</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="thai">ในห้องมีนักเรียนสิบคน</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">ฉันมีหมาสามตัวกับแมวสองตัว</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">หนังสือเล่มนี้ของใคร</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">นักเรียนทุกคนชอบเรียนภาษาไทย</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">ขอน้ำสองขวดค่ะ</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">แมวบางตัวไม่ชอบน้ำ</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="thai">บ้านหลังโน้นใหญ่มาก</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="thai">คุณอยากได้อันไหน</span><span class="line"></span></li>
+          <li><span class="mark">и)</span><span class="thai">เสื้อตัวนี้ตัวละสามร้อยบาท</span><span class="line"></span></li>
+          <li><span class="mark">к)</span><span class="thai">ฉันอ่านหนังสือวันละหนึ่งชั่วโมง</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span>а) В комнате десять учеников.</span>
+          <span>б) У меня три собаки и две кошки.</span>
+          <span>в) Чья это книга?</span>
+          <span>г) Все ученики любят учить тайский.</span>
+          <span>д) Две бутылки воды, пожалуйста.</span>
+          <span>е) Некоторые кошки не любят воду.</span>
+          <span>ж) Вон тот дом очень большой.</span>
+          <span>з) Которую (вещь) ты хочешь?</span>
+          <span>и) Эта рубашка — по триста бат за штуку.</span>
+          <span>к) Я читаю по часу в день.</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Найди ошибку и напиши верный вариант.
+          <span class="opts">Ответ — исправленная фраза</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">ฉันมีสามแมว</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">หนังสือนี้เล่มของฉัน</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">ทุกนักเรียนมาแล้ว</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">คุณมีแมวเท่าไหร่ตัว</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="thai">ขอน้ำสองค่ะ</span><span class="line"></span></li>
+          <li><span class="mark">е)</span><span class="thai">ฉันมีลูกสองลูก</span><span class="line"></span></li>
+          <li><span class="mark">ж)</span><span class="thai">รองเท้าสองตัว</span><span class="line"></span></li>
+          <li><span class="mark">з)</span><span class="thai">หนังสือเล่มนี้กี่</span><span class="line"></span></li>
+          <li><span class="mark">и)</span><span class="thai">เสื้อสีแดงตัวสอง</span><span class="line"></span></li>
+          <li><span class="mark">к)</span><span class="thai">แมวหลายมาก</span><span class="line"></span></li>
+        </ol>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">а) ฉันมีแมวสามตัว · б) หนังสือเล่มนี้ของฉัน · в) นักเรียนทุกคนมาแล้ว · г) คุณมีแมวกี่ตัว</span>
+          <span class="th">д) ขอน้ำสองขวดค่ะ (или สองแก้ว) · е) ฉันมีลูกสองคน · ж) รองเท้าสองคู่ · з) หนังสือเล่มนี้เท่าไหร่</span>
+          <span class="th">и) เสื้อสีแดงสองตัว · к) แมวหลายตัว (или แมวเยอะมาก)</span>
+          <span class="why">е) детей считают людьми, а не «плодами»; з) счётного нет — значит กี่ невозможно.</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Заполни таблицу: одна и та же вещь в пяти формах.
+          <span class="opts">Тайские буквы; первая строка — образец</span></span></p>
+        <table class="grid">
+          <tr><th>Вещь</th><th>три штуки</th><th>эта</th><th>все</th><th>сколько?</th></tr>
+          <tr><td class="lab">หนังสือ</td><td class="thcell">หนังสือสามเล่ม</td><td class="thcell">หนังสือเล่มนี้</td><td class="thcell">หนังสือทุกเล่ม</td><td class="thcell">หนังสือกี่เล่ม</td></tr>
+          <tr><td class="lab">แมว</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+          <tr><td class="lab">รถ</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+          <tr><td class="lab">บ้าน</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+          <tr><td class="lab">ตั๋ว</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+          <tr><td class="lab">นักเรียน</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+          <tr><td class="lab">โทรศัพท์</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+        </table>
+        <details class="key"><summary>Проверить</summary><div class="ans">
+          <span class="th">แมวสามตัว · แมวตัวนี้ · แมวทุกตัว · แมวกี่ตัว</span>
+          <span class="th">รถสามคัน · รถคันนี้ · รถทุกคัน · รถกี่คัน</span>
+          <span class="th">บ้านสามหลัง · บ้านหลังนี้ · บ้านทุกหลัง · บ้านกี่หลัง</span>
+          <span class="th">ตั๋วสามใบ · ตั๋วใบนี้ · ตั๋วทุกใบ · ตั๋วกี่ใบ</span>
+          <span class="th">นักเรียนสามคน · นักเรียนคนนี้ · นักเรียนทุกคน · นักเรียนกี่คน</span>
+          <span class="th">โทรศัพท์สามเครื่อง · โทรศัพท์เครื่องนี้ · โทรศัพท์ทุกเครื่อง · โทรศัพท์กี่เครื่อง</span>
+          <span class="why">Счётное во всех четырёх колонках одно и то же — меняется только то, что стоит рядом с ним.</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">F</div>
+    <div class="block-body">
+      <p class="block-name">Производство: сказать своими словами</p>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Опиши свою комнату: что в ней есть и сколько.
+          <span class="opts">Минимум шесть предметов, каждый со своим счётным словом</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="line tall"></span><span class="line tall"></span><span class="line tall"></span></li>
+        </ol>
+        <details class="key"><summary>Образец</summary><div class="ans">
+          <span class="th">ในห้องของฉันมีโต๊ะหนึ่งตัว เก้าอี้สองตัว หนังสือหลายเล่ม คอมพิวเตอร์หนึ่งเครื่อง</span>
+          <span class="th">ต้นไม้สองต้น กระเป๋าสามใบ และแมวหนึ่งตัว</span>
+          <span class="why">Свой ответ сверяй не со словами образца, а со счётными: у мебели ตัว, у техники เครื่อง, у растений ต้น.</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Диалог на рынке. Напиши свои реплики.
+          <span class="opts">Четыре реплики: спроси цену, спроси «которая», попроси две штуки, попроси ещё одну</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">ты:</span><span class="ru">спрашиваешь, сколько стоит вот эта рубашка</span><span class="line tall"></span></li>
+          <li><span class="mark">ты:</span><span class="ru">спрашиваешь, которая из них по двести бат</span><span class="line tall"></span></li>
+          <li><span class="mark">ты:</span><span class="ru">просишь две штуки</span><span class="line tall"></span></li>
+          <li><span class="mark">ты:</span><span class="ru">просишь ещё одну, красную</span><span class="line tall"></span></li>
+        </ol>
+        <details class="key"><summary>Образец</summary><div class="ans">
+          <span class="th">เสื้อตัวนี้เท่าไหร่คะ</span>
+          <span class="th">ตัวไหนตัวละสองร้อยบาทคะ</span>
+          <span class="th">ขอสองตัวค่ะ</span>
+          <span class="th">ขออีกตัวหนึ่ง สีแดงค่ะ</span>
+        </div></details>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Задай пять разных вопросов о количестве — про пять разных вещей, пятью разными счётными.
+          <span class="opts">Тайские буквы; повторять счётное нельзя</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="line tall"></span><span class="line tall"></span><span class="line tall"></span></li>
+        </ol>
+        <details class="key"><summary>Образец</summary><div class="ans">
+          <span class="th">คุณมีหนังสือกี่เล่ม · ในบ้านมีห้องกี่ห้อง · คุณมีรถกี่คัน</span>
+          <span class="th">วันนี้กินข้าวกี่จาน · ที่นี่มีคนกี่คน</span>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p><strong>Как работать с листом.</strong></p>
+    <ol>
+      <li>Части I–IV читаются один раз целиком — не заучивая, а чтобы увидеть, что схема одна.</li>
+      <li>Дальше только упражнения: блок A–B в первый день, C–D во второй, E–F в третий.</li>
+      <li>Ключ открывается <b>после</b> ответа. Каждый пункт, где не вспомнила, отмечай точкой на полях — на повторе делаешь только отмеченные.</li>
+      <li>Повторы: через день, через три дня, через неделю. На третьем повторе блок E должен идти без ключа.</li>
+    </ol>
+    <p><strong>Признак, что тема закрыта:</strong> ты собираешь фразу вроде «эти три красные рубашки» и вопрос
+    «сколько у тебя рубашек?» не задумываясь о порядке — и ни разу не ставишь число перед существительным.</p>
+  </footer>
+
+</div>
+</body>
+</html>

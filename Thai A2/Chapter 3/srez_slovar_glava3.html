@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Срез по словарю Главы 3</title>
+
+<style>
+  :root {
+    --paper: #f4f5f7;
+    --card: #fbfbfc;
+    --ink: #151c26;
+    --ink-soft: #4d5866;
+    --ink-faint: #8b95a3;
+    --rule: #d7dce4;
+    --rule-soft: #e6eaf0;
+    --accent: #26497d;
+    --accent-soft: #e6ecf6;
+    --gold: #8a6420;
+    --gold-soft: #f3ecdd;
+    --green: #2f6b46;
+    --green-soft: #e4f0e8;
+
+    --serif: "Charter", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --thai: var(--sans);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0e131a; --card: #151b24; --ink: #e7ebf1; --ink-soft: #a9b3c1;
+      --ink-faint: #6f7a89; --rule: #2a323d; --rule-soft: #212933;
+      --accent: #8fb0e4; --accent-soft: #1b2635; --gold: #d5ac66; --gold-soft: #262015;
+      --green: #7fc79a; --green-soft: #16241c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0e131a; --card: #151b24; --ink: #e7ebf1; --ink-soft: #a9b3c1;
+    --ink-faint: #6f7a89; --rule: #2a323d; --rule-soft: #212933;
+    --accent: #8fb0e4; --accent-soft: #1b2635; --gold: #d5ac66; --gold-soft: #262015;
+    --green: #7fc79a; --green-soft: #16241c;
+  }
+  :root[data-theme="light"] {
+    --paper: #f4f5f7; --card: #fbfbfc; --ink: #151c26; --ink-soft: #4d5866;
+    --ink-faint: #8b95a3; --rule: #d7dce4; --rule-soft: #e6eaf0;
+    --accent: #26497d; --accent-soft: #e6ecf6; --gold: #8a6420; --gold-soft: #f3ecdd;
+    --green: #2f6b46; --green-soft: #e4f0e8;
+  }
+
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--sans);
+    font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet {
+    max-width: 48rem; margin: 0 auto;
+    padding: clamp(1.25rem, 4vw, 3.5rem) clamp(1rem, 4vw, 2rem) 5rem;
+    display: flex; flex-direction: column; gap: 2.75rem;
+  }
+
+  .head {
+    display: flex; flex-direction: column; gap: 1.25rem;
+    padding-bottom: 1.75rem; border-bottom: 2px solid var(--ink);
+  }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--gold);
+    display: flex; align-items: center; gap: .55rem;
+  }
+  .eyebrow::before {
+    content: ""; width: .5rem; height: .5rem;
+    border: 1.5px solid currentColor; border-radius: 50%;
+  }
+
+  h1 {
+    font-family: var(--serif); font-size: clamp(2rem, 6vw, 3rem);
+    line-height: 1.05; font-weight: 600; letter-spacing: -.015em;
+    text-wrap: balance; margin: 0;
+  }
+  h1 .sub {
+    display: block; font-size: .42em; font-weight: 400; letter-spacing: .01em;
+    color: var(--ink-soft); margin-top: .7rem;
+  }
+
+  h2.part {
+    font-family: var(--serif); font-size: 1.7rem; font-weight: 600;
+    margin: 0; padding-bottom: .5rem; border-bottom: 2px solid var(--gold);
+    color: var(--gold);
+  }
+
+  .note { font-size: .95rem; color: var(--ink-soft); max-width: 42rem; }
+  .note b { color: var(--ink); font-weight: 600; }
+
+  code.ref {
+    font-family: var(--mono); font-size: .85em; background: var(--accent-soft);
+    color: var(--accent); padding: .1em .4em; border-radius: 2px;
+  }
+
+  .block { display: grid; grid-template-columns: 3.25rem 1fr; gap: 0 1.25rem; align-items: start; }
+  .block-letter {
+    font-family: var(--serif); font-size: 2.5rem; line-height: .9; color: var(--accent);
+    border-top: 2px solid var(--accent); padding-top: .55rem; text-align: center; font-weight: 600;
+  }
+  .block-body {
+    border-top: 1px solid var(--rule); padding-top: .6rem;
+    display: flex; flex-direction: column; gap: 1.5rem; min-width: 0;
+  }
+  .block-name {
+    font-family: var(--mono); font-size: .68rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: -.85rem;
+  }
+
+  .task { display: flex; flex-direction: column; gap: .9rem; min-width: 0; }
+
+  .prompt { display: grid; grid-template-columns: 1.6rem 1fr; gap: .5rem; font-size: 1.06rem; line-height: 1.5; }
+  .prompt .n { font-family: var(--mono); font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .prompt .opts { display: block; margin-top: .45rem; font-size: .92rem; color: var(--ink-soft); }
+  .prompt .opts b { font-family: var(--mono); color: var(--ink); font-weight: 600; letter-spacing: .02em; }
+
+  .items { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--rule-soft); border: 1px solid var(--rule-soft); }
+  .items.cols-4 { grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr)); }
+  .items.cols-3 { grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); }
+  .items.cols-2 { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+  .items.cols-1 { grid-template-columns: 1fr; }
+  .items li { background: var(--card); padding: .7rem .85rem .75rem; display: flex; flex-direction: column; gap: .3rem; }
+
+  .mark { font-family: var(--mono); font-size: .72rem; color: var(--ink-faint); }
+  .thai { font-family: var(--thai); font-size: 1.45rem; line-height: 1.3; font-weight: 600; letter-spacing: .01em; }
+  .thai.big { font-size: 1.9rem; }
+  .ru { font-size: 1rem; line-height: 1.4; }
+  .num { font-family: var(--serif); font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+  .clock { font-family: var(--mono); font-size: 1.3rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .gloss { font-size: .8rem; color: var(--ink-faint); }
+  .line { margin-top: .3rem; border-bottom: 1px dashed var(--rule); height: 1.3rem; }
+  .line.tall { height: 2.4rem; }
+
+  /* --- Крючок: мнемоническая карточка --- */
+  .hook {
+    border: 1px solid var(--gold); background: var(--gold-soft);
+    padding: .9rem 1rem; display: flex; flex-direction: column; gap: .6rem;
+  }
+  .hook .cap {
+    font-family: var(--mono); font-size: .66rem; letter-spacing: .13em;
+    text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: .4rem;
+  }
+  .hook p { margin: 0; font-size: .95rem; }
+  .hook table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+  .hook td, .hook th {
+    border-top: 1px solid color-mix(in srgb, var(--gold) 30%, transparent);
+    padding: .32rem .5rem; text-align: left; vertical-align: baseline;
+  }
+  .hook tr:first-child td, .hook tr:first-child th { border-top: none; }
+  .hook th { font-family: var(--mono); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); font-weight: 400; }
+  .hook .th { font-family: var(--thai); font-size: 1.2rem; font-weight: 600; white-space: nowrap; }
+  .hook .key { font-style: italic; color: var(--ink-soft); }
+
+  .scale {
+    display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .5rem;
+    font-family: var(--thai); font-size: 1.15rem; font-weight: 600;
+  }
+  .scale .arr { color: var(--gold); font-family: var(--sans); font-weight: 400; }
+
+  .bank {
+    display: flex; flex-wrap: wrap; gap: .4rem .5rem; padding: .7rem .8rem;
+    border: 1px solid var(--rule); background: var(--accent-soft);
+  }
+  .bank .cap {
+    font-family: var(--mono); font-size: .66rem; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--accent); width: 100%;
+  }
+  .bank span.w {
+    font-family: var(--thai); font-size: 1.15rem; font-weight: 600;
+    background: var(--card); border: 1px solid var(--rule); padding: .1rem .55rem;
+  }
+
+  table.grid { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--rule); }
+  table.grid td, table.grid th { border: 1px solid var(--rule-soft); padding: .5rem .7rem; text-align: left; }
+  table.grid th { font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); font-weight: 400; }
+  table.grid td.lab { font-family: var(--thai); font-size: 1.15rem; font-weight: 600; white-space: nowrap; }
+  table.grid td.blank { height: 2.2rem; }
+
+  .foot {
+    border-top: 2px solid var(--ink); padding-top: 1.25rem;
+    display: flex; flex-direction: column; gap: .75rem; font-size: .95rem; color: var(--ink-soft);
+  }
+  .foot strong { color: var(--ink); }
+  .foot ol { margin: 0; padding-left: 1.3rem; display: flex; flex-direction: column; gap: .25rem; }
+
+  @media (max-width: 34rem) {
+    .block { grid-template-columns: 1fr; gap: .5rem; }
+    .block-letter { text-align: left; font-size: 1.9rem; padding-top: .4rem; }
+    .block-body { border-top: none; padding-top: 0; }
+  }
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .sheet { padding: 0; gap: 1.5rem; max-width: none; }
+    .block { break-inside: avoid; }
+  }
+</style>
+
+</head>
+<body>
+<div class="sheet">
+
+  <header class="head">
+    <p class="eyebrow">🔒 Подсказки и ключи недоступны</p>
+    <h1>
+      Срез по словарю
+      <span class="sub">Часть I тренажёра — блоки A–H: дни, месяцы, календарь, сезоны, глаголы, частота, периоды суток · Thai A2</span>
+    </h1>
+
+    <dl class="facts">
+      <div class="fact"><dt>Пунктов</dt><dd>62</dd></div>
+      <div class="fact locked"><dt>Порог</dt><dd>80 %</dd></div>
+      <div class="fact"><dt>Покрытие</dt><dd>A · B · C · D · E · F · G · H</dd></div>
+      <div class="fact"><dt>Ключей</dt><dd>нет в листе</dd></div>
+    </dl>
+
+    <p class="note">
+      Отвечай по адресу пункта: <code class="ref">C.2.б</code>, <code class="ref">F.4.а</code>.
+      Где не уверена — приписывай <b>(не уверена)</b>: это не штрафуется, но учитывается.
+      Присылать можно блоками.
+      Тайские слова пиши <b>тайскими буквами</b>; транскрипция нигде не требуется.
+    </p>
+    <p class="note">
+      <b>Ключей внутри нет — и это нарочно.</b> Тренажёр был с проверкой после каждого
+      задания, потому что там ты училась. Здесь замеряется, что осталось без подсказки под
+      рукой: разбор придёт единым отчётом после всех ответов. Буквы блоков те же, что в
+      тренажёре, — по итогу сразу видно, какой блок гнать ещё раз.
+    </p>
+  </header>
+
+  <section class="block">
+    <div class="block-letter">A</div>
+    <div class="block-body">
+      <p class="block-name">Дни недели и цвета</p>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Какой это день недели?
+          <span class="opts">Ответ по-русски</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="thai">วันพฤหัสบดี</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">วันจันทร์</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">วันเสาร์</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Напиши день недели по-тайски.
+          <span class="opts">Тайские буквы, вместе со словом «день»</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="ru">среда</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">пятница</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">вторник</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>С каким днём недели связан этот цвет?
+          <span class="opts">Ответ — название дня тайскими буквами</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">фиолетовый</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">зелёный</span><span class="line"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">B</div>
+    <div class="block-body">
+      <p class="block-name">Вчера · сегодня · завтра · неделя · месяц · год</p>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Напиши по-тайски.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">послезавтра</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">в следующем месяце</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">на прошлой неделе</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">в этом году</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Переведи на русский.
+          <span class="opts">Одним словом или коротким оборотом</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">เมื่อวานซืน</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">วันหยุด</span><span class="line"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">C</div>
+    <div class="block-body">
+      <p class="block-name">Месяцы</p>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Какой это месяц?
+          <span class="opts">Ответ по-русски</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">มิถุนายน</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">ธันวาคม</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">สิงหาคม</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="thai">เมษายน</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Напиши месяц по-тайски.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="ru">май</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">июль</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">октябрь</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Сколько дней в этом месяце?
+          <span class="opts">Ответ — число</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">พฤษภาคม</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">พฤศจิกายน</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">4.</span><span>Запиши дату так, как её пишут в Таиланде.
+          <span class="opts">Тайские цифры, тайский год, со словом «число» в начале</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="ru">12 марта 2026</span><span class="line tall"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">D</div>
+    <div class="block-body">
+      <p class="block-name">Тайский календарь</p>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Какой это год по тайскому календарю?
+          <span class="opts">Арабскими цифрами</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="num">1999</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="num">2015</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Какой это год по нашему календарю?
+          <span class="opts">Арабскими цифрами</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="thai">พ.ศ. ๒๕๓๘</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">พ.ศ. ๒๕๖๓</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Запиши число тайскими цифрами.
+          <span class="opts">Только цифры</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="num">2570</span><span class="line"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">E</div>
+    <div class="block-body">
+      <p class="block-name">Сезоны и погода</p>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Какой сезон в Таиланде в этом месяце?
+          <span class="opts">Ответ — название сезона тайскими буквами</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="thai">กุมภาพันธ์</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">มิถุนายน</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">ตุลาคม</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Напиши по-тайски.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">идёт дождь</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">погода очень жаркая</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">сильный ветер</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">солнечно</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Переведи на русский.
+          <span class="opts">Одна фраза</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="thai">หน้าหนาวที่เชียงใหม่อากาศเย็นมาก</span><span class="line"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">F</div>
+    <div class="block-body">
+      <p class="block-name">Глаголы дня</p>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Напиши глагол по-тайски.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="ru">чистить зубы</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">умываться</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">готовить еду</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">заниматься спортом</span><span class="line"></span></li>
+          <li><span class="mark">д)</span><span class="ru">ложиться спать</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Переведи на русский.
+          <span class="opts">Одним словом или коротким оборотом</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="thai">ตื่นนอน</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">เล่นมือถือ</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="thai">ทำความสะอาด</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">3.</span><span>Вставь глагол в пропуск.
+          <span class="opts">Ответ — одно слово тайскими буквами</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="thai">หลังเลิกงานฉัน ____ อาหาร</span><span class="gloss">после работы я готовлю еду</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">ตอนเย็นฉัน ____ ซีรีส์ไทย</span><span class="gloss">вечером я смотрю тайские сериалы</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">4.</span><span>Какой глагол нужен?
+          <span class="opts">Ответ — одно слово тайскими буквами</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="ru">«Я легла в десять, но <b>уснула</b> только в двенадцать» — глагол во второй части</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">«Я <b>ем</b> манго» — не полноценный обед, просто фрукт</span><span class="line"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">G</div>
+    <div class="block-body">
+      <p class="block-name">Как часто</p>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Напиши по-тайски.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">никогда (не делала)</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">иногда</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">редко</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">каждую неделю</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Вставь подходящий маркер частоты.
+          <span class="opts">Ответ — одно слово тайскими буквами</span></span></p>
+        <ol class="items cols-1">
+          <li><span class="mark">а)</span><span class="thai">ฉัน ____ ออกกำลังกาย</span><span class="gloss">я не очень часто занимаюсь спортом</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="thai">เขาทำงาน ____</span><span class="gloss">он работает регулярно</span><span class="line"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-letter">H</div>
+    <div class="block-body">
+      <p class="block-name">Периоды суток</p>
+
+      <div class="task">
+        <p class="prompt"><span class="n">1.</span><span>Какой это период суток?
+          <span class="opts">Ответ тайскими буквами, вместе с ตอน</span></span></p>
+        <ol class="items cols-3">
+          <li><span class="mark">а)</span><span class="clock">07:00</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="clock">15:00</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="clock">23:30</span><span class="line"></span></li>
+        </ol>
+      </div>
+
+      <div class="task">
+        <p class="prompt"><span class="n">2.</span><span>Напиши по-тайски.
+          <span class="opts">Тайские буквы</span></span></p>
+        <ol class="items cols-2">
+          <li><span class="mark">а)</span><span class="ru">глубокой ночью</span><span class="line"></span></li>
+          <li><span class="mark">б)</span><span class="ru">сегодня ночью</span><span class="line"></span></li>
+          <li><span class="mark">в)</span><span class="ru">прошлой ночью</span><span class="line"></span></li>
+          <li><span class="mark">г)</span><span class="ru">поздним утром</span><span class="line"></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>Присылай ответы одним сообщением или блоками — текстом либо фото из тетради (тогда через
+    <code class="ref">scripts/intake</code>).</p>
+    <p><strong>Разбор и оценка — после всех ответов.</strong> Порог для среза по словарю — 80 %.
+    Блоки, где провалилось больше двух пунктов, гонишь в тренажёре целиком, а не точечно.</p>
+  </footer>
+
+</div>
+</body>
+</html>
