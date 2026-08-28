@@ -14,7 +14,8 @@
 Ключ кэша — md5 слова в UTF-8, как у страниц, сложенных вручную раньше.
 
 Страница «нет результатов» в кэш не идёт: иначе слово выглядело бы сверенным, не будучи им.
-Такие слова печатаются отдельным списком — это кандидаты в `references/irregulars.md`.
+Такие слова печатаются отдельным списком, помеченные «слово» или «фраза»: фразу словарь как
+единицу не знает по устройству, и в `irregulars.md` она не кандидат.
 
 Прогон идемпотентен: уже скачанное пропускается, прерванный прогон продолжается запуском
 той же команды.
@@ -48,6 +49,8 @@ PROGRESS = ROOT / "progress.json"
 CACHE = pathlib.Path.home() / ".cache" / "thai-dict"
 URL = "http://www.thai-language.com/dict"
 PAUSE = 1.6
+# Режимы поиска в порядке точности: «starts with», затем запасные (см. fetch_any).
+TMODES = ("2", "1", "3")
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120 Safari/537.36"
 THAI_FIRST, THAI_LAST = "฀", "๿"
 THAI_CLASS = f"[{THAI_FIRST}-{THAI_LAST}]"
@@ -99,15 +102,31 @@ def vocabulary(progress: pathlib.Path) -> List[str]:
     return [w for w in items if is_thai(w)]
 
 
-def fetch(word: str) -> str:
+def fetch(word: str, tmode: str) -> str:
     """Один запрос по протоколу SKILL.md. GET отдаёт «нет результатов», нужен POST."""
     body = urllib.parse.urlencode(
-        {"search": word, "emode": "1", "tmode": "2"}, encoding="utf-8"
+        {"search": word, "emode": "1", "tmode": tmode}, encoding="utf-8"
     ).encode("ascii")
     req = urllib.request.Request(URL, data=body, headers={"User-Agent": UA})
     with urllib.request.urlopen(req, timeout=30) as resp:
         raw = cast(bytes, resp.read())
     return raw.decode("utf-8", "replace")
+
+
+def fetch_any(word: str, pause: float) -> "str | None":
+    """Пройти режимы поиска, пока не придёт страница с записями.
+
+    `tmode=2` («starts with») из раздела 1 SKILL.md на коротких частотных словах отдаёт
+    пустую страницу: `ไม่`, `เขา`, `ด` так «не находятся», хотя в словаре есть. Пустой ответ
+    в одном режиме — не отсутствие слова, поэтому режимы перебираются, и только молчание
+    во всех трёх считается «не найдено».
+    """
+    for tmode in TMODES:
+        html = fetch(word, tmode)
+        if "class=th" in html:
+            return html
+        time.sleep(pause)
+    return None
 
 
 def cmd_status(args: argparse.Namespace) -> int:
@@ -141,12 +160,12 @@ def cmd_warm(args: argparse.Namespace) -> int:
 
     for i, word in enumerate(todo, 1):
         try:
-            html = fetch(word)
+            html = fetch_any(word, pause)
         except (urllib.error.URLError, OSError) as exc:
             failed.append((word, f"{type(exc).__name__}: {exc}"))
             time.sleep(pause * 3)          # сеть шатается — отступить, а не долбить
             continue
-        if "class=th" not in html:         # «нет результатов» кэшировать нельзя
+        if html is None:                   # «нет результатов» кэшировать нельзя
             missing.append(word)
         else:
             cache_path(word).write_text(html, encoding="utf-8")
@@ -157,8 +176,14 @@ def cmd_warm(args: argparse.Namespace) -> int:
 
     print(f"\nсохранено: {saved} | нет в словаре: {len(missing)} | сетевых ошибок: {len(failed)}")
     if missing:
-        print("Нет в словаре (кандидаты в references/irregulars.md):")
-        print("  " + " ".join(missing))
+        # Целиком не нашлось — но чаще это фраза, а не отсутствующее слово: тайский пишется
+        # без пробелов, и ключ вроде «ตอนนี้กี่โมง» словарь как единицу не знает. По правилу
+        # SKILL.md такое сверяется по словам, поэтому в irregulars.md списком не отправлять.
+        print("Не найдено целиком — разобрать руками (фраза сверяется по словам,")
+        print("одиночное слово — кандидат в references/irregulars.md):")
+        for word in missing:
+            kind = "фраза" if " " in word else "слово"
+            print(f"  [{kind}] {word}")
     if failed:
         print("Не скачаны — повторить запуск позже:")
         for word, why in failed[:10]:
