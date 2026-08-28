@@ -837,7 +837,7 @@
     },
     "–ะ / –ั": {
       "translation": "а · –า · กะ (ка — и, с) · กา (каа — ворона)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -851,7 +851,7 @@
     },
     "–ิ": {
       "translation": "и · –ี · ติ (ти — критиковать) · ตี (тии — бить)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -865,7 +865,7 @@
     },
     "–ึ": {
       "translation": "ы · –ื · หึ (хы̌ — ха!) · หืน (хы̌ын — затхлый)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -879,7 +879,7 @@
     },
     "–ุ": {
       "translation": "у · –ู · จุ (джу — вмещать) · จู๋ (джу̌у — крошечный)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -893,7 +893,7 @@
     },
     "เ–ะ / เ–็": {
       "translation": "ӭ · เ– · เกะ (кӭ — мешать) · เก (кӭӭ — старый)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -907,7 +907,7 @@
     },
     "แ–ะ / แ–็": {
       "translation": "э · แ– · แกะ (кэ — баран) · แก (кээ — ты, груб.)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -921,7 +921,7 @@
     },
     "โ–ะ": {
       "translation": "о · โ– · โต๊ะ (то́ — стол) · โต (тоо — большой)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -935,7 +935,7 @@
     },
     "เ–าะ": {
       "translation": "å · –อ · เกาะ (ка̀ — остров) · กอ (кåå — куст)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -949,7 +949,7 @@
     },
     "เ–อะ": {
       "translation": "ӧ · เ–อ · เงอะ (нгӧ — неуклюжий) · เธอ (тхӧӧ — ты, мягко)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1033,7 +1033,7 @@
     },
     "เ–ีย": {
       "translation": "долгий · เสีย (си̌иа — потерять)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1047,7 +1047,7 @@
     },
     "เ–ียะ": {
       "translation": "краткий · เผียะ (пхиа — щёлкать)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1061,7 +1061,7 @@
     },
     "เ–ือ": {
       "translation": "долгий · เรือ (рыыа — лодка)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1075,7 +1075,7 @@
     },
     "เ–ือะ": {
       "translation": "краткий (редко) · редко используется",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1089,7 +1089,7 @@
     },
     "–ัว / –ว–": {
       "translation": "долгий · กลัว (клуа — бояться)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1103,7 +1103,7 @@
     },
     "–ัวะ": {
       "translation": "краткий · ผัวะ (пхуа — шлёп!)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1117,7 +1117,7 @@
     },
     "ไ–": {
       "translation": "ใจ (дьжай — сердце), ไป (пай — идти)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1131,7 +1131,7 @@
     },
     "ใ–": {
       "translation": "ใหญ่ (йа̀й — большой)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1145,7 +1145,7 @@
     },
     "–ัย": {
       "translation": "ภัย (пхай — опасность)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1159,7 +1159,7 @@
     },
     "–าย": {
       "translation": "ขาย (кха̌ай — продавать)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1173,7 +1173,7 @@
     },
     "–อย": {
       "translation": "ลอย (лååй — плыть)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1187,7 +1187,7 @@
     },
     "–ุย": {
       "translation": "คุย (кхуй — болтать)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1201,7 +1201,7 @@
     },
     "เ–า": {
       "translation": "เขา (кха̌у — он/она, гора)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1215,7 +1215,7 @@
     },
     "–าว": {
       "translation": "กาว (каау — клей)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1229,7 +1229,7 @@
     },
     "–ิว": {
       "translation": "หิว (хи̌у — голодный)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1243,7 +1243,7 @@
     },
     "–ีว": {
       "translation": "ตีว (тииу — не используется как слог)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1257,7 +1257,7 @@
     },
     "เ–ียว": {
       "translation": "เดี๋ยว (дьжи̌ау — момент)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1271,7 +1271,7 @@
     },
     "เ–ือย": {
       "translation": "เหนื่อย (ныыай — уставший)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.2",
       "repetitions": 0,
       "interval_days": 0,
@@ -1705,7 +1705,7 @@
     },
     "–่": {
       "translation": "ไม้เอก · ма́й ӭ́к · над инициалью · маленькая палочка",
-      "type": "word",
+      "type": "rule",
       "topic": "1.3",
       "repetitions": 0,
       "interval_days": 0,
@@ -1719,7 +1719,7 @@
     },
     "–้": {
       "translation": "ไม้โท · ма́й тхоо · над инициалью · загогулина",
-      "type": "word",
+      "type": "rule",
       "topic": "1.3",
       "repetitions": 0,
       "interval_days": 0,
@@ -1733,7 +1733,7 @@
     },
     "–๊": {
       "translation": "ไม้ตรี · ма́й трии · над инициалью · плюсик / антенна",
-      "type": "word",
+      "type": "rule",
       "topic": "1.3",
       "repetitions": 0,
       "interval_days": 0,
@@ -1747,7 +1747,7 @@
     },
     "–๋": {
       "translation": "ไม้จัตวา · ма́й джат-ваа · над инициалью · звёздочка",
-      "type": "word",
+      "type": "rule",
       "topic": "1.3",
       "repetitions": 0,
       "interval_days": 0,
@@ -1761,7 +1761,7 @@
     },
     "–่ (ӭ́к)": {
       "translation": "нисходящий",
-      "type": "word",
+      "type": "rule",
       "topic": "1.3",
       "repetitions": 0,
       "interval_days": 0,
@@ -1775,7 +1775,7 @@
     },
     "–้ (тхоо)": {
       "translation": "высокий",
-      "type": "word",
+      "type": "rule",
       "topic": "1.3",
       "repetitions": 0,
       "interval_days": 0,
@@ -1789,7 +1789,7 @@
     },
     "–๊ (трии)": {
       "translation": "— (не используется) · — (не используется)",
-      "type": "word",
+      "type": "rule",
       "topic": "1.3",
       "repetitions": 0,
       "interval_days": 0,
@@ -1803,7 +1803,7 @@
     },
     "–๋ (джат-ваа)": {
       "translation": "— · —",
-      "type": "word",
+      "type": "rule",
       "topic": "1.3",
       "repetitions": 0,
       "interval_days": 0,
@@ -2013,7 +2013,7 @@
     },
     "–์": {
       "translation": "ทัณฑฆาต (или ตัวการันต์) · тхан-тхакха̂т / туа карáн · подавляет произношение буквы под ним",
-      "type": "word",
+      "type": "rule",
       "topic": "1.4",
       "repetitions": 0,
       "interval_days": 0,
@@ -2195,7 +2195,7 @@
     },
     "–็": {
       "translation": "ไม้ไต่คู้ · ма́й та̀й кху́у · укорачивает гласный в закрытом слоге",
-      "type": "word",
+      "type": "rule",
       "topic": "1.4",
       "repetitions": 0,
       "interval_days": 0,
