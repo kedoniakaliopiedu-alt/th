@@ -1,6 +1,6 @@
 .DS_Store
 **/.DS_Store
-.claude/skills/thai-handwriting/scripts/.build/
+.codex/skills/thai-handwriting/scripts/.build/
 Handwriting/*
 !Handwriting/README.md
 Handwriting/.lines/
