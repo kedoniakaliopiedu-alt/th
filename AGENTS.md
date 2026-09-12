@@ -2,8 +2,9 @@
 
 A repository for learning Thai: lesson material (`Thai A2/`, `Thai B1/`, `Helpers/`), the
 progress tracker (`progress.json`) and the tutor skills in `.codex/skills/` (overview —
-`.codex/skills/README.md`). Codex uses this `AGENTS.md` as the project entry point and
-reads the relevant skill file directly from that library.
+`.codex/skills/README.md`). The skill directory is retained as a legacy library during
+the migration. Codex uses this `AGENTS.md` as the project entry point and reads the relevant
+skill file directly from that library.
 
 Instructions here are in English; **everything the user reads is in Russian** (see «Working
 on the skills themselves»).
@@ -21,8 +22,9 @@ it requires. The trigger map and boundaries are in `.codex/skills/MAP.md`.
   according to the map.
 - General tutoring can use `learn`; `teach` remains opt-in only.
 
-Use paths exactly as written under `.codex/skills/`; they are project data and the sole
-source of the tutor workflow.
+Use paths exactly as written under `.codex/skills/`; they are project data, not a request
+to use Claude Code or its configuration. Ignore `.claude/settings.json`: it contains
+Claude-only marketplace and permission settings that have no Codex equivalent in this repo.
 
 ## Images
 
