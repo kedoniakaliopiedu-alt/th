@@ -1,0 +1,748 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Вопросы о количестве и выборе — Глава 3</title><style>
+  :root {
+    --paper: #f4f5f7;
+    --card: #fbfbfc;
+    --ink: #151c26;
+    --ink-soft: #4d5866;
+    --ink-faint: #8b95a3;
+    --rule: #d7dce4;
+    --rule-soft: #e6eaf0;
+    --accent: #26497d;
+    --accent-soft: #e6ecf6;
+    --gold: #8a6420;
+    --gold-soft: #f3ecdd;
+    --green: #2f6b46;
+    --green-soft: #e4f0e8;
+
+    --serif: "Charter", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --thai: var(--sans);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0e131a; --card: #151b24; --ink: #e7ebf1; --ink-soft: #a9b3c1;
+      --ink-faint: #6f7a89; --rule: #2a323d; --rule-soft: #212933;
+      --accent: #8fb0e4; --accent-soft: #1b2635; --gold: #d5ac66; --gold-soft: #262015;
+      --green: #7fc79a; --green-soft: #16241c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0e131a; --card: #151b24; --ink: #e7ebf1; --ink-soft: #a9b3c1;
+    --ink-faint: #6f7a89; --rule: #2a323d; --rule-soft: #212933;
+    --accent: #8fb0e4; --accent-soft: #1b2635; --gold: #d5ac66; --gold-soft: #262015;
+    --green: #7fc79a; --green-soft: #16241c;
+  }
+  :root[data-theme="light"] {
+    --paper: #f4f5f7; --card: #fbfbfc; --ink: #151c26; --ink-soft: #4d5866;
+    --ink-faint: #8b95a3; --rule: #d7dce4; --rule-soft: #e6eaf0;
+    --accent: #26497d; --accent-soft: #e6ecf6; --gold: #8a6420; --gold-soft: #f3ecdd;
+    --green: #2f6b46; --green-soft: #e4f0e8;
+  }
+
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--sans);
+    font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet {
+    max-width: 48rem; margin: 0 auto;
+    padding: clamp(1.25rem, 4vw, 3.5rem) clamp(1rem, 4vw, 2rem) 5rem;
+    display: flex; flex-direction: column; gap: 2.75rem;
+  }
+
+  .head {
+    display: flex; flex-direction: column; gap: 1.25rem;
+    padding-bottom: 1.75rem; border-bottom: 2px solid var(--ink);
+  }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--gold);
+    display: flex; align-items: center; gap: .55rem;
+  }
+  .eyebrow::before {
+    content: ""; width: .5rem; height: .5rem;
+    border: 1.5px solid currentColor; border-radius: 50%;
+  }
+
+  h1 {
+    font-family: var(--serif); font-size: clamp(2rem, 6vw, 3rem);
+    line-height: 1.05; font-weight: 600; letter-spacing: -.015em;
+    text-wrap: balance; margin: 0;
+  }
+  h1 .sub {
+    display: block; font-size: .42em; font-weight: 400; letter-spacing: .01em;
+    color: var(--ink-soft); margin-top: .7rem;
+  }
+
+  h2.part {
+    font-family: var(--serif); font-size: 1.7rem; font-weight: 600;
+    margin: 0; padding-bottom: .5rem; border-bottom: 2px solid var(--gold);
+    color: var(--gold);
+  }
+
+  .note { font-size: .95rem; color: var(--ink-soft); max-width: 42rem; }
+  .note b { color: var(--ink); font-weight: 600; }
+
+  code.ref {
+    font-family: var(--mono); font-size: .85em; background: var(--accent-soft);
+    color: var(--accent); padding: .1em .4em; border-radius: 2px;
+  }
+
+  .block { display: grid; grid-template-columns: 3.25rem 1fr; gap: 0 1.25rem; align-items: start; }
+  .block-letter {
+    font-family: var(--serif); font-size: 2.5rem; line-height: .9; color: var(--accent);
+    border-top: 2px solid var(--accent); padding-top: .55rem; text-align: center; font-weight: 600;
+  }
+  .block-body {
+    border-top: 1px solid var(--rule); padding-top: .6rem;
+    display: flex; flex-direction: column; gap: 1.5rem; min-width: 0;
+  }
+  .block-name {
+    font-family: var(--mono); font-size: .68rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: -.85rem;
+  }
+
+  .task { display: flex; flex-direction: column; gap: .9rem; min-width: 0; }
+
+  .prompt { display: grid; grid-template-columns: 1.6rem 1fr; gap: .5rem; font-size: 1.06rem; line-height: 1.5; }
+  .prompt .n { font-family: var(--mono); font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .prompt .opts { display: block; margin-top: .45rem; font-size: .92rem; color: var(--ink-soft); }
+  .prompt .opts b { font-family: var(--mono); color: var(--ink); font-weight: 600; letter-spacing: .02em; }
+
+  .items { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--rule-soft); border: 1px solid var(--rule-soft); }
+  .items.cols-4 { grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr)); }
+  .items.cols-3 { grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); }
+  .items.cols-2 { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+  .items.cols-1 { grid-template-columns: 1fr; }
+  .items li { background: var(--card); padding: .7rem .85rem .75rem; display: flex; flex-direction: column; gap: .3rem; }
+
+  .mark { font-family: var(--mono); font-size: .72rem; color: var(--ink-faint); }
+  .thai { font-family: var(--thai); font-size: 1.45rem; line-height: 1.3; font-weight: 600; letter-spacing: .01em; }
+  .thai.big { font-size: 1.9rem; }
+  .ru { font-size: 1rem; line-height: 1.4; }
+  .num { font-family: var(--serif); font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+  .clock { font-family: var(--mono); font-size: 1.3rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .gloss { font-size: .8rem; color: var(--ink-faint); }
+  .line { margin-top: .3rem; border-bottom: 1px dashed var(--rule); height: 1.3rem; }
+  .line.tall { height: 2.4rem; }
+
+  /* --- Крючок: мнемоническая карточка --- */
+  .hook {
+    border: 1px solid var(--gold); background: var(--gold-soft);
+    padding: .9rem 1rem; display: flex; flex-direction: column; gap: .6rem;
+  }
+  .hook .cap {
+    font-family: var(--mono); font-size: .66rem; letter-spacing: .13em;
+    text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: .4rem;
+  }
+  .hook p { margin: 0; font-size: .95rem; }
+  .hook table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+  .hook td, .hook th {
+    border-top: 1px solid color-mix(in srgb, var(--gold) 30%, transparent);
+    padding: .32rem .5rem; text-align: left; vertical-align: baseline;
+  }
+  .hook tr:first-child td, .hook tr:first-child th { border-top: none; }
+  .hook th { font-family: var(--mono); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); font-weight: 400; }
+  .hook .th { font-family: var(--thai); font-size: 1.2rem; font-weight: 600; white-space: nowrap; }
+  .hook .key { font-style: italic; color: var(--ink-soft); }
+
+  .scale {
+    display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .5rem;
+    font-family: var(--thai); font-size: 1.15rem; font-weight: 600;
+  }
+  .scale .arr { color: var(--gold); font-family: var(--sans); font-weight: 400; }
+
+  /* --- Ключ --- */
+  details.key {
+    border: 1px solid var(--rule); background: var(--card); border-radius: 2px;
+  }
+  details.key > summary {
+    cursor: pointer; padding: .5rem .8rem; font-family: var(--mono);
+    font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--green);
+    list-style: none; display: flex; align-items: center; gap: .5rem;
+  }
+  details.key > summary::-webkit-details-marker { display: none; }
+  details.key > summary::before { content: "▸"; font-size: .9rem; }
+  details.key[open] > summary::before { content: "▾"; }
+  details.key[open] { background: var(--green-soft); border-color: var(--green); }
+  details.key .ans {
+    padding: 0 .9rem .8rem; font-size: .95rem; display: flex; flex-direction: column; gap: .3rem;
+  }
+  details.key .ans span.th { font-family: var(--thai); font-size: 1.15rem; font-weight: 600; }
+  details.key .ans .why { color: var(--ink-soft); font-size: .88rem; }
+
+  .bank {
+    display: flex; flex-wrap: wrap; gap: .4rem .5rem; padding: .7rem .8rem;
+    border: 1px solid var(--rule); background: var(--accent-soft);
+  }
+  .bank .cap {
+    font-family: var(--mono); font-size: .66rem; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--accent); width: 100%;
+  }
+  .bank span.w {
+    font-family: var(--thai); font-size: 1.15rem; font-weight: 600;
+    background: var(--card); border: 1px solid var(--rule); padding: .1rem .55rem;
+  }
+
+  table.grid { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--rule); }
+  table.grid td, table.grid th { border: 1px solid var(--rule-soft); padding: .5rem .7rem; text-align: left; }
+  table.grid th { font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); font-weight: 400; }
+  table.grid td.lab { font-family: var(--thai); font-size: 1.15rem; font-weight: 600; white-space: nowrap; }
+  table.grid td.blank { height: 2.2rem; }
+
+  .foot {
+    border-top: 2px solid var(--ink); padding-top: 1.25rem;
+    display: flex; flex-direction: column; gap: .75rem; font-size: .95rem; color: var(--ink-soft);
+  }
+  .foot strong { color: var(--ink); }
+  .foot ol { margin: 0; padding-left: 1.3rem; display: flex; flex-direction: column; gap: .25rem; }
+
+  @media (max-width: 34rem) {
+    .block { grid-template-columns: 1fr; gap: .5rem; }
+    .block-letter { text-align: left; font-size: 1.9rem; padding-top: .4rem; }
+    .block-body { border-top: none; padding-top: 0; }
+  }
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .sheet { padding: 0; gap: 1.5rem; max-width: none; }
+    .block { break-inside: avoid; }
+    details.key { display: none; }
+  }
+
+
+* {box-sizing:border-box} body {margin:0} .sheet {max-width:54rem;gap:2rem}
+h2 {font-family:var(--serif);font-size:1.8rem;line-height:1.25;margin:0 0 1rem}
+h3 {font-size:1.2rem;line-height:1.4;margin:0 0 .8rem} p {margin:.65rem 0}
+a {color:var(--accent);text-underline-offset:3px} nav {display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;font-size:.9rem}
+.lesson {padding:1.4rem;background:var(--card);border:1px solid var(--rule);border-radius:4px}
+.example {padding:.7rem 1rem;border-left:3px solid var(--accent);margin:.8rem 0;background:var(--accent-soft)}
+[lang=th] {font-family:var(--thai);font-size:1.23em;line-height:1.8;font-weight:500}
+.example [lang=th] {display:block;font-size:1.5rem}.meaning {color:var(--ink-soft);font-size:.95rem}
+.formula {border:1px solid var(--gold);background:var(--gold-soft);padding:.8rem 1rem;margin:1rem 0;font-weight:600}
+.compare {width:100%;border-collapse:collapse;font-size:.94rem}.compare th,.compare td {padding:.65rem;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+.compare th {color:var(--accent)}.scroll {overflow-x:auto}.exercise {margin:1.4rem 0 2rem}.exercise h3 {margin-bottom:.4rem}
+.instructions {color:var(--ink-soft)}.questions {list-style:none;padding:0;counter-reset:letter;display:grid;gap:.7rem}
+.questions>li {padding:.8rem 1rem;background:var(--card);border:1px solid var(--rule);break-inside:avoid}
+.item-label {font-family:var(--mono);font-size:.8rem;color:var(--accent);margin-right:.5rem}.answer-space {height:2.4rem;border-bottom:1px dashed var(--rule);margin-top:.4rem}
+details.key {margin-top:1rem} details.key .ans {display:block}.answers {padding-left:1.5rem}.answers li {padding:.4rem 0}.why {display:block;color:var(--ink-soft);font-size:.9rem}
+.tip {border-left:3px solid var(--gold);padding:.7rem 1rem;background:var(--gold-soft)}.small {font-size:.88rem;color:var(--ink-soft)}
+section,article {scroll-margin-top:1rem} .repeat {border-top:2px solid var(--gold);padding-top:1.2rem}
+@media(max-width:540px){.lesson{padding:1rem}.sheet{padding:1.4rem 1rem 3rem}.compare th,.compare td{padding:.45rem}.questions>li{padding:.7rem}}
+@media print {:root{--paper:#fff;--card:#fff;--ink:#151c26;--ink-soft:#4d5866;--ink-faint:#687381;--rule:#d7dce4;--rule-soft:#e6eaf0;--accent:#26497d;--accent-soft:#e6ecf6;--gold:#8a6420;--gold-soft:#f3ecdd;--green:#2f6b46;--green-soft:#e4f0e8}body{background:white;color:black}.sheet{max-width:none;padding:0}.lesson{background:white;break-inside:avoid}nav,.screen-only{display:none}h2,h3{break-after:avoid}details.key:not([open]){display:none}details.key[open]{display:block;background:white}a{color:inherit}.example,.formula,.tip{background:#f5f5f5}.questions>li{background:white}.exercise{break-inside:auto}}
+</style></head><body><main class="sheet"><header class="head"><div class="eyebrow">Тайский A2 · Глава 3 · Отдельная тема 2</div>
+<h1>Вопросы о количестве и выборе<span class="sub">Сколько? Который? Что именно? Есть ли?</span></h1>
+<p>Подробный разбор и 72 новых пунктов практики. Пиши ответы в тетради; ключи открывай после своей попытки.</p>
+<nav aria-label="Навигация"><a href="schetnye_slova_glava3.html#p3">Исходная глава</a><a href="kazhdyj_vse_neskolko_glava3.html">Каждый, все, некоторые, несколько</a><a href="#theory">Мини-блоки с практикой</a><a href="#G">Комбинированные упражнения</a><a href="#repeat">Повторение</a></nav>
+</header>
+<aside class="tip"><b>Как проходить.</b> Читай один мини-блок и сразу выполняй упражнения под ним. После всех мини-блоков переходи к комбинированной практике в конце. Если не уверена, поставь «?». В начале ответа укажи блок и номер упражнения, затем пиши только буквы пунктов: а), б), в). Фразы пиши тайскими буквами; вежливые частицы в упражнениях необязательны.</aside>
+<section id="theory"><h2>Объяснение → практика после каждого мини-блока</h2>
+<section id="A">
+<article class="lesson" id="start"><h2>Блок A (Сначала реши, какой ответ тебе нужен)</h2>
+<div class="example"><span lang="th">มีกระเป๋ากี่ใบ</span><div class="meaning">Сколько сумок? → Нужен ответ числом.</div>
+</div>
+<div class="example"><span lang="th">กระเป๋าใบไหน</span><div class="meaning">Которая сумка? → Нужно указать на одну.</div>
+</div>
+<div class="example"><span lang="th">มีกระเป๋าไหม</span><div class="meaning">Есть сумки? → Нужно подтвердить или отрицать наличие.</div>
+</div>
+<p>Во всех трёх фразах речь о сумках, но собеседник должен сделать разное: посчитать, выбрать или сказать, есть ли они вообще. Поэтому одного русского слова «сколько» или «какой» недостаточно — сначала представь ответ.</p>
+<div class="scroll"><table class="compare"><thead><tr><th scope="col">Хочу узнать</th><th scope="col">Форма вопроса</th><th scope="col">Какой ответ ожидаю</th></tr>
+</thead>
+<tbody><tr><td>число предметов</td><td><span lang="th">กี่</span> + счётное</td><td>Число и счётное.</td></tr>
+<tr><td>цену</td><td><span lang="th">เท่าไหร่</span> или <span lang="th">กี่บาท</span></td><td>Сумму в батах.</td></tr>
+<tr><td>какой из вариантов</td><td>счётное + <span lang="th">ไหน</span></td><td>Этот, тот, красный…</td></tr>
+<tr><td>список людей или вещей</td><td>вопрос со словом <span lang="th">บ้าง</span></td><td>Имена или названия.</td></tr>
+<tr><td>есть ли что-то</td><td><span lang="th">มี … ไหม</span></td><td>Есть / нет.</td></tr>
+<tr><td>номер в порядке</td><td><span lang="th">ที่เท่าไหร่</span></td><td>Первый, второй…</td></tr>
+</tbody>
+</table>
+</div>
+<p>Для упражнений: у сумок и билетов счётное <span lang="th">ใบ</span>, у книг — <span lang="th">เล่ม</span>, у рубашек и животных — <span lang="th">ตัว</span>, у машин — <span lang="th">คัน</span>, у людей — <span lang="th">คน</span>. Воду в бутылках считаем через <span lang="th">ขวด</span>.</p>
+</article>
+<p class="tip"><b>Закрепи этот мини-блок.</b> Сделай упражнения ниже, затем переходи к следующему объяснению.</p>
+<section class="exercise" id="A1"><h3>1. Какой ответ нужен</h3>
+
+<p class="instructions">Запиши по-русски: число, цена, выбор, список, наличие или место по счёту.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">คุณซื้อกระเป๋ากี่ใบ</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span><span lang="th">ตั๋วใบนี้ราคาเท่าไหร่</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span><span lang="th">รถคันไหนเป็นของคุณ</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">г)</span><span lang="th">ใครมีรถบ้าง</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">д)</span><span lang="th">มีน้ำไหม</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">е)</span><span lang="th">หนังสือเล่มที่เท่าไหร่</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · A1</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> Число.</li>
+<li><b>б)</b> Цена.</li>
+<li><b>в)</b> Выбор.</li>
+<li><b>г)</b> Список.</li>
+<li><b>д)</b> Наличие.</li>
+<li><b>е)</b> Место по счёту.</li></ol></div></details>
+</section>
+</section>
+<section id="B">
+<article class="lesson" id="howmany"><h2>Блок B (Количество: ставим вопрос на место числа)</h2>
+<div class="example"><span lang="th">คุณมีตั๋วหกใบ</span><div class="meaning">У тебя шесть билетов.</div>
+</div>
+<div class="example"><span lang="th">คุณมีตั๋วกี่ใบ</span><div class="meaning">Сколько у тебя билетов?</div>
+</div>
+<p>Ты оставляешь предмет и счётное на месте, а число заменяешь на <span lang="th">กี่</span>. Вопрос не нужно переносить в начало по русскому образцу.</p>
+<div class="formula">Кто → <span lang="th">มี</span> → что считаем → <span lang="th">กี่</span> → счётное</div>
+<div class="example"><span lang="th">ในห้องมีกระเป๋ากี่ใบ</span><div class="meaning">Сколько сумок в комнате?</div>
+</div>
+<div class="example"><span lang="th">คุณซื้อเสื้อกี่ตัว</span><div class="meaning">Сколько рубашек ты покупаешь?</div>
+</div>
+<p>Можно спрашивать не только «сколько есть», но и «сколько покупаешь», «сколько читаешь», «сколько пьёшь»: меняется действие, а связка <span lang="th">กี่</span> + счётное остаётся.</p>
+<h3>Как отвечать коротко</h3>
+<div class="example"><span lang="th">— คุณซื้อเสื้อกี่ตัว → — สี่ตัว</span><div class="meaning">— Сколько рубашек ты покупаешь? — Четыре.</div>
+</div>
+<p>В коротком ответе оставь число и счётное. Чтобы сказать «ни одной», можно ответить <span lang="th">ไม่มีเลย</span>, если вопрос был о наличии. Если спрашивают о покупке, отвечай по действию: <span lang="th">ไม่ได้ซื้อ</span> — «не купила».</p>
+<h3>Сколько всего</h3>
+<div class="example"><span lang="th">มีตั๋วทั้งหมดกี่ใบ</span><div class="meaning">Сколько всего билетов?</div>
+</div>
+<p><span lang="th">ทั้งหมด</span> добавляет просьбу назвать общий итог. Само количество по-прежнему спрашивается через <span lang="th">กี่ใบ</span>.</p>
+</article>
+<p class="tip"><b>Закрепи этот мини-блок.</b> Сделай упражнения ниже, затем переходи к следующему объяснению.</p>
+<section class="exercise" id="B1"><h3>1. Заполни вопрос</h3>
+
+<p class="instructions">Запиши целый вопрос с нужным словом.</p>
+<p class="tip">Выбирай из <span lang="th">กี่ / เท่าไหร่ / ไหน / บ้าง / ไหม</span>; слова могут повторяться.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">คุณมีตั๋ว ___ ใบ</span> — сколько билетов?<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · B1</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">คุณมีตั๋วกี่ใบ</span></li></ol></div></details>
+</section>
+<section class="exercise" id="B2"><h3>2. Сохрани счётное</h3>
+
+<p class="instructions">Запиши целый вопрос, вставив счётное слово.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">มีเสื้อกี่ ___</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span><span lang="th">คุณซื้อหนังสือกี่ ___</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span><span lang="th">มีเพื่อนทั้งหมดกี่ ___</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">г)</span><span lang="th">คุณดื่มน้ำกี่ ___</span> — считаем бутылки<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · B2</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">มีเสื้อกี่ตัว</span></li>
+<li><b>б)</b> <span lang="th">คุณซื้อหนังสือกี่เล่ม</span></li>
+<li><b>в)</b> <span lang="th">มีเพื่อนทั้งหมดกี่คน</span></li>
+<li><b>г)</b> <span lang="th">คุณดื่มน้ำกี่ขวด</span></li></ol></div></details>
+</section>
+<section class="exercise" id="B3"><h3>3. Ответь коротко</h3>
+
+<p class="instructions">Напиши короткий ответ по-тайски; нужный смысл дан после вопроса.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">คุณมีรถกี่คัน</span> — три<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · B3</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">สามคัน</span></li></ol></div></details>
+</section>
+<section class="exercise" id="B4"><h3>4. Замени число вопросом</h3>
+
+<p class="instructions">Перепиши фразу так, чтобы спросить о выделенном количестве.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">คุณมีเสื้อ</span> <b><span lang="th">หก</span></b> <span lang="th">ตัว</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span><span lang="th">ในห้องมีตั๋ว</span> <b><span lang="th">เก้า</span></b> <span lang="th">ใบ</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span><span lang="th">มีน้ำทั้งหมด</span> <b><span lang="th">สิบ</span></b> <span lang="th">ขวด</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · B4</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">คุณมีเสื้อกี่ตัว</span></li>
+<li><b>б)</b> <span lang="th">ในห้องมีตั๋วกี่ใบ</span></li>
+<li><b>в)</b> <span lang="th">มีน้ำทั้งหมดกี่ขวด</span></li></ol></div></details>
+</section>
+<section class="exercise" id="B5"><h3>5. Собери вопрос</h3>
+
+<p class="instructions">Поставь тайские части по порядку и запиши вопрос целиком.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Сколько бутылок воды ты покупаешь? <span lang="th">น้ำ / กี่ / คุณ / ขวด / ซื้อ</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · B5</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">คุณซื้อน้ำกี่ขวด</span></li></ol></div></details>
+</section>
+<section class="exercise" id="B6"><h3>6. Исправь вопрос по смыслу</h3>
+
+<p class="instructions">Запиши правильный вопрос для указанной ситуации.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">คุณมีรถเท่าไหร่คัน</span> — узнать число машин<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span><span lang="th">มีตั๋วกี่คน</span> — узнать число билетов<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · B6</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">คุณมีรถกี่คัน</span><span class="why">В этой схеме กี่ стоит перед счётным.</span></li>
+<li><b>б)</b> <span lang="th">มีตั๋วกี่ใบ</span><span class="why">คน считает людей, ใบ — билеты.</span></li></ol></div></details>
+</section>
+</section>
+<section id="C">
+<article class="lesson" id="price"><h2>Блок C (Цена и сумма: два обычных способа)</h2>
+<div class="example"><span lang="th">กระเป๋าใบนี้ราคาเท่าไหร่</span><div class="meaning">Сколько стоит эта сумка?</div>
+</div>
+<div class="example"><span lang="th">กระเป๋าใบนี้กี่บาท</span><div class="meaning">Сколько бат стоит эта сумка?</div>
+</div>
+<p>Оба вопроса о цене. В первом мы спрашиваем сумму через <span lang="th">เท่าไหร่</span>; во втором называем единицу денег — <span lang="th">บาท</span>, поэтому используем <span lang="th">กี่บาท</span>.</p>
+<p>Не запоминай правило «деньги — значит только <span lang="th">เท่าไหร่</span>»: вопрос с <span lang="th">กี่บาท</span> тоже правильный.</p>
+<h3>Одна штука и вся покупка</h3>
+<div class="example"><span lang="th">น้ำขวดละเท่าไหร่</span><div class="meaning">Сколько стоит одна бутылка воды?</div>
+</div>
+<div class="example"><span lang="th">ทั้งหมดเท่าไหร่</span><div class="meaning">Сколько всё вместе стоит?</div>
+</div>
+<p>В первом вопросе <span lang="th">ขวดละ</span> значит «за бутылку». Во втором ты просишь сумму всей покупки. Если три бутылки стоят по десять бат, ответы будут разными: десять бат за бутылку и тридцать бат за всё.</p>
+<h3>Количество и цена одной вещи</h3>
+<div class="scroll"><table class="compare"><thead><tr><th scope="col">Вопрос</th><th scope="col">Что сообщить</th></tr>
+</thead>
+<tbody><tr><td><span lang="th">คุณมีหนังสือกี่เล่ม</span></td><td>Количество книг.</td></tr>
+<tr><td><span lang="th">หนังสือเล่มนี้เท่าไหร่</span></td><td>Цену этой книги.</td></tr>
+<tr><td><span lang="th">หนังสือเล่มไหน</span></td><td>Какую именно книгу.</td></tr>
+</tbody>
+</table>
+</div>
+<p class="tip">Для полного вопроса о числе предметов тренируй <span lang="th">กี่</span> + счётное. Не собирай <span lang="th">เท่าไหร่เล่ม</span> вместо <span lang="th">กี่เล่ม</span>. При этом <span lang="th">เท่าไหร่</span> бывает не только в вопросах о деньгах — ниже есть длительность и возраст.</p>
+</article>
+<p class="tip"><b>Закрепи этот мини-блок.</b> Сделай упражнения ниже, затем переходи к следующему объяснению.</p>
+<section class="exercise" id="C1"><h3>1. Заполни вопрос</h3>
+
+<p class="instructions">Запиши целый вопрос с нужным словом.</p>
+<p class="tip">Выбирай из <span lang="th">กี่ / เท่าไหร่ / ไหน / บ้าง / ไหม</span>; слова могут повторяться.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">รถคันนี้ราคา ___</span> — сколько стоит эта машина?<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · C1</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">รถคันนี้ราคาเท่าไหร่</span></li></ol></div></details>
+</section>
+<section class="exercise" id="C2"><h3>2. Ответь коротко</h3>
+
+<p class="instructions">Напиши короткий ответ по-тайски; нужный смысл дан после вопроса.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">ตั๋วใบนี้กี่บาท</span> — семьдесят бат<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · C2</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">เจ็ดสิบบาท</span></li></ol></div></details>
+</section>
+<section class="exercise" id="C3"><h3>3. Замени число вопросом</h3>
+
+<p class="instructions">Перепиши фразу так, чтобы спросить о выделенном количестве.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">กระเป๋าใบนี้</span> <b><span lang="th">แปดสิบ</span></b> <span lang="th">บาท</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · C3</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">กระเป๋าใบนี้กี่บาท</span></li></ol></div></details>
+</section>
+<section class="exercise" id="C4"><h3>4. Собери вопрос</h3>
+
+<p class="instructions">Поставь тайские части по порядку и запиши вопрос целиком.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Сколько стоит эта книга? <span lang="th">ราคา / เล่มนี้ / เท่าไหร่ / หนังสือ</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · C4</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">หนังสือเล่มนี้ราคาเท่าไหร่</span></li></ol></div></details>
+</section>
+<section class="exercise" id="C5"><h3>5. Исправь вопрос по смыслу</h3>
+
+<p class="instructions">Запиши правильный вопрос для указанной ситуации.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">น้ำขวดละกี่</span> — узнать цену бутылки<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · C5</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">น้ำขวดละกี่บาท</span> или <span lang="th">น้ำขวดละเท่าไหร่</span><span class="why">К กี่ допиши บาท; другой вариант — เท่าไหร่.</span></li></ol></div></details>
+</section>
+</section>
+<section id="D">
+<article class="lesson" id="time"><h2>Блок D (Часы, длительность, возраст и частота)</h2>
+<h3>Когда единица названа</h3>
+<p>После <span lang="th">กี่</span> может стоять не счётное предмета, а единица времени или количества повторений: часы, минуты, дни, годы, разы.</p>
+<div class="example"><span lang="th">คุณอ่านหนังสือวันละกี่ชั่วโมง</span><div class="meaning">По сколько часов в день ты читаешь?</div>
+</div>
+<div class="example"><span lang="th">คุณดูหนังเดือนละกี่ครั้ง</span><div class="meaning">Сколько раз в месяц ты смотришь фильмы?</div>
+</div>
+<p>В первой фразе <span lang="th">วันละ</span> задаёт «в день», а <span lang="th">กี่ชั่วโมง</span> спрашивает число часов. Во второй <span lang="th">เดือนละ</span> — «в месяц», <span lang="th">กี่ครั้ง</span> — «сколько раз».</p>
+<h3>Длительность без единицы</h3>
+<div class="example"><span lang="th">คุณจะอยู่ที่นี่นานเท่าไหร่</span><div class="meaning">Как долго ты будешь здесь?</div>
+</div>
+<div class="example"><span lang="th">คุณจะอยู่ที่นี่กี่วัน</span><div class="meaning">Сколько дней ты будешь здесь?</div>
+</div>
+<p>Вопросы могут относиться к одной поездке. Первый оставляет выбор единицы собеседнику, второй просит именно дни. <span lang="th">นาน</span> — «долго», <span lang="th">จะอยู่</span> — «будешь находиться / жить».</p>
+<h3>Текущее время и возраст</h3>
+<div class="scroll"><table class="compare"><thead><tr><th scope="col">Вопрос</th><th scope="col">Значение</th><th scope="col">Пример ответа</th></tr>
+</thead>
+<tbody><tr><td><span lang="th">ตอนนี้กี่โมง</span></td><td>Который сейчас час?</td><td><span lang="th">สิบโมงเช้า</span> — десять утра.</td></tr>
+<tr><td><span lang="th">คุณอายุกี่ปี</span></td><td>Сколько тебе лет?</td><td><span lang="th">สามสิบปี</span> — тридцать лет.</td></tr>
+<tr><td><span lang="th">คุณอายุเท่าไหร่</span></td><td>Какой у тебя возраст?</td><td><span lang="th">สามสิบปี</span> — тридцать лет.</td></tr>
+</tbody>
+</table>
+</div>
+<p><span lang="th">กี่โมง</span> спрашивает время на часах, а <span lang="th">กี่ชั่วโมง</span> — количество часов. «Во сколько?» и «сколько часов?» требуют разных ответов.</p>
+</article>
+<p class="tip"><b>Закрепи этот мини-блок.</b> Сделай упражнения ниже, затем переходи к следующему объяснению.</p>
+<section class="exercise" id="D1"><h3>1. Заполни вопрос</h3>
+
+<p class="instructions">Запиши целый вопрос с нужным словом.</p>
+<p class="tip">Выбирай из <span lang="th">กี่ / เท่าไหร่ / ไหน / บ้าง / ไหม</span>; слова могут повторяться.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">คุณอ่านหนังสือวันละ ___ ชั่วโมง</span> — по сколько часов в день?<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · D1</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">คุณอ่านหนังสือวันละกี่ชั่วโมง</span></li></ol></div></details>
+</section>
+<section class="exercise" id="D2"><h3>2. Ответь коротко</h3>
+
+<p class="instructions">Напиши короткий ответ по-тайски; нужный смысл дан после вопроса.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">คุณจะอยู่ที่นี่กี่วัน</span> — восемь дней<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · D2</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">แปดวัน</span></li></ol></div></details>
+</section>
+<section class="exercise" id="D3"><h3>3. Замени число вопросом</h3>
+
+<p class="instructions">Перепиши фразу так, чтобы спросить о выделенном количестве.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">คุณอ่านหนังสือวันละ</span> <b><span lang="th">สอง</span></b> <span lang="th">ชั่วโมง</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span><span lang="th">คุณดูหนังเดือนละ</span> <b><span lang="th">สี่</span></b> <span lang="th">ครั้ง</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · D3</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">คุณอ่านหนังสือวันละกี่ชั่วโมง</span></li>
+<li><b>б)</b> <span lang="th">คุณดูหนังเดือนละกี่ครั้ง</span></li></ol></div></details>
+</section>
+<section class="exercise" id="D4"><h3>4. Собери вопрос</h3>
+
+<p class="instructions">Поставь тайские части по порядку и запиши вопрос целиком.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Как долго ты читаешь? <span lang="th">นาน / คุณ / เท่าไหร่ / อ่านหนังสือ</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · D4</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">คุณอ่านหนังสือนานเท่าไหร่</span></li></ol></div></details>
+</section>
+</section>
+<section id="E">
+<article class="lesson" id="which"><h2>Блок E (Который из них и который по счёту)</h2>
+<h3>Выбор: счётное + <span lang="th">ไหน</span></h3>
+<div class="example"><span lang="th">คุณอยากได้ตั๋วใบไหน</span><div class="meaning">Который билет ты хочешь?</div>
+</div>
+<div class="example"><span lang="th">— ใบไหน → — ใบนั้น</span><div class="meaning">— Который? — Тот.</div>
+</div>
+<p><span lang="th">ไหน</span> стоит после счётного — там, где в ответе появится <span lang="th">นี้</span> «этот» или <span lang="th">นั้น</span> «тот». Если предмет уже назван, можно оставить только <span lang="th">ใบไหน</span>.</p>
+<div class="formula"><span lang="th">ตั๋วกี่ใบ</span> → сколько билетов?<br><span lang="th">ตั๋วใบไหน</span> → который билет?</div>
+<p>Счётное сохраняется и в ответе: для машины <span lang="th">คันนี้</span>, для рубашки <span lang="th">ตัวนั้น</span>, для книги <span lang="th">เล่มนี้</span>. Слово <span lang="th">อัน</span> не подставляй вместо любого знакомого счётного.</p>
+<h3>Позиция в порядке: <span lang="th">ที่เท่าไหร่</span></h3>
+<div class="example"><span lang="th">คุณอ่านหนังสือเล่มที่เท่าไหร่</span><div class="meaning">Которую по счёту книгу ты читаешь?</div>
+</div>
+<div class="example"><span lang="th">— เล่มที่เท่าไหร่ → — เล่มที่สอง</span><div class="meaning">— Которую по счёту? — Вторую.</div>
+</div>
+<p>Здесь должен быть известен порядок: например, ты читаешь книги по списку. <span lang="th">เล่มไหน</span> выбирает книгу среди вариантов; <span lang="th">เล่มที่เท่าไหร่</span> спрашивает её место в последовательности.</p>
+</article>
+<p class="tip"><b>Закрепи этот мини-блок.</b> Сделай упражнения ниже, затем переходи к следующему объяснению.</p>
+<section class="exercise" id="E1"><h3>1. Заполни вопрос</h3>
+
+<p class="instructions">Запиши целый вопрос с нужным словом.</p>
+<p class="tip">Выбирай из <span lang="th">กี่ / เท่าไหร่ / ไหน / บ้าง / ไหม</span>; слова могут повторяться.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">คุณชอบกระเป๋าใบ ___</span> — которая сумка нравится?<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · E1</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">คุณชอบกระเป๋าใบไหน</span></li></ol></div></details>
+</section>
+<section class="exercise" id="E2"><h3>2. Сохрани счётное</h3>
+
+<p class="instructions">Запиши целый вопрос, вставив счётное слово.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">คุณอยากได้รถ ___ ไหน</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span><span lang="th">กระเป๋า ___ ไหนสีแดง</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · E2</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">คุณอยากได้รถคันไหน</span></li>
+<li><b>б)</b> <span lang="th">กระเป๋าใบไหนสีแดง</span></li></ol></div></details>
+</section>
+<section class="exercise" id="E3"><h3>3. Ответь коротко</h3>
+
+<p class="instructions">Напиши короткий ответ по-тайски; нужный смысл дан после вопроса.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">คุณชอบกระเป๋าใบไหน</span> — ту<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span><span lang="th">คุณอ่านหนังสือเล่มที่เท่าไหร่</span> — четвёртую<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · E3</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">ใบนั้น</span></li>
+<li><b>б)</b> <span lang="th">เล่มที่สี่</span></li></ol></div></details>
+</section>
+<section class="exercise" id="E4"><h3>4. Собери вопрос</h3>
+
+<p class="instructions">Поставь тайские части по порядку и запиши вопрос целиком.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Которая рубашка красная? <span lang="th">สีแดง / ไหน / เสื้อ / ตัว</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · E4</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">เสื้อตัวไหนสีแดง</span></li></ol></div></details>
+</section>
+<section class="exercise" id="E5"><h3>5. Исправь вопрос по смыслу</h3>
+
+<p class="instructions">Запиши правильный вопрос для указанной ситуации.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">คุณชอบเสื้อไหนตัว</span> — выбрать рубашку<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span><span lang="th">คุณอ่านหนังสือเล่มไหน</span> — спросить место книги в списке<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · E5</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">คุณชอบเสื้อตัวไหน</span><span class="why">ไหน ставится после ตัว.</span></li>
+<li><b>б)</b> <span lang="th">คุณอ่านหนังสือเล่มที่เท่าไหร่</span><span class="why">Исходный вопрос выбирает книгу; ที่เท่าไหร่ спрашивает номер.</span></li></ol></div></details>
+</section>
+</section>
+<section id="F">
+<article class="lesson" id="list"><h2>Блок F (Число, перечисление и наличие)</h2>
+<h3><span lang="th">บ้าง</span> — попросить назвать варианты</h3>
+<div class="example"><span lang="th">คุณมีหนังสืออะไรบ้าง</span><div class="meaning">Какие книги у тебя есть?</div>
+</div>
+<div class="example"><span lang="th">ใครชอบอ่านหนังสือบ้าง</span><div class="meaning">Кто любит читать книги?</div>
+</div>
+<p>В этих вопросах <span lang="th">บ้าง</span> приглашает перечислить книги или людей. В ответе нужны названия или имена, а не только число. Перечень может состоять и из одного пункта, если больше подходящих нет.</p>
+<p>Запоминай <span lang="th">บาง</span> и <span lang="th">บ้าง</span> раздельно: в этой теме первое означает «некоторые», а второе помогает попросить перечисление. У <span lang="th">บ้าง</span> есть и другие употребления; здесь тренируем вопросы со списком.</p>
+<h3><span lang="th">มี … ไหม</span> — есть ли вообще</h3>
+<div class="example"><span lang="th">มีหนังสือไหม</span><div class="meaning">Есть книги?</div>
+</div>
+<div class="example"><span lang="th">— มีไหม → — มี / ไม่มี</span><div class="meaning">— Есть? — Есть / нет.</div>
+</div>
+<p>Это вопрос о наличии. Он ещё не просит ни число, ни список. После ответа «есть» можно уточнить количество или выбрать конкретную вещь.</p>
+<div class="scroll"><table class="compare"><thead><tr><th scope="col">Одна ситуация: у подруги есть книги</th><th scope="col">Что ждём</th></tr>
+</thead>
+<tbody><tr><td><span lang="th">มีหนังสือไหม</span></td><td>Подтверждение наличия.</td></tr>
+<tr><td><span lang="th">มีหนังสือกี่เล่ม</span></td><td>Число книг.</td></tr>
+<tr><td><span lang="th">มีหนังสืออะไรบ้าง</span></td><td>Названия книг.</td></tr>
+<tr><td><span lang="th">ขอดูหนังสือเล่มไหนได้บ้าง</span></td><td>Перечень книг, которые можно посмотреть.</td></tr>
+</tbody>
+</table>
+</div>
+<p>В последнем вопросе соединяются выбор и перечисление: «Какие из книг можно посмотреть?» Это не требование выбрать ровно одну.</p>
+</article>
+<p class="tip"><b>Закрепи этот мини-блок.</b> Сделай упражнения ниже, затем переходи к следующему объяснению.</p>
+<section class="exercise" id="F1"><h3>1. Заполни вопрос</h3>
+
+<p class="instructions">Запиши целый вопрос с нужным словом.</p>
+<p class="tip">Выбирай из <span lang="th">กี่ / เท่าไหร่ / ไหน / บ้าง / ไหม</span>; слова могут повторяться.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">คุณมีผลไม้อะไร ___</span> — какие фрукты есть, перечисли?<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span><span lang="th">มีตั๋ว ___</span> — есть билеты?<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · F1</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">คุณมีผลไม้อะไรบ้าง</span></li>
+<li><b>б)</b> <span lang="th">มีตั๋วไหม</span></li></ol></div></details>
+</section>
+<section class="exercise" id="F2"><h3>2. Ответь коротко</h3>
+
+<p class="instructions">Напиши короткий ответ по-тайски; нужный смысл дан после вопроса.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">มีเสื้อไหม</span> — нет<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · F2</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">ไม่มี</span></li></ol></div></details>
+</section>
+<section class="exercise" id="F3"><h3>3. Собери вопрос</h3>
+
+<p class="instructions">Поставь тайские части по порядку и запиши вопрос целиком.</p>
+<ol class="questions"><li><span class="item-label">а)</span>У кого есть билеты? <span lang="th">บ้าง / มี / ใคร / ตั๋ว</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Есть другая сумка? <span lang="th">ไหม / กระเป๋า / มี / อื่น / ใบ</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · F3</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">ใครมีตั๋วบ้าง</span></li>
+<li><b>б)</b> <span lang="th">มีกระเป๋าใบอื่นไหม</span></li></ol></div></details>
+</section>
+<section class="exercise" id="F4"><h3>4. Исправь вопрос по смыслу</h3>
+
+<p class="instructions">Запиши правильный вопрос для указанной ситуации.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">คุณมีหนังสือกี่เล่ม</span> — попросить перечислить книги<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · F4</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">คุณมีหนังสืออะไรบ้าง</span><span class="why">Исходная фраза правильная, но просит число, а не названия.</span></li></ol></div></details>
+</section>
+</section>
+</section>
+<section id="G"><h2 class="part">Блок G (Комбинированная практика)</h2>
+<p>Здесь правила смешаны. Выполни задания без подсказок из объяснений, затем открой ключи.</p>
+<section class="exercise" id="G1"><h3>1. Один предмет — разные вопросы</h3>
+
+<p class="instructions">Переведи каждый вопрос на тайский.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Есть машины?<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Сколько машин всего?<div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span>Которая машина красная?<div class="answer-space"></div>
+</li>
+<li><span class="item-label">г)</span>Сколько стоит эта машина?<div class="answer-space"></div>
+</li>
+<li><span class="item-label">д)</span>У кого есть машина? Попроси назвать людей.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">е)</span>Есть другая машина?<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · G1</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">มีรถไหม</span></li>
+<li><b>б)</b> <span lang="th">มีรถทั้งหมดกี่คัน</span></li>
+<li><b>в)</b> <span lang="th">รถคันไหนสีแดง</span></li>
+<li><b>г)</b> <span lang="th">รถคันนี้ราคาเท่าไหร่</span></li>
+<li><b>д)</b> <span lang="th">ใครมีรถบ้าง</span></li>
+<li><b>е)</b> <span lang="th">มีรถคันอื่นไหม</span></li></ol></div></details>
+</section>
+<section class="exercise" id="G2"><h3>2. Узнай о поездке</h3>
+
+<p class="instructions">Переведи шесть вопросов на тайский.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Сколько у тебя сумок?<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Которые сумки твои? Попроси показать все подходящие.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span>Сколько всего человек?<div class="answer-space"></div>
+</li>
+<li><span class="item-label">г)</span>Сколько стоит один билет?<div class="answer-space"></div>
+</li>
+<li><span class="item-label">д)</span>Как долго ты будешь в Бангкоке?<div class="answer-space"></div>
+</li>
+<li><span class="item-label">е)</span>Сколько раз в год ты ездишь в Бангкок?<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · G2</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">คุณมีกระเป๋ากี่ใบ</span></li>
+<li><b>б)</b> <span lang="th">กระเป๋าใบไหนเป็นของคุณบ้าง</span><span class="why">บ้าง позволяет перечислить несколько подходящих сумок.</span></li>
+<li><b>в)</b> <span lang="th">ทั้งหมดกี่คน</span></li>
+<li><b>г)</b> <span lang="th">ตั๋วใบละเท่าไหร่</span></li>
+<li><b>д)</b> <span lang="th">คุณจะอยู่กรุงเทพนานเท่าไหร่</span></li>
+<li><b>е)</b> <span lang="th">คุณไปกรุงเทพปีละกี่ครั้ง</span></li></ol></div></details>
+</section>
+<section class="exercise" id="G3"><h3>3. Разговор о покупке</h3>
+
+<p class="instructions">Переведи каждую реплику на тайский.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Покупатель: «Есть сумки?»<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Продавец: «Есть. Которую сумку вы хотите?»<div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span>Покупатель: «Вот эту. Сколько она стоит?»<div class="answer-space"></div>
+</li>
+<li><span class="item-label">г)</span>Продавец: «Шестьдесят бат за штуку. Сколько сумок возьмёте?»<div class="answer-space"></div>
+</li>
+<li><span class="item-label">д)</span>Покупатель: «Три сумки. Сколько всего?»<div class="answer-space"></div>
+</li>
+<li><span class="item-label">е)</span>Продавец: «Всего сто восемьдесят бат».<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · G3</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">มีกระเป๋าไหม</span></li>
+<li><b>б)</b> <span lang="th">มี คุณอยากได้กระเป๋าใบไหน</span></li>
+<li><b>в)</b> <span lang="th">ใบนี้ ราคาเท่าไหร่</span></li>
+<li><b>г)</b> <span lang="th">ใบละหกสิบบาท คุณจะเอากระเป๋ากี่ใบ</span></li>
+<li><b>д)</b> <span lang="th">สามใบ ทั้งหมดเท่าไหร่</span></li>
+<li><b>е)</b> <span lang="th">ทั้งหมดหนึ่งร้อยแปดสิบบาท</span><span class="why">3 × 60 = 180.</span></li></ol></div></details>
+</section>
+<section class="exercise" id="G4"><h3>4. Задай вопрос к ответу</h3>
+
+<p class="instructions">Напиши подходящий тайский вопрос по ситуации.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Разговор о возрасте. Ответ: <span lang="th">ยี่สิบห้าปี</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Разговор о текущем времени. Ответ: <span lang="th">สิบเอ็ดโมงเช้า</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span>Подруга указывает, какая рубашка её. Ответ: <span lang="th">ตัวนี้</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">г)</span>Узнаёшь число книг у подруги. Ответ: <span lang="th">เจ็ดเล่ม</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">д)</span>Хочешь список фруктов, которые она любит. Ответ: <span lang="th">ส้มกับมะม่วง</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">е)</span>Узнаёшь, сколько минут занимает чтение. Ответ: <span lang="th">สามสิบนาที</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · G4</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">คุณอายุกี่ปี</span> или <span lang="th">คุณอายุเท่าไหร่</span></li>
+<li><b>б)</b> <span lang="th">ตอนนี้กี่โมง</span></li>
+<li><b>в)</b> <span lang="th">เสื้อตัวไหนเป็นของคุณ</span></li>
+<li><b>г)</b> <span lang="th">คุณมีหนังสือกี่เล่ม</span></li>
+<li><b>д)</b> <span lang="th">คุณชอบผลไม้อะไรบ้าง</span></li>
+<li><b>е)</b> <span lang="th">คุณอ่านหนังสือกี่นาที</span></li></ol></div></details>
+</section>
+<section class="exercise" id="G5"><h3>5. Создай свои вопросы</h3>
+
+<p class="instructions">Напиши по одному вопросу на тайском для каждой цели.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Узнай количество вещей выбранного вида.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Уточни цену одной вещи.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span>Попроси выбрать конкретную вещь.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">г)</span>Попроси перечислить людей, которые любят выбранное действие.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">д)</span>Уточни, есть ли другой вариант вещи.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">е)</span>Узнай, сколько раз в день или месяц человек делает что-то.<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · G5</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">คุณซื้อกระเป๋ากี่ใบ</span><span class="why">Образец: предмет → กี่ → подходящее счётное.</span></li>
+<li><b>б)</b> <span lang="th">เสื้อตัวละเท่าไหร่</span><span class="why">Образец: счётное + ละ задаёт цену за единицу.</span></li>
+<li><b>в)</b> <span lang="th">คุณอยากได้หนังสือเล่มไหน</span><span class="why">Образец: счётное → ไหน.</span></li>
+<li><b>г)</b> <span lang="th">ใครชอบดูหนังบ้าง</span><span class="why">Образец: кто любит смотреть фильмы?</span></li>
+<li><b>д)</b> <span lang="th">มีหนังสือเล่มอื่นไหม</span><span class="why">Образец: есть другая книга?</span></li>
+<li><b>е)</b> <span lang="th">คุณไปตลาดเดือนละกี่ครั้ง</span><span class="why">Образец: сколько раз в месяц ты ходишь на рынок?</span></li></ol></div></details>
+</section>
+</section>
+<footer class="repeat" id="repeat"><h2>Как вернуться к теме</h2>
+<ol><li><b>На следующий день:</b> закрой объяснения и заново сделай пункты с «?», затем одно упражнение после того мини-блока, который дался труднее всего.</li>
+<li><b>Через три дня:</b> возьми другое упражнение из того же мини-блока и напиши его ответы без банка слов.</li>
+<li><b>Через неделю:</b> сделай блок G без ключа. После проверки перепиши целиком фразы, в которых ошиблась.</li>
+</ol>
+<p>Проверяй две вещи отдельно: передала ли ты нужный смысл и правильно ли поставила счётное слово.</p>
+<p class="small">Для печати оставь ответы свёрнутыми. Чтобы распечатать ключи, сначала раскрой нужные разделы.</p>
+<nav aria-label="Навигация"><a href="schetnye_slova_glava3.html#p3">Исходная глава</a><a href="kazhdyj_vse_neskolko_glava3.html">Каждый, все, некоторые, несколько</a><a href="#theory">Мини-блоки с практикой</a><a href="#G">Комбинированные упражнения</a><a href="#repeat">Повторение</a></nav>
+</footer>
+</main>
+</body></html>

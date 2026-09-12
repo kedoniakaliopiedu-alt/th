@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Каждый, все, некоторые, несколько — Глава 3</title><style>
+  :root {
+    --paper: #f4f5f7;
+    --card: #fbfbfc;
+    --ink: #151c26;
+    --ink-soft: #4d5866;
+    --ink-faint: #8b95a3;
+    --rule: #d7dce4;
+    --rule-soft: #e6eaf0;
+    --accent: #26497d;
+    --accent-soft: #e6ecf6;
+    --gold: #8a6420;
+    --gold-soft: #f3ecdd;
+    --green: #2f6b46;
+    --green-soft: #e4f0e8;
+
+    --serif: "Charter", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --thai: var(--sans);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0e131a; --card: #151b24; --ink: #e7ebf1; --ink-soft: #a9b3c1;
+      --ink-faint: #6f7a89; --rule: #2a323d; --rule-soft: #212933;
+      --accent: #8fb0e4; --accent-soft: #1b2635; --gold: #d5ac66; --gold-soft: #262015;
+      --green: #7fc79a; --green-soft: #16241c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0e131a; --card: #151b24; --ink: #e7ebf1; --ink-soft: #a9b3c1;
+    --ink-faint: #6f7a89; --rule: #2a323d; --rule-soft: #212933;
+    --accent: #8fb0e4; --accent-soft: #1b2635; --gold: #d5ac66; --gold-soft: #262015;
+    --green: #7fc79a; --green-soft: #16241c;
+  }
+  :root[data-theme="light"] {
+    --paper: #f4f5f7; --card: #fbfbfc; --ink: #151c26; --ink-soft: #4d5866;
+    --ink-faint: #8b95a3; --rule: #d7dce4; --rule-soft: #e6eaf0;
+    --accent: #26497d; --accent-soft: #e6ecf6; --gold: #8a6420; --gold-soft: #f3ecdd;
+    --green: #2f6b46; --green-soft: #e4f0e8;
+  }
+
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--sans);
+    font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet {
+    max-width: 48rem; margin: 0 auto;
+    padding: clamp(1.25rem, 4vw, 3.5rem) clamp(1rem, 4vw, 2rem) 5rem;
+    display: flex; flex-direction: column; gap: 2.75rem;
+  }
+
+  .head {
+    display: flex; flex-direction: column; gap: 1.25rem;
+    padding-bottom: 1.75rem; border-bottom: 2px solid var(--ink);
+  }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--gold);
+    display: flex; align-items: center; gap: .55rem;
+  }
+  .eyebrow::before {
+    content: ""; width: .5rem; height: .5rem;
+    border: 1.5px solid currentColor; border-radius: 50%;
+  }
+
+  h1 {
+    font-family: var(--serif); font-size: clamp(2rem, 6vw, 3rem);
+    line-height: 1.05; font-weight: 600; letter-spacing: -.015em;
+    text-wrap: balance; margin: 0;
+  }
+  h1 .sub {
+    display: block; font-size: .42em; font-weight: 400; letter-spacing: .01em;
+    color: var(--ink-soft); margin-top: .7rem;
+  }
+
+  h2.part {
+    font-family: var(--serif); font-size: 1.7rem; font-weight: 600;
+    margin: 0; padding-bottom: .5rem; border-bottom: 2px solid var(--gold);
+    color: var(--gold);
+  }
+
+  .note { font-size: .95rem; color: var(--ink-soft); max-width: 42rem; }
+  .note b { color: var(--ink); font-weight: 600; }
+
+  code.ref {
+    font-family: var(--mono); font-size: .85em; background: var(--accent-soft);
+    color: var(--accent); padding: .1em .4em; border-radius: 2px;
+  }
+
+  .block { display: grid; grid-template-columns: 3.25rem 1fr; gap: 0 1.25rem; align-items: start; }
+  .block-letter {
+    font-family: var(--serif); font-size: 2.5rem; line-height: .9; color: var(--accent);
+    border-top: 2px solid var(--accent); padding-top: .55rem; text-align: center; font-weight: 600;
+  }
+  .block-body {
+    border-top: 1px solid var(--rule); padding-top: .6rem;
+    display: flex; flex-direction: column; gap: 1.5rem; min-width: 0;
+  }
+  .block-name {
+    font-family: var(--mono); font-size: .68rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: -.85rem;
+  }
+
+  .task { display: flex; flex-direction: column; gap: .9rem; min-width: 0; }
+
+  .prompt { display: grid; grid-template-columns: 1.6rem 1fr; gap: .5rem; font-size: 1.06rem; line-height: 1.5; }
+  .prompt .n { font-family: var(--mono); font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .prompt .opts { display: block; margin-top: .45rem; font-size: .92rem; color: var(--ink-soft); }
+  .prompt .opts b { font-family: var(--mono); color: var(--ink); font-weight: 600; letter-spacing: .02em; }
+
+  .items { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--rule-soft); border: 1px solid var(--rule-soft); }
+  .items.cols-4 { grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr)); }
+  .items.cols-3 { grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); }
+  .items.cols-2 { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+  .items.cols-1 { grid-template-columns: 1fr; }
+  .items li { background: var(--card); padding: .7rem .85rem .75rem; display: flex; flex-direction: column; gap: .3rem; }
+
+  .mark { font-family: var(--mono); font-size: .72rem; color: var(--ink-faint); }
+  .thai { font-family: var(--thai); font-size: 1.45rem; line-height: 1.3; font-weight: 600; letter-spacing: .01em; }
+  .thai.big { font-size: 1.9rem; }
+  .ru { font-size: 1rem; line-height: 1.4; }
+  .num { font-family: var(--serif); font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+  .clock { font-family: var(--mono); font-size: 1.3rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .gloss { font-size: .8rem; color: var(--ink-faint); }
+  .line { margin-top: .3rem; border-bottom: 1px dashed var(--rule); height: 1.3rem; }
+  .line.tall { height: 2.4rem; }
+
+  /* --- Крючок: мнемоническая карточка --- */
+  .hook {
+    border: 1px solid var(--gold); background: var(--gold-soft);
+    padding: .9rem 1rem; display: flex; flex-direction: column; gap: .6rem;
+  }
+  .hook .cap {
+    font-family: var(--mono); font-size: .66rem; letter-spacing: .13em;
+    text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: .4rem;
+  }
+  .hook p { margin: 0; font-size: .95rem; }
+  .hook table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+  .hook td, .hook th {
+    border-top: 1px solid color-mix(in srgb, var(--gold) 30%, transparent);
+    padding: .32rem .5rem; text-align: left; vertical-align: baseline;
+  }
+  .hook tr:first-child td, .hook tr:first-child th { border-top: none; }
+  .hook th { font-family: var(--mono); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); font-weight: 400; }
+  .hook .th { font-family: var(--thai); font-size: 1.2rem; font-weight: 600; white-space: nowrap; }
+  .hook .key { font-style: italic; color: var(--ink-soft); }
+
+  .scale {
+    display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .5rem;
+    font-family: var(--thai); font-size: 1.15rem; font-weight: 600;
+  }
+  .scale .arr { color: var(--gold); font-family: var(--sans); font-weight: 400; }
+
+  /* --- Ключ --- */
+  details.key {
+    border: 1px solid var(--rule); background: var(--card); border-radius: 2px;
+  }
+  details.key > summary {
+    cursor: pointer; padding: .5rem .8rem; font-family: var(--mono);
+    font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--green);
+    list-style: none; display: flex; align-items: center; gap: .5rem;
+  }
+  details.key > summary::-webkit-details-marker { display: none; }
+  details.key > summary::before { content: "▸"; font-size: .9rem; }
+  details.key[open] > summary::before { content: "▾"; }
+  details.key[open] { background: var(--green-soft); border-color: var(--green); }
+  details.key .ans {
+    padding: 0 .9rem .8rem; font-size: .95rem; display: flex; flex-direction: column; gap: .3rem;
+  }
+  details.key .ans span.th { font-family: var(--thai); font-size: 1.15rem; font-weight: 600; }
+  details.key .ans .why { color: var(--ink-soft); font-size: .88rem; }
+
+  .bank {
+    display: flex; flex-wrap: wrap; gap: .4rem .5rem; padding: .7rem .8rem;
+    border: 1px solid var(--rule); background: var(--accent-soft);
+  }
+  .bank .cap {
+    font-family: var(--mono); font-size: .66rem; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--accent); width: 100%;
+  }
+  .bank span.w {
+    font-family: var(--thai); font-size: 1.15rem; font-weight: 600;
+    background: var(--card); border: 1px solid var(--rule); padding: .1rem .55rem;
+  }
+
+  table.grid { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--rule); }
+  table.grid td, table.grid th { border: 1px solid var(--rule-soft); padding: .5rem .7rem; text-align: left; }
+  table.grid th { font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); font-weight: 400; }
+  table.grid td.lab { font-family: var(--thai); font-size: 1.15rem; font-weight: 600; white-space: nowrap; }
+  table.grid td.blank { height: 2.2rem; }
+
+  .foot {
+    border-top: 2px solid var(--ink); padding-top: 1.25rem;
+    display: flex; flex-direction: column; gap: .75rem; font-size: .95rem; color: var(--ink-soft);
+  }
+  .foot strong { color: var(--ink); }
+  .foot ol { margin: 0; padding-left: 1.3rem; display: flex; flex-direction: column; gap: .25rem; }
+
+  @media (max-width: 34rem) {
+    .block { grid-template-columns: 1fr; gap: .5rem; }
+    .block-letter { text-align: left; font-size: 1.9rem; padding-top: .4rem; }
+    .block-body { border-top: none; padding-top: 0; }
+  }
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .sheet { padding: 0; gap: 1.5rem; max-width: none; }
+    .block { break-inside: avoid; }
+    details.key { display: none; }
+  }
+
+
+* {box-sizing:border-box} body {margin:0} .sheet {max-width:54rem;gap:2rem}
+h2 {font-family:var(--serif);font-size:1.8rem;line-height:1.25;margin:0 0 1rem}
+h3 {font-size:1.2rem;line-height:1.4;margin:0 0 .8rem} p {margin:.65rem 0}
+a {color:var(--accent);text-underline-offset:3px} nav {display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;font-size:.9rem}
+.lesson {padding:1.4rem;background:var(--card);border:1px solid var(--rule);border-radius:4px}
+.example {padding:.7rem 1rem;border-left:3px solid var(--accent);margin:.8rem 0;background:var(--accent-soft)}
+[lang=th] {font-family:var(--thai);font-size:1.23em;line-height:1.8;font-weight:500}
+.example [lang=th] {display:block;font-size:1.5rem}.meaning {color:var(--ink-soft);font-size:.95rem}
+.formula {border:1px solid var(--gold);background:var(--gold-soft);padding:.8rem 1rem;margin:1rem 0;font-weight:600}
+.compare {width:100%;border-collapse:collapse;font-size:.94rem}.compare th,.compare td {padding:.65rem;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+.compare th {color:var(--accent)}.scroll {overflow-x:auto}.exercise {margin:1.4rem 0 2rem}.exercise h3 {margin-bottom:.4rem}
+.instructions {color:var(--ink-soft)}.questions {list-style:none;padding:0;counter-reset:letter;display:grid;gap:.7rem}
+.questions>li {padding:.8rem 1rem;background:var(--card);border:1px solid var(--rule);break-inside:avoid}
+.item-label {font-family:var(--mono);font-size:.8rem;color:var(--accent);margin-right:.5rem}.answer-space {height:2.4rem;border-bottom:1px dashed var(--rule);margin-top:.4rem}
+details.key {margin-top:1rem} details.key .ans {display:block}.answers {padding-left:1.5rem}.answers li {padding:.4rem 0}.why {display:block;color:var(--ink-soft);font-size:.9rem}
+.tip {border-left:3px solid var(--gold);padding:.7rem 1rem;background:var(--gold-soft)}.small {font-size:.88rem;color:var(--ink-soft)}
+section,article {scroll-margin-top:1rem} .repeat {border-top:2px solid var(--gold);padding-top:1.2rem}
+@media(max-width:540px){.lesson{padding:1rem}.sheet{padding:1.4rem 1rem 3rem}.compare th,.compare td{padding:.45rem}.questions>li{padding:.7rem}}
+@media print {:root{--paper:#fff;--card:#fff;--ink:#151c26;--ink-soft:#4d5866;--ink-faint:#687381;--rule:#d7dce4;--rule-soft:#e6eaf0;--accent:#26497d;--accent-soft:#e6ecf6;--gold:#8a6420;--gold-soft:#f3ecdd;--green:#2f6b46;--green-soft:#e4f0e8}body{background:white;color:black}.sheet{max-width:none;padding:0}.lesson{background:white;break-inside:avoid}nav,.screen-only{display:none}h2,h3{break-after:avoid}details.key:not([open]){display:none}details.key[open]{display:block;background:white}a{color:inherit}.example,.formula,.tip{background:#f5f5f5}.questions>li{background:white}.exercise{break-inside:auto}}
+</style></head><body><main class="sheet"><header class="head"><div class="eyebrow">Тайский A2 · Глава 3 · Отдельная тема 1</div>
+<h1>Каждый, все, некоторые, несколько<span class="sub">Как выбрать смысл и собрать фразу</span></h1>
+<p>Подробный разбор и 72 новых пунктов практики. Пиши ответы в тетради; ключи открывай после своей попытки.</p>
+<nav aria-label="Навигация"><a href="schetnye_slova_glava3.html#p2">Исходная глава</a><a href="voprosy_kolichestvo_vybor_glava3.html">Вопросы о количестве и выборе</a><a href="#theory">Мини-блоки с практикой</a><a href="#G">Комбинированные упражнения</a><a href="#repeat">Повторение</a></nav>
+</header>
+<aside class="tip"><b>Как проходить.</b> Читай один мини-блок и сразу выполняй упражнения под ним. После всех мини-блоков переходи к комбинированной практике в конце. Если не уверена, поставь «?». В начале ответа укажи блок и номер упражнения, затем пиши только буквы пунктов: а), б), в). Фразы пиши тайскими буквами; вежливые частицы в упражнениях необязательны.</aside>
+<section id="theory"><h2>Объяснение → практика после каждого мини-блока</h2>
+<section id="A">
+<article class="lesson" id="start"><h2>Блок A (Одна основа — разные смыслы)</h2>
+<div class="example"><span lang="th">กระเป๋าสามใบ</span><div class="meaning">Три сумки.</div>
+</div>
+<div class="example"><span lang="th">กระเป๋าทุกใบ</span><div class="meaning">Все сумки, каждая из них.</div>
+</div>
+<div class="example"><span lang="th">กระเป๋าบางใบ</span><div class="meaning">Некоторые сумки.</div>
+</div>
+<p>Посмотри: слово «сумка» стоит первым, счётное слово — последним. Между ними меняется то, что мы сообщаем о количестве.</p>
+<div class="formula">Что считаем → число или слово количества → счётное слово</div>
+<p>В этой схеме <span lang="th">ทุก</span>, <span lang="th">บาง</span>, <span lang="th">หลาย</span>, <span lang="th">ไม่กี่</span> и <span lang="th">แต่ละ</span> стоят на месте числа. Но <span lang="th">ทั้งหมด</span>, <span lang="th">ทั้ง</span>, <span lang="th">ละ</span> и <span lang="th">อื่น</span> собираются иначе — их схемы разобраны ниже.</p>
+<div class="scroll"><table class="compare"><thead><tr><th scope="col">Что считаем</th><th scope="col">Счётное</th><th scope="col">Пример</th></tr>
+</thead>
+<tbody><tr><td>друзья</td><td><span lang="th">คน</span></td><td><span lang="th">เพื่อนสามคน</span></td></tr>
+<tr><td>сумки и билеты</td><td><span lang="th">ใบ</span></td><td><span lang="th">ตั๋วสองใบ</span></td></tr>
+<tr><td>книги</td><td><span lang="th">เล่ม</span></td><td><span lang="th">หนังสือสี่เล่ม</span></td></tr>
+<tr><td>рубашки и кошки</td><td><span lang="th">ตัว</span></td><td><span lang="th">เสื้อสองตัว</span></td></tr>
+<tr><td>машины</td><td><span lang="th">คัน</span></td><td><span lang="th">รถหนึ่งคัน</span></td></tr>
+<tr><td>бутылки воды</td><td><span lang="th">ขวด</span></td><td><span lang="th">น้ำสามขวด</span></td></tr>
+</tbody>
+</table>
+</div>
+<p class="small">Это опора для всех упражнений. Машины считаем через <span lang="th">คัน</span>, воду в бутылках — через <span lang="th">ขวด</span>. Счётное зависит от того, что именно считаем.</p>
+</article>
+<p class="tip"><b>Закрепи этот мини-блок.</b> Сделай упражнения ниже, затем переходи к следующему объяснению.</p>
+<section class="exercise" id="A1"><h3>1. Поставь части по порядку</h3>
+
+<p class="instructions">Собери тайскую фразу по русскому смыслу.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Все друзья: <span lang="th">ทุก / คน / เพื่อน</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · A1</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">เพื่อนทุกคน</span></li></ol></div></details>
+</section>
+<section class="exercise" id="A2"><h3>2. Исправь порядок или счётное</h3>
+
+<p class="instructions">Запиши верную тайскую фразу с указанным смыслом.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">ทุกกระเป๋าใบ</span> — все сумки<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · A2</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">กระเป๋าทุกใบ</span><span class="why">Сначала предмет, затем ทุก и счётное.</span></li></ol></div></details>
+</section>
+</section>
+<section id="B">
+<article class="lesson" id="all"><h2>Блок B (Каждый, все и вся группа целиком)</h2>
+<h3><span lang="th">ทุก</span> — без исключения</h3>
+<p>Ты говоришь, что одна и та же мысль верна для каждого участника группы. Русские «каждый» и «все» здесь часто переводятся одной формой.</p>
+<div class="example"><span lang="th">เพื่อนทุกคนชอบกินข้าว</span><div class="meaning">Все друзья любят есть рис / каждый друг любит есть рис.</div>
+</div>
+<p>Ты не сообщаешь, сколько друзей. Ты говоришь, что среди тех друзей, о которых идёт речь, исключений нет. Если уже ясно, что речь о людях, достаточно <span lang="th">ทุกคน</span> — «все».</p>
+<h3><span lang="th">ทั้งหมด</span> — вся группа или итог</h3>
+<p>Слово может обозначать весь набор: <span lang="th">ตั๋วทั้งหมด</span> — «все билеты». В другой конструкции оно вводит общее количество.</p>
+<div class="example"><span lang="th">ฉันมีตั๋วทั้งหมดห้าใบ</span><div class="meaning">У меня всего пять билетов.</div>
+</div>
+<p>Разбери по частям: «у меня есть» → «билеты» → «всего» → «пять» → счётное. Поэтому не запоминай <span lang="th">ทั้งหมด</span> как слово, которое всегда обязано стоять в конце предложения.</p>
+<h3><span lang="th">ทั้ง</span> + число — все названные N</h3>
+<div class="example"><span lang="th">กระเป๋าทั้งสองใบเป็นของฉัน</span><div class="meaning">Обе сумки мои.</div>
+</div>
+<div class="example"><span lang="th">เสื้อทั้งสี่ตัวสีแดง</span><div class="meaning">Все четыре рубашки красные.</div>
+</div>
+<p>Число здесь входит в смысл: не просто «все рубашки», а именно «все четыре». Для «оба / обе» используй число два.</p>
+<div class="scroll"><table class="compare"><thead><tr><th scope="col">Хочу сказать</th><th scope="col">Схема</th><th scope="col">На билетах</th></tr>
+</thead>
+<tbody><tr><td>каждый билет</td><td>предмет + <span lang="th">ทุก</span> + счётное</td><td><span lang="th">ตั๋วทุกใบ</span></td></tr>
+<tr><td>весь набор билетов</td><td>предмет + <span lang="th">ทั้งหมด</span></td><td><span lang="th">ตั๋วทั้งหมด</span></td></tr>
+<tr><td>все три билета</td><td>предмет + <span lang="th">ทั้ง</span> + число + счётное</td><td><span lang="th">ตั๋วทั้งสามใบ</span></td></tr>
+<tr><td>всего три билета</td><td><span lang="th">มี</span> + предмет + <span lang="th">ทั้งหมด</span> + число + счётное</td><td><span lang="th">มีตั๋วทั้งหมดสามใบ</span></td></tr>
+</tbody>
+</table>
+</div>
+</article>
+<p class="tip"><b>Закрепи этот мини-блок.</b> Сделай упражнения ниже, затем переходи к следующему объяснению.</p>
+<section class="exercise" id="B1"><h3>1. Выбери смысл</h3>
+
+<p class="instructions">Выбери подходящий вариант и запиши его по-русски.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">รถทั้งสี่คัน</span> — все четыре машины / ещё четыре машины<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · B1</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> Все четыре машины.</li></ol></div></details>
+</section>
+<section class="exercise" id="B2"><h3>2. Подставь слово по смыслу</h3>
+
+<p class="instructions">Запиши всю фразу с заполненным пропуском.</p>
+<p class="tip">Выбирай из <span lang="th">ทุก / บาง / หลาย / ไม่กี่ / ทั้ง / ทั้งหมด</span>.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Все сумки: <span lang="th">กระเป๋า ___ ใบ</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Обе книги: <span lang="th">หนังสือ ___ สองเล่ม</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span>У меня всего семь рубашек: <span lang="th">ฉันมีเสื้อ ___ เจ็ดตัว</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · B2</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">กระเป๋าทุกใบ</span></li>
+<li><b>б)</b> <span lang="th">หนังสือทั้งสองเล่ม</span></li>
+<li><b>в)</b> <span lang="th">ฉันมีเสื้อทั้งหมดเจ็ดตัว</span></li></ol></div></details>
+</section>
+<section class="exercise" id="B3"><h3>3. Поставь части по порядку</h3>
+
+<p class="instructions">Собери тайскую фразу по русскому смыслу.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Все пять сумок: <span lang="th">ห้า / กระเป๋า / ใบ / ทั้ง</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · B3</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">กระเป๋าทั้งห้าใบ</span></li></ol></div></details>
+</section>
+<section class="exercise" id="B4"><h3>4. Скажи о вещах</h3>
+
+<p class="instructions">Переведи каждую фразу на тайский.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Все пять машин чёрные.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Обе рубашки красные.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span>У меня всего девять книг.<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · B4</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">รถทั้งห้าคันสีดำ</span></li>
+<li><b>б)</b> <span lang="th">เสื้อทั้งสองตัวสีแดง</span></li>
+<li><b>в)</b> <span lang="th">ฉันมีหนังสือทั้งหมดเก้าเล่ม</span></li></ol></div></details>
+</section>
+<section class="exercise" id="B5"><h3>5. Измени сообщение</h3>
+
+<p class="instructions">Перепиши фразу под новый русский смысл.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">ตั๋วใบนี้เป็นของฉัน</span> → Все четыре билета мои.<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · B5</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">ตั๋วทั้งสี่ใบเป็นของฉัน</span></li></ol></div></details>
+</section>
+<section class="exercise" id="B6"><h3>6. Исправь порядок или счётное</h3>
+
+<p class="instructions">Запиши верную тайскую фразу с указанным смыслом.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">หนังสือทั้งเล่มสอง</span> — обе книги<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · B6</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">หนังสือทั้งสองเล่ม</span><span class="why">ทั้ง → число → счётное.</span></li></ol></div></details>
+</section>
+</section>
+<section id="C">
+<article class="lesson" id="some"><h2>Блок C (Некоторые, несколько и всего несколько)</h2>
+<h3><span lang="th">บาง</span> — часть группы</h3>
+<p>Ты выделяешь часть людей или вещей по какому-то признаку. Сколько их — не сообщаешь.</p>
+<div class="example"><span lang="th">เสื้อบางตัวสีดำ</span><div class="meaning">Некоторые рубашки чёрные.</div>
+</div>
+<p>Это не утверждение «рубашек мало». Чёрных может быть две или двадцать: важен выбор части группы.</p>
+<h3><span lang="th">หลาย</span> — несколько, немало</h3>
+<p>Здесь на первом месте количество: предметов несколько или много, точного числа нет. Перевод зависит от ситуации; это не закреплённый диапазон вроде «от трёх до пяти».</p>
+<div class="example"><span lang="th">ฉันมีเสื้อหลายตัว</span><div class="meaning">У меня несколько / немало рубашек.</div>
+</div>
+<h3><span lang="th">ไม่กี่</span> — немного, всего несколько</h3>
+<p>Говорящий подчёркивает, что количество небольшое. Это не точное «два» и не вопрос, хотя внутри есть <span lang="th">กี่</span>.</p>
+<div class="example"><span lang="th">ฉันมีเสื้อไม่กี่ตัว</span><div class="meaning">У меня всего несколько рубашек.</div>
+</div>
+<div class="scroll"><table class="compare"><thead><tr><th scope="col">Что важно</th><th scope="col">Выбирай</th><th scope="col">Почему</th></tr>
+</thead>
+<tbody><tr><td>часть из группы</td><td><span lang="th">บาง</span></td><td>«Некоторые сумки красные» — выделяю сумки по цвету.</td></tr>
+<tr><td>предметов немало</td><td><span lang="th">หลาย</span></td><td>«У меня немало сумок» — описываю количество.</td></tr>
+<tr><td>предметов мало</td><td><span lang="th">ไม่กี่</span></td><td>«У меня всего несколько сумок» — подчёркиваю малое количество.</td></tr>
+</tbody>
+</table>
+</div>
+<p class="tip">Русское «несколько» само по себе не всегда выбирает между <span lang="th">หลาย</span> и <span lang="th">ไม่กี่</span>. В упражнениях смотри на уточнения «немало» и «всего несколько».</p>
+</article>
+<p class="tip"><b>Закрепи этот мини-блок.</b> Сделай упражнения ниже, затем переходи к следующему объяснению.</p>
+<section class="exercise" id="C1"><h3>1. Выбери смысл</h3>
+
+<p class="instructions">Выбери подходящий вариант и запиши его по-русски.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">ตั๋วบางใบ</span> — некоторые билеты / мало билетов<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span><span lang="th">กระเป๋าไม่กี่ใบ</span> — все сумки / всего несколько сумок<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · C1</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> Некоторые билеты.<span class="why">บาง выделяет часть набора; малого количества не обещает.</span></li>
+<li><b>б)</b> Всего несколько сумок.<span class="why">ไม่กี่ подчёркивает, что их мало.</span></li></ol></div></details>
+</section>
+<section class="exercise" id="C2"><h3>2. Подставь слово по смыслу</h3>
+
+<p class="instructions">Запиши всю фразу с заполненным пропуском.</p>
+<p class="tip">Выбирай из <span lang="th">ทุก / บาง / หลาย / ไม่กี่ / ทั้ง / ทั้งหมด</span>.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Некоторые машины: <span lang="th">รถ ___ คัน</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Немало билетов: <span lang="th">ตั๋ว ___ ใบ</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span>Всего несколько бутылок воды: <span lang="th">น้ำ ___ ขวด</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · C2</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">รถบางคัน</span></li>
+<li><b>б)</b> <span lang="th">ตั๋วหลายใบ</span></li>
+<li><b>в)</b> <span lang="th">น้ำไม่กี่ขวด</span></li></ol></div></details>
+</section>
+<section class="exercise" id="C3"><h3>3. Поставь части по порядку</h3>
+
+<p class="instructions">Собери тайскую фразу по русскому смыслу.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Немало машин: <span lang="th">คัน / หลาย / รถ</span><div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Некоторые книги: <span lang="th">เล่ม / หนังสือ / บาง</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · C3</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">รถหลายคัน</span></li>
+<li><b>б)</b> <span lang="th">หนังสือบางเล่ม</span></li></ol></div></details>
+</section>
+<section class="exercise" id="C4"><h3>4. Скажи о вещах</h3>
+
+<p class="instructions">Переведи каждую фразу на тайский.</p>
+<ol class="questions"><li><span class="item-label">а)</span>У меня немало сумок.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Некоторые книги мои.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span>У меня всего несколько билетов.<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · C4</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">ฉันมีกระเป๋าหลายใบ</span></li>
+<li><b>б)</b> <span lang="th">หนังสือบางเล่มเป็นของฉัน</span></li>
+<li><b>в)</b> <span lang="th">ฉันมีตั๋วไม่กี่ใบ</span></li></ol></div></details>
+</section>
+<section class="exercise" id="C5"><h3>5. Измени сообщение</h3>
+
+<p class="instructions">Перепиши фразу под новый русский смысл.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">ฉันมีรถสองคัน</span> → У меня немало машин.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span><span lang="th">กระเป๋าทุกใบสีแดง</span> → Некоторые сумки красные.<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · C5</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">ฉันมีรถหลายคัน</span></li>
+<li><b>б)</b> <span lang="th">กระเป๋าบางใบสีแดง</span></li></ol></div></details>
+</section>
+<section class="exercise" id="C6"><h3>6. Исправь порядок или счётное</h3>
+
+<p class="instructions">Запиши верную тайскую фразу с указанным смыслом.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">น้ำหลายคัน</span> — немало бутылок воды<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span><span lang="th">รถบางขวด</span> — некоторые машины<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · C6</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">น้ำหลายขวด</span><span class="why">คัน — для машин; здесь нужны бутылки.</span></li>
+<li><b>б)</b> <span lang="th">รถบางคัน</span></li></ol></div></details>
+</section>
+</section>
+<section id="D">
+<article class="lesson" id="each"><h2>Блок D (Каждый отдельно и по сколько каждому)</h2>
+<h3><span lang="th">แต่ละ</span> — внимание к каждому отдельно</h3>
+<p><span lang="th">ทุก</span> подчёркивает отсутствие исключений; <span lang="th">แต่ละ</span> предлагает рассмотреть каждого человека или каждый предмет отдельно. Иногда обе формы подходят, а меняется только акцент.</p>
+<div class="example"><span lang="th">เพื่อนแต่ละคนมีรถ</span><div class="meaning">У каждого друга есть машина.</div>
+</div>
+<p>Это не значит, что друзья обязательно делают что-то по очереди или что машин у них ровно по одной. Отдельное количество нужно назвать.</p>
+<h3>Счётное + <span lang="th">ละ</span> — по сколько на единицу</h3>
+<div class="formula">На кого / на что распределяем → <span lang="th">ละ</span> → сколько выдаём или сколько стоит</div>
+<div class="example"><span lang="th">เพื่อนแต่ละคนมีตั๋วคนละสองใบ</span><div class="meaning">У каждого друга по два билета.</div>
+</div>
+<div class="example"><span lang="th">น้ำขวดละสิบบาท</span><div class="meaning">Вода — по десять бат за бутылку.</div>
+</div>
+<div class="example"><span lang="th">ฉันดื่มน้ำวันละสามขวด</span><div class="meaning">Я пью по три бутылки воды в день.</div>
+</div>
+<p>В первой фразе <span lang="th">คนละ</span> значит «на человека», а <span lang="th">สองใบ</span> — «два билета». Счётные могут быть разными: одно относится к получателю, другое — к предмету.</p>
+<p>Если людей трое и у каждого по два билета, общий итог — шесть. <span lang="th">คนละสองใบ</span> сообщает распределение, <span lang="th">ทั้งหมดหกใบ</span> — сумму.</p>
+</article>
+<p class="tip"><b>Закрепи этот мини-блок.</b> Сделай упражнения ниже, затем переходи к следующему объяснению.</p>
+<section class="exercise" id="D1"><h3>1. Выбери смысл</h3>
+
+<p class="instructions">Выбери подходящий вариант и запиши его по-русски.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">คนละสามใบ</span> — по три билета каждому / три билета всего<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · D1</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> По три билета каждому.<span class="why">В ситуации с билетами ใบ считает билеты, คนละ задаёт «на человека».</span></li></ol></div></details>
+</section>
+<section class="exercise" id="D2"><h3>2. Поставь части по порядку</h3>
+
+<p class="instructions">Собери тайскую фразу по русскому смыслу.</p>
+<ol class="questions"><li><span class="item-label">а)</span>По четыре бутылки на человека: <span lang="th">สี่ / คน / ขวด / ละ</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · D2</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">คนละสี่ขวด</span></li></ol></div></details>
+</section>
+<section class="exercise" id="D3"><h3>3. По сколько и сколько всего</h3>
+
+<p class="instructions">Запиши короткий тайский ответ по условию.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Четырём друзьям дали по два билета. Сколько билетов всего?<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Троим друзьям дали шесть бутылок поровну. Сколько каждому?<div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span>Одна сумка стоит сорок бат. Скажи «по сорок бат за сумку».<div class="answer-space"></div>
+</li>
+<li><span class="item-label">г)</span>Ты читаешь по два часа ежедневно. Скажи «по два часа в день».<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · D3</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">ทั้งหมดแปดใบ</span><span class="why">4 × 2 = 8; ใบ считает билеты.</span></li>
+<li><b>б)</b> <span lang="th">คนละสองขวด</span></li>
+<li><b>в)</b> <span lang="th">กระเป๋าใบละสี่สิบบาท</span></li>
+<li><b>г)</b> <span lang="th">วันละสองชั่วโมง</span></li></ol></div></details>
+</section>
+</section>
+<section id="E">
+<article class="lesson" id="days"><h2>Блок E (Каждый день и целый день)</h2>
+<div class="scroll"><table class="compare"><thead><tr><th scope="col">Фраза</th><th scope="col">Значение</th><th scope="col">Что представляешь</th></tr>
+</thead>
+<tbody><tr><td><span lang="th">ทุกวัน</span></td><td>каждый день</td><td>Действие повторяется изо дня в день.</td></tr>
+<tr><td><span lang="th">ทั้งวัน</span></td><td>весь день, целый день</td><td>Действие занимает день целиком.</td></tr>
+<tr><td><span lang="th">บางวัน</span></td><td>в некоторые дни</td><td>Действие бывает не каждый день.</td></tr>
+<tr><td><span lang="th">หลายวัน</span></td><td>несколько / много дней</td><td>Говорим о количестве дней.</td></tr>
+<tr><td><span lang="th">ไม่กี่วัน</span></td><td>всего несколько дней</td><td>Подчёркиваем короткий срок.</td></tr>
+<tr><td><span lang="th">วันละสองครั้ง</span></td><td>два раза в день</td><td>Называем частоту внутри дня.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="example"><span lang="th">ฉันอ่านหนังสือทุกวัน</span><div class="meaning">Я читаю каждый день.</div>
+</div>
+<div class="example"><span lang="th">ฉันอ่านหนังสือทั้งวัน</span><div class="meaning">Я читаю весь день.</div>
+</div>
+<p>Первая фраза ничего не говорит о длительности чтения: можно читать по десять минут. Вторая описывает один день целиком; она не обещает, что завтра будет так же.</p>
+<p>Со словами времени дополнительное счётное не нужно: <span lang="th">ทุกเดือน</span> — «каждый месяц», <span lang="th">ทั้งเดือน</span> — «весь месяц».</p>
+</article>
+<p class="tip"><b>Закрепи этот мини-блок.</b> Сделай упражнения ниже, затем переходи к следующему объяснению.</p>
+<section class="exercise" id="E1"><h3>1. Выбери смысл</h3>
+
+<p class="instructions">Выбери подходящий вариант и запиши его по-русски.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">ทั้งคืน</span> — каждую ночь / всю ночь<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · E1</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> Всю ночь.<span class="why">Для «каждую ночь» нужна форма ทุกคืน.</span></li></ol></div></details>
+</section>
+<section class="exercise" id="E2"><h3>2. Время: повторение или длительность</h3>
+
+<p class="instructions">Переведи фразы на тайский.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Каждую неделю.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Весь год.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span>В некоторые месяцы.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">г)</span>Немало ночей.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">д)</span>Всего несколько недель.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">е)</span>Три раза в месяц.<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · E2</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">ทุกอาทิตย์</span></li>
+<li><b>б)</b> <span lang="th">ทั้งปี</span></li>
+<li><b>в)</b> <span lang="th">บางเดือน</span></li>
+<li><b>г)</b> <span lang="th">หลายคืน</span></li>
+<li><b>д)</b> <span lang="th">ไม่กี่อาทิตย์</span></li>
+<li><b>е)</b> <span lang="th">เดือนละสามครั้ง</span></li></ol></div></details>
+</section>
+<section class="exercise" id="E3"><h3>3. Измени сообщение</h3>
+
+<p class="instructions">Перепиши фразу под новый русский смысл.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">ฉันดูหนังทุกวัน</span> → Я смотрю фильмы весь день.<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · E3</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">ฉันดูหนังทั้งวัน</span></li></ol></div></details>
+</section>
+</section>
+<section id="F">
+<article class="lesson" id="more"><h2>Блок F (Ещё, другой и ни одного)</h2>
+<h3><span lang="th">อีก</span> — добавляем количество</h3>
+<div class="formula"><span lang="th">อีก</span> → число → счётное</div>
+<div class="example"><span lang="th">ขอน้ำอีกสี่ขวด</span><div class="meaning">Ещё четыре бутылки воды, пожалуйста.</div>
+</div>
+<p>Если уже взяла две, а просишь ещё четыре, получишь шесть. Число после <span lang="th">อีก</span> — добавка, а не общий итог.</p>
+<h3>Счётное + <span lang="th">อื่น</span> — выбираем другой предмет</h3>
+<div class="example"><span lang="th">ขอดูกระเป๋าใบอื่น</span><div class="meaning">Можно посмотреть другую сумку?</div>
+</div>
+<p>Ты хочешь другой вариант; из этой фразы не следует, что купишь больше сумок. Сравни просьбу добавить бутылки и просьбу показать другую сумку.</p>
+<h3><span lang="th">สัก</span> — мягкая просьба; с отрицанием — ни одного</h3>
+<p>В просьбе <span lang="th">สัก</span> может делать количество менее жёстким: «один», «какой-нибудь один», а в подходящем контексте — «хоть один». Не переводи его автоматически как «всего-то».</p>
+<div class="example"><span lang="th">ขอน้ำสักขวดได้ไหม</span><div class="meaning">Можно бутылку воды?</div>
+</div>
+<div class="example"><span lang="th">ฉันไม่มีตั๋วสักใบ</span><div class="meaning">У меня нет ни одного билета.</div>
+</div>
+<p>В отрицательной фразе «ни одного» передаёт вся связка <span lang="th">ไม่มี … สัก</span> + счётное. Само <span lang="th">สัก</span> отрицания не создаёт.</p>
+</article>
+<p class="tip"><b>Закрепи этот мини-блок.</b> Сделай упражнения ниже, затем переходи к следующему объяснению.</p>
+<section class="exercise" id="F1"><h3>1. Выбери смысл</h3>
+
+<p class="instructions">Выбери подходящий вариант и запиши его по-русски.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">อีกห้าขวด</span> — ещё пять бутылок / пять других людей<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · F1</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> Ещё пять бутылок.</li></ol></div></details>
+</section>
+<section class="exercise" id="F2"><h3>2. Поставь части по порядку</h3>
+
+<p class="instructions">Собери тайскую фразу по русскому смыслу.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Другая рубашка: <span lang="th">อื่น / เสื้อ / ตัว</span><div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · F2</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">เสื้อตัวอื่น</span></li></ol></div></details>
+</section>
+<section class="exercise" id="F3"><h3>3. Измени сообщение</h3>
+
+<p class="instructions">Перепиши фразу под новый русский смысл.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">ขอน้ำสามขวด</span> → Ещё три бутылки воды, пожалуйста.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span><span lang="th">ฉันมีหนังสือหลายเล่ม</span> → У меня нет ни одной книги.<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · F3</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">ขอน้ำอีกสามขวด</span></li>
+<li><b>б)</b> <span lang="th">ฉันไม่มีหนังสือสักเล่ม</span></li></ol></div></details>
+</section>
+<section class="exercise" id="F4"><h3>4. Исправь порядок или счётное</h3>
+
+<p class="instructions">Запиши верную тайскую фразу с указанным смыслом.</p>
+<ol class="questions"><li><span class="item-label">а)</span><span lang="th">ขออีกขวดห้า</span> — ещё пять бутылок, пожалуйста<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span><span lang="th">กระเป๋าอื่นใบ</span> — другая сумка<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · F4</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">ขออีกห้าขวด</span></li>
+<li><b>б)</b> <span lang="th">กระเป๋าใบอื่น</span><span class="why">อื่น ставим после счётного.</span></li></ol></div></details>
+</section>
+<section class="exercise" id="F5"><h3>5. По сколько и сколько всего</h3>
+
+<p class="instructions">Запиши короткий тайский ответ по условию.</p>
+<ol class="questions"><li><span class="item-label">а)</span>У тебя четыре книги; берёшь ещё две. Сколько теперь всего?<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Ты купила пять билетов и хочешь добавить три. Попроси ещё три билета.<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · F5</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">ทั้งหมดหกเล่ม</span></li>
+<li><b>б)</b> <span lang="th">ขอตั๋วอีกสามใบ</span><span class="why">อีก называет добавку — три, а не итоговые восемь.</span></li></ol></div></details>
+</section>
+</section>
+</section>
+<section id="G"><h2 class="part">Блок G (Комбинированная практика)</h2>
+<p>Здесь правила смешаны. Выполни задания без подсказок из объяснений, затем открой ключи.</p>
+<section class="exercise" id="G1"><h3>1. Собери сообщение о встрече</h3>
+
+<p class="instructions">Переведи фразы на тайский.</p>
+<ol class="questions"><li><span class="item-label">а)</span>У меня шесть друзей.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Все друзья любят смотреть фильмы.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span>Некоторые друзья любят читать книги.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">г)</span>У каждого друга по два билета.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">д)</span>Билетов всего двенадцать.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">е)</span>Обе машины мои.<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · G1</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">ฉันมีเพื่อนหกคน</span></li>
+<li><b>б)</b> <span lang="th">เพื่อนทุกคนชอบดูหนัง</span></li>
+<li><b>в)</b> <span lang="th">เพื่อนบางคนชอบอ่านหนังสือ</span></li>
+<li><b>г)</b> <span lang="th">เพื่อนแต่ละคนมีตั๋วคนละสองใบ</span></li>
+<li><b>д)</b> <span lang="th">มีตั๋วทั้งหมดสิบสองใบ</span></li>
+<li><b>е)</b> <span lang="th">รถทั้งสองคันเป็นของฉัน</span></li></ol></div></details>
+</section>
+<section class="exercise" id="G2"><h3>2. Разговор у прилавка</h3>
+
+<p class="instructions">Напиши каждую реплику по-тайски.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Покупатель: «Можно посмотреть другую рубашку?»<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Продавец: «Есть немало рубашек».<div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span>Продавец: «Некоторые рубашки — по сто бат за штуку».<div class="answer-space"></div>
+</li>
+<li><span class="item-label">г)</span>Покупатель: «Эти две рубашки, пожалуйста».<div class="answer-space"></div>
+</li>
+<li><span class="item-label">д)</span>Покупатель: «Ещё одну сумку, пожалуйста».<div class="answer-space"></div>
+</li>
+<li><span class="item-label">е)</span>Продавец: «Сумок всего несколько».<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · G2</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">ขอดูเสื้อตัวอื่น</span></li>
+<li><b>б)</b> <span lang="th">มีเสื้อหลายตัว</span></li>
+<li><b>в)</b> <span lang="th">เสื้อบางตัวตัวละหนึ่งร้อยบาท</span></li>
+<li><b>г)</b> <span lang="th">ขอเสื้อสองตัวนี้</span></li>
+<li><b>д)</b> <span lang="th">ขอกระเป๋าอีกหนึ่งใบ</span><span class="why">Также возможно กระเป๋าอีกใบหนึ่ง.</span></li>
+<li><b>е)</b> <span lang="th">มีกระเป๋าไม่กี่ใบ</span></li></ol></div></details>
+</section>
+<section class="exercise" id="G3"><h3>3. Повтори без опоры</h3>
+
+<p class="instructions">Переведи фразы на тайский, не заглядывая в объяснения.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Все десять билетов.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Некоторые рубашки.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span>Всего одиннадцать бутылок воды.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">г)</span>Каждую ночь.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">д)</span>Всю неделю.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">е)</span>По три книги каждому.<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · G3</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">ตั๋วทั้งสิบใบ</span></li>
+<li><b>б)</b> <span lang="th">เสื้อบางตัว</span></li>
+<li><b>в)</b> <span lang="th">มีน้ำทั้งหมดสิบเอ็ดขวด</span></li>
+<li><b>г)</b> <span lang="th">ทุกคืน</span></li>
+<li><b>д)</b> <span lang="th">ทั้งอาทิตย์</span></li>
+<li><b>е)</b> <span lang="th">คนละสามเล่ม</span></li></ol></div></details>
+</section>
+<section class="exercise" id="G4"><h3>4. Скажи от себя</h3>
+
+<p class="instructions">Напиши по одной тайской фразе на каждый пункт.</p>
+<ol class="questions"><li><span class="item-label">а)</span>Сообщи, каких вещей у тебя немало.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">б)</span>Сообщи, каких вещей у тебя всего несколько.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">в)</span>Назови действие, которое делаешь каждый месяц.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">г)</span>Попроси добавить предметы, назвав количество.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">д)</span>Назови цену одной вещи в батах.<div class="answer-space"></div>
+</li>
+<li><span class="item-label">е)</span>Скажи, что у тебя нет ни одного предмета выбранного вида.<div class="answer-space"></div>
+</li></ol>
+<details class="key"><summary>Ответы и пояснения · G4</summary><div class="ans"><p class="small">В открытых заданиях дан образец: другие фразы с тем же смыслом тоже возможны.</p><ol class="answers"><li><b>а)</b> <span lang="th">ฉันมีตั๋วหลายใบ</span><span class="why">Образец. Нужны предмет, หลาย и подходящее счётное.</span></li>
+<li><b>б)</b> <span lang="th">ฉันมีรถไม่กี่คัน</span><span class="why">Образец; можно придумать ситуацию.</span></li>
+<li><b>в)</b> <span lang="th">ฉันซื้อหนังสือทุกเดือน</span><span class="why">Образец: я покупаю книги каждый месяц.</span></li>
+<li><b>г)</b> <span lang="th">ขอน้ำอีกสองขวด</span><span class="why">Нужны อีก, число и счётное.</span></li>
+<li><b>д)</b> <span lang="th">หนังสือเล่มละห้าสิบบาท</span><span class="why">Образец: книги по пятьдесят бат.</span></li>
+<li><b>е)</b> <span lang="th">ฉันไม่มีกระเป๋าสักใบ</span><span class="why">Нужны ไม่มี и สัก со счётным.</span></li></ol></div></details>
+</section>
+</section>
+<footer class="repeat" id="repeat"><h2>Как вернуться к теме</h2>
+<ol><li><b>На следующий день:</b> закрой объяснения и заново сделай пункты с «?», затем одно упражнение после того мини-блока, который дался труднее всего.</li>
+<li><b>Через три дня:</b> возьми другое упражнение из того же мини-блока и напиши его ответы без банка слов.</li>
+<li><b>Через неделю:</b> сделай блок G без ключа. После проверки перепиши целиком фразы, в которых ошиблась.</li>
+</ol>
+<p>Проверяй две вещи отдельно: передала ли ты нужный смысл и правильно ли поставила счётное слово.</p>
+<p class="small">Для печати оставь ответы свёрнутыми. Чтобы распечатать ключи, сначала раскрой нужные разделы.</p>
+<nav aria-label="Навигация"><a href="schetnye_slova_glava3.html#p2">Исходная глава</a><a href="voprosy_kolichestvo_vybor_glava3.html">Вопросы о количестве и выборе</a><a href="#theory">Мини-блоки с практикой</a><a href="#G">Комбинированные упражнения</a><a href="#repeat">Повторение</a></nav>
+</footer>
+</main>
+</body></html>
