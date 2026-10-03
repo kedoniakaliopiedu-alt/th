@@ -217,6 +217,10 @@ method, the closing criterion).
 
 ## thai-tasks reference files
 
+Chapter control tests default to a saved, static HTML sheet with a dark screen theme and
+handwritten answers submitted through `Handwriting/`. Ask for an interactive test explicitly
+when that is wanted. Ordinary worksheets and live sessions retain their own formats.
+
 - `thai-tasks/references/exercise-catalog.md` — the menu of task types (atomic →
   integrative → composite), including inductive rule derivation, etymology/morphemes,
   narratives.
@@ -228,6 +232,8 @@ method, the closing criterion).
   verification.
 - `thai-tasks/references/progress-and-spiral.md` — tracker, SM-2, spiral, auto-import, the
   1–10 difficulty dial, the 60–70% target success rate.
+- `thai-tasks/references/written-control.md` — written chapter controls: source coverage,
+  active recall, no answer leaks, continuous task IDs, static dark HTML file and checks.
 - `thai-tasks/references/output-format.md` — sheet layout (lettered blocks, numbering,
   lists, vocabulary presentation, transcription) and the checklist for unambiguous task
   wording.

@@ -7,6 +7,16 @@ template and the order of blocks are in `scope-and-modes.md`.
 Instructions here are English; everything quoted as an example is Russian, because that is
 what lands on the learner's page. Do not "fix" the Russian parts.
 
+## Written-control profile exception
+
+For chapter controls and explicitly written controls, load `written-control.md` first.
+Its static HTML file, dark theme, numbered «Часть 1…», continuous task IDs and Latin
+subitems (1a, 1b) override the general worksheet layout below. Do not insert vocabulary
+lists, transcription or example answers into a recall test. Apply the wording checks below
+without revealing the answer. Explicit user requests for another format take precedence.
+The general rules continue to govern regular worksheets and short assessments outside
+that profile.
+
 ## Sheet formatting
 
 The sheet must read easily. Presentation rules:
@@ -63,8 +73,9 @@ The sheet must read easily. Presentation rules:
   unsure of the tone or the spelling, verify it (thai-phonetics + thai-language.com) — do
   not invent. See skill **thai-phonetics**.
 
-Once answers arrive, review them by the checking rules from `thai-learning` (hint →
-explanation → the rule in one sentence; a test has no hints).
+Once answers arrive, use `thai-learning` checking rules (a test has no hints), then
+hand off the full report and tracker updates to `thai-mistakes`. Handwritten photos
+first pass through `thai-handwriting`; retain the sheet's original task addresses.
 
 ## Wording the task itself (so it is unambiguous)
 
@@ -75,8 +86,9 @@ A vague wording kills the practice. Run every item through this checklist before
    слова» is two tasks).
 2. **It says explicitly WHAT to send and IN WHAT FORM.** Thai script? Cyrillic
    transcription? A translation? All of it? Do not make her guess the answer format.
-3. **A sample format is shown** when it is not obvious. For example: «Ответ в виде: тайское
-   слово — транскрипция — перевод».
+3. **A sample format is shown** when it is not obvious. In a control test, use neutral
+   placeholders, never a solved example or the Thai answer being recalled. For example:
+   «Ответ в виде: тайское слово — транскрипция — перевод».
 4. **It is clear what counts as a complete answer.** For productive items state the volume
    and the required elements: «Собери диалог из 3 реплик, в каждой — частица вежливости».
 5. **One focus.** The item tests one thing (for atomic items) or one connected set (for

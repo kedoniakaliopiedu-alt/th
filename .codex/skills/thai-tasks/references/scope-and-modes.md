@@ -1,62 +1,60 @@
-# Масштаб запроса и режимы вывода
+# Request scope and output modes
 
-Читай этот файл, когда собираешь лист: он задаёт, сколько заданий давать на запрос
-каждого размера и в каком из трёх форматов их подавать. Всё остальное о заданиях —
-в `exercise-catalog.md` (типы) и `output-format.md` (оформление листа).
+Read when assembling a sheet: this file sets the volume for each request size and selects
+one of three modes. Task types live in `exercise-catalog.md`; general presentation lives in
+`output-format.md`. Chapter control tests and explicitly written controls additionally load
+`written-control.md`, whose file delivery and layout override the generic worksheet format.
+Instructions are English; learner-facing examples and literals remain Russian.
 
-## Масштаб запроса: правило → подтема → тема → глава
+## Request scope: rule → subtopic → topic → chapter
 
-Материал в проекте Thailand организован иерархически, и запрос может прийти на любом
-уровне. От масштаба напрямую зависит объём и структура выхода. Определи масштаб по
-запросу (не уверен — уточни одним вопросом).
+Thailand material is hierarchical. Identify the requested scope before selecting volume;
+ask one question only if neither the request nor context resolves it.
 
-Реальная структура файлов (учитывай при поиске материала):
-`Глава` → `Тема N.M` → `Подтема N.M.K` → внутри «Словарный запас» + «Теория/конструкции»
-+ «Практические упражнения». В репозитории файлы разложены по папкам:
-`Thai A2/Chapter N/glavaN_temaM_*.md`, `Thai B1/Chapter N/b1_glavaN_temaM_*.md`, плюс
-`Helpers/*.md` (доп. справки, напр. направительные частицы).
-**Ищи нужный файл рекурсивно** (Glob по `**/*glava*tema*.md`), не
-полагайся на плоскую структуру. **Бери из файла лексику и правила, но НЕ переписывай
-примеры из секции «Практические упражнения» — генерируй свежие** (см. опору 4).
+The source structure is `Глава` → `Тема N.M` → `Подтема N.M.K`, containing
+«Словарный запас», «Теория/конструкции» and «Практические упражнения». Files are under
+`Thai A2/Chapter N/glavaN_temaM_*.md`, `Thai B1/Chapter N/b1_glavaN_temaM_*.md`, with
+supporting references in `Helpers/*.md`. Search recursively using `**/*glava*tema*.md`.
+Take vocabulary and rules, but generate fresh examples rather than copying the source's
+«Практические упражнения» verbatim.
 
-**Конкретное правило / конструкция** — один приём внутри подтемы (например счётные
-слова จาน/ที่, «структура блюдо + ингредиент», степени остроты, частица กำลัง, вопрос
-через ไหม).
-→ **Не более 5 заданий** разного типа: только **разминка + сборка**, без финального
-  комплексного. Отработать одно правило под разными углами; минимум одно продуктивное
-  рус→тай.
+**One rule / construction** — one technique within a subtopic, such as classifiers
+จาน/ที่, dish + ingredient, degrees of spiciness, กำลัง or questions with ไหม.
+Give **at most 5 tasks**: warm-up and assembly, without a final composite task. Exercise
+the rule from different angles, with at least one productive Russian → Thai task.
 
-**Подтема** (например 6.1.2 «Заказ в ресторане») — лексика + несколько конструкций.
-→ Полная схема **разминка + сборка + комплексное**. Количество заданий зависит от числа
-  конструкций в подтеме: на каждую — 1–2 задания в разминке/сборке, затем 1–2 комплексных.
-  Обычно 6–10 заданий.
+**Subtopic**, e.g. 6.1.2 «Заказ в ресторане» — vocabulary plus several constructions.
+Use warm-up → assembly → composite. Give 1–2 warm-up/assembly tasks per construction,
+then 1–2 composite tasks; this normally yields 6–10 tasks.
 
-**Тема** (например 6.1 «Еда и рестораны») — сборник подтем.
-→ Разверни **каждую подтему** по схеме «подтема» блоками. В конце — один сквозной
-  комплекс, объединяющий подтемы. Длинный формат: уточни, хочет ли пользователь всю тему
-  сразу или по подтемам за подход.
+**Topic**, e.g. 6.1 «Еда и рестораны» — a group of subtopics.
+For ordinary practice, expand each subtopic as above and finish with one task combining
+subtopics. If not already specified, establish whether to cover the topic at once or in
+separate sessions. An explicit control-test request selects C without this practice choice.
 
-**Глава** (например Глава 6) — сборник тем.
-→ Это очень крупный запрос. Не вываливай всё сразу: предложи план прохождения по темам
-  и начни с первой, либо собери контрольный комплекс-срез по всей главе (по правилам
-  контрольных из thai-learning). Уточни, что именно нужно.
+**Chapter**, e.g. Chapter 6 — a group of topics.
+For an unspecified practice request, offer a topic-by-topic plan or a chapter control test.
+For «контрольная по главе», assemble the requested complete test immediately using
+`written-control.md`; do not replace the deliverable with a plan or ask the settled choice
+again. Its full-chapter default is 25–35 top-level tasks, subject to source sufficiency.
 
-Во всех масштабах действует спираль 60/40 и толчок в продукцию.
+All scopes prioritise production. The 60/40 spiral applies to practice modes A/B; mode C
+uses coverage of the requested scope instead.
 
-## Режимы вывода
+## Mode A — live session, one task at a time
 
-### Режим A — живая сессия (по одному заданию)
-Дефолт для диалоговой практики и разговорного тайского. Работает как в `thai-learning`:
-одно задание → ответ пользователя → разбор → следующее адаптируется под ответ. Держи
-ритм из skill **learn**: один шаг за ход, подсказка вместо готового ответа, опора под
-ноги если человек застрял, держать линию под «просто скажи». Внутри сессии всё равно
-соблюдай спираль и толчок в продукцию — просто растянуто во времени.
+Default for dialogue practice and conversational Thai. Follow `thai-learning`:
+one task → user answer → feedback → next task adapted to that answer. Keep `learn`'s
+rhythm: one step per turn, hints before answers, support when stuck, and its handling of
+«просто скажи». Production and spiral still apply, distributed across the session.
 
-### Режим B — воркшит (комплект сразу)
-Это то, что обычно значит «комплексное задание». Выдай **связанный** набор заданий одной
-сюжетной нитью, выстроенный по нарастанию. Объём и наличие блоков задаёт **масштаб запроса** (см. выше в этом файле): правило = разминка + сборка; подтема/тема = все три блока.
+## Mode B — worksheet, the whole set at once
 
-Шаблон (это **настоящий markdown**, не ASCII-рамки; оформление — в `output-format.md`):
+This is the default for «комплексное задание» when no other mode is specified. Give a
+connected set with one narrative thread and increasing difficulty. Scope determines volume
+and blocks: a rule gets warm-up + assembly; a subtopic/topic gets all three.
+
+Use real Markdown, not ASCII frames; presentation details are in `output-format.md`:
 
 ```markdown
 🎯 **КОМПЛЕКС — [тема] · уровень [N] · [N заданий]**
@@ -84,64 +82,63 @@
 📝 Ответы помечай буквой блока и номером: «A2», «B1.б». Разбор — после твоих ответов.
 ```
 
-Заголовки блоков — **буквенная метка** («Блок A», «Блок B», «Блок C»…), идущая по
-порядку. Описательное имя («Разминка», «Сборка», «Комплексное») — **только в скобках**
-и по желанию: «Блок A (Разминка)». Без методических пояснений вроде «(атомарные — по
-одному правилу)»: они для тебя, а не для листа.
+Block headings carry ordered letters: «Блок A», «Блок B», «Блок C». An optional
+name appears only in parentheses, e.g. «Блок A (Разминка)». Do not add methodological
+explanations such as «(атомарные — по одному правилу)» to the learner's sheet.
 
-**Нумерация внутри каждого блока начинается с 1** — как в шаблоне выше. Сквозной нумерации
-через весь лист нет: номер сам по себе неоднозначен, адресует всегда пара «буква блока +
-номер». Полные правила оформления и формулировок — в `output-format.md`. Разминку можно делать объёмной; в сборке бери свежие примеры; финал всегда
-продуктивный и контекстный.
+Restart numbering at 1 within each block. The address is the pair of block letter and task
+number, never the number alone. See `output-format.md` for subitem references. This mode's
+numbering does not apply to the written-control profile.
 
-Порядок **атомарное → интеграционное → комплексное** обязателен: разогнаться на простом
-и собрать всё в конце. Хороший комплексный финал — **полный перевод текста или диалога
-рус→тай** (3–6 реплик): стягивает лексику, порядок слов, частицы, конструкции и тоны в
-одну задачу. Чередуй его с диалогом-ситуацией и описанием.
+The order atomic → integration → composite is required: start simply and combine material
+at the end. A full Russian → Thai text/dialogue translation of 3–6 turns makes a useful
+final task combining vocabulary, word order, particles, constructions and tones. Alternate
+it with situation dialogues and descriptions. Keep examples fresh in every block.
 
-### Режим C — срез/контрольная
-Когда пользователь просит **срез, контрольную, тест «на оценку»** или проверку по целой
-главе. Правила самой контрольной — в `thai-learning`, раздел «Система контроля» (пороги,
-запрет подсказок, шапка `🔒`, пересдача). Не дублируй их — открой thai-learning.
+## Mode C — assessment / control test
 
-Две вещи, за которые в срезе отвечает `thai-tasks`:
+Select for «срез», «контрольная», a graded test or a whole-chapter assessment.
+Read `thai-learning`, «Система контроля», for thresholds, no-hint checking and retakes.
+For chapter controls or explicitly written controls also read `written-control.md`:
+static dark HTML file, handwritten answers, continuous task IDs, production-first design.
+An explicit request for another delivery format overrides that default.
 
-- **Сборка на покрытие, а не спираль 60/40.** Цель — пропорционально покрыть **всю**
-  проверяемую тему/главу: пройди по всем подтемам скоупа, через `get_due` подними в
-  приоритет просроченное и слабое, смешай типы заданий по каталогу.
-- **Возврат результатов в трекер обязателен** — срез даёт самый сильный сигнал для SM-2:
-  `record` по **каждому** элементу (не только по ошибкам), `mistake` по паттернам,
-  `set-meta --recent-accuracy`. Затем `thai-mistakes` на отработку.
+The engine owns two assessment responsibilities:
 
-Оформление — как воркшит, но **без подсказок и без разбора внутри листа**: разбор идёт
-единым отчётом после всех ответов. Значок ⚑ ставится и в контрольной (это справка).
+- **Coverage instead of the 60/40 spiral.** Cover every subtopic in the requested scope.
+  Use `get_due` only to prioritise overdue/weak elements inside that scope; mix task types
+  without importing another chapter's material.
+- **Results must return to the tracker after answers are checked.** Hand off to
+  `thai-mistakes` for the full report, `record` for each assessed element (not just errors),
+  `mistake` for patterns, and `set-meta --recent-accuracy`. Generating a test does not
+  establish an achieved score or close a topic.
 
-### Закрывающее испытание темы
+Short assessments outside the written-control profile retain worksheet layout without
+hints or inline analysis; feedback arrives in one report after all answers. The written
+profile uses its own header and layout instead of the generic `🔒` template. The ⚑ rule
+for genuinely necessary unfamiliar support remains applicable, but it must never reveal
+an assessed answer; the written profile first rewrites tasks using taught material.
 
-Частный случай режима C, а не отдельный формат. Собирает его **этот** скилл — значит все
-свойства листа задаются здесь; проверка, отчёт и запись итога уходят в `thai-mistakes`
-(граница прежняя: до вердикта — движок, после вердикта — работа над ошибками).
+## Closing test for a topic
 
-Четыре требования к листу, сверх обычного среза:
+A special case of C, not a fourth mode. This skill assembles the sheet; `thai-mistakes`
+checks it, reports and records the closing outcome. The boundary remains the verdict.
+The written delivery profile, when applicable, does not remove these extra requirements:
 
-1. **Не меньше 70% продуктивных заданий.** Не полный запрет тай→рус: темы, чьё содержание
-   рецептивно (буквы, гласные, тоны, чтение), иначе не закрыть вовсе, а покрытие темы
-   обязательно.
-2. **Ловушка обязательна** — хотя бы один пункт, где типичное для этой темы заблуждение
-   даёт предсказуемо неверный ответ (заготовки — в
-   `thai-mistakes/references/misconceptions.md`). Лист без ловушки проверяет память о
-   разборе, а не владение.
-3. **Прогноз до первого задания.** Перед выдачей листа задай один вопрос и дождись ответа:
+1. **At least 70% productive tasks.** This does not ban Thai → Russian: receptive topics
+   such as letters, vowels, tones and reading still require complete coverage.
+2. **At least one trap for a typical misconception in the topic.** See
+   `thai-mistakes/references/misconceptions.md` when choosing it. Without a trap, the sheet
+   may only test recall of the previous explanation.
+3. **Forecast before the first task.** Ask once and wait before issuing the sheet:
 
    > Считаешь эту тему закрытой — и сколько из N, по-твоему, сдашь?
 
-   Это единственный момент, когда прогноз не загрязнён результатом. Отказалась отвечать —
-   не настаивай, но тогда флаг `--calibrated` не ставится.
-4. **Просьба помечать неуверенное** — в шапке листа. Образец пометки:
+   Only before seeing tasks/results is the forecast uncontaminated. If the user declines,
+   continue without insisting and do not set `--calibrated`.
+4. **Ask the learner to mark uncertain answers** in the header. Example:
 
-   > 7. ตื่นนอน — *(не уверена)*
+   > 7. [ответ] — *(не уверена)*
 
-Дальше лист идёт обычным путём: ответы → проверка → `thai-mistakes`. Ворота, флаги и что
-делать при провале — в **references/progress-and-spiral.md**, раздел «Состояния темы и
-закрытие».
-
+Then follow answers → checking → `thai-mistakes`. For closing gates, flags and failure
+handling, read `references/progress-and-spiral.md`, «Состояния темы и закрытие».

@@ -1,333 +1,325 @@
 ---
 name: thai-tasks
 description: >
-  Движок КОМПЛЕКСНЫХ практических заданий по тайскому языку для проекта Thailand.
-  Использовать этот skill ВСЕГДА, когда пользователь просит задания, тренировку,
-  практику, упражнения или «комплекс» по любой теме тайского — будь то «дай задания
-  на счётные слова», «потренируем еду», «составь воркшит по вопросам», «хочу спираль
-  с повтором тонов», «разговорная практика на рынке» или просто «дай позаниматься».
-  Skill сам собирает задание из новой темы + подмешивает уже пройденное (спираль),
-  ведёт файл прогресса и умеет три режима: живая сессия (по одному заданию), воркшит
-  (пачка от атомарных к комплексному) и срез/контрольная (покрытие темы вместо спирали,
-  без подсказок). Опирается на skill learn (педагогика),
-  thai-learning (правила подачи и проверки), thai-phonetics (транскрипция) и
-  thai-display (оформление слов). Сюда же запросы про состояние темы и её закрытие —
-  «давай закроем тему 3.4», «дай закрывающее испытание», «что мне осталось, чтобы
-  закрыть тему», «можно уже её отпустить», «не чувствую, что закрыла»: движок ведёт
-  состояния тем и собирает закрывающий лист. Итог закрытия он не фиксирует — после
-  проверки ход уходит в thai-mistakes, и команду `close` вызывает тот. Не использовать
-  для простого перевода одного слова без запроса на тренировку — тогда достаточно
-  thai-learning.
+  Composite Thai practice engine for project Thailand. Use whenever the user asks
+  for tasks, drills, practice, exercises or a composite set: «дай задания на счётные
+  слова», «потренируем еду», «составь воркшит по вопросам», «хочу спираль с повтором
+  тонов», «разговорная практика на рынке», «дай позаниматься», «контрольная по главе»
+  or «письменная контрольная». It combines new material with spaced review in sessions
+  and worksheets, tracks progress, and assembles coverage tests without hints or
+  outside-scope spiral material. Chapter controls default to a standalone dark HTML
+  file for handwritten answers; explicit interactive requests override that format.
+  Uses learn for pedagogy, thai-learning for presentation and checking, thai-phonetics
+  for transcription, and thai-display for optional word styling. Also owns topic
+  states and closing sheets: «давай закроем тему 3.4», «дай закрывающее испытание»,
+  «что мне осталось, чтобы закрыть тему», «можно уже её отпустить», «не чувствую, что
+  закрыла». It does not record the closure verdict: after checking, thai-mistakes
+  invokes close. Do not use for a single-word translation without practice intent
+  (thai-learning), or for editing the tutor machinery itself (skill-writer).
 ---
 
-# Thai Tasks — движок комплексных заданий
+# Thai Tasks — composite practice engine
 
-Этот skill превращает любую тему тайского в практический комплекс заданий. Он не
-заменяет `thai-learning`, а надстраивается над ним: `thai-learning` задаёт *правила
-подачи и проверки*, а `thai-tasks` — *как из темы собрать интересный, практико-
-ориентированный набор заданий*, который одновременно вводит новое и закрепляет старое.
+This skill turns a Thai topic into practical tasks. It builds on `thai-learning`, which
+owns presentation and checking rules; this skill owns how to assemble a useful set, choose
+its scope and mode, and connect practice to progress.
 
-Пользователь (Ked) учится **на практике**: сухая теория не укладывается. Поэтому
-главный принцип — **сначала дело, потом правило**. Каждое задание это *действие*,
-а не лекция. Правило всплывает как вывод после того, как она что-то сделала руками.
+Instructions are English. Learner-facing text, quoted triggers, data values and examples
+remain Russian; Thai and Cyrillic transcription are never translated.
 
-## С чего всегда начинать
+Ked learns **by doing**: abstract theory does not stick. Use **action before rule** in
+practice. Each task is an action, not a lecture; the rule emerges after she has tried it.
+A control test measures existing knowledge and does not introduce rules or worked examples.
 
-1. **Найти материал темы (лексика + теория).** Ищи в таком порядке:
-   1) **подключённая локальная папка** — клон репозитория `kedoniakaliopiedu-alt/th`
-      (всегда точная копия). Ищи файлы рекурсивно: Glob `**/*glava*tema*.md`.
-   2) **файлы проекта** THAILAND, если они есть.
+## Always start here
 
-   Материал не нашёлся — сначала различи **два разных случая**, они лечатся по-разному:
+1. **Find the topic material (vocabulary and theory).** Search in this order:
+   1) the connected local clone of `kedoniakaliopiedu-alt/th`; search recursively for
+      `**/*glava*tema*.md` rather than assuming a flat layout;
+   2) THAILAND project files, if available.
 
-   - **Папка не подключена** (файлов нет вообще, Glob пуст по всему репозиторию).
-     НЕ пытайся `git clone`/`git pull` и НЕ фетчи репозиторий из веба: он **приватный**,
-     у песочницы нет доступа к GitHub, это только зря тратит ходы. **Попроси пользователя
-     подключить папку** с материалом (запрос доступа к директории — папка вида `.../th`,
-     клон репозитория). Как подключит — продолжай. Синк проекта с гитом бывает не
-     материализован в сессии, поэтому локальная папка надёжнее.
-   - **Папка подключена, но именно этой темы ещё нет.** Курс написан не целиком: A2
-     покрыт полностью (главы 1–7), в B1 написаны главы 1–2 из восьми заявленных в
-     `Thai B1/thai_b1_plan.md`. Подключать тут нечего — скажи прямо, что материала по
-     теме пока не существует, и предложи выбор: взять соседнюю написанную тему, собрать
-     задания по плану главы из файла плана (лексику тогда сверяй по источникам, а не
-     выдумывай) или сначала написать сам файл темы. Не проси подключать папку — она уже
-     подключена, и просьба собьёт с толку.
+   If material is missing, distinguish two cases:
 
-2. **Прочитать миссию, трекер, источники.** `MISSION.md` (зачем учим — к этому привязывай
-   каждый комплекс), машинный трекер `progress.json`, учебные записи `learning-records/`,
-   `RESOURCES.md`. Если `MISSION.md`/`progress.json` ещё нет — создай при первом занятии
-   (миссию — распросив о цели). Подробности — в **references/progress-and-spiral.md** и
-   **references/mission-and-records.md**.
-3. **Авто-импорт темы в трекер.** Прежде чем генерировать задания, занеси лексику и
-   правила текущей темы из её файла в `progress.json` (если их там ещё нет). Иначе
-   спираль их не увидит. Порядок — в progress-and-spiral.md.
-4. **Определить тему, масштаб и сложность.** Тему называет пользователь (не названа —
-   следующий шаг по прогрессу или один уточняющий вопрос). Масштаб — см. «Масштаб
-   запроса». Сложность — числом 1–10 из `meta.difficulty` (по умолчанию 4; см.
-   «Сложность, прогресс и спираль»).
-5. **Проверить состояние темы** — `tracker.py topics progress.json --topic <тема>`
-   (только когда тема уже известна). Статус `закрыта` — тема не берётся в работу как
-   новая: запрос по ней это либо контрольная проверка, либо переоткрытие. Статус
-   `нет критерия` — в файле темы нет секции «Тема закрыта, если ты можешь»: работать
-   можно, закрыть нельзя. Сказать об этом **один раз на тему**, а не в начале каждого
-   занятия: секции пока нет ни в одном учебном файле, и повторять это ежедневно —
-   шум. Механика — в **references/progress-and-spiral.md**, раздел «Состояния темы и
-   закрытие».
-6. **Выбрать режим** (см. «Режимы вывода»). «Сессия»/«по одному» — живой диалог;
-   «воркшит»/«комплект» — батч. Не уверен — дай воркшит (обычно это и есть «комплексное
-   задание»).
-7. **Спланировать спираль 60/40** через get_due (см. «Спираль 60/40»).
+   - **No folder is connected:** there are no course files anywhere in the available
+     repository. Do not try `git clone`, `git pull`, or fetching the private repository
+     from the web as a substitute for attaching it. Ask the user to connect the `.../th`
+     folder, then continue. A project sync may not have materialized its files locally.
+   - **The folder is connected but this topic is unwritten:** the course is incomplete.
+     Check the actual files and `Thai B1/thai_b1_plan.md`; do not assume every planned
+     chapter exists. Explain that the material is absent and offer a neighbouring written
+     topic, tasks based on the chapter plan with externally verified vocabulary, or writing
+     the topic first. Do not ask to connect a folder already available. For a source-only
+     control, do not silently substitute a plan or outside vocabulary for missing sources.
 
-→ Педагогика диалога, работа с «просто скажи ответ», диагностика: см. skill **learn**.
-→ Правила транскрипции, тоновые знаки: см. skill **thai-phonetics**.
-→ Оформление тайских слов по классам (цвета, жирный инициатор тона) — skill
-  **thai-display**. В воркшитах по умолчанию **не применяй** (в чате выглядит мусорно —
-  см. «Оформление и формулировки»); включай только если пользователь прямо просит разбор по
-  классам согласных.
-→ Проверка ответов, подсказки, контрольные, аннотация незнакомых слов: см. skill
-  **thai-learning** (базовые правила) + файл **references/checking.md** (детальный
-  порядок разбора: подсказки → ответ, комплексная оценка по 4 категориям, сверка тонов).
-→ Объём выхода по масштабу запроса, три режима вывода, шаблон воркшита, детали среза и
-  закрывающего испытания: см. файл **references/scope-and-modes.md** — читай, когда
-  собираешь лист.
-→ Трекер прогресса, интервальный повтор (get_due), mastery, авто-импорт лексики,
-  регулятор сложности: см. файл **references/progress-and-spiral.md**.
-→ Миссия (зачем учим), учебные записи (learning-records), доверенные источники и принцип
-  «не выдумывать тайский — сверяться»: см. файл **references/mission-and-records.md**.
+2. **Read mission, tracker and sources:** `MISSION.md`, `progress.json`,
+   `learning-records/`, `RESOURCES.md`. Tie tasks to the learning purpose. If mission or
+   tracker is absent, create it at the first lesson (ask about the goal for the mission).
+   Read **references/progress-and-spiral.md** and **references/mission-and-records.md**
+   when initializing or updating this context.
+3. **Identify topic, scope, difficulty and mode before selecting review material.** Use
+   the user's topic; otherwise choose the next progress step or ask one question. Scope
+   follows the table below. Difficulty is `meta.difficulty`, 1–10, default 4. «Сессия» /
+   «по одному» selects A; «воркшит» / «комплект» selects B; «срез» / «контрольная» /
+   «тест на оценку» selects C. An unspecified practice set defaults to B. A requested
+   chapter control is already an unambiguous C request: do not ask whether to split it
+   into lessons. Read **references/written-control.md** for a chapter or written control.
+4. **Import the topic into the tracker before generating tasks.** Import vocabulary and
+   rules from its source file if absent, using the procedure in progress-and-spiral.md.
+   This makes items available for tracking; importing them is not evidence of mastery.
+5. **Check topic state:** `tracker.py topics progress.json --topic <тема>`, once the topic
+   is known. A `закрыта` topic is not new material: the request is a control or reopening.
+   `нет критерия` means a closing criterion was not found: practice is allowed, closure
+   is not. Mention this **once per topic**, not at every lesson. Read the topic-state and
+   closure section in **references/progress-and-spiral.md** when handling these states.
+6. **Plan according to the selected mode.** In A/B, use get_due for the 60/40 spiral. In
+   C, read all sources in the requested scope and plan coverage of them; due items may
+   prioritize weaknesses **within that scope only**, never import another chapter.
 
-Каждый комплекс привязывай к миссии (MISSION.md): примеры и темы служат реальной цели,
-а не абстрактны. И **не выдумывай тайский по памяти** — тоны, значения, написание бери
-из файлов проекта и источников, при неуверенности сверяйся (thai-language.com и др.).
+→ Dialogue pedagogy, «просто скажи ответ», and diagnosis: read skill **learn** when running
+  live practice.
+→ Transcription and tone marks: read **thai-phonetics** when writing transcription.
+→ Consonant-class styling: use **thai-display** only for an explicit request for that
+  breakdown; default worksheets do not use its colours.
+→ Checking, hints, controls and unfamiliar-word annotation: read **thai-learning** and
+  **references/checking.md** when preparing to check answers.
+→ Scope, output modes, worksheet template and closing-test properties: read
+  **references/scope-and-modes.md** whenever assembling a sheet.
+→ Static chapter controls and written controls: read **references/written-control.md**
+  before assembling or delivering them; it owns their format and source-only workflow.
+→ Tracker, get_due, SM-2, mastery, vocabulary import and difficulty: read
+  **references/progress-and-spiral.md** when using these mechanics.
+→ Mission, learning records and trusted sources: read **references/mission-and-records.md**
+  when choosing context or recording a qualitative change.
 
-## Три опоры, на которых стоит каждое задание
+Ground every set in `MISSION.md`; examples should serve a real purpose. **Never invent
+Thai from memory:** take spelling, meanings and tones from project files and their assigned
+sources, and verify uncertainty. Tone verdicts follow thai-verify's sole-source protocol.
 
-Это «почему» скилла. Держи их в голове при генерации любого задания.
+## Four principles behind the tasks
 
-**1. Задание — это действие в контексте, а не проверка теории.**
-Практико-ориентированному человеку не помогает «перечисли пять правил тона». Помогает
-«вот реплика из лакорна — прочитай её и ответь героине». Опирайся на живой материал:
-строки из лакорнов и песен, подписи в соцсетях, реальные ситуации (рынок, кафе, такси,
-знакомство). Смысл и цель сначала, форма — как инструмент достижения цели. Так материал
-цепляется за реальную мотивацию и остаётся в памяти. **Новое правило вводи индуктивно:**
-покажи 3–4 примера и дай ей самой сформулировать закономерность, прежде чем называть
-правило (формат «Вывод правила из примеров» в exercise-catalog.md). Так теория рождается
-из практики, а не наоборот.
+**1. A task is an action in context, not a theory quiz.** Instead of «перечисли пять правил
+тона», use a meaningful action such as «вот реплика из лакорна — прочитай её и ответь
+героине». Practice may draw on lakorns, songs, social posts, markets, cafés, taxis and
+introductions. Meaning and purpose come first; language form is the tool. In A/B,
+**introduce a new rule inductively:** show 3–4 examples and ask for the pattern before
+naming it (the «Вывод правила из примеров» format in exercise-catalog.md). In C, keep
+contexts inside the selected source material and do not introduce new rules.
 
-**2. Толкай в производство, а не только в узнавание.**
-Узнавать тайское слово легко; *произвести* его с нуля — трудно и именно это строит
-рабочий язык. Поэтому в каждом комплексе должны быть задания «рус→тай»: собери слово,
-напиши фразу, ответь репликой, опиши ситуацию по-тайски. Не давай комплексу состоять
-из одних переводов «тай→рус» — это пассивный навык, он и так растёт быстрее. Баланс
-внутри комплекса смещай в сторону продукции.
+**2. Push production, not only recognition.** Producing Thai from scratch builds usable
+language. Every set needs Russian → Thai tasks: assemble a word, write a sentence, reply,
+or describe a situation. Do not make a set entirely Thai → Russian translation; bias the
+balance toward production. Written controls use the active-recall rules in written-control.md.
 
-**3. Новое живёт через старое (спираль).**
-Память держится на интервальном повторении и перемешивании. Но повтор не должен быть
-отдельным скучным блоком «а теперь вспомни тоны». Он *встроен* в задания по новой теме:
-новая тема даёт лексику и цель, а старый материал — обязательные элементы решения.
-Пример: новая тема «еда», повтор — «счётные слова + тоны». Задание «закажи две порции
-риса по-тайски» одновременно вводит еду (новое) и требует счётное слово и правильный
-тон (старое). Одно задание — два слоя. Это и есть суть комплекса.
+**3. New material lives through old material in practice.** A/B use spaced repetition and
+interleaving inside the new context instead of an isolated review block. For new «еда» and
+review «счётные слова + тоны», «закажи две порции риса по-тайски» works on both layers.
+C is the exception: it measures coverage of its stated topic/chapter, without the 60/40
+spiral or material from outside the sources.
 
-**4. Свежие примеры, а не переписанная теория.**
-Задания должны *выводить за рамки* учебного материала, а не гонять по кругу те же
-предложения. Не бери примеры-образцы прямо из файлов проекта и не повторяй их дословно —
-это проверяет память на конкретный пример, а не владение правилом. Бери из источников
-*лексику и правило*, но собирай на них **новые** слова, ситуации и фразы, которых в
-материале не было. Так навык переносится, а не заучивается точечно. Внутри одного
-комплекса тоже не повторяй одну и ту же фразу в разных заданиях — каждый пункт свежий.
+**4. Fresh examples, not copied theory.** Take vocabulary and rules from the sources, then
+build new situations and sentences. Do not copy source model sentences or repeat the same
+sentence across tasks: that tests memory of an example rather than transfer. Freshness does
+not authorize new vocabulary or constructions in a source-only control.
 
-## Масштаб запроса: правило → подтема → тема → глава
+## Request scope: rule → subtopic → topic → chapter
 
-Запрос приходит на любом уровне иерархии, и от масштаба зависит объём выхода. Определи
-масштаб по запросу (не уверен — уточни одним вопросом).
+Identify scope from the request; ask one question only if genuinely ambiguous.
 
-| Масштаб | Что это | Что выдать |
+| Scope | Meaning | Output |
 |---|---|---|
-| Правило / конструкция | один приём внутри подтемы | **не более 5 заданий**: разминка + сборка, без финального комплексного |
-| Подтема (6.1.2) | лексика + несколько конструкций | все три блока, обычно 6–10 заданий |
-| Тема (6.1) | сборник подтем | каждую подтему блоками + сквозной финал; уточни, всю тему сразу или по подтемам |
-| Глава (6) | сборник тем | не вываливай всё: план по темам либо срез по главе |
+| Rule / construction | One technique inside a subtopic | **At most 5 tasks:** warm-up and assembly, no composite finale |
+| Subtopic (6.1.2) | Vocabulary and several constructions | All three blocks, normally 6–10 tasks |
+| Topic (6.1) | A collection of subtopics | Blocks per subtopic plus one combined finale; clarify whole topic versus separate sessions for practice |
+| Chapter (6) | A collection of topics | For practice, a topic-by-topic plan or a control; for an explicit chapter control, produce the complete control directly |
 
-Структура файлов: `Глава` → `Тема N.M` → `Подтема N.M.K`, внутри «Словарный запас» +
-«Теория/конструкции» + «Практические упражнения». **Ищи рекурсивно** (Glob
-`**/*glava*tema*.md`) — на плоскую структуру не полагайся.
+File hierarchy: `Глава` → `Тема N.M` → `Подтема N.M.K`, with «Словарный запас»,
+«Теория/конструкции», «Практические упражнения». Search recursively for
+`**/*glava*tema*.md`.
 
-Во всех масштабах действует спираль 60/40 и толчок в продукцию.
+Production applies at every scale. The 60/40 spiral applies to A/B only. Chapter controls
+normally contain **25–35 top-level tasks**. Also count the actual answer units so that
+sub-points do not quietly turn that range into an oversized test; follow written-control.md
+for coverage and an explicit requested count.
 
-→ Разбор каждого масштаба с примерами — в файле **references/scope-and-modes.md**.
+→ Read **references/scope-and-modes.md** when applying scope to a sheet.
 
-## Спираль 60/40
+## The 60/40 spiral (A/B only)
 
-В каждом комплексе (и в длинной сессии) держи примерно:
+In a practice set or long session, aim for:
 
-- **~60%** заданий бьют в **новую тему** — её лексику, конструкцию, правило.
-- **~40%** протаскивают **ранее пройденное**, но по возможности *через* новую тему,
-  а не отдельным блоком.
+- **~60%** on the new topic: vocabulary, construction or rule.
+- **~40%** revisiting learned material, woven into the new topic rather than isolated.
 
-Как выбрать, что повторить — через **get_due** из трекера (см.
-references/progress-and-spiral.md):
-- get_due выдаёт элементы, чей интервал повтора истёк, с приоритетом слабых мест
-  (те, где были ошибки) и низкого mastery.
-- Возьми 2–4 таких элемента и **вплети их в задания по новой теме** (см. пример про еду),
-  а не отдельным блоком.
-- Если due-элементов нет — 1–2 с самым низким mastery или комплекс полностью на новом.
+Use **get_due**, following references/progress-and-spiral.md. It returns items whose review
+interval has expired, prioritizing mistakes and low mastery. Weave 2–4 of them into the
+new topic. If none are due, use 1–2 with the lowest mastery, or focus entirely on new work.
 
-Если пользователь явно задаёт баланс («сегодня только новое» / «повтори побольше
-тонов») — слушай его, спираль это дефолт, а не догма.
+An explicit request such as «сегодня только новое» or «повтори побольше тонов» overrides
+the default balance. Do not apply this section to C: coverage, not a review quota, owns it.
 
-## Режимы вывода
+## Output modes
 
-- **A — живая сессия:** одно задание → ответ → разбор → следующее адаптируется. Дефолт для
-  диалоговой практики и разговорного тайского; ритм держи из skill **learn**.
-- **B — воркшит:** связанный набор одной сюжетной нитью, блоки A/B/C по нарастанию. Это то,
-  что обычно значит «комплексное задание». Не уверен, какой режим — давай воркшит.
-- **C — срез/контрольная:** сборка на **покрытие** темы вместо спирали, без подсказок,
-  обязательный возврат результатов в трекер. Правила самой контрольной — в
-  **thai-learning**, «Система контроля»; не дублируй их. Частный случай режима — закрывающее
-  испытание темы.
+- **A — живая сессия:** one task → answer → review → adapted next task. Default for
+  dialogue and conversational Thai; use the rhythm from **learn**.
+- **B — воркшит:** a coherent set with one story thread and increasingly complex A/B/C
+  blocks. Default for an unspecified «комплексное задание».
+- **C — срез/контрольная:** coverage of the selected topic/chapter, no hints, results
+  returned to the tracker. Read **thai-learning**, «Система контроля», for grading and
+  retake rules, and **references/scope-and-modes.md** for assembly. A closing test is a
+  special case and retains its four extra properties: at least 70% production, a trap,
+  a forecast before the first task, and a request to mark uncertain answers.
 
-→ Шаблон воркшита, правила блоков, детали среза и четыре требования к закрывающему
-  испытанию — в файле **references/scope-and-modes.md**. Читай, когда собираешь лист.
+**Chapter and written controls default to a saved standalone dark HTML file**, linked in
+chat, for answers written on paper and submitted through `Handwriting/`. Do not substitute
+raw HTML in chat for a requested file. Read **references/written-control.md**: the default
+has no JavaScript, input fields, answer keys or hidden solutions. An explicit request for
+an interactive test, another medium, or raw code overrides the delivery default; it does
+not waive source coverage or no-hints rules.
 
-## Оформление и формулировки
+→ Read **references/scope-and-modes.md** when assembling any sheet and
+  **references/written-control.md** for the written-control branch.
 
-Лист читается легко, каждый пункт понимается однозначно. Полные правила — в
-**references/output-format.md**; читай его, когда собираешь лист. Костяк:
+## Layout and wording
 
-- заголовки блоков буквенные («Блок B (Сборка)»), нумерация обнуляется в каждом блоке,
-  ссылка всегда с буквой: `Блок B.Задание 2.Пункт Б`;
-- задания — настоящими markdown-списками; **два и более объекта в задании (слова, буквы,
-  слоги, ситуации) = столько же вложенных пунктов с буквами а, б, в**, а не перечисление
-  в строку через запятую. Исключений для коротких объектов нет: четыре буквы — четыре
-  пункта. Инструкция остаётся на строке с номером, материал уходит вниз;
-- лексика — `**тайское**` · *транскрипция* — перевод, **без** цветовой разметки классов
-  из thai-display (её включаем только по прямой просьбе);
-- транскрипция строго кириллицей, тоновый знак над **гласной**, не над согласной;
-- методическая кухня (проценты спирали, mastery, источники) на лист не выносится;
-- каждый пункт — один глагол действия, явно сказано что прислать и в каком формате;
-- **простой и конкретный язык формулировки, никакого метаязыка**: не проси называть
-  категорию её лингвистическим именем (แม่/«мать», มาตรา, คำเป็น/คำตาย, IPA) и вообще не
-  вставляй терминов, которых не было в курсе. Спрашивай наблюдаемый факт — «на какой звук
-  заканчивается слово», «какой значок стоит над буквой» — и давай готовые варианты
-  реальными звуками, а не кодами. Инструкция — одно короткое предложение, формат ответа —
-  второе; «охарактеризуй», «определи природу», «при этом учитывая» — сигнал переписать.
-  Проверка перед выдачей: человек, знающий слова, но не знающий грамматических терминов,
-  понимает с первого прочтения, что делать и что прислать. Не понимает — переписывай, а не
-  дописывай пояснение к термину;
-- **у каждого подпункта должен быть верный ответ** — ответь на пункт сам перед выдачей.
-  Типовой провал: набор собран по теме, а не по допустимости (ฝ финалью не бывает вовсе).
+Read **references/output-format.md** whenever assembling a sheet. For written controls,
+written-control.md owns HTML layout and continuous numbering; ordinary worksheets keep
+lettered blocks and numbering restarted inside each block.
 
-→ Полное меню типов заданий по каждому навыку (атомарные / интеграционные /
-  комплексные, с примерами) — в файле **references/exercise-catalog.md**. Читай его,
-  когда собираешь комплекс, чтобы разнообразить форматы и не скатываться в один тип.
+- Worksheet headings are lettered: «Блок B (Сборка)». References include the block:
+  `Блок B.Задание 2.Пункт Б`.
+- Use real lists (Markdown in chat, semantic HTML lists in HTML). **Two or more separate
+  objects mean that many lettered sub-points:** а, б, в. Four single letters still require
+  four points. Put the instruction on the numbered line and the material below it.
+- Vocabulary format in practice is `**тайское**` · *транскрипция* — перевод, without
+  consonant-class colouring unless explicitly requested. Never add a vocabulary gloss,
+  transcription or worked example that reveals a control answer.
+- Transcription is Cyrillic only; the tone mark goes over the **vowel**, not a consonant.
+- Keep spiral percentages, mastery, source references and other methodology off the sheet.
+- Each item has one action verb and explicitly states what to submit and in which format.
+- **Use plain, concrete wording without metalanguage.** Do not ask for a linguistic label
+  (แม่/«мать», มาตรา, คำเป็น/คำตาย, IPA) or introduce untaught terms. Ask an observable
+  fact: «на какой звук заканчивается слово», «какой значок стоит над буквой». When options
+  are appropriate, use real sounds, not codes. One short sentence for the instruction,
+  another for the answer format. «Охарактеризуй», «определи природу», «при этом учитывая»
+  signal a rewrite. A person who knows the words but no grammar terminology must understand
+  on first reading; rewrite instead of appending an explanation of the term.
+- **Every sub-point must have a valid answer.** Solve it internally before delivery. A list
+  assembled only by theme can contain an impossible item (e.g. ฝ as a final consonant).
+  Do not put those internal answers in the control artifact.
 
-## Разговорная практика и живой материал
+→ Read **references/exercise-catalog.md** when selecting varied atomic, integrated and
+  composite formats, rather than repeating one task type throughout.
 
-Разговор тренируется текстом (аудио пока нет): ролевой диалог со сценой и целью, быстрый
-ответ на реплику, перефраз под регистр, проверка кириллической транскрипции. Идёт в
-**режиме A**, по одному ходу. Если доступно расширение **Codex browser** — можно брать
-строку из лакорна или тайского поста прямо со страницы и делать из неё задание.
+## Speaking practice and live material
 
-Форматы, правила и границы (что не тащить в браузер) — в
-**references/speaking-and-live.md**. Читай, когда пользователь просит разговорную
-практику, работу с произношением или регистром.
+Practice conversation in text (audio is not assumed): a role-play with a scene and goal,
+quick replies, register changes, and checking Cyrillic transcription. Use **A**, one turn
+at a time. If a **Codex browser** capability is available, a line from a lakorn or Thai
+post can become practice material.
 
-## Проверка ответов (кратко)
+→ Read **references/speaking-and-live.md** for speaking, pronunciation or register
+  requests, including the boundaries on what may go into a browser.
 
-Полный порядок — в **references/checking.md**. Ключевое:
+## Checking answers: summary
 
-**Сразу после проверки любых заданий переходи в skill `thai-mistakes`** — он выдаёт отчёт
-по листу (✅ / 🟡 / ❌ + верный вариант), заносит ошибки в трекер с темой и собирает блок
-отработки по теме каждой ошибки. Не подменяй его собственным «разбором ошибок» и не
-переходи к следующей теме, пока отчёт не выведен.
+Read **references/checking.md** before checking. When today's photos arrive in
+`Handwriting/`, first use **thai-handwriting** for recognition; a handwritten submission
+is not permission to bypass its pipeline.
 
-- **Сначала подсказки, потом ответ.** На каждую ошибку сперва дай подсказку (что не так
-  + наводка, без готового ответа). Только если не сработало — правильный вариант с
-  объяснением, *что именно* было не так и *почему* правильно иначе.
-- **Комплексная оценка продуктивных заданий по 4 категориям:** Словарный запас,
-  Грамматика, Орфография, Тоны — отдельным вердиктом по каждой.
-- **Тоны сверяй только по авторитетному источнику** (http://thai-language.com/dict/search),
-  не по памяти.
-- **Тоновая нотация:** ` (низкий) ˆ (нисходящий) ´ (высокий) ˇ (восходящий); средний —
-  без знака.
+**Immediately after checking any tasks, hand over to `thai-mistakes`.** It issues the full
+sheet report (✅ / 🟡 / ❌ and the correct version), records mistakes with their topic,
+and prepares practice for the whole topic behind each error. Do not replace it with an
+ad-hoc review or move on before the report is delivered.
 
-## Сложность, прогресс и спираль (трекер SM-2)
+- **Hints before answers in ordinary practice.** First identify the problem and offer a
+  lead without the answer; if that does not work, give the correct version and explain
+  what was wrong and why. A control has no hints: review all submitted answers in one
+  report after completion. In a graded report every non-✅ item has its full correct
+  answer, as required by AGENTS.md.
+- **Evaluate productive answers in four categories:** Словарный запас, Грамматика,
+  Орфография, Тоны, with a separate verdict for each applicable category.
+- **Verify tones only through thai-verify's authoritative source**
+  (`http://thai-language.com/dict/search`), never memory. Do not infer an untested spoken
+  tone from handwriting alone.
+- Tone notation: ` (низкий), ˆ (нисходящий), ´ (высокий), ˇ (восходящий); mid tone unmarked.
 
-Источник правды — машинный файл **`progress.json`** (не прозаичный progress.md). По
-каждому слову и правилу идёт интервальный повтор по **SM-2**; отдельно — база
-ошибок-паттернов. `get_due` выдаёт то, что пора повторить, с приоритетом слабых мест.
+## Difficulty, progress and the SM-2 tracker
 
-**Веди трекер через скрипт, а не вручную.** `scripts/tracker.py` (только стандартная
-библиотека Python) сам считает get_due, SM-2 и обновляет файл. Команды: `import` (словарь
-темы), `due`, `record <элемент> <0–5>`, `mistake`, `progress`, `set-meta`. Обновляй трекер
-**после каждого занятия**. Ручной пересчёт по формулам — только если Python недоступен.
+**`progress.json`** is the source of truth, not prose in progress.md. Words and rules use
+**SM-2** spaced repetition; mistake patterns have a separate store. get_due prioritizes
+items due for review and weaknesses.
 
-**Сложность** — число `meta.difficulty` (по умолчанию **4**, уровень A2→B1). Оно управляет
-только **объёмом опоры**, не строгостью проверки: 1–3 перевод впереди, 4–6 тайский с
-опорой, 7–10 иммерсия. Калибруется само по целевому успеху ~60–70% на свежих заданиях.
+**Use `scripts/tracker.py`, not manual JSON edits.** The Python-standard-library script
+calculates due items and SM-2 and writes updates. Commands include `import`, `due`,
+`record <элемент> <0–5>`, `mistake`, `progress`, `set-meta`. Update after every completed
+lesson; manual formula calculations are only a fallback when Python is unavailable.
+Generating a test alone does not earn scores or record a completed lesson.
 
-Полная механика — SM-2-формулы, качество 0–5, get_due, база ошибок, авто-импорт лексики,
-шкала сложности целиком, целевой успех, формат обзора на «покажи прогресс» (без стриков и
-ачивок) — в **references/progress-and-spiral.md**.
+**Difficulty** is `meta.difficulty`, default **4**, A2→B1. It changes support, not grading
+strictness: 1–3 translation first, 4–6 supported Thai, 7–10 immersion. Calibrate against
+~60–70% success on fresh practice. A control's no-hints constraint overrides practice
+support settings.
 
-## Итог занятия и домашка
+→ Read **references/progress-and-spiral.md** when recording quality 0–5, mistakes, imports,
+SM-2, difficulty or «покажи прогресс» (no streaks or achievements).
 
-В конце занятия (сессии или воркшита) дай короткий итог: что освоено, где были ошибки,
-что в работу. Затем — **домашка: 3 конкретные вещи повторить до следующего раза** (слова,
-правило, фраза для перевода). Бери их из слабых мест и due-элементов трекера. Домашние
-элементы помечай в `progress.json` приоритетными, чтобы следующий get_due их подхватил и
-вплёл в новый комплекс. Домашка — не обязаловка, а мостик спирали между занятиями.
+## Lesson summary and homework
 
-Если у темы стало на один блокер меньше, чем в начале занятия, — дай **одну строку** о
-том, что осталось: «Тема 3.4 ближе к закрытию: осталось снять ошибку со счётными
-словами». Вывод `tracker.py blockers` — служебный: в нём mastery, размер ядра и внутренние
-имена паттернов (`собака_หมา_гласная`), то есть методическая кухня, тайский без
-транскрипции и готовый ответ разом. **Пересказывай его своими словами**, не копируй.
-Без поздравлений, счётчиков и процентов — закрытие сообщается фактом, а не достижением:
-геймификации в проекте нет. Слово «закрыта» означает «ушла из спирали в редкий контроль»,
-а не «пройдена навсегда»; если оно звучит слишком окончательно — «отпущена».
+At the end of a session or worksheet, summarize what was learned, where mistakes occurred
+and what needs work. Then give **three concrete things to review** before next time: words,
+a rule or a phrase to translate. Choose weaknesses and due items; mark homework priorities
+through the tracker so get_due brings them into the next set. Homework is a bridge between
+lessons, not an obligation.
 
-В конце занятия по теме отметь занятие: `tracker.py lesson progress.json <тема>`. Только
-эта команда двигает паузу перед закрывающим испытанием.
+If the topic has one fewer blocker than at the start, give **one line** on what remains:
+«Тема 3.4 ближе к закрытию: осталось снять ошибку со счётными словами». `tracker.py blockers`
+output is internal: mastery, core size and pattern names such as `собака_หมา_гласная` expose
+methodology, untranscribed Thai and answers. **Paraphrase it, never copy it.** No
+congratulations, counters or percentages: closure is a fact, not an achievement. `закрыта`
+means moving from the spiral to occasional controls, not learning forever; «отпущена» is
+an alternative if the first sounds too final.
 
-Вопросы про состояние темы — «что мне осталось, чтобы закрыть», «можно уже её отпустить»,
-«не чувствую, что закрыла» — тоже сюда: состояния ведёт этот скилл. Первое и второе
-читаются из `blockers` и пересказываются своими словами. Третье — не спор, а заявка:
-предложи провести испытание заново, и если оно провалено, `thai-mistakes` зафиксирует
-`close --result fail`, и тема вернётся в работу штатным путём. Руками `progress.json`
-не правь.
+At the end of a topic lesson, run `tracker.py lesson progress.json <тема>`. Only this
+command advances the waiting period before a closing test.
 
-Если случился **качественный сдвиг** — прорыв, исправленное заблуждение, раскрытое
-прежнее знание, смена цели — заведи короткую **learning-record** (формат в
-mission-and-records.md). Это не журнал занятий, а инсайт уровня решения: он меняет, чему
-учить дальше. Обычные «прошли тему» туда не пишем.
+Topic-state requests also belong here: «что мне осталось, чтобы закрыть», «можно уже её
+отпустить», «не чувствую, что закрыла». For the first two, paraphrase `blockers`. The third
+is a request, not a claim to dispute: offer another closing test. If failed, `thai-mistakes`
+records `close --result fail`, reopening the topic through the normal mechanism. Do not
+edit progress.json by hand.
 
-## Короткий чеклист перед выдачей комплекса
+Record a short **learning-record** only for a qualitative change: a breakthrough,
+corrected misconception, discovered prior knowledge or changed goal. Read
+**references/mission-and-records.md** when writing it. This is an insight that changes
+future teaching, not an ordinary lesson log.
 
-1. Прочитал `MISSION.md` + источники + learning-records; через `scripts/tracker.py`
-   сделал `import` темы, `topics` (состояние) и `due`; комплекс привязан к миссии.
-   Закрытая тема как новая не берётся; о теме без критерия сказано один раз, не повторно.
-2. Определил масштаб (правило ≤5 без финала / подтема / тема / глава) и сложность 1–10.
-3. Выбрал режим (сессия / воркшит).
-4. Спланировал спираль через get_due: ~60% новое, ~40% повтор (слабые места + низкий
-   mastery в приоритет), вплетённый в новую тему.
-5. Разнообразил типы (exercise-catalog.md), есть продуктивные задания.
-6. Порядок: атомарное → интеграционное → комплексное; финал продуктивный (часто перевод
-   текста/диалога рус→тай).
-7. Примеры свежие — не переписаны из учебного материала, внутри комплекса не дублируются.
-8. Каждое задание прошло чеклист однозначности из output-format.md — глагол, формат ответа,
-   образец, объём, **отсутствие метаязыка** (แม่/«мать», มาตรา, คำเป็น/คำตาย), и на каждый
-   подпункт я сам знаю верный ответ. Отдельно перечитал формулировки глазами человека без
-   грамматических терминов: **везде простой и конкретный язык**, спрашивается наблюдаемый
-   факт, варианты — реальными звуками, а не кодами.
-9. Форматирование чистое: заголовки блоков буквенные (описательное имя — только в скобках
-   и по желанию), **нумерация в каждом блоке начинается с 1**, ссылка всегда с буквой блока;
-   задания — настоящими списками, и я **пересчитал объекты в каждом задании**: где их два и
-   больше, там столько же вложенных пунктов с буквами (а, б, в), а не строка через запятую; лексика
-   в виде **тайское** *транскрипция* — перевод (без цветных «шариков»); незнакомое пометил ⚑.
-10. После проверки — перешёл в skill **thai-mistakes**: отчёт по листу, запись ошибок с
-    `--topic`, блок отработки по теме.
-11. После занятия — через `scripts/tracker.py`: `record` по элементам, `mistake` по
-    ошибкам, `lesson` по теме, `set-meta` (recent_accuracy); дал итог + 3 пункта домашки; при качественном
-    сдвиге — завёл learning-record.
+## Checklist before delivery
+
+1. Read mission, sources and learning records; imported the topic and checked its state
+   through the tracker. Closed topics are not treated as new; missing criteria are mentioned
+   once. The tasks serve the mission without exceeding a control's source scope.
+2. Identified scope, difficulty and **mode A/B/C before spiral selection**. Rule practice
+   has at most five tasks and no finale; a chapter control follows written-control.md.
+3. For A/B, selected get_due review and planned ~60/40, prioritizing weaknesses and low
+   mastery. For C, read every source in scope and checked coverage without outside material.
+4. Used varied formats and production. Practice progresses atomic → integrated → composite,
+   with a productive contextual finale; a control follows its coverage plan and active-recall
+   requirements. A closing test retains all four additional properties.
+5. Examples are fresh, not copied from source model sentences or repeated across tasks.
+6. Every item passes output-format.md: action, answer format, volume, plain wording, no
+   metalanguage, and an internally verified valid answer. Any format example does not leak
+   an answer; no supporting hints are added to a control.
+7. Formatting matches the branch: worksheets use lettered blocks with restarted numbering;
+   written controls use continuous numbered tasks. Counted objects and provided matching
+   lettered sub-points. Practice vocabulary is clean; control questions do not reveal
+   answers through translation, transcription or ⚑ annotations.
+8. For a written control, saved and validated the actual dark standalone HTML file using
+   written-control.md, with no keys, JavaScript or inputs; linked the file instead of
+   pasting code. Explicit format requests take precedence. Stated any blocked validation
+   honestly rather than claiming a browser check that did not run.
+9. After submitted answers are checked, used **thai-mistakes** for the full report,
+   topic-linked mistakes and the next practice step; photos first went through
+   **thai-handwriting**.
+10. After a completed lesson, used the tracker for records, mistakes, lesson and recent
+    accuracy; gave the summary and three homework items, and a learning-record only for
+    a qualitative change. Did not record achievement merely for issuing tasks.

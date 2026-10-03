@@ -15,7 +15,7 @@ repository; do not mix them up — every meta skill states in its `description` 
 
 | Skill | Role |
 |---|---|
-| **thai-tasks** | The engine. Composite tasks on any topic; owns the tracker (SM-2), the 60/40 spiral, the three modes (session / worksheet / test), topic states and the closing sheet. |
+| **thai-tasks** | The engine. Composite tasks on any topic; owns the tracker (SM-2), the 60/40 spiral, the three modes (session / worksheet / test), topic states and the closing sheet. Chapter controls default to a static dark HTML file for handwritten answers (`thai-tasks/references/written-control.md`). |
 | **thai-mistakes** | The lesson's second beat: calibration before the verdict, the report over the sheet (✅/🟡/❌), mistakes into the tracker, drilling a whole topic in the mode matching the mistake type, the two-round rule. |
 | **thai-learning** | Rules for presenting tasks and checking answers, level structure, tests. |
 | **thai-phonetics** | The single source of transcription. `SKILL.md` holds the assembly order (syllables → initial/cluster → silent letters → vowel → final → tone, verified); five data files hold the rest: `consonants.md`, `vowels.md`, `clusters.md`, `silent-letters.md`, `irregulars.md`. A sign with no data is reported missing, never approximated. |
