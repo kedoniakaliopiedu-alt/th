@@ -211,7 +211,8 @@ After any tasks are checked, **thai-mistakes** takes over:
    Still not cleared — first thing next lesson, status `critical`.
 
 Reference files: `thai-mistakes/references/report-format.md` (report format),
-`thai-mistakes/references/drill-modes.md` (drill modes),
+`thai-mistakes/references/thematic-html-modules.md` (standalone lesson files with built-in
+answers), `thai-mistakes/references/drill-modes.md` (live drill modes),
 `thai-mistakes/references/misconceptions.md` (types of misconception, the counterexample
 method, the closing criterion).
 
