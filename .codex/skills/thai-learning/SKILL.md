@@ -1,189 +1,219 @@
 ---
 name: thai-learning
 description: >
-  Правила и структура подачи заданий для изучения тайского языка. Использовать этот skill
-  всегда, когда пользователь просит задание, упражнение, практику или тест по тайскому языку —
-  будь то алфавит, тоны, произношение, словарный запас или грамматика. Также использовать
-  при проверке ответов пользователя и при выдаче подсказок.
-  При подаче словарного запаса всегда использовать skill thai-display для визуального
-  оформления тайских слов (цвета согласных по классу, жирный инициатор тона).
+  General rules for presenting and checking Thai learning tasks. Use for requests such
+  as «дай задание», «сделай контрольную», «проверь мои ответы» and «дай подсказку» about
+  alphabet, tones, pronunciation, vocabulary or grammar. Use it together with thai-tasks
+  to assemble a set; after a completed sheet is checked, thai-mistakes owns the full
+  report and remediation. For a simple single-word translation, answer directly instead.
+  When presenting vocabulary, use thai-display for consonant-class styling.
 ---
 
 # Thai Learning Skill
 
-Этот skill определяет, как Codex даёт задания по тайскому языку в проекте Thailand.
+This skill defines how Codex presents Thai tasks and checks answers in project Thailand.
+It owns general pedagogy; `thai-tasks` assembles complete sheets and `thai-mistakes`
+produces the full graded report after answers are checked.
 
----
+## Always start here
 
-## Общие принципы
+1. Identify whether this is practice or a control: practice permits a hint before the
+   answer, while a control does not.
+2. Read `thai-tasks/references/checking.md` before checking any learner answer. It owns
+   categories, naturalness, conversational variants and tracker hand-off.
+3. For a written or chapter control, read
+   `thai-tasks/references/written-control.md` before authoring it. It owns coverage,
+   scoring units and the saved HTML format.
+4. Verify every tone through `thai-verify`; memory is never enough for a tone verdict.
 
-- Все задания и объяснения — **на русском языке**.
-- Транскрипция произношения — **исключительно кириллицей**, по системе из skill `thai-phonetics`. Английский дублируется только при изучении самого алфавита (Уровень 1).
-- Тоны в транскрипции обозначаются диакритическими знаками над ударной гласной: (средний — без знака)  ` (низкий)  ˆ (нисходящий)  ´ (высокий)  ˇ (восходящий).
-- Многосложные слова в транскрипции пишутся через дефис: **ма-лай**, **са-ва-дии**.
-- Переводы даются в формате: **тайский → кириллическая транскрипция — русский перевод**.
-- Никакой латинской транслитерации вместо тайского письма — тайский скрипт обязателен.
-- Тон общения — дружеский, без давления. Обучение должно ощущаться как исследование.
+## General principles
 
-→ Система звуков (гласные, согласные, финали): см. skill **thai-phonetics**.
-→ Визуальное оформление тайских слов (цвета, жирность): см. skill **thai-display**. Применять при любой подаче словарного запаса.
-→ При проверке тона слова в ответе пользователя — **обязательно** сначала обратиться к http://thai-language.com/dict/search и уточнить тон там, прежде чем выносить оценку. Не полагаться только на собственные знания.
+- Everything the learner reads is in **Russian**.
+- Pronunciation transcription is **Cyrillic only**, following `thai-phonetics`. English may
+  accompany it only while studying the alphabet itself at Level 1.
+- Tone marks sit over the stressed vowel: mid has no mark; `` ` `` low; `ˆ` falling; `´`
+  high; `ˇ` rising.
+- Multisyllabic transcription uses hyphens: **ма-лай**, **са-ва-дии**.
+- Vocabulary format is **тайский → кириллическая транскрипция — русский перевод**.
+- Thai script is mandatory; Latin transliteration never replaces it.
+- The tone is friendly and pressure-free. Learning should feel exploratory.
+- A natural conversational form receives full credit when it is grammatical, preserves
+  the required meaning and fits the situation. Do not penalize it merely because a
+  textbook, neutral or formal alternative exists. Register lowers the score only when the
+  task explicitly requires another register or the chosen form is inappropriate to the
+  stated interlocutor and situation.
 
----
+→ Sound system and transcription: see **thai-phonetics**.
 
-## Структура уровней
+→ Vocabulary styling: see **thai-display** when presenting vocabulary.
 
-Задания подаются постепенно. Переход на следующий уровень — только после уверенного освоения текущего.
+→ Tone verification: see **thai-verify** before every tone verdict.
 
-### Уровень 1 — Основы письма и чтения
-- Согласные (44 буквы): классы высокий / средний / низкий
-- Гласные (короткие и длинные)
-- Финальные согласные
-- Специальные символы (ไม้ไต่คู้, ไม้หันอากาศ и др.)
+## Level structure
 
-### Уровень 2 — Тоны и произношение
-- Правила тонов (5 тонов: средний, низкий, нисходящий, высокий, восходящий)
-- Зависимость тона от класса согласной + тоновый знак + тип слога
-- Открытые и закрытые слоги
-- Долгие и краткие гласные и их влияние на тон
+Tasks progress gradually. Move to the next level only after the current one is stable.
+These levels organize teaching; they do **not** determine a task's point value in a control.
 
-### Уровень 3 — Слова и чтение
-- Базовые слова (приветствия, числа, цвета, еда, семья)
-- Чтение простых слогов и слов без пробелов
-- Слова из контекста: лакорны, песни, повседневные фразы
+### Level 1 — writing and reading foundations
 
-### Уровень 4 — Грамматика и фразы
-- Структура предложения (SVO без склонений)
-- Частицы вежливости (ครับ / ค่ะ)
-- Вопросительные конструкции (ไหม / หรือเปล่า / อะไร / ที่ไหน)
-- Временны́е маркеры (แล้ว, จะ, กำลัง)
-- Счётные слова (ลักษณนาม)
+- 44 consonants and their classes;
+- short and long vowels;
+- final consonants;
+- special signs such as ไม้ไต่คู้ and ไม้หันอากาศ.
 
----
+### Level 2 — tones and pronunciation
 
-## Форматы заданий
+- the five tones;
+- consonant class, tone mark and syllable type;
+- open and closed syllables;
+- vowel length and its effect on tone.
 
-Используются два формата поровну: контекстные и структурированные.
+### Level 3 — words and reading
 
-### Контекстные задания
-Основаны на реальном материале — строчках из лакорнов, песнях, подписях в соцсетях.
+- basic vocabulary such as greetings, numbers, colours, food and family;
+- reading simple syllables and words without spaces;
+- words from lakorns, songs and everyday phrases.
 
-Пример:
+### Level 4 — grammar and phrases
+
+- SVO sentence order without inflection;
+- politeness particles such as ครับ and ค่ะ;
+- questions with ไหม, หรือเปล่า, อะไร and ที่ไหน;
+- time markers such as แล้ว, จะ and กำลัง;
+- classifiers.
+
+## Task formats
+
+Use contextual and structured tasks in roughly equal measure.
+
+### Contextual tasks
+
+Base them on real material: lines from lakorns or songs, social posts and ordinary scenes.
+
 > Вот фраза из лакорна: **ฉันรักเธอ**
+>
 > Что здесь написано? Попробуй прочитать и перевести.
 
-### Структурированные задания
-Классические упражнения: заполни пропуск, переведи, сопоставь, выбери правильный тон.
+### Structured tasks
 
-Пример:
+Use familiar forms such as fill the gap, translate, match and choose the correct tone.
+
 > Какой тон у слова **ข้าว**?
+>
 > (а) средний  (б) низкий  (в) нисходящий  (г) восходящий
 
----
+## Handling mistakes in practice
 
-## Обработка ошибок (задания на закрепление)
+These steps apply to **practice only**, never to a control.
 
-Правила ниже применяются **только к тренировочным заданиям**, не к контрольным.
+1. After an incorrect answer, do not reveal the correct answer immediately.
+2. Give one hint: remind the rule, identify what to recheck, or ask a leading question.
+3. If the second answer is still wrong, give the full correct answer and explanation.
+4. Finish with the rule in one sentence.
 
-1. Если ответ **неверный** — не давать правильный ответ сразу.
-2. Дать **одну подсказку**, направляющую к ответу:
-   - Напомнить правило
-   - Указать на элемент, который стоит перепроверить
-   - Задать наводящий вопрос
-3. Если после подсказки ответ снова неверный — дать правильный ответ **с полным объяснением**.
-4. После исправления — кратко закрепить правило в одном предложении.
+> Почти! Посмотри на класс первой согласной — она высокого класса. Как это влияет на тон
+> в закрытом слоге с краткой гласной?
 
-Пример подсказки:
-> Почти! Посмотри на класс первой согласной — она высокого класса. Как это влияет на тон в закрытом слоге с краткой гласной?
+## Controls
 
----
+### Principles
 
-## Система контроля
+- A mini-control follows a small block; a final control follows the main block.
+- Hints are unavailable and answers cannot be retried before grading.
+- Check every answer and report a percentage after completion.
+- Every error receives an explanation through the `thai-mistakes` workflow.
+- Set each task's exact maximum score from its visible assessed components before delivery.
+  A word, separate sentence, required contrast, communicative move or explicit content
+  requirement may be one component. Difficulty labels never set the score.
+- Award partial credit for completed components. A local spelling or particle error affects
+  only the component it belongs to; it does not automatically halve the entire task.
 
-### Принципы контрольных работ
+### Passing thresholds
 
-- Контрольные работы проводятся в двух масштабах: **мини-контроль** (после каждого мини-блока) и **итоговый контроль** (в конце основного блока).
-- В контрольных работах **подсказки запрещены**. Ответ засчитывается или нет — без возможности переделать.
-- После завершения контрольной Codex **досконально проверяет каждый ответ** и выставляет оценку в процентах.
-- Независимо от результата — **разбор каждой ошибки** в формате: **правило + 3 примера**.
-- Быть строгим: частичный ответ без точности — не засчитывается.
+| Type | Threshold |
+|---|---:|
+| Мини-контроль | **80%** |
+| Итоговый контроль | **90%** |
 
-### Пороги прохождения
+### If the control is not passed
 
-| Тип контроля | Порог |
-|---|---|
-| Мини-контроль (после мини-блока) | **80%** |
-| Итоговый контроль (конец основного блока) | **90%** |
+1. Say clearly: «Тест не сдан — X%. Порог: Y%.»
+2. Identify the concrete gaps.
+3. Give targeted practice for those gaps.
+4. Run a new control on the same material.
+5. Repeat until the threshold is reached; do not move to the next block first.
 
-### Если тест не сдан
+### Learner-facing structure
 
-1. Сообщить результат чётко и без смягчений: «Тест не сдан — X%. Порог: Y%.»
-2. Определить конкретные пробелы по ошибкам.
-3. Дать **целевые тренировочные задания** именно на эти пробелы.
-4. После тренировки — **повторный контроль** (новые вопросы, та же тема).
-5. Повторять цикл до тех пор, пока порог не будет достигнут. Переход на новый блок заблокирован до сдачи.
-
-### Структура контрольной работы
-
-```
+```text
 🔒 КОНТРОЛЬНАЯ РАБОТА — [название блока]
-Вопросов: N | Подсказки: недоступны | Порог: X%
+Заданий: N | Баллов: M | Подсказки: недоступны | Порог: X%
 
-Вопрос 1. [задание]
-Вопрос 2. [задание]
-...
+Задание 1. [текст] — [стоимость] балл(а/ов)
+Задание 2. [текст] — [стоимость] балл(а/ов)
 ```
 
-После получения всех ответов:
+After all answers:
 
-```
-📊 РЕЗУЛЬТАТ: X / N верных — XX%
+```text
+📊 РЕЗУЛЬТАТ: X / M баллов — XX%
 Статус: СДАН ✓ / НЕ СДАН ✗
 
 РАЗБОР ОШИБОК:
-— Вопрос N: твой ответ / правильный ответ
+— Задание N: твой ответ / правильный ответ
+  Баллы: выполненные компоненты / полная стоимость
   Правило: [объяснение]
-  Примеры: 1) ... 2) ... 3) ...
 ```
 
----
+The full report format and weighted calculation live in
+`thai-mistakes/references/report-format.md`; read it whenever grading a completed sheet.
 
-## Структура одного задания (закрепление)
+## One practice task
 
-```
+```text
 [Тема задания]
 [Тайский текст — всегда крупно и чётко]
 [Задание на русском]
 [Место для ответа пользователя]
 ```
 
-После ответа:
-```
+After the answer:
+
+```text
 [Оценка: верно / почти / неверно]
 [Подсказка ИЛИ объяснение]
 [Правило — одно предложение-закрепление]
 ```
 
----
+## Unfamiliar words and constructions
 
-## Аннотация незнакомых слов и конструкций
+If a task contains a word or construction that has not been taught in the current or an
+older block, add a short note immediately after it. This applies to practice and controls;
+the note gives reference information without revealing the tested answer.
 
-Если в задании (тренировочном **или** контрольном) появляется слово или грамматическая конструкция, которая ещё не была объяснена в текущем или предыдущих блоках — **обязательно добавить краткую пометку** прямо в задание.
+> ⚑ **[слово/конструкция]** — [краткое объяснение на русском]
+> *[кириллическая транскрипция]*
 
-Формат пометки:
-> ⚑ **[слово/конструкция]** — [краткое объяснение на русском] *[кириллическая транскрипция]*
+Example:
 
-Пометка размещается **сразу после элемента**, к которому относится, до того как пользователь даёт ответ. Это не подсказка к заданию — это справочная информация. Она не влияет на строгость проверки.
-
-Пример:
 > Прочитай и переведи: **กำลังกิน**
+>
 > ⚑ **กำลัง** — маркер действия в процессе («сейчас делает») *гам-ланг*
 
----
+## Additional rules
 
-## Дополнительные правила
+- Give one task at a time unless the user asks for a set.
+- Follow a topic proposed by the user immediately without unnecessary questions.
+- Use lakorns and songs as motivating context when they fit the learning goal.
+- Treat recognition from a real context as evidence of learning without turning it into
+  praise theatre.
 
-- Не давать сразу несколько заданий подряд — только одно за раз, если пользователь не просит иначе.
-- Если пользователь сам предлагает тему ("хочу попрактиковать тоны") — переходить к ней немедленно, без лишних вопросов.
-- Контекст из лакорнов и песен приветствуется и поощряется — это основной источник мотивации.
-- Если пользователь узнаёт слово или фразу из реального контекста — отметить это как достижение.
+## Checklist
+
+1. The mode is clear: practice with hints or control without hints.
+2. All learner-facing text is Russian and transcription is Cyrillic.
+3. Tones were verified through `thai-verify` before any verdict.
+4. Natural conversational Thai was accepted unless the task explicitly tested register.
+5. A control shows exact content-based points; difficulty labels do not set weight.
+6. Partial credit follows completed components rather than a fixed half-score.
+7. Checked answers hand off to `thai-mistakes` for the complete report and remediation.

@@ -104,6 +104,18 @@ textbook. Give it when there is something to improve; if the answer already soun
 say so («звучит натурально»). Idiomaticity and register are a B1 skill from the mission, so
 the lens matters.
 
+The same protection applies in the other direction. A form that is grammatical, carries
+the required meaning and is natural in conversation receives full credit even when the
+course source gives a neutral, formal or textbook alternative. Do not label the
+conversational form a mistake merely because it is colloquial. Show the neutral alternative
+as `Также возможно`, without an arrow correction or point deduction.
+
+Lower the score for register only when the task explicitly requests a register or names an
+interlocutor and situation that make the chosen form inappropriate. Keep register separate
+from spelling: a conversational particle combination may be fully appropriate while its
+written form still contains an orthographic error. Deduct only for the actual spelling
+component in that case.
+
 ## Feeding the tracker
 
 After the review, update `progress.json` by the rules in

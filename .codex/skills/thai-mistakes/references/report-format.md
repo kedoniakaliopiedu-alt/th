@@ -1,58 +1,81 @@
-# Формат отчёта по проверке
+# Graded report format
 
-Отчёт — первое, что выводится после проверки любых заданий. Он воспроизводит **исходный
-лист целиком** с вписанными ответами, чтобы его можно было читать без исходного сообщения.
+Load this file after checking any worksheet, control or test. The report reproduces the
+entire original sheet with literal learner answers, verdicts, corrections and weighted
+scores, so it can be read without the original submission.
 
-## Правила
+Everything quoted as learner-facing output remains in Russian.
 
-1. **Полный текст заданий.** Задания копируются из выданного листа как были: та же
-   нумерация, те же заголовки блоков (Разминка / Сборка / Комплексное), те же буквы
-   подпунктов (а, б, в). Ничего не сокращать и не переформулировать — иначе отчёт нельзя
-   сверить с тем, что человек реально делал.
-2. **Маркер у каждого пункта.** Подпункт (7а, 7б) — отдельный пункт со своим маркером.
+## Rules
 
-   | Маркер | Когда |
+1. **Repeat the full sheet.** Keep the original numbering, section headings and subitem
+   letters. Do not shorten or rephrase the tasks; otherwise the report cannot be checked
+   against the work that was actually completed.
+
+2. **Mark every assessed item.** A subitem such as 7a or 7b receives its own verdict.
+
+   | Marker | Meaning |
    |---|---|
-   | ✅ | верно полностью |
-   | 🟡 | смысл верный, но хромает деталь: тон, орфография, частица, порядок слов |
-   | ❌ | неверно, пропущено, «не знаю» |
+   | ✅ | all assessed components are correct |
+   | 🟡 | at least one component is correct and at least one needs correction |
+   | ❌ | no assessed component is correct, or the answer is missing |
 
-3. **Что показывается под пунктом.**
-   - ✅ — только ответ пользователя.
-   - 🟡 и ❌ — ответ пользователя, **стрелка на верный вариант**, и строкой ниже курсивом
-     однострочное «почему» (что именно не так, а не пересказ правила).
+3. **Show the answer and correction.** For ✅, show the learner's literal answer. For 🟡
+   and ❌, also show `→ **Верно:** …` and one concise `Почему` line.
 
-   **Верный ответ обязателен у каждого не-✅ пункта, исключений нет.** Ни один 🟡 или ❌ не
-   выводится без «→ **Верно:** …». Это относится и к пунктам, где ответа не было вовсе
-   («?», «не знаю», пропуск), и к тем, где ошибка выглядит очевидной, и к тем, где верный
-   вариант уже назывался выше по листу: отчёт читают как самостоятельный документ, а
-   пункт без верного ответа нечего отрабатывать. Верный вариант приводится **целиком** в
-   том же формате, что просило задание (тайское написание + кириллическая транскрипция +
-   перевод, если задание требовало все три), а не куском вроде «нужен ค่ะ».
+   Every 🟡 or ❌ item must include the full correct answer in the requested format. This
+   includes `?`, `не знаю` and blank answers. If the correct answer is not yet verified,
+   mark the item `сверяю` and return after checking; never issue an unsupported verdict.
 
-   Верного ответа нет только тогда, когда его нет и у тебя — тон не сверен, слово не
-   найдено в справочниках. Тогда пункт не получает вердикт: пометить его «сверяю» и
-   вернуться с верным ответом, а не ставить ❌ без разбора.
-4. **Тоны сверены.** Любой вердикт по тону — только после сверки по
-   http://thai-language.com/dict/search. Не по памяти.
-5. **Подсчёт процента.** ✅ = 1, 🟡 = 0.5, ❌ = 0. Знаменатель — число пунктов с учётом
-   подпунктов. Процент округляется до целого. Если по этой теме уже был результат
-   раньше — добавь сравнение («было 65%»).
-6. **Разбивка обязательна.** Таблица по 4 категориям (Словарный запас / Грамматика /
-   Орфография / Тоны) плюс строка «В работу» — по каким темам пойдёт отработка.
-   Категории вне четырёх (регистр, терминология) добавляй отдельной строкой таблицы.
-   Если самооценка была получена (шаг 0) — строка **«Калибровка»** сразу под итогом:
-   названное число против фактического и, отдельной фразой, уверенные ошибки и угаданные
-   попадания. Самооценки не было → строку просто не выводи.
-   - Пункт, который пользователь назвала угаданной, помечается в листе значком **(?)**
-     после маркера — независимо от того, ✅ он или ❌. Это не ошибка и в проценте никак не
-     участвует, но видно, что попадание случайное.
-   - Уверенная ошибка (назвала пункт надёжным, факт ❌) отмечается **(!)** и в разбивке
-     идёт первой строкой «В работу».
-7. **Транскрипция кириллицей**, тоновый знак над гласной (правило проекта).
-8. **Никакой кухни:** ни `frequency`, ни `mastery`, ни названий режимов.
+4. **Verify tones.** A tone verdict requires the `thai-verify` protocol and
+   thai-language.com. Memory is not evidence.
 
-## Шаблон
+5. **Use content-based points.** The maximum score is declared before delivery and comes
+   from visible assessed components, not from the difficulty label or the number of the
+   task. Use these units:
+
+   - one recalled word, number or independent choice: normally 1 point;
+   - each separately required sentence or communicative move: normally 1 point;
+   - each required explanation, contrast or justification: normally 1 point;
+   - each explicit requirement in connected writing: normally 1 point;
+   - a dense sentence may contain several points only when those components are named in
+     the task or its predeclared rubric.
+
+   Difficulty labels describe the kind of thinking and never set the score. A short task
+   may cost more than a long-looking one when it tests more independent content, and a
+   difficult integrated sentence may remain one point when it has only one assessed target.
+
+6. **Calculate partial credit from completed components.** Do not convert markers through
+   a fixed formula such as `✅ = 1, 🟡 = 0.5, ❌ = 0`. Add the points earned for the actual
+   components. A local spelling, particle or word-order error affects only its component;
+   it does not automatically halve the whole task. Fractions such as 0.5 are allowed for a
+   component whose meaning is present but whose form has one local defect.
+
+   Show `earned / maximum` beside every task. The denominator is the sum of all declared
+   task maxima, and the percentage is `earned ÷ maximum`, rounded to the nearest whole
+   percent.
+
+7. **Accept valid conversational Thai.** A grammatical, semantically appropriate and
+   natural conversational form receives full credit even when a textbook gives a more
+   neutral or formal alternative. Register lowers the score only when the task explicitly
+   requests a different register or the answer is inappropriate to the stated situation.
+   Present a neutral alternative as `Также возможно`, never as a correction.
+
+8. **Include the breakdown.** Report the four categories `Словарный запас`, `Грамматика`,
+   `Орфография`, `Тоны`, plus any genuinely relevant extra category such as register. Add
+   `В работу` with the topics selected for remediation.
+
+   If calibration was collected, put `Калибровка` immediately after the total. Mark a
+   guessed answer with **(?)** and a confident error with **(!)**. A guess does not change
+   points, but its tracker quality is 3 instead of 5.
+
+9. **Use Cyrillic transcription.** Tone marks sit over the vowel, following
+   `thai-phonetics`.
+
+10. **Hide internal mechanics.** Never expose `frequency`, `mastery`, tracker mode names or
+    internal difficulty numbers.
+
+## Template
 
 ```markdown
 📋 **ОТЧЁТ — Глава 3, срез · 2026-07-27**
@@ -60,108 +83,85 @@
 **Разминка**
 
 1. Прочитай слова и запиши транскрипцию кириллицей: ตื่น, ลุก, อาบน้ำ
-   ✅ **Твой ответ:** ты̀н, лу́к, а̀п-наа́м
+   **Стоимость: 3 балла**
+   ✅ **3 / 3 · Твой ответ:** ты̀н, лу́к, а̀п-наа́м
 
 2. Какое обращение подойдёт?
    - а) к пожилой продавщице на рынке
-     ❌ **(!) Твой ответ:** คุณ → **Верно:** ป้า
-     *Почему: คุณ — нейтрально-офисное; к пожилой женщине на рынке живое обращение — «тётя».*
+     ❌ **0 / 1 · (!) Твой ответ:** คุณ → **Верно:** ป้า
+     *Почему: คุณ — нейтральное обращение; в заданной рыночной ситуации ожидалось ป้า.*
    - б) к официанту моложе тебя
-     ✅ **(?) Твой ответ:** น้อง
+     ✅ **1 / 1 · (?) Твой ответ:** น้อง
 
 **Сборка**
 
-3. Напиши по-тайски: «Мне 30 лет».
-   🟡 **Твой ответ:** ฉันอายุ 30 ปี ครับ → **Верно:** ฉันอายุ 30 ปี ค่ะ
-   *Почему: лексика и конструкция верные, частица мужская — ครับ вместо ค่ะ.*
+3. Напиши по-тайски две реплики: вопрос о цене и согласие продавца.
+   **Стоимость: 2 балла — по одному за каждую реплику.**
+   🟡 **1,5 / 2 · Твой ответ:** ตัวนี้เท่าไหร่คะ; ได้สิค่ะ
+   → **Верно:** ตัวนี้เท่าไหร่คะ; ได้สิคะ
+   *Почему: разговорное ได้สิ подходит; снято 0,5 только за написание конечной частицы.*
 
-**Итог: 4.5 / 6 · 75%** (прошлый раз по этой теме — 65%)
+**Итог: 5,5 / 7 · 79%**
 
-**Калибровка:** ты сказала «5 из 6» — вышло 4.5, оценка почти точная. Но пункт 2а ты
-числила надёжным, а он неверный: обращения к старшим выглядят закрытой темой, хотя не
-закрыты — с них и начнём. Пункт 2б угадан, вернём его пораньше.
+**Калибровка:** ты ожидала 6 из 7 — оценка близкая. Пункт 2а ты считала надёжным, но
+он неверный; пункт 2б был угадан и вернётся раньше.
 
-| Категория | Верно | Где просело |
-|---|---|---|
-| 📖 Словарный запас | 3/3 | — |
+| Категория | Баллы | Где просело |
+|---|---:|---|
+| 📖 Словарный запас | 1/2 | обращение к старшей продавщице |
 | 🧩 Грамматика | 2/2 | — |
-| ✍️ Орфография | 1/1 | — |
-| 🎵 Тоны | 2/2 | — |
-| 🗣 Регистр и обращения | 0.5/2 | обращение к старшим, частица вежливости |
+| ✍️ Орфография | 2,5/3 | написание สิคะ |
+| 🎵 Тоны | не оценивались | — |
 
-**В работу:** Тема 2.1 — обращения и частицы вежливости (2 ошибки → 4 задания)
-
-Начинаем отработку сейчас или отложить на следующий раз?
+**В работу:** обращения по ситуации; написание สิคะ.
 ```
 
-## Отчёт без ошибок
+## A report with no errors
 
-Всё верно → тот же лист с ✅, сводка, и вместо блока отработки:
+Keep the full sheet and summary. Do not invent a mistake to justify remediation.
 
 ```markdown
-**Итог: 8 / 8 · 100%** — чисто, отрабатывать нечего.
+**Итог: 18 / 18 · 100%** — ошибок нет, отрабатывать нечего.
 
-Что дальше: следующий шаг по программе — [тема]. Скажи, и `thai-tasks` соберёт комплекс.
+Что дальше: следующий шаг по программе — [тема].
 ```
 
-Не выдумывай ошибку ради блока отработки. Чистый результат — сигнал поднять
-`meta.difficulty` (правило целевого успеха 60–70% из thai-tasks).
+A clean sheet with guessed answers remains 100%, but guessed items receive tracker quality
+3 and return sooner. Do not create a mistake record or raise difficulty from such a sheet.
 
-**Чистый лист с угаданными пунктами** — исключение: 100% есть, но часть попаданий
-случайна. Блок отработки всё равно не собирается и `mistake` не пишется — вместо этого
-`record` 3 по угаданным элементам, и они вернутся сами через спираль. `meta.difficulty`
-не поднимай: настоящий процент ниже показанного.
+## Second-round report
 
-```markdown
-**Итог: 8 / 8 · 100%** — ошибок нет.
-
-**Калибровка:** два пункта (4, 6) ты отметила как угаданные — сами слова ещё не сели,
-поставлю их поближе в повторе. Отрабатывать сейчас нечего.
-```
-
-## Отчёт по второму кругу
-
-У второго круга шапка отличается — видно, что это повторный заход:
+Use a distinct heading:
 
 ```markdown
 📋 **ОТЧЁТ — работа над ошибками, круг 2 · тема 2.1**
 ```
 
-В сводке к каждой ошибке добавляй, что с ней стало: `снята` / `повторилась`. Именно это
-идёт в `attempt --result ok|fail`.
+For every previous error, add `снята` or `повторилась`; that result feeds
+`attempt --result ok|fail`.
 
-## Правка уже выданного отчёта
+## Correcting an issued report
 
-Один срез потребовал шести раундов патчей: правки шли дельтами, а вердикты — по
-непроверенному первому чтению. Отсюда правила ниже.
+Any correction requires a complete replacement report. Partial patches force the learner
+to maintain a mental diff and leave totals, categories and tracker entries inconsistent.
 
-9. **Любая правка отчёта — это полная пересылка, не дельта.** Нашлась ошибка в уже выданном
-   отчёте (свой косяк или замечание пользователя) — не патчи один пункт отдельным
-   сообщением, а выведи весь отчёт заново целиком, с фикса. Дельта копится — теряется, что
-   вообще актуально, пользователь вынужден сверять версии в уме.
+When the learner says `ты неверно понял`, `я написала другое` or disputes a verdict:
 
-   Порядок, когда пользователь говорит «ты неверно понял», «тут я писала другое», «этот
-   пункт засчитан зря» — **всегда один и тот же, без сокращений**:
+1. **Recheck the source.** For handwriting, return to a close crop through
+   `thai-handwriting`; verify project transcription in `thai-phonetics/references/*` and
+   tones through the authoritative source.
+2. **Recalculate every dependency.** Update the verdict, correct answer, explanation,
+   earned points, maximum if the rubric itself was wrong, total, percentage, category
+   breakdown, calibration, remediation list and tracker entries.
+3. **Resend the entire report from the top.** Never send only the changed item or say the
+   rest is unchanged.
+4. Precede it with one Russian sentence naming what was reconsidered and why.
 
-   1. **Перепроверить**, а не поверить и не поспорить: вернуться к её исходному ответу
-      (для рукописи — крупный кроп по `thai-handwriting`), сверить орфографию и
-      транскрипцию по `thai-phonetics/references/*`, тон — по авторитетному источнику.
-   2. **Пересчитать всё, что зависело от пункта**: маркер, «Верно», строку «почему»,
-      итоговый балл и процент, разбивку по категориям, «Калибровку», список «В работу»,
-      и записи в трекере, если ошибка уже была занесена.
-   3. **Переслать отчёт целиком с самого верха** — весь лист со всеми пунктами, включая
-      те, которых правка не касалась. Никаких «вот исправленный пункт 4», «остальное без
-      изменений», никаких сокращённых версий и никаких таблиц «что поменялось».
-   4. Одной строкой над отчётом — что именно было пересмотрено и почему («пункт 4:
-      перечитал по кропу, там ค่ะ — снимаю ❌»). Одной строкой, не абзацем оправданий.
+This applies on every correction round and to worksheets, controls, remediation sheets and
+word lists.
 
-   Правило действует на любую правку, сколько бы кругов их ни было: третья правка
-   пересылается так же полностью, как первая. Оно распространяется и на всё, что имеет
-   форму листа, — воркшит, срез, лист отработки, список слов.
+## Literal answers and project references
 
-10. **«Твой ответ» — дословно, включая пропуски.** Пользователь оставила «?» или флажок —
-    так и показать, а не переформулировать в «нет ответа» и не придумывать, чего не писала.
-11. **Прежде чем поставить ❌/🟡 по орфографии/транслитерации, свериться с
-    `thai-phonetics/references/*`**, а не с памятью или вводной таблицей учебного файла.
-    Проект осознанно расходится с внешними источниками (например ก → «г», объяснено в
-    `consonants.md`) — спор с этим решением по памяти — ложная «ошибка», не настоящая.
+Show the learner's literal answer for every item, including `?` and blank markers. Before
+marking spelling or transcription wrong, check `thai-phonetics/references/*`; project
+choices such as ก → «г» deliberately differ from generic outside charts.

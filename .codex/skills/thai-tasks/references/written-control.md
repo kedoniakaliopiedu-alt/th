@@ -99,6 +99,23 @@ support a function, disclose the limitation instead of inventing material to fil
 Label difficulty in Russian: 🟢 Базовый / 🟡 Средний / 🔴 Сложный. These mean recall,
 application in a new sentence, and independent combination of learned material.
 
+Difficulty labels are optional navigation aids, not point values. Before delivery, assign
+every task an exact maximum score from its visible assessed content and show it on the
+sheet. Count independent words, sentences, communicative moves, required contrasts and
+explicit connected-writing requirements. Do not give every top-level task one point when
+one asks for a single word and another asks for five dialogue moves.
+
+Write the scoring units so that the later report can award partial credit without
+inventing a rubric after seeing the answers. For example:
+
+```text
+26. Составь пять реплик диалога. Стоимость: 5 баллов — по одному за каждую
+    требуемую функцию.
+```
+
+The report uses `thai-mistakes/references/report-format.md` to add the earned components.
+A difficulty label never increases or decreases the declared score by itself.
+
 ## Prevent answers leaking between tasks
 
 Before rendering, compare the internal expected answers with **all supplied Thai anywhere
