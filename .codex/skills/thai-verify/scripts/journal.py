@@ -107,8 +107,10 @@ def watched_files() -> List[pathlib.Path]:
     out: List[pathlib.Path] = []
     for folder in WATCHED:
         base = ROOT / folder
-        if base.exists():
-            out += sorted(base.rglob("*.md"))
+        if not base.exists():
+            continue
+        for suffix in ("*.md", "*.html"):
+            out += sorted(base.rglob(suffix))
     for extra in ("progress.json", "AGENTS.md", "AGENTS.md", "RESOURCES.md",
                   ".codex/skills/README.md"):
         path = ROOT / extra
@@ -197,10 +199,11 @@ def cmd_mark(args: argparse.Namespace) -> int:
 
 
 def cmd_init(args: argparse.Namespace) -> int:
-    entries = load()
+    existing = load()
+    entries: Dict[str, Entry] = {}
     for path in watched_files():
         rel = str(path.relative_to(ROOT))
-        entries.setdefault(rel, Entry(rel, "—", "—", "не сверялся"))
+        entries[rel] = existing.get(rel, Entry(rel, "—", "—", "не сверялся"))
     save(entries)
     print(f"в журнале файлов: {len(entries)}")
     return 0

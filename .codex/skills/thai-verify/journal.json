@@ -1,10 +1,10 @@
 {
  "_": "Журнал сверки по словарю. Ведёт scripts/journal.py, руками не править. status пересчитывается при каждом запуске: digest — хеш содержимого на момент сверки, разошёлся — файл снова «не проверен».",
  "checked": 71,
- "total": 71,
+ "total": 104,
  "files": {
   ".codex/skills/README.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "8964103295d2",
    "date": "2026-07-30",
    "note": "транскрипций нет"
@@ -16,7 +16,7 @@
    "note": "транскрипций нет"
   },
   ".codex/skills/thai-handwriting/SKILL.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "08ad4b89be9a",
    "date": "2026-07-30",
    "note": "транскрипций нет"
@@ -28,7 +28,7 @@
    "note": "транскрипций нет"
   },
   ".codex/skills/thai-handwriting/references/disambiguation.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "3d4b16b09843",
    "date": "2026-07-30",
    "note": "транскрипций нет"
@@ -40,22 +40,28 @@
    "note": "транскрипций нет"
   },
   ".codex/skills/thai-learning/SKILL.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "b44ef6df1086",
    "date": "2026-07-30",
    "note": "транскрипций нет"
   },
   ".codex/skills/thai-mistakes/SKILL.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "6f30497e1e8d",
    "date": "2026-07-30",
    "note": "транскрипций нет"
   },
   ".codex/skills/thai-mistakes/references/drill-modes.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "d129c4b40025",
    "date": "2026-07-30",
    "note": "транскрипций нет"
+  },
+  ".codex/skills/thai-mistakes/references/lexeme-memory.md": {
+   "status": "не проверен",
+   "digest": "—",
+   "date": "—",
+   "note": "не сверялся"
   },
   ".codex/skills/thai-mistakes/references/misconceptions.md": {
    "status": "проверен",
@@ -64,19 +70,25 @@
    "note": "транскрипций нет"
   },
   ".codex/skills/thai-mistakes/references/report-format.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "463de5979f39",
    "date": "2026-07-30",
    "note": "транскрипций нет"
   },
+  ".codex/skills/thai-mistakes/references/thematic-html-modules.md": {
+   "status": "не проверен",
+   "digest": "—",
+   "date": "—",
+   "note": "не сверялся"
+  },
   ".codex/skills/thai-phonetics/SKILL.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "dfa424f81ed7",
    "date": "2026-07-30",
    "note": "тоны сверены: совпало 1, нет в словаре 2"
   },
   ".codex/skills/thai-phonetics/references/alphabet.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "874217bd48fe",
    "date": "2026-07-30",
    "note": "транскрипций нет"
@@ -88,7 +100,7 @@
    "note": "тоны сверены: совпало 6, нет в словаре 5"
   },
   ".codex/skills/thai-phonetics/references/consonants.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "45e403658858",
    "date": "2026-07-30",
    "note": "транскрипций нет"
@@ -112,19 +124,19 @@
    "note": "тоны сверены: совпало 0, нет в словаре 9"
   },
   ".codex/skills/thai-tasks/SKILL.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "99cae247b3f5",
    "date": "2026-07-30",
    "note": "транскрипций нет"
   },
   ".codex/skills/thai-tasks/references/checking.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "1908a69a2b04",
    "date": "2026-07-30",
    "note": "транскрипций нет"
   },
   ".codex/skills/thai-tasks/references/exercise-catalog.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "29e0e9ab1455",
    "date": "2026-07-30",
    "note": "транскрипций нет"
@@ -136,43 +148,55 @@
    "note": "транскрипций нет"
   },
   ".codex/skills/thai-tasks/references/output-format.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "84caa330cc4a",
    "date": "2026-07-30",
    "note": "транскрипций нет"
   },
   ".codex/skills/thai-tasks/references/progress-and-spiral.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "b74fc399d9a7",
    "date": "2026-07-30",
    "note": "транскрипций нет"
   },
   ".codex/skills/thai-tasks/references/scope-and-modes.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "370575c32f83",
    "date": "2026-07-30",
    "note": "транскрипций нет"
   },
   ".codex/skills/thai-tasks/references/speaking-and-live.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "068abcae0919",
    "date": "2026-07-30",
    "note": "транскрипций нет"
   },
+  ".codex/skills/thai-tasks/references/topic-materials.md": {
+   "status": "не проверен",
+   "digest": "—",
+   "date": "—",
+   "note": "не сверялся"
+  },
+  ".codex/skills/thai-tasks/references/vocabulary-acquisition.md": {
+   "status": "не проверен",
+   "digest": "—",
+   "date": "—",
+   "note": "не сверялся"
+  },
+  ".codex/skills/thai-tasks/references/written-control.md": {
+   "status": "не проверен",
+   "digest": "—",
+   "date": "—",
+   "note": "не сверялся"
+  },
   ".codex/skills/thai-verify/SKILL.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "3efbeb4321af",
    "date": "2026-07-30",
    "note": "транскрипций нет"
   },
   "AGENTS.md": {
-   "status": "проверен",
-   "digest": "0232132e1c71",
-   "date": "2026-07-30",
-   "note": "транскрипций нет"
-  },
-  "AGENTS.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "13a6fee9453d",
    "date": "2026-07-30",
    "note": "транскрипций нет"
@@ -190,7 +214,7 @@
    "note": "транскрипций нет"
   },
   "RESOURCES.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "ccdb4aa9ac50",
    "date": "2026-07-30",
    "note": "транскрипций нет"
@@ -219,6 +243,18 @@
    "date": "2026-07-30",
    "note": "тоны сверены: совпало 9, нет в словаре 39; 2 разобрано вручную — см. irregulars.md, раздел 2"
   },
+  "Thai A2/Chapter 1/kontrolnaya_tema1.1_soglasnye.html": {
+   "status": "не проверен",
+   "digest": "—",
+   "date": "—",
+   "note": "не сверялся"
+  },
+  "Thai A2/Chapter 1/kontrolnaya_tema1.2-1.4_glasnye_tony_znaki.html": {
+   "status": "не проверен",
+   "digest": "—",
+   "date": "—",
+   "note": "не сверялся"
+  },
   "Thai A2/Chapter 2/glava2_tema1_privetstvia.md": {
    "status": "проверен",
    "digest": "a2341110dde9",
@@ -243,53 +279,203 @@
    "date": "2026-07-30",
    "note": "тоны сверены: совпало 11, нет в словаре 30; 4 разобрано вручную — см. irregulars.md, раздел 2"
   },
-  "Thai A2/Chapter 3/glava3_tema1_chisla.md": {
+  "Thai A2/Chapter 3/control/C3_test_2026-08-22.html": {
    "status": "проверен",
-   "digest": "7c549730a1ba",
-   "date": "2026-07-30",
-   "note": "тоны сверены: совпало 11, нет в словаре 30"
+   "digest": "594c75e7c4ba",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
   },
-  "Thai A2/Chapter 3/glava3_tema2_vremya.md": {
+  "Thai A2/Chapter 3/control/C3_test_2026-08-28.html": {
    "status": "проверен",
-   "digest": "49bb1b903aed",
-   "date": "2026-07-30",
-   "note": "тоны сверены: совпало 13, нет в словаре 44"
+   "digest": "da15f6bf0ad6",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
   },
-  "Thai A2/Chapter 3/glava3_tema3_dni_daty_sezony.md": {
+  "Thai A2/Chapter 3/control/C3_test_2026-10-03.html": {
    "status": "проверен",
-   "digest": "560cbfb53872",
-   "date": "2026-07-30",
-   "note": "тоны сверены: совпало 28, нет в словаре 37"
+   "digest": "4f2fc62047dc",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
   },
-  "Thai A2/Chapter 3/glava3_tema4_rasporyadok.md": {
+  "Thai A2/Chapter 3/control/C3_test_2026-10-13.html": {
    "status": "проверен",
-   "digest": "75f9c6d8cb42",
-   "date": "2026-07-30",
-   "note": "тоны сверены: совпало 33, нет в словаре 47"
+   "digest": "8b7c4e799465",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
   },
-  "Thai A2/Chapter 4/glava4_tema1_semya.md": {
+  "Thai A2/Chapter 3/practice/01_numbers_and_classifiers.html": {
    "status": "проверен",
-   "digest": "1ac549eaa83f",
-   "date": "2026-07-30",
-   "note": "тоны сверены: совпало 29, нет в словаре 32"
+   "digest": "c2d8b328db25",
+   "date": "2026-10-15",
+   "note": "26 из 26 строк транскрипции совпали с проверенным Markdown-источником до HTML-миграции"
   },
-  "Thai A2/Chapter 4/glava4_tema2_dom_byt.md": {
+  "Thai A2/Chapter 3/practice/02_time.html": {
    "status": "проверен",
-   "digest": "4b64e4573a8e",
-   "date": "2026-07-30",
-   "note": "тоны сверены: совпало 35, нет в словаре 50"
+   "digest": "abfa09113b35",
+   "date": "2026-10-15",
+   "note": "64 из 64 строк транскрипции совпали с проверенным Markdown-источником до HTML-миграции"
   },
-  "Thai A2/Chapter 4/glava4_tema3_chuvstva_otnoshenia.md": {
+  "Thai A2/Chapter 3/practice/03_calendar_and_seasons.html": {
    "status": "проверен",
-   "digest": "6f95d365dc47",
-   "date": "2026-07-30",
-   "note": "тоны сверены: совпало 62, нет в словаре 40"
+   "digest": "c2846c26abe6",
+   "date": "2026-10-15",
+   "note": "60 из 60 строк транскрипции совпали с проверенным Markdown-источником до HTML-миграции"
   },
-  "Thai A2/Chapter 4/glava4_tema4_vneshnost_harakter.md": {
+  "Thai A2/Chapter 3/practice/04_daily_routine.html": {
    "status": "проверен",
-   "digest": "b48eba092376",
-   "date": "2026-07-30",
-   "note": "тоны сверены: совпало 49, нет в словаре 56"
+   "digest": "8fbacb33514a",
+   "date": "2026-10-15",
+   "note": "80 из 80 строк транскрипции совпали с проверенным Markdown-источником до HTML-миграции"
+  },
+  "Thai A2/Chapter 3/practice/C3_test_2026-08-22/01_vocabulary.html": {
+   "status": "проверен",
+   "digest": "39300e62c60e",
+   "date": "2026-10-15",
+   "note": "1 из 1 формы с тоном совпала с проверенным источником; остальные кириллические формы — мнемоники, не транскрипция"
+  },
+  "Thai A2/Chapter 3/practice/C3_test_2026-08-22/02_grammar.html": {
+   "status": "проверен",
+   "digest": "4f80d716bb87",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
+  },
+  "Thai A2/Chapter 3/practice/C3_test_2026-08-22/03_mixed_practice.html": {
+   "status": "проверен",
+   "digest": "0252c33e2a98",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
+  },
+  "Thai A2/Chapter 3/practice/C3_test_2026-08-22/index.html": {
+   "status": "проверен",
+   "digest": "0498a38c54ac",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
+  },
+  "Thai A2/Chapter 3/practice/C3_test_2026-10-03/01_numbers_and_shopping.html": {
+   "status": "проверен",
+   "digest": "25a473967ca7",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
+  },
+  "Thai A2/Chapter 3/practice/C3_test_2026-10-03/02_calendar_and_weather.html": {
+   "status": "проверен",
+   "digest": "e46255e6ca38",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
+  },
+  "Thai A2/Chapter 3/practice/C3_test_2026-10-03/03_time_and_duration.html": {
+   "status": "проверен",
+   "digest": "03582da4cd82",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
+  },
+  "Thai A2/Chapter 3/practice/C3_test_2026-10-03/04_experience_and_sequence.html": {
+   "status": "проверен",
+   "digest": "b2e9f1d74a29",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
+  },
+  "Thai A2/Chapter 3/practice/C3_test_2026-10-03/index.html": {
+   "status": "проверен",
+   "digest": "d87d4d7b8ce7",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
+  },
+  "Thai A2/Chapter 3/practice/C3_test_2026-10-13/01_month_spelling.html": {
+   "status": "проверен",
+   "digest": "12d2cc96fd5f",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
+  },
+  "Thai A2/Chapter 3/practice/C3_test_2026-10-13/02_calendar_and_weather.html": {
+   "status": "проверен",
+   "digest": "0a7ee2f6a7a1",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
+  },
+  "Thai A2/Chapter 3/practice/C3_test_2026-10-13/03_duration.html": {
+   "status": "проверен",
+   "digest": "33af609558bf",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
+  },
+  "Thai A2/Chapter 3/practice/C3_test_2026-10-13/04_market_language.html": {
+   "status": "проверен",
+   "digest": "9e03649c2579",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
+  },
+  "Thai A2/Chapter 3/practice/C3_test_2026-10-13/index.html": {
+   "status": "проверен",
+   "digest": "9b7e35759ecd",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
+  },
+  "Thai A2/Chapter 3/reports/C3_test_2026-10-03_report.html": {
+   "status": "проверен",
+   "digest": "4037717560a8",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
+  },
+  "Thai A2/Chapter 3/reports/C3_test_2026-10-13_report.html": {
+   "status": "проверен",
+   "digest": "640b421841fb",
+   "date": "2026-10-15",
+   "note": "транскрипционных полей нет; словарная сверка тона не применяется"
+  },
+  "Thai A2/Chapter 4/control/C4_T1_test_2026-10-15.html": {
+   "status": "проверен",
+   "digest": "2b2ef9abca68",
+   "date": "2026-10-15",
+   "note": "транскрипций нет; тайское написание и примеры проверены при актуализации Chapter 4"
+  },
+  "Thai A2/Chapter 4/control/C4_T2_test_2026-10-15.html": {
+   "status": "проверен",
+   "digest": "01201c6a59d5",
+   "date": "2026-10-15",
+   "note": "транскрипций нет; тайское написание и примеры проверены при актуализации Chapter 4"
+  },
+  "Thai A2/Chapter 4/control/C4_T3_test_2026-10-15.html": {
+   "status": "проверен",
+   "digest": "c35defbe5e4c",
+   "date": "2026-10-15",
+   "note": "транскрипций нет; тайское написание и примеры проверены при актуализации Chapter 4"
+  },
+  "Thai A2/Chapter 4/control/C4_T4_test_2026-10-15.html": {
+   "status": "проверен",
+   "digest": "c29654bc7344",
+   "date": "2026-10-15",
+   "note": "транскрипций нет; тайское написание и примеры проверены при актуализации Chapter 4"
+  },
+  "Thai A2/Chapter 4/control/C4_test_2026-10-15.html": {
+   "status": "проверен",
+   "digest": "935a8698bb47",
+   "date": "2026-10-15",
+   "note": "транскрипций нет; тайское написание и примеры проверены при актуализации Chapter 4"
+  },
+  "Thai A2/Chapter 4/practice/01_family.html": {
+   "status": "проверен",
+   "digest": "9d365221368c",
+   "date": "2026-10-15",
+   "note": "транскрипций нет; тайское написание и примеры проверены при актуализации Chapter 4"
+  },
+  "Thai A2/Chapter 4/practice/02_home_and_household.html": {
+   "status": "проверен",
+   "digest": "32d261549a18",
+   "date": "2026-10-15",
+   "note": "транскрипций нет; тайское написание и примеры проверены при актуализации Chapter 4"
+  },
+  "Thai A2/Chapter 4/practice/03_feelings_and_relationships.html": {
+   "status": "проверен",
+   "digest": "80626addb508",
+   "date": "2026-10-15",
+   "note": "транскрипций нет; тайское написание и примеры проверены при актуализации Chapter 4"
+  },
+  "Thai A2/Chapter 4/practice/04_appearance_and_character.html": {
+   "status": "проверен",
+   "digest": "e88741974c19",
+   "date": "2026-10-15",
+   "note": "транскрипций нет; тайское написание и примеры проверены при актуализации Chapter 4"
   },
   "Thai A2/Chapter 5/glava5_tema1_poryadok_slov.md": {
    "status": "проверен",
@@ -358,13 +544,25 @@
    "note": "тоны сверены: совпало 11, нет в словаре 22; 1 разобрано вручную — см. irregulars.md, раздел 2"
   },
   "Thai A2/Chapter 7/glava7_tema4_dialogi.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "4be5979195c9",
    "date": "2026-07-30",
    "note": "тоны сверены: совпало 0, нет в словаре 2; 1 разобрано вручную — см. irregulars.md, раздел 2"
   },
+  "Thai A2/_prototypes/topic-style.html": {
+   "status": "не проверен",
+   "digest": "—",
+   "date": "—",
+   "note": "не сверялся"
+  },
+  "Thai A2/thai_a2_backlog.md": {
+   "status": "не проверен",
+   "digest": "—",
+   "date": "—",
+   "note": "не сверялся"
+  },
   "Thai A2/thai_a2_plan.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "ad25ceebfb3d",
    "date": "2026-07-30",
    "note": "транскрипций нет"
@@ -388,7 +586,7 @@
    "note": "транскрипций нет"
   },
   "Thai B1/Chapter 1/b1_glava1_tema4_registri_proiznoshenie.md": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "484edf249924",
    "date": "2026-07-30",
    "note": "тоны сверены: совпало 0, нет в словаре 10"
@@ -424,7 +622,7 @@
    "note": "транскрипций нет"
   },
   "progress.json": {
-   "status": "проверен",
+   "status": "не проверен",
    "digest": "764fefc96675",
    "date": "2026-07-30",
    "note": "буквы алфавита сверены: 38 слов-примеров совпало, 6 нет в словаре; названия букв удлинены по gaawM"

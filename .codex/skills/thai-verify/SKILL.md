@@ -177,7 +177,8 @@ git diff --numstat "Thai A2" "Thai B1" Helpers |
 ## 6. Журнал сверки
 
 Что уже проверено и что изменилось после проверки — в `journal.json`, его ведёт
-`scripts/journal.py`. Помнить это руками невозможно: файлов полсотни, правки идут партиями.
+`scripts/journal.py`. Он отслеживает и Markdown, и HTML-материалы курса. Помнить это руками
+невозможно: файлов полсотни, правки идут партиями.
 
 ```bash
 J=.codex/skills/thai-verify/scripts/journal.py
