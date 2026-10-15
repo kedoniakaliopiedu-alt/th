@@ -23,8 +23,8 @@ own references.
 
 **[`content-sources.md`](content-sources.md)** is the shared evidence contract used while
 authoring course material. It assigns separate sources to lexical meaning, grammar,
-examples and register, and keeps external corpus research from leaking new material into a
-source-only control.
+examples and register, classifies long-form grammars and FSI material as secondary evidence,
+and keeps external research from leaking new material into a source-only control.
 
 `python-best-practices` is off the map on purpose: a vendor rule book (installed 2026-07-28,
 commit `aaa9e2a`), 70 Python engineering rules with an impact level each, consulted when

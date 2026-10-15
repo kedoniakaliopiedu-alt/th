@@ -15,6 +15,9 @@ only the role for which it is suitable:
 |---|---|---|
 | spelling, senses, part of speech, usage label | Kaikki/Wiktextract or Thai Wiktionary; thai-language.com when required by `RESOURCES.md` | naturalness of a complete new sentence |
 | standard grammar and word order | UD Thai-TUD or Thai-PUD; LST20/ORCHID when their access terms permit | everyday conversational register |
+| long-form rule explanation or competing analysis | a modern reference grammar or a topic-specific thesis; historical Noss/FSI only as secondary evidence | current register, learner level, or machine-readable Thai |
+| exercise mechanic and progression | FSI drills or another lawful pedagogical source | permission to copy its Thai, transcription, answer, or historical register |
+| dataset discovery and annotation design | ACL, TNC, UD, OPUS, WangchanBERTa or PyThaiNLP papers | a learner-facing rule or natural example |
 | short neutral example or translation prompt | Tatoeba Thai, checked manually; selected OPUS parallel corpora | dictionary meaning, tone, or universal acceptability |
 | bilingual translation exercise | Tatoeba sentence links or a licence-checked OPUS subcorpus | that every alignment is human or pedagogically suitable |
 | cloze or word-order exercise | Tatoeba, Thai Wikipedia, UD Thai or LST20 | the learner's level; filter vocabulary before use |
@@ -73,6 +76,32 @@ The final topic footer lists source roles in Russian so later revisions remain a
 Do not expose the ledger, corpus counts, licence analysis or research process in the lesson.
 The footer is provenance, not a bibliography dump: include only sources actually consulted
 for that topic and state their role.
+
+## Long-form grammars, courses and theses
+
+Long-form sources support an analysis; they do not replace the role-based minimum above.
+Use a reference grammar when a short corpus pattern needs an explanation, and use a thesis
+only when its actual subject matches the construction being taught. Record the edition,
+page, access status and rights with the claim so another revision can reproduce the decision.
+
+Noss and the FSI Thai Basic Course are historical secondary sources. They can supply a
+competing grammatical analysis, a drill mechanic or a progression, but every current Thai
+claim must be checked against a modern lexicon, annotated corpus and register-matched
+examples. Their checked scans are not machine-readable Thai: FSI Vol. 1–2 are image-only,
+and the checked Noss copy exposes noisy English OCR but no Thai Unicode. Never bulk-import
+that OCR or silently repair it. Keep the page image and verify every Thai sign manually.
+
+External romanization never enters course material. Rebuild any required Cyrillic
+transcription through `thai-phonetics`, because Noss and FSI use systems that do not encode
+the project's choices. A historical example is rewritten as a fresh level-appropriate
+example after modern verification; it is not copied into practice or a control.
+
+Repository availability is not a reuse licence. An in-copyright thesis may inform an
+internal paraphrase with a page citation, but its text is not added to a redistributable
+corpus. Papers about corpora and NLP are discovery sources: use them to choose data or
+understand annotations, never as the sole evidence for a Thai rule or sentence. The tested
+book inventory and extraction results are recorded in
+`../research/thai-open-books-audit-2026-10-15.md`.
 
 ## From corpus evidence to learner material
 
