@@ -59,10 +59,7 @@ The sheet must read easily. Presentation rules:
   >    - б) к министру → ?
   >    - в) к официанту моложе тебя → ?
 - **Present vocabulary cleanly:** `**тайское**` (bold, large) · *transcription in italics* —
-  translation. One word per line, or as a list. **Do not use the consonant-class colouring
-  from thai-display** (in chat it turns into junk coloured "beads" with a legend and looks
-  bad). Apply thai-display only when the user **explicitly asks** for a consonant-class
-  breakdown.
+  translation. One word per line, or as a list; keep consonants uncoloured.
 - **Do not output methodological plumbing** (spiral percentages, mastery, source links) on a
   learning sheet — that is internal. The sheet is pure tasks.
 - Thai text inside a task — large and legible (bold), transcription — italic.

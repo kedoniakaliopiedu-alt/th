@@ -15,9 +15,7 @@
     "**/node_modules",
     "**/__pycache__",
     "**/.venv",
-    "**/.git",
-    // Вендорный скилл: его исходники приезжают с обновлением и правкам не подлежат.
-    ".codex/skills/python-best-practices"
+    "**/.git"
   ],
   // Порог проекта задан в skill-writer/references/skill-doc-standards.md, раздел
   // «Scripts». Все скрипты обходятся стандартной библиотекой 3.8.

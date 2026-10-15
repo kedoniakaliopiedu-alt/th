@@ -26,11 +26,6 @@ authoring course material. It assigns separate sources to lexical meaning, gramm
 examples and register, classifies long-form grammars and FSI material as secondary evidence,
 and keeps external research from leaking new material into a source-only control.
 
-`python-best-practices` is off the map on purpose: a vendor rule book (installed 2026-07-28,
-commit `aaa9e2a`), 70 Python engineering rules with an impact level each, consulted when
-writing or reviewing the scripts. Its own sources are never edited — they are replaced
-wholesale on update.
-
 ## Where the theory lives
 
 The lesson material sits in this same repository:
@@ -274,7 +269,7 @@ and what was rewritten is in each skill's `ATTRIBUTION.md`.
 
 ```
 /skill-brainstorm придумаем форматы заданий на счётные слова
-/skill-writer     перепиши SKILL.md у thai-display
+/skill-writer     перепиши SKILL.md у thai-tasks
 /skill-review     аудит thai-tasks
 ```
 

@@ -38,7 +38,6 @@ WATCHED = ("Thai A2", "Thai B1", "Helpers",
            ".codex/skills/thai-tasks/references",
            ".codex/skills/thai-mistakes",
            ".codex/skills/thai-learning",
-           ".codex/skills/thai-display",
            ".codex/skills/thai-handwriting",
            ".codex/skills/thai-tasks",
            ".codex/skills/thai-verify")

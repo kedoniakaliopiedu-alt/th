@@ -20,7 +20,7 @@ it requires. The trigger map and boundaries are in `.codex/skills/MAP.md`.
   transcription → `thai-phonetics`; tone verification → `thai-verify`.
 - Work on the tutor system itself → `skill-brainstorm`, `skill-writer`, or `skill-review`,
   according to the map.
-- General tutoring can use `learn`; `teach` remains opt-in only.
+- General tutoring can use `learn`.
 
 Use paths exactly as written under `.codex/skills/`; they are project data, not a request
 to use Claude Code or its configuration. Ignore `.claude/settings.json`: it contains

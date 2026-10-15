@@ -9,8 +9,8 @@ description: >
   and worksheets, tracks progress, and assembles coverage tests without hints or
   outside-scope spiral material. Chapter controls default to a standalone dark HTML
   file for handwritten answers; explicit interactive requests override that format.
-  Uses learn for pedagogy, thai-learning for presentation and checking, thai-phonetics
-  for transcription, and thai-display for optional word styling. Also owns topic
+  Uses learn for pedagogy, thai-learning for presentation and checking, and thai-phonetics
+  for transcription. Also owns topic
   states and closing sheets: «давай закроем тему 3.4», «дай закрывающее испытание»,
   «что мне осталось, чтобы закрыть тему», «можно уже её отпустить», «не чувствую, что
   закрыла». It does not record the closure verdict: after checking, thai-mistakes
@@ -83,8 +83,6 @@ A control test measures existing knowledge and does not introduce rules or worke
 → Dialogue pedagogy, «просто скажи ответ», and diagnosis: read skill **learn** when running
   live practice.
 → Transcription and tone marks: read **thai-phonetics** when writing transcription.
-→ Consonant-class styling: use **thai-display** only for an explicit request for that
-  breakdown; default worksheets do not use its colours.
 → Checking, hints, controls and unfamiliar-word annotation: read **thai-learning** and
   **references/checking.md** when preparing to check answers.
 → Scope, output modes, worksheet template and closing-test properties: read

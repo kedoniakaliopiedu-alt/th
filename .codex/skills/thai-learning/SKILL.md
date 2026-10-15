@@ -6,7 +6,6 @@ description: >
   alphabet, tones, pronunciation, vocabulary or grammar. Use it together with thai-tasks
   to assemble a set; after a completed sheet is checked, thai-mistakes owns the full
   report and remediation. For a simple single-word translation, answer directly instead.
-  When presenting vocabulary, use thai-display for consonant-class styling.
 ---
 
 # Thai Learning Skill
@@ -44,8 +43,6 @@ produces the full graded report after answers are checked.
   stated interlocutor and situation.
 
 → Sound system and transcription: see **thai-phonetics**.
-
-→ Vocabulary styling: see **thai-display** when presenting vocabulary.
 
 → Tone verification: see **thai-verify** before every tone verdict.
 
