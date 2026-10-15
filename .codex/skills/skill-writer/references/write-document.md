@@ -31,8 +31,8 @@ Never write from a blank slate. Read, in this order:
 - everything the new document will interact with: the skills that hand off to it, the
   scripts it names, the files it points at;
 - for course material: the chapter plan (`Thai B1/thai_b1_plan.md`) and the actual
-  vocabulary sources. Verify Thai against the course files and thai-language.com — never
-  from memory.
+  vocabulary sources. Read `../../content-sources.md`, build its role-based evidence ledger,
+  and verify Thai through the source zones in `RESOURCES.md` — never from memory.
 
 Delegate heavy research to a subagent when it would otherwise flood context (surveying many
 course files, reading a large script), asking it to return only what is relevant.

@@ -81,9 +81,10 @@ questions and discussion are always fair game.
 - **Writing is not auditing.** A full adversarial pass over a document — contradictions,
   edge cases, boundary violations across skills — is `skill-review`. `validate-doc` here is
   the lighter, standards-focused check on a single document.
-- **Never invent Thai.** Tones, spellings and meanings come from the course files in this
-  repository and from thai-language.com — never from memory. If you cannot verify, write the
-  passage without the unverified claim and say what needs checking.
+- **Never invent Thai.** Tones, spellings and meanings come from the course files and the
+  sources assigned in `RESOURCES.md`; naturalness, grammar and register use the evidence
+  roles in `../content-sources.md`. Never let one convenient site stand in for every role.
+  If you cannot verify a claim, omit it and say what still needs checking.
 - **Never write exercises for the learner** — that is `thai-tasks`. Writing a *course file*
   that `thai-tasks` will later draw on is in scope; writing the worksheet is not.
 

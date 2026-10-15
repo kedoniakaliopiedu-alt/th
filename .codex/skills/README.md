@@ -21,6 +21,11 @@ topic files, flat controls and reports, control-named practice directories, date
 relative links. `thai-tasks` and `thai-mistakes` link to it; their pedagogy stays in their
 own references.
 
+**[`content-sources.md`](content-sources.md)** is the shared evidence contract used while
+authoring course material. It assigns separate sources to lexical meaning, grammar,
+examples and register, and keeps external corpus research from leaking new material into a
+source-only control.
+
 `python-best-practices` is off the map on purpose: a vendor rule book (installed 2026-07-28,
 commit `aaa9e2a`), 70 Python engineering rules with an impact level each, consulted when
 writing or reviewing the scripts. Its own sources are never edited — they are replaced
@@ -318,7 +323,8 @@ a `SKILL.md`, and the ban on methodology leaking into text the learner reads.
   never from memory.
 - `RESOURCES.md` in the project root divides the sources by zone: the dictionary owns the
   word (spelling, meaning, tone), thai-alphabet.com owns the single sign (class, positional
-  reading, sound), the course files own the vocabulary. A conflict between them is marked
-  «спорно» and never reaches the learner's sheet.
+  reading, sound), and the course files own the taught scope. `content-sources.md` adds
+  separate evidence roles for lexicon, grammar, examples and register while authoring.
+  A conflict is marked «спорно» and never reaches the learner's sheet.
 - The Lithuanian skills (`lithuanian-*`) belong to the separate LT project and are not
   needed here.

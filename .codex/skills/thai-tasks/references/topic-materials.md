@@ -170,10 +170,18 @@ For easily confused words or constructions, use all three supports when useful:
 
 ## Sources and naturalness
 
-Prefer natural, varied everyday situations. A short verified phrase from a song, series or
-video may be used when it fits the teaching goal, but external references are optional and
-must not replace ordinary contexts. Verify wording and context before including a real
-quotation and obey copyright limits.
+For new or substantively revised material, follow `../../content-sources.md`: assign
+lexicon, grammar, example and register evidence to sources suited to those roles. Two pages
+from one site do not count as independent evidence, and a corpus hit does not prove a rule
+by itself. Keep an internal claim ledger and add a concise Russian footer naming only the
+sources actually consulted and the role each served.
+
+Prefer natural, varied everyday situations. Derive fresh level-appropriate examples from
+manually checked corpus patterns; do not copy a sentence merely because it is authentic.
+A short verified quotation from a song, series or post may be used only when the exact text
+serves the teaching goal and its rights permit it. Keep formal, neutral and conversational
+evidence separate, because normal colloquial language is not an error and noisy web spelling
+is not automatically a neutral model.
 
 ## Controls prepared with material
 

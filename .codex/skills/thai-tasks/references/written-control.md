@@ -42,6 +42,11 @@ Closing tests also retain the extra requirements in `scope-and-modes.md`.
    material or a narrower scope. Do not invent chapter content, silently use a chapter
    plan as a taught lesson, or pad a short source to reach the target length.
 
+The lesson author may have used corpora under `../../content-sources.md` to verify the
+material. Those corpora are not additional control scope: test the resulting taught course
+file only. If source research changes a rule, meaning or register boundary, revise the
+lesson and rebuild the affected control before assessing it.
+
 Unfamiliar Thai is not a default escape hatch. Rewrite the situation using taught material.
 If a user-authorised scenario genuinely requires a supporting word, apply `thai-learning`'s
 ⚑ rule, exclude that word from assessment, and ensure the note reveals no tested answer.

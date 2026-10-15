@@ -102,10 +102,14 @@ A control test measures existing knowledge and does not introduce rules or worke
   practice session or worksheet teaches words rather than merely assessing them.
 → Mission, learning records and trusted sources: read **references/mission-and-records.md**
   when choosing context or recording a qualitative change.
+→ External evidence for meanings, grammar, examples and register: read
+  **../content-sources.md** when creating or substantially revising course material. It
+  validates the lesson but never expands a source-only control.
 
 Ground every set in `MISSION.md`; examples should serve a real purpose. **Never invent
 Thai from memory:** take spelling, meanings and tones from project files and their assigned
-sources, and verify uncertainty. Tone verdicts follow thai-verify's sole-source protocol.
+sources, and verify grammar, naturalness and register by the roles in
+`../content-sources.md`. Tone verdicts follow thai-verify's sole-source protocol.
 
 ## Four principles behind the tasks
 

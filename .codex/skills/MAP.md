@@ -15,6 +15,10 @@ repository; do not mix them up — every meta skill states in its `description` 
 practice ecosystems, names and relative links. It does not own teaching, grading, report
 content or remediation choice; the skills below link to it instead of repeating those rules.
 
+`content-sources.md` is the shared evidence contract for course authoring: source roles,
+register separation, corpus-to-example workflow and rights. It validates lesson content but
+does not enlarge the taught scope of a control.
+
 ## Teaching layer
 
 | Skill | Role |
