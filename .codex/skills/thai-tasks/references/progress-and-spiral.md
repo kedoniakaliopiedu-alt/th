@@ -16,7 +16,7 @@
 
 ```
 # начать тему: импортировать её словарь из файла главы
-python3 scripts/tracker.py import <progress.json> <glavaN_temaM_*.md> --topic 6.1
+python3 scripts/tracker.py import <progress.json> <practice/NN_topic.html> --topic 6.1
 
 # что повторить (для 40% спирали) — вернёт JSON: mistakes_due + items_due + background
 python3 scripts/tracker.py due <progress.json> --limit 4
@@ -24,10 +24,15 @@ python3 scripts/tracker.py due <progress.json> --limit 4
 # после ответа: применить SM-2 (quality 0–5)
 python3 scripts/tracker.py record <progress.json> "ข้าว" 5
 python3 scripts/tracker.py record <progress.json> "счётные слова จาน/ที่" 2 --type rule --topic 6.1.2
+# конкретное забытое слово: обновить элемент, но не считать это провалом всей темы
+python3 scripts/tracker.py record <progress.json> "พฤศจิกายน" 1 --topic 3.3 --item-only
 
 # записать паттерн ошибки (--topic обязателен: по нему собирается работа над ошибками)
 python3 scripts/tracker.py mistake <progress.json> "тон_высокий_класс_закрытый" \
     --category Тоны --topic 6.1 --your средний --correct нисходящий --context "ข้าว"
+# сменить маршрут старого паттерна без фиктивного нового промаха
+python3 scripts/tracker.py mistake-mode <progress.json> "тон_высокий_класс_закрытый" tones \
+    --reason "несколько слов нарушают одно правило тона"
 # закрыть паттерн, когда он стабильно без ошибок
 python3 scripts/tracker.py resolve <progress.json> "тон_высокий_класс_закрытый"
 
@@ -220,7 +225,8 @@ EF делает интервал индивидуальным: лёгкие дл
 2. Если такой паттерн уже есть — `frequency += 1`, добавь новый пример
    `{your_answer, correct, context, date}`, обнови `last_occurred`.
 3. Если новый — заведи запись со `status: active`, `frequency: 1`, первым примером.
-4. Назначь `next_review` близко (например +1 день) — слабое место должно вернуться скоро.
+4. Назначь `next_review` по текущему состоянию трекера: слабое место возвращается скоро,
+   но без универсального фиксированного интервала.
 5. `resolved` наступает одним из двух путей: **автоматически** — два чистых круга
    подряд (`attempt --result ok` дважды), это и делает скрипт; либо **вручную**
    командой `resolve`, когда паттерн несколько занятий не всплывает и mastery
@@ -353,7 +359,7 @@ EF делает интервал индивидуальным: лёгкие дл
 
 Чтобы get_due видел словарь темы, занеси его в трекер до генерации заданий.
 
-1. Прочитай нужный файл (`glavaN_temaM_*.md` / `b1_glavaN_*.md`), секции «Словарный
+1. Прочитай нужный файл (`practice/NN_topic.html`), секции «Словарный
    запас» и «Теория/конструкции».
 2. Для каждого нового слова/правила добавь запись с `repetitions: 0, interval_days: 0,
    easiness_factor: 2.5, mastery: 0, consecutive_correct: 0, consecutive_incorrect: 0,

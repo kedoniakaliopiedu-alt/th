@@ -16,6 +16,11 @@ the fate of its artifacts. That is the file the meta skills load: deliberately s
 one place a zone or a hand-off is described. This README is the operator's handbook — the
 tracker, the toolchains, how to run things.
 
+**[`assessment-artifacts.md`](assessment-artifacts.md)** is the shared contract for HTML
+topic files, flat controls and reports, control-named practice directories, dates and
+relative links. `thai-tasks` and `thai-mistakes` link to it; their pedagogy stays in their
+own references.
+
 `python-best-practices` is off the map on purpose: a vendor rule book (installed 2026-07-28,
 commit `aaa9e2a`), 70 Python engineering rules with an impact level each, consulted when
 writing or reviewing the scripts. Its own sources are never edited — they are replaced
@@ -25,8 +30,11 @@ wholesale on update.
 
 The lesson material sits in this same repository:
 
-- `Thai A2/Chapter N/glavaN_temaM_*.md`
-- `Thai B1/Chapter N/b1_glavaN_temaM_*.md`
+- `Thai A2/Chapter N/practice/NN_*.html`
+- `Thai B1/Chapter N/practice/NN_*.html`
+
+Legacy chapters may still contain `glavaN_temaM_*.md` until their explicit migration; do not
+create new Markdown topic files.
 - `Helpers/*.md` — extra references (e.g. directional particles)
 
 thai-tasks searches **recursively** and takes vocabulary and rules from these files (it does
@@ -40,9 +48,11 @@ not reuse the examples from the «Практические упражнения�
    written files. That *is* the ready criterion: actions rather than knowledge, in exactly
    the right shape.
 
-The parser takes only list items under a markdown heading (stripping ✅ marks), so a section
-formatted as a bold line or a table will not be picked up. A topic where neither was found
-gets the status «нет критерия» and cannot be closed.
+The parser takes only list items under the matching heading (stripping ✅ marks), so a
+section formatted as a bold line or a table will not be picked up. New HTML topics keep the
+explicit section hidden because it is service data; legacy visible summaries remain a
+migration fallback. A topic where neither was found gets the status «нет критерия» and
+cannot be closed.
 
 ## Progress tracker
 
@@ -51,13 +61,20 @@ thai-tasks keeps `progress.json` (in the project root) via the script
 
 ```bash
 # import a topic's vocabulary
-python3 .codex/skills/thai-tasks/scripts/tracker.py import progress.json "Thai A2/Chapter 3/glava3_tema4_rasporyadok.md" --topic 3.4
+python3 .codex/skills/thai-tasks/scripts/tracker.py import progress.json \
+    "Thai A2/Chapter 3/practice/04_daily_routine.html" --topic 3.4
 # what is due for review
 python3 .codex/skills/thai-tasks/scripts/tracker.py due progress.json
 # apply SM-2 after an answer (quality 0–5)
 python3 .codex/skills/thai-tasks/scripts/tracker.py record progress.json "ตื่น" 5
+# weak exact word without reopening its whole topic
+python3 .codex/skills/thai-tasks/scripts/tracker.py record progress.json "พฤศจิกายน" 1 \
+    --topic 3.3 --item-only
 # record a mistake pattern
 python3 .codex/skills/thai-tasks/scripts/tracker.py mistake progress.json "тон_финаль" --category Тоны --topic 3.4 --your ... --correct ...
+# reclassify remediation without recording another occurrence
+python3 .codex/skills/thai-tasks/scripts/tracker.py mistake-mode progress.json "тон_финаль" tones \
+    --reason "несколько слов нарушают одно правило тона"
 # drill plan (topics, modes, volume) and the outcome of a drill round
 python3 .codex/skills/thai-tasks/scripts/tracker.py drill-plan progress.json
 python3 .codex/skills/thai-tasks/scripts/tracker.py attempt progress.json "тон_финаль" --result ok
@@ -198,21 +215,22 @@ After any tasks are checked, **thai-mistakes** takes over:
 1. a report over the whole sheet — the tasks as they were, with ✅ / 🟡 / ❌, the correct
    version and a «почему» line, then a summary N/Y, %, a breakdown by category and the
    calibration line;
-2. mistakes go into `progress.json` with their topic;
-3. a mini-diagnostic of the topic (3–5 questions) — where else the holes are;
-4. the rule explained from your mistake, and a drill block: 3 tasks for the topic's first
-   mistake, +1 for each further one, capped at 10. If the mistake is systemic, a
-   counterexample comes first: a case where your own rule refutes itself;
-5. the mode is picked by mistake type: vocabulary memorization / tone drill /
-   transformations / restoring spelling / register and appropriateness;
-6. a mistake is cleared once you have both stated what was wrong in the old reasoning and
-   passed a fresh trap case. Correct answers alone are not enough;
-7. the mistake recurred — a second round, reassembled (rule inductively, smaller steps).
-   Still not cleared — first thing next lesson, status `critical`.
+2. mistakes go into `progress.json` with their category, topic and remediation mode;
+3. rules and broad gaps produce thematic modules, while an exact word that repeatedly
+   fails produces a compact memory module only for the target lexemes; both belong to one
+   dated practice HTML when they come from the same report;
+4. live work is opt-in: thematic gaps receive a mini-diagnostic and rule drill; lexeme gaps
+   receive an error trace, one retrieval hook, fading support and delayed production;
+5. a misconception is cleared after the old reasoning is corrected and a fresh trap case
+   is passed; a lexeme round is cleared after two separated recalls without a visible model;
+6. a repeated mistake gets a rebuilt second round. Still not cleared — first thing next
+   lesson, status `critical`.
 
 Reference files: `thai-mistakes/references/report-format.md` (report format),
-`thai-mistakes/references/thematic-html-modules.md` (standalone lesson files with built-in
-answers), `thai-mistakes/references/drill-modes.md` (live drill modes),
+`thai-mistakes/references/thematic-html-modules.md` (self-study practice modules with
+built-in answers), `thai-mistakes/references/drill-modes.md` (live drill modes),
+`thai-mistakes/references/lexeme-memory.md` (focused retention cycle for exact words that
+repeatedly fail),
 `thai-mistakes/references/misconceptions.md` (types of misconception, the counterexample
 method, the closing criterion).
 

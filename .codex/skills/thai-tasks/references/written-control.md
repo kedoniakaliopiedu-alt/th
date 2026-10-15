@@ -6,6 +6,9 @@ Instruction prose is English; every heading, instruction and label delivered to 
 learner is Russian. This file implements the user's written-test brief and subsequent
 preferences for an actual file and a dark theme.
 
+File placement, semantic naming, shared CSS and reciprocal links come only from
+`../../assessment-artifacts.md`. Read that contract before creating the file.
+
 ## Trigger and precedence
 
 «Контрольная по главе N», «письменная контрольная» and «контрольная в HTML» select this
@@ -165,16 +168,12 @@ Example of learner-facing layout (replace placeholders with source-grounded task
 
 ## Build and deliver the actual file
 
-Create one UTF-8 HTML file with embedded CSS, responsive layout and no external runtime
-requirements. No JavaScript, forms, input fields, radio buttons, checkboxes, dropdowns,
+Create one UTF-8 HTML file under the placement, naming, shared-style and system-font rules
+in `../../assessment-artifacts.md`. It needs no external runtime. No JavaScript, forms,
+input fields, radio buttons, checkboxes, dropdowns,
 «Проверить» buttons or interactive answers. No large blank answer areas: writing happens
-on separate paper. Use semantic headings and lists, generous line height and Thai fonts
-with local fallbacks; Thai text should be about 25–28 px on screen.
-
-Inspect neighbouring HTML files and match their dark theme. If none exists, use this
-project palette: background `#0e131a`, cards `#151b24`, text `#e7ebf1`, muted `#a9b3c1`,
-borders `#2a323d`, accent `#8fb0e4`. Set `color-scheme: dark`; provide a white, readable
-`@media print` style. Separate sections without decorative clutter.
+on separate paper. Use semantic headings and lists and generous line height; Thai text
+should be about 25–28 px on screen.
 
 The page begins with (substitute the actual chapter):
 
@@ -188,10 +187,9 @@ The page begins with (substitute the actual chapter):
 > в соответствии с номерами заданий. Не используйте переводчик или учебные материалы.
 > После выполнения сфотографируйте работу и загрузите фотографии в папку Handwriting.
 
-Save beside the chapter material, e.g. `Thai A2/Chapter 3/thai_chapter_3_test.html`.
-For a different scope use an equally unambiguous name. Preserve a test that already has
-answers or a report: a new attempt needs a distinct filename, not an overwritten source
-sheet. For an explicit edit to an existing sheet, update that file.
+Preserve a test that already has answers or a report. For an explicit edit to an existing
+sheet, update it only when this does not erase assessment history. All path, date, slug and
+relative-link decisions come from `../../assessment-artifacts.md`.
 
 Deliver a clickable link to the completed file and a brief Russian status. Do not paste
 HTML into chat as a substitute for creating the file. Only return source code instead
@@ -203,13 +201,15 @@ when the current user explicitly requests code-only delivery.
 2. Check coverage, production balance, absence of answer leaks, every numbered task and
    every subitem. Solve all tasks internally; replace unsolvable or ambiguous items.
 3. Inspect the delivered HTML for forbidden controls, scripts, keys and placeholders.
-   Check Thai font fallbacks, responsive CSS and print styles.
+   Check system Thai rendering, the shared stylesheet, responsive CSS and print styles.
 4. Open the file with an authorised browser capability and inspect the start, a middle
    section and the end for Thai rendering and readable layout. If browser access is
    unavailable or blocked, obey the restriction, perform file checks and explicitly
    report that visual verification remains incomplete. Never bypass a browser block.
 5. Run `git diff --check` for tracked edits; check a new untracked file for whitespace
    issues too. Do not claim success merely because generation was attempted.
+6. Resolve every relative artifact link and confirm the path, number, semantic slug and date
+   against `../../assessment-artifacts.md`.
 
 When answers arrive, keep the source sheet unchanged. Today's `Handwriting/` files go
 through **thai-handwriting**, then **thai-mistakes** supplies the full report and tracker

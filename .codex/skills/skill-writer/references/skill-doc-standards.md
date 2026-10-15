@@ -125,30 +125,39 @@ belong here; use `typing.Dict` and `functools.lru_cache(maxsize=None)` instead.
 
 ## Course files (`Thai A2/**`, `Thai B1/**`, `Helpers/**`)
 
-Naming: `glavaN_temaM_*.md` for A2, `b1_glavaN_temaM_*.md` for B1. Structure inside:
-`Глава` → `Тема N.M` → `Подтема N.M.K`, each with **Словарный запас**, **Теория/конструкции**
-and **Практические упражнения**.
+Naming: `practice/NN_semantic_slug.html` inside the chapter for both A2 and B1. Course
+material is HTML only; do not create a Markdown source beside it. Use
+`Thai A2/_prototypes/topic-style.html` as the structural and visual prototype and
+`thai-tasks/references/topic-materials.md` as the detailed learner-facing standard.
+
+The visible page starts with the topic title and links to related controls, then an untitled
+table of contents and the subtopics. Do not add a visible goal block or a final topic
+summary. Every subtopic has four primary sections in this order: **Словарный запас**, a
+content-specific rule heading, **Якоря**, and **Практические упражнения**. A heading names
+its actual content; do not use generic labels such as «Теория». Headings have no terminal
+punctuation.
 
 The critical constraint: **`thai-tasks` takes vocabulary and rules from these files but
 deliberately does not reuse the examples in «Практические упражнения»** — it generates fresh
 ones. So write that section as *illustration of the rule*, not as a bank of exercises meant
 to be served to the learner, and never put anything there that must not be reused verbatim.
 
-Every topic file ends with a closing criterion — what `thai-tasks` reads to know when the
-topic may leave the spiral. The existing 36 files already carry it as «Резюме по теме» →
-«К концу темы ты должна уметь», and the parser reads that section as a fallback, so nothing
-has to be retrofitted. When writing a **new** topic, either keep that summary in the same
-shape or use the explicit heading below; the parser prefers the explicit one. Without
-either, the topic is stuck at «нет критерия» and can never be closed. The format is strict:
-the parser (`read_exit_task` inside `tracker.py`, reached through `tracker.py import`) takes
-only list items under a markdown heading, so a bolded line or a table yields nothing.
+Every topic file carries a hidden closing criterion that `thai-tasks` reads to know when the
+topic may leave the spiral. It is service data, not a visible learner section. Legacy files
+may still expose the same information under «Резюме по теме»; the parser keeps that only as
+a migration fallback. Without either form, the topic is stuck at «нет критерия» and can
+never be closed. The format is strict: `read_exit_task` inside `tracker.py` takes only list
+items under the exact HTML heading.
 
-```markdown
-## Тема закрыта, если ты можешь
-
-1. Рассказать свой день с временем
-2. Ответить на вопрос «во сколько ты встаёшь»
-3. Заказать две порции риса и уточнить остроту
+```html
+<section class="topic-exit" hidden>
+  <h2>Тема закрыта, если ты можешь</h2>
+  <ol>
+    <li>Рассказать свой день с временем</li>
+    <li>Ответить на вопрос «во сколько ты встаёшь»</li>
+    <li>Заказать две порции риса и уточнить остроту</li>
+  </ol>
+</section>
 ```
 
 3–5 items, each phrased as an **action**, not as knowledge («заказать две порции риса», not

@@ -11,12 +11,16 @@ services the instrument itself. The teaching layer is about Thai, the meta layer
 repository; do not mix them up — every meta skill states in its `description` what it is
 **not**.
 
+`assessment-artifacts.md` is the shared filesystem contract for topics, controls, reports,
+practice ecosystems, names and relative links. It does not own teaching, grading, report
+content or remediation choice; the skills below link to it instead of repeating those rules.
+
 ## Teaching layer
 
 | Skill | Role |
 |---|---|
-| **thai-tasks** | The engine. Composite tasks on any topic; owns the tracker (SM-2), the 60/40 spiral, the three modes (session / worksheet / test), topic states and the closing sheet. Chapter controls default to a static dark HTML file for handwritten answers (`thai-tasks/references/written-control.md`). |
-| **thai-mistakes** | The lesson's second beat: calibration before the verdict, the report over the sheet (✅/🟡/❌), mistakes into the tracker, then standalone thematic HTML lessons with built-in answers. Live drills and the two-round rule remain available when explicitly requested. |
+| **thai-tasks** | The engine for fresh tasks and teaching material. It owns the tracker implementation (SM-2), the 60/40 spiral, the three modes (session / worksheet / test), topic states and the closing sheet. Chapter controls default to a static dark HTML file for handwritten answers (`thai-tasks/references/written-control.md`). Its `topic-materials.md` supplies shared self-study presentation rules but does not choose remediation content. |
+| **thai-mistakes** | The second beat after formal checking, or a direct review of explicitly named prior errors/tracker history: calibration before an unrevealed verdict, the report over the sheet (✅/🟡/❌), the single tracker write for that result, then route each gap by cause. It owns remediation scope and content. Rules and broad gaps receive thematic modules; repeatedly forgotten exact words receive compact lexeme-memory modules. |
 | **thai-learning** | Rules for presenting tasks and checking answers, level structure, tests. |
 | **thai-phonetics** | The single source of transcription. `SKILL.md` holds the assembly order (syllables → initial/cluster → silent letters → vowel → final → tone, verified); five data files hold the rest: `consonants.md`, `vowels.md`, `clusters.md`, `silent-letters.md`, `irregulars.md`. A sign with no data is reported missing, never approximated. |
 | **thai-verify** | Checking a word against thai-language.com: how to query, how to pick the right entry among several, how their tone letters map onto ours. Owns the truth; `thai-phonetics` owns how the truth is written down. |

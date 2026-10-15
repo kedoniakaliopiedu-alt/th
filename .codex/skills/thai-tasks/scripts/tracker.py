@@ -13,7 +13,7 @@ tracker.py — учёт прогресса для skill thai-tasks (SM-2 + ба�
   drill-plan — план работы над ошибками: группы по темам, режимы, объём
   attempt    — итог круга отработки (снята / повторилась)
   resolve    — закрыть паттерн ошибки вручную
-  import     — импортировать словарь из glava-файла в трекер
+  import     — импортировать словарь из HTML-файла темы в трекер
   progress   — краткий обзор прогресса
   set-meta   — обновить meta (difficulty, recent_accuracy)
   topics     — состояния тем: что в работе, что закрыто, что мешает закрыть
@@ -30,7 +30,7 @@ tracker.py — учёт прогресса для skill thai-tasks (SM-2 + ба�
   python3 tracker.py mistakes progress.json --topic 6.1
   python3 tracker.py drill-plan progress.json
   python3 tracker.py attempt progress.json "тон_закрытый_слог_высокий_класс" --result ok
-  python3 tracker.py import progress.json glava6_tema1_eda.md --topic 6.1
+  python3 tracker.py import progress.json practice/01_food.html --topic 6.1
   python3 tracker.py progress progress.json
   python3 tracker.py set-meta progress.json --difficulty 5 --recent-accuracy 0.68
   python3 tracker.py topics progress.json
@@ -52,6 +52,7 @@ import time
 import unicodedata
 from collections.abc import Callable
 from datetime import date, datetime, timedelta
+from html.parser import HTMLParser
 from typing import Any, NoReturn, TypedDict, cast
 
 DATE_FMT = "%Y-%m-%d"
@@ -116,6 +117,7 @@ class Item(TypedDict):
     mastery: int
     consecutive_correct: int
     consecutive_incorrect: int
+    review_log: list[dict[str, Any]]
 
 
 class Example(TypedDict):
@@ -141,6 +143,7 @@ class Mistake(TypedDict):
     rounds: int
     drill_ok: int
     last_drill: str
+    mode_history: list[dict[str, str]]
 
 
 class Meta(TypedDict):
@@ -190,6 +193,7 @@ def new_item() -> Item:
         "repetitions": 0, "interval_days": 0, "easiness_factor": 2.5,
         "due_date": "1970-01-01", "last_seen": "1970-01-01",
         "mastery": 0, "consecutive_correct": 0, "consecutive_incorrect": 0,
+        "review_log": [],
     }
 
 
@@ -206,6 +210,7 @@ MODE_BY_CATEGORY = (
 )
 
 MODE_TITLES = {
+    "lexeme": "точечное запоминание слов",
     "vocab": "запоминание слов",
     "tones": "тоновый дрилл",
     "grammar": "трансформации",
@@ -290,6 +295,23 @@ def mode_for(category: str | None, override: str | None = None) -> str:
     return "general"
 
 
+def lexeme_next_review(data: Data, m: Mistake, fallback: str) -> str:
+    """Use the exact word's SM-2 date for a lexeme pattern when it is available.
+
+    The mistake pattern keeps the history and two-round remediation state. Scheduling of
+    an exact word belongs to its item record because `record --item-only` has the answer
+    quality needed by SM-2; a fixed pattern interval would create a second schedule.
+    """
+    for example in reversed(m.get("examples", [])):
+        word = nfc(example.get("correct_answer", "").strip())
+        if not word:
+            continue
+        item = data["items"].get(word)
+        if item and item.get("due_date"):
+            return item["due_date"]
+    return fallback
+
+
 def normalize_mistake(m: Any, category: str | None = None) -> Mistake:
     """Добить старую запись ошибки полями, которые нужны работе над ошибками.
 
@@ -311,6 +333,7 @@ def normalize_mistake(m: Any, category: str | None = None) -> Mistake:
     m.setdefault("rounds", 0)        # всего кругов отработки
     m.setdefault("drill_ok", 0)      # подряд успешных кругов
     m.setdefault("last_drill", "")   # дата последнего круга
+    m.setdefault("mode_history", []) # смены маршрута без фиктивных новых ошибок
     # setdefault выше довёл запись до полного набора полей Mistake — приведение
     # опирается на это, а не на веру: до него форма записи из JSON неизвестна.
     return cast(Mistake, m)
@@ -389,6 +412,39 @@ def merge_denormalized_keys(data: Data) -> list[str]:
             rec["core"] = moved
             print("ядро темы {}: ключи приведены к NFC ({} шт.)".format(
                 tp, sum(1 for a, b in zip(core, moved) if a != b)), file=sys.stderr)
+
+    mistakes = data["mistakes"]
+    for key in list(mistakes):
+        canon = nfc(key)
+        if canon == key:
+            continue
+        candidate = normalize_mistake(mistakes.pop(key))
+        existing = mistakes.get(canon)
+        if existing is None:
+            mistakes[canon] = candidate
+        else:
+            kept = normalize_mistake(existing)
+            kept["frequency"] = kept.get("frequency", 0) + candidate.get("frequency", 0)
+            kept["examples"].extend(candidate.get("examples", []))
+            kept["mode_history"].extend(candidate.get("mode_history", []))
+            if not kept.get("category"):
+                kept["category"] = candidate.get("category", "")
+            if not kept.get("topic"):
+                kept["topic"] = candidate.get("topic", "")
+            if not kept.get("mode"):
+                kept["mode"] = candidate.get("mode", "")
+            if candidate.get("status") == "critical":
+                kept["status"] = "critical"
+            elif candidate.get("status") == "active" and kept.get("status") == "resolved":
+                kept["status"] = "active"
+            kept["last_occurred"] = max(kept.get("last_occurred", ""),
+                                         candidate.get("last_occurred", ""))
+            due = [d for d in (kept.get("next_review", ""),
+                                candidate.get("next_review", "")) if d]
+            kept["next_review"] = min(due) if due else ""
+            mistakes[canon] = kept
+        if canon not in merged:
+            merged.append(canon)
     return merged
 
 
@@ -648,7 +704,8 @@ def topic_blockers(data: Data, tp: str, rec: TopicRec) -> list[tuple[str, str]]:
 
     active = [k for k, m in data["mistakes"].items()
               if m.get("topic", "") == tp
-              and m.get("status", "active") in ("active", "critical")]
+              and m.get("status", "active") in ("active", "critical")
+              and mode_for(m.get("category", ""), m.get("mode")) != "lexeme"]
     if active:
         out.append(("mistakes",
                     "активные ошибки по теме: " + ", ".join(sorted(active)[:3])))
@@ -995,6 +1052,9 @@ def cmd_record(data: Data, args: argparse.Namespace) -> None:
         it["topic"] = args.topic
     if args.translation:
         it["translation"] = args.translation
+    if args.item_only and it.get("type", "word") != "word":
+        print("--item-only разрешён только для слов", file=sys.stderr)
+        sys.exit(2)
 
     q = args.quality
     ef = it.get("easiness_factor", 2.5)
@@ -1042,17 +1102,22 @@ def cmd_record(data: Data, args: argparse.Namespace) -> None:
         "consecutive_correct": cc, "consecutive_incorrect": ci,
         "mastery": mastery,
     })
+    it.setdefault("review_log", []).append({
+        "date": t.strftime(DATE_FMT),
+        "quality": q,
+        "scope": "item_only" if args.item_only else "topic",
+    })
     data["items"][key] = it
     print(f"OK: {key} → mastery {mastery}, интервал {interval}д, "
           f"следующий повтор {it['due_date']} (EF {it['easiness_factor']})")
-    if q < 3:
+    if q < 3 and not args.item_only:
         note = topic_shake(data, it.get("topic", ""), f"ошибка в «{key}»")
         if note:
             print(note)
 
 
 def cmd_mistake(data: Data, args: argparse.Namespace) -> None:
-    key = args.pattern
+    key = nfc(args.pattern)
     t = today()
     # Заготовка под новый паттерн: normalize_mistake заполняет её через setdefault,
     # поэтому словарь нужен свежий на каждый вызов.
@@ -1066,30 +1131,41 @@ def cmd_mistake(data: Data, args: argparse.Namespace) -> None:
         m["mode"] = args.mode
     if args.notes:
         m["notes"] = args.notes
+    selected_mode = mode_for(m.get("category", ""), m.get("mode"))
+    if selected_mode == "lexeme" and not args.correct:
+        print("для режима lexeme обязателен --correct с целевым словом", file=sys.stderr)
+        sys.exit(2)
     m["frequency"] = m.get("frequency", 0) + 1
     # повторная ошибка после успешного круга обнуляет зачёт отработки
     m["drill_ok"] = 0
     if m["status"] != "critical":
         m["status"] = "active"
     m["last_occurred"] = t.strftime(DATE_FMT)
-    # слабое место должно вернуться скоро
+    # Тематический паттерн возвращается скоро. Точная лексема использует SM-2 дату
+    # собственного элемента после того, как пример с правильным словом добавлен ниже.
     m["next_review"] = (t + timedelta(days=1)).strftime(DATE_FMT)
     if args.your or args.correct:
         m["examples"].append({
             "your_answer": args.your or "", "correct_answer": args.correct or "",
             "context": args.context or "", "date": t.strftime(DATE_FMT),
         })
+    if selected_mode == "lexeme":
+        m["next_review"] = lexeme_next_review(
+            data, m, t.strftime(DATE_FMT))
     data["mistakes"][key] = m
     print(f"OK: паттерн «{key}» — частота {m['frequency']}, "
           f"режим {mode_for(m['category'], m['mode'])}, "
           f"следующий повтор {m['next_review']}")
-    note = topic_shake(data, m.get("topic", ""), f"паттерн «{key}»")
-    if note:
-        print(note)
+    # An exact word-recall gap is scheduled as an item, not treated as evidence that the
+    # whole topic has collapsed. Rule and topic-level mistakes still shake the topic.
+    if mode_for(m.get("category", ""), m.get("mode")) != "lexeme":
+        note = topic_shake(data, m.get("topic", ""), f"паттерн «{key}»")
+        if note:
+            print(note)
 
 
 def cmd_resolve(data: Data, args: argparse.Namespace) -> None:
-    key = args.pattern
+    key = nfc(args.pattern)
     # Отказ до записи и с ненулевым кодом — как в `attempt`. Иначе опечатка в имени
     # паттерна выглядела как успех и вхолостую ротировала `.bak`.
     if key not in data["mistakes"]:
@@ -1097,6 +1173,28 @@ def cmd_resolve(data: Data, args: argparse.Namespace) -> None:
         sys.exit(1)
     data["mistakes"][key]["status"] = "resolved"
     print(f"OK: паттерн «{key}» помечен resolved")
+
+
+def cmd_mistake_mode(data: Data, args: argparse.Namespace) -> None:
+    """Reclassify remediation without recording a new occurrence."""
+    key = nfc(args.pattern)
+    if key not in data["mistakes"]:
+        print(f"нет такого паттерна: {key}", file=sys.stderr)
+        sys.exit(1)
+    m = normalize_mistake(data["mistakes"][key])
+    old_mode = mode_for(m.get("category", ""), m.get("mode"))
+    if old_mode == args.mode:
+        print(f"OK: паттерн «{key}» уже использует режим {args.mode}")
+        return
+    m["mode_history"].append({
+        "date": today().strftime(DATE_FMT),
+        "from": old_mode,
+        "to": args.mode,
+        "reason": args.reason,
+    })
+    m["mode"] = args.mode
+    data["mistakes"][key] = m
+    print(f"OK: паттерн «{key}» → режим {args.mode}")
 
 
 def mistake_view(key: str, m: Mistake) -> dict[str, Any]:
@@ -1119,10 +1217,13 @@ def mistake_view(key: str, m: Mistake) -> dict[str, Any]:
 
 def select_mistakes(data: Data, status: str | None = None, topic: str | None = None,
                     category: str | None = None,
-                    due_only: bool = False) -> list[tuple[str, Mistake]]:
+                    due_only: bool = False,
+                    pattern: str | None = None) -> list[tuple[str, Mistake]]:
     t = today()
     out: list[tuple[str, Mistake]] = []
     for key, m in data["mistakes"].items():
+        if pattern and key != nfc(pattern):
+            continue
         m = normalize_mistake(m)
         st = m.get("status", "active")
         if status:
@@ -1146,7 +1247,8 @@ def select_mistakes(data: Data, status: str | None = None, topic: str | None = N
 
 def cmd_mistakes(data: Data, args: argparse.Namespace) -> None:
     sel = select_mistakes(data, status=args.status, topic=args.topic,
-                          category=args.category, due_only=args.due)
+                          category=args.category, due_only=args.due,
+                          pattern=args.pattern)
     if args.limit:
         sel = sel[:args.limit]
     print(json.dumps([mistake_view(k, m) for k, m in sel],
@@ -1160,19 +1262,25 @@ def cmd_drill_plan(data: Data, args: argparse.Namespace) -> None:
     Повторная ошибка (frequency >= 2) весит как две — старое тяжелее свежего.
     """
     sel = select_mistakes(data, topic=args.topic, category=args.category,
-                          due_only=args.due)
+                          due_only=args.due, pattern=args.pattern)
     groups: dict[str, DrillGroup] = {}
     for key, m in sel:
         topic = m.get("topic", "")
-        gid = topic or "cat:" + (m.get("category", "") or "—")
+        mode = mode_for(m.get("category", ""), m.get("mode"))
+        # Lexeme gaps stay in a compact memory set made only from the failed words. They
+        # must not pull the entire topic vocabulary into the remediation block.
+        if mode == "lexeme":
+            gid = "lexeme:" + (topic or "без-темы")
+        else:
+            gid = topic or "cat:" + (m.get("category", "") or "—")
         g = groups.setdefault(gid, {"topic": topic, "mistakes": [], "modes": []})
         g["mistakes"].append(mistake_view(key, m))
-        mode = mode_for(m.get("category", ""), m.get("mode"))
         if mode not in g["modes"]:
             g["modes"].append(mode)
 
     out: list[dict[str, Any]] = []
     for gid, g in groups.items():
+        is_lexeme = g["modes"] == ["lexeme"]
         weight = sum(2 if mm["frequency"] >= 2 else 1 for mm in g["mistakes"])
         tasks = min(10, 3 + max(0, weight - 1))
         drill_modes = [md for md in g["modes"] if md != "reference"]
@@ -1181,11 +1289,20 @@ def cmd_drill_plan(data: Data, args: argparse.Namespace) -> None:
             "topic": g["topic"],
             "modes": g["modes"],
             "mode_titles": [MODE_TITLES.get(md, md) for md in g["modes"]],
-            "tasks": tasks if drill_modes else 0,
             "critical": any(mm["status"] == "critical" for mm in g["mistakes"]),
             "second_round": any(mm["rounds"] >= 1 for mm in g["mistakes"]),
             "mistakes": g["mistakes"],
         }
+        if is_lexeme:
+            targets: list[str] = []
+            for mm in g["mistakes"]:
+                correct = str(mm.get("last_example", {}).get("correct_answer", "")).strip()
+                target = correct or str(mm["pattern"])
+                if target not in targets:
+                    targets.append(target)
+            entry["target_words"] = targets
+        else:
+            entry["tasks"] = tasks if drill_modes else 0
         if "vocab" in g["modes"] and g["topic"]:
             pool: list[VocabEntry] = [
                 {"item": k, "translation": it.get("translation", ""),
@@ -1197,14 +1314,17 @@ def cmd_drill_plan(data: Data, args: argparse.Namespace) -> None:
             entry["vocab_pool"] = pool
         out.append(entry)
 
-    out.sort(key=lambda g: (not g["critical"], -g["tasks"]))
+    out.sort(key=lambda g: (
+        not g["critical"],
+        -(int(g["tasks"]) if "tasks" in g else len(g.get("target_words", []))),
+    ))
     print(json.dumps({"date": today().strftime(DATE_FMT), "groups": out},
                      ensure_ascii=False, indent=2))
 
 
 def cmd_attempt(data: Data, args: argparse.Namespace) -> None:
     """Итог круга отработки: ok — ошибка снята в этом круге, fail — повторилась."""
-    key = args.pattern
+    key = nfc(args.pattern)
     if key not in data["mistakes"]:
         print(f"нет такого паттерна: {key}", file=sys.stderr)
         sys.exit(1)
@@ -1217,7 +1337,10 @@ def cmd_attempt(data: Data, args: argparse.Namespace) -> None:
     if args.result == "ok":
         m["drill_ok"] = m.get("drill_ok", 0) + 1
         gap = DRILL_INTERVALS.get(m["drill_ok"], DRILL_INTERVAL_LONG)
-        m["next_review"] = (t + timedelta(days=gap)).strftime(DATE_FMT)
+        scheduled = (t + timedelta(days=gap)).strftime(DATE_FMT)
+        m["next_review"] = (lexeme_next_review(data, m, scheduled)
+                            if mode_for(m.get("category", ""), m.get("mode")) == "lexeme"
+                            else scheduled)
         if m["drill_ok"] >= 2:
             m["status"] = "resolved"
             msg = (f"паттерн «{key}» закрыт (resolved): два чистых круга подряд. "
@@ -1233,7 +1356,10 @@ def cmd_attempt(data: Data, args: argparse.Namespace) -> None:
         if rounds_today:
             # два круга за занятие не помогли — дальше только в следующий раз
             m["status"] = "critical"
-            m["next_review"] = (t + timedelta(days=1)).strftime(DATE_FMT)
+            scheduled = (t + timedelta(days=1)).strftime(DATE_FMT)
+            m["next_review"] = (lexeme_next_review(data, m, scheduled)
+                                if mode_for(m.get("category", ""), m.get("mode")) == "lexeme"
+                                else scheduled)
             msg = (f"паттерн «{key}» — второй круг за занятие не снял ошибку. "
                    f"Статус critical, перегрев не лечит: следующий заход "
                    f"{m['next_review']}, первым в спирали.")
@@ -1250,15 +1376,15 @@ def cmd_attempt(data: Data, args: argparse.Namespace) -> None:
         })
     data["mistakes"][key] = m
     print("OK: " + msg)
-    if args.result == "fail":
+    if args.result == "fail" and mode_for(m.get("category", ""), m.get("mode")) != "lexeme":
         note = topic_shake(data, m.get("topic", ""), f"провал круга по «{key}»")
         if note:
             print(note)
 
 
-# Таблица словаря в glava-файлах. Колонок бывает больше трёх («| Тайский | Транскрипция |
-# Значение | Часы |»), поэтому строку разбираем по разделителям, а не одной жадной
-# регуляркой: жадная склеивала первые две колонки в один ключ.
+# Таблицы словаря в новых HTML-темах и в старых glava-файлах. Колонок бывает больше
+# трёх («Тайский | Транскрипция | Значение | Часы»), поэтому каждая строка сначала
+# разбирается на ячейки, а уже потом ищется ячейка с тайским.
 ROW_RE = re.compile(r"^\s*\|(.+)\|\s*$")
 THAI_RE = re.compile(r"[\u0e00-\u0e7f]")
 # Заголовок таблицы и строка-разделитель отсеиваются раньше, на поиске колонки с
@@ -1277,10 +1403,99 @@ EXIT_ITEM_RE = re.compile(r"^(?:[-*+]|\d+[.)])\s+")
 EXIT_DECOR_RE = re.compile(r"^[\s✅✔☑•▪–—-]+")
 
 
+class CourseHTMLParser(HTMLParser):
+    """Extract table rows and closing-criterion items from a topic HTML file."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.rows: list[list[str]] = []
+        self.exit_items: dict[str, list[str]] = {
+            EXIT_HEADING: [], EXIT_HEADING_FALLBACK: [],
+        }
+        self._row: list[str] | None = None
+        self._cell_parts: list[str] | None = None
+        self._heading_tag: str | None = None
+        self._heading_parts: list[str] = []
+        self._grab: str | None = None
+        self._item_parts: list[str] | None = None
+        self._ignored_depth = 0
+
+    def handle_starttag(self, tag: str,
+                        attrs: list[tuple[str, str | None]]) -> None:
+        del attrs
+        tag = tag.lower()
+        if tag in ("script", "style"):
+            self._ignored_depth += 1
+            return
+        if self._ignored_depth:
+            return
+        if tag == "tr":
+            self._row = []
+        elif tag in ("td", "th") and self._row is not None:
+            self._cell_parts = []
+        elif re.fullmatch(r"h[1-6]", tag):
+            self._heading_tag = tag
+            self._heading_parts = []
+        elif tag == "li" and self._grab:
+            self._item_parts = []
+        elif tag == "br":
+            for parts in (self._cell_parts, self._item_parts):
+                if parts is not None:
+                    parts.append(" ")
+
+    def handle_data(self, data: str) -> None:
+        if self._ignored_depth:
+            return
+        if self._cell_parts is not None:
+            self._cell_parts.append(data)
+        if self._heading_tag is not None:
+            self._heading_parts.append(data)
+        if self._item_parts is not None:
+            self._item_parts.append(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        tag = tag.lower()
+        if tag in ("script", "style"):
+            self._ignored_depth = max(0, self._ignored_depth - 1)
+            return
+        if self._ignored_depth:
+            return
+        if tag in ("td", "th") and self._cell_parts is not None:
+            if self._row is not None:
+                self._row.append(" ".join("".join(self._cell_parts).split()))
+            self._cell_parts = None
+        elif tag == "tr" and self._row is not None:
+            if self._row:
+                self.rows.append(self._row)
+            self._row = None
+        elif tag == self._heading_tag:
+            heading = " ".join("".join(self._heading_parts).split()).lower()
+            self._grab = None
+            for candidate in self.exit_items:
+                if candidate.lower() in heading:
+                    self._grab = candidate
+                    break
+            self._heading_tag = None
+            self._heading_parts = []
+        elif tag == "li" and self._item_parts is not None:
+            item = " ".join("".join(self._item_parts).split())
+            item = EXIT_DECOR_RE.sub("", item).strip()
+            if item and self._grab:
+                self.exit_items[self._grab].append(item)
+            self._item_parts = None
+
+
+def parse_course_html(text: str) -> CourseHTMLParser:
+    parser = CourseHTMLParser()
+    parser.feed(text)
+    parser.close()
+    return parser
+
+
 def read_exit_task(path: str) -> str:
     """Критерий закрытия темы из её файла.
 
-    Берём только пункты списка под markdown-заголовком: таблицы, комментарии и прочий
+    Берём только пункты списка под заголовком: таблицы, комментарии и прочий
     текст в критерий не попадают, иначе им открывались бы ворота. Явная секция
     «Тема закрыта, если ты можешь» имеет приоритет; если её нет — «Резюме по теме»,
     где список «К концу темы ты должна уметь» и есть готовый критерий.
@@ -1296,6 +1511,13 @@ def read_exit_task(path: str) -> str:
               file=sys.stderr)
         return ""
 
+    if path.lower().endswith(".html"):
+        parsed = parse_course_html(text)
+        items = (parsed.exit_items[EXIT_HEADING]
+                 or parsed.exit_items[EXIT_HEADING_FALLBACK])
+        return " · ".join(items).strip()
+
+    # Transitional reader for chapters not yet explicitly migrated.
     found: dict[str, list[str]] = {EXIT_HEADING: [], EXIT_HEADING_FALLBACK: []}
     grab: str | None = None
     fenced = False
@@ -1341,11 +1563,16 @@ def cmd_import(data: Data, args: argparse.Namespace) -> None:
     except OSError as e:
         print("файл {} не открылся ({})".format(args.source, e), file=sys.stderr)
         sys.exit(2)
-    for line in source_text.splitlines():
-        mm = ROW_RE.match(line)
-        if not mm:
-            continue
-        cells = [clean_cell(c) for c in mm.group(1).split("|")]
+    if args.source.lower().endswith(".html"):
+        rows = parse_course_html(source_text).rows
+    else:
+        # Transitional reader for legacy chapters awaiting their own migration.
+        rows: list[list[str]] = []
+        for line in source_text.splitlines():
+            mm = ROW_RE.match(line)
+            if mm:
+                rows.append([clean_cell(c) for c in mm.group(1).split("|")])
+    for cells in rows:
         if len(cells) < 3:
             continue
         # Тайское слово не всегда в первой колонке: бывает «| Час | Тайский |
@@ -1491,6 +1718,8 @@ def main() -> None:
     r.add_argument("--type", choices=["word", "rule", "construction"])
     r.add_argument("--topic")
     r.add_argument("--translation")
+    r.add_argument("--item-only", action="store_true",
+                   help="снизить только элемент, не переоткрывая всю тему")
 
     m = add_cmd(sub, "mistake", cmd_mistake, True, "записать паттерн ошибки")
     m.add_argument("pattern")
@@ -1506,14 +1735,23 @@ def main() -> None:
     ms = add_cmd(sub, "mistakes", cmd_mistakes, False, "список паттернов ошибок (JSON)")
     ms.add_argument("--topic")
     ms.add_argument("--category")
+    ms.add_argument("--pattern")
     ms.add_argument("--status", choices=["active", "critical", "resolved"])
     ms.add_argument("--due", action="store_true", help="только те, что пора повторить")
     ms.add_argument("--limit", type=int, default=None)
+
+    mm = add_cmd(sub, "mistake-mode", cmd_mistake_mode, True,
+                 "сменить режим паттерна без новой ошибки")
+    mm.add_argument("pattern")
+    mm.add_argument("mode", choices=sorted(MODE_TITLES))
+    mm.add_argument("--reason", required=True,
+                    help="почему меняется маршрут отработки")
 
     dp = add_cmd(sub, "drill-plan", cmd_drill_plan, False,
                  "план работы над ошибками (JSON)")
     dp.add_argument("--topic")
     dp.add_argument("--category")
+    dp.add_argument("--pattern")
     dp.add_argument("--due", action="store_true")
 
     at = add_cmd(sub, "attempt", cmd_attempt, True, "итог круга отработки ошибки")
@@ -1526,7 +1764,7 @@ def main() -> None:
     rv = add_cmd(sub, "resolve", cmd_resolve, True, "закрыть паттерн ошибки")
     rv.add_argument("pattern")
 
-    im = add_cmd(sub, "import", cmd_import, True, "импорт словаря из glava-файла")
+    im = add_cmd(sub, "import", cmd_import, True, "импорт словаря из HTML-темы")
     im.add_argument("source")
     im.add_argument("--topic")
 

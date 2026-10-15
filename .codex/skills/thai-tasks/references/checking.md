@@ -116,24 +116,24 @@ from spelling: a conversational particle combination may be fully appropriate wh
 written form still contains an orthographic error. Deduct only for the actual spelling
 component in that case.
 
-## Feeding the tracker
+## Hand the result to the tracker owner
 
-After the review, update `progress.json` by the rules in
-**references/progress-and-spiral.md**:
+After deciding the answer-level categories, hand the complete checked evidence to
+`thai-mistakes`. Do not call `record` or `mistake` here: that workflow records each assessed
+element once, chooses the remediation route from the full sheet and prevents a single answer
+from changing SM-2 or mistake frequency twice.
 
-- for every element involved — rate the answer 0–5 and apply **SM-2** (updating
-  repetitions, interval, easiness_factor, mastery);
-- record every mistake in the **pattern database** (`mistakes`): the category is one of the
-  four above, `--topic` is the topic the mistake belongs to (mandatory — without it the
-  mistakes workflow cannot assemble a block for that topic), plus an example «твой ответ →
-  правильный». This is where the spiral (get_due) picks weak spots from, with priority.
+A normal first miss while new material is being taught is not formal checking and does not
+create a mistake pattern. Autonomous self-check in a topic file also supplies a key without
+creating a verdict. The later control is the point at which `thai-mistakes` may classify and
+record an error.
 
 ## Next — the mistakes workflow
 
 Reviewing answers ends by handing over to skill **thai-mistakes**: a report on the whole
 sheet (✅ / 🟡 / ❌ + the correct version + a one-line «почему», a summary and a breakdown by
-category), then a mini-diagnostic of the topic and a drill block matched to the mistake
-type. The two-round rule, the drill modes and the report format live there.
+category), then records the result once and creates the matching remediation. The two-round
+rule, route selection and report format live there.
 
 The checking categories (Словарный запас / Грамматика / Орфография / Тоны) are the same
 values as `category` in the mistake database — keep them in step.

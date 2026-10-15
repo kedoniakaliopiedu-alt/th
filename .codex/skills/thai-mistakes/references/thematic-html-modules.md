@@ -1,6 +1,6 @@
 # Standalone thematic HTML modules
 
-Use this workflow by default after a written control, worksheet, or review with errors. The checked report remains the evidence; the remediation is delivered immediately as files and does not wait for the learner to answer in chat.
+Use this workflow by default after a written control, worksheet, or review with errors. The checked report remains the evidence; the remediation is delivered immediately as a self-study practice directory and does not wait for the learner to answer in chat. Read `../../assessment-artifacts.md` for its directory, names and links, and `../../thai-tasks/references/topic-materials.md` for the self-check teaching rhythm.
 
 ## Core rule
 
@@ -11,6 +11,18 @@ An error identifies a root topic. It does not define the boundary of the lesson.
 - the root topic revealed by the error.
 
 After that block, teach the topic as if the triggering error did not exist. A module fails quality review if it would not work as an independent lesson.
+
+### Exact-word memory exception
+
+Do not build a thematic lesson when the evidence is that one learned word is repeatedly
+misspelled, cannot be produced without a model, or is explicitly reported as impossible to
+remember. Route it to `lexeme` and build the compact memory file from
+`lexeme-memory.md`. The file contains only the failed lexemes, retrieval scaffolds and
+spaced returns; it does not expand into the topic's vocabulary or theory.
+
+If several words fail because of one transferable rule, the exception no longer applies:
+build the thematic module for that rule. This boundary prevents a memory lapse from
+triggering a lecture while preserving full teaching for a real systematic pattern.
 
 ## Research before writing
 
@@ -50,7 +62,7 @@ Practice covers the whole lesson: meaning, position, contrasts, Russian-to-Thai 
 
 Every task must contain a closed disclosure answer, implemented in HTML with `<details>` and a visible `<summary>Показать ответ</summary>`. Inside use:
 
-- **✅ Ответ** or **Один естественный вариант**;
+- **Ответ** or **Один естественный вариант**;
 - **Почему**;
 - **Что проверить в своём ответе**;
 - **Также возможно** when several natural answers exist.
@@ -61,12 +73,17 @@ End with **🧠 После изучения этой темы я должна у
 
 ## Artifact rules
 
-- Create actual `.html` files next to the source chapter or review; never paste raw HTML into chat.
-- For several topics create an `index.html` linking all modules.
-- Use the project's dark visual style, readable Thai type, responsive layout, print styles, and keyboard-accessible native controls.
+- Follow `../../assessment-artifacts.md` for the source-control-named practice directory, its `index.html` and thematic module files,
+  shared style, system font, names and relative links. Do not restate
+  or vary that contract here, and never paste raw HTML into chat.
+- When lexeme-memory work accompanies thematic modules, include it as a distinct compact
+  HTML module in the same practice directory and link it from `index.html`; do not present
+  it as another whole-topic lesson.
 - Keep answers hidden initially without requiring a server.
 - Include a short sources section with chapter files and external links used for research.
-- Open every file in a browser and inspect desktop and narrow layouts before delivery.
+- Open every file at approximately 1280 px and 390 px viewport widths. Inspect the start,
+  one middle task, the end, Thai rendering, horizontal overflow, navigation and one opened
+  answer. Record the result in the final work report; do not claim the check if it did not run.
 
 Generating these files does not count as a successful drill attempt and must not close a tracker pattern. Record `attempt` only after the learner demonstrates the skill in an assessed session.
 

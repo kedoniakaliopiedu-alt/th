@@ -1,8 +1,9 @@
 # Drill modes
 
 Load this file when you are assembling the drill block (step 6 of the `thai-mistakes`
-pipeline). Seven modes. The mode follows from the mistake's category (`drill-plan` returns
-the `mode` field), the volume from the 3+1 formula with a ceiling of 10. Inside a mode,
+pipeline). Eight modes. The mode follows from the mistake's category or an explicit
+`--mode` override (`drill-plan` returns the `mode` field). The 3+1 formula with a ceiling
+of 10 applies to thematic groups; `lexeme` uses its target words without a task quota. Inside a mode,
 tasks go from simple to hard and always include рус→тай production.
 
 Russian in this file is of two kinds and neither is an oversight: **data** — category and
@@ -58,8 +59,8 @@ block: the learner reads instead of recalling.
 
 **2. Three passes over a word, separated by other words.**
 
-The three passes of the `vocab` mode (recognition → cloze → production) must not sit next
-to each other for the same word. Between two encounters with one word there must be others
+The repeated passes of the `lexeme` and `vocab` modes must not sit next to each other for
+the same word. Between two encounters with one word there must be others
 — the sheet's own ordering does the spacing. Adjacent passes turn into copying from one's
 own previous line, and the effort that builds the memory never happens.
 
@@ -74,7 +75,7 @@ of things.
 Skip it in a live session (mode A): there the whole exchange is already interleaved by the
 dialogue.
 
-**4. For a self-guided sheet: hidden keys and a return schedule.**
+**4. For a self-guided sheet: hidden keys and adaptive returns.**
 
 When the drill goes out as a sheet the learner works through alone (worksheet, HTML page),
 two things get added that a live session does not need:
@@ -83,21 +84,43 @@ two things get added that a live session does not need:
   task; on paper, the key goes on a separate page. State the rule on the sheet in Russian
   and say plainly why: reading the correct answer is not what works, the effort of recall
   is. «Не знаю» written down and then checked counts as a pass; peeking does not.
-- **A schedule of returns on the sheet**, with blanks for dates: same day → +1 → +3 → +7 →
-  +14, narrowing each time to what failed and to the mixed block. This is the learner-facing
-  face of the same spacing the tracker runs in SM-2 — it does not replace `record`.
+- **A return log on the sheet**, with blank dates and the instruction to use the next date
+  supplied by the tracker. Do not print a universal `+1 / +3 / +7 / +14` schedule. On each
+  return use a changed short context and narrow the work to what failed; `record` chooses
+  the next interval.
+
+---
+
+## `lexeme` — точечное запоминание слов
+
+**When:** the same learned word is repeatedly misspelled, cannot be produced without a
+model, or is explicitly reported as impossible to remember. This is a retrieval gap in an
+exact lexeme, not evidence that the whole topic needs reteaching.
+
+Use only the failed words listed in the group's mistake examples. Do not load
+`vocab_pool`, do not add neighbouring topic words and do not explain the whole topic.
+
+→ Read **references/lexeme-memory.md** when assembling this block. It defines how to find
+the unstable fragment, choose one useful hook, reduce support across attempts, separate
+repetitions and schedule later returns.
+
+The block must end with Russian → Thai production from memory. Recognition, choosing from
+two spellings and assembling supplied chunks are scaffolds; none can prove that the word
+is retained.
 
 ---
 
 ## `vocab` — запоминание слов
 
-**When:** a wrong word choice, a forgotten word, a similar word substituted, a blank («не
-знаю»). There is no rule at stake here — there is a hole in the topic's vocabulary.
+**When:** several words from one topic are weak, word choices across the set are unstable,
+or a review shows that the vocabulary field itself has not been retained. A single exact
+word that repeatedly fails goes to `lexeme` instead.
 
 **The point:** the **whole topic vocabulary** gets drilled, not the one word that failed.
-Take `vocab_pool` from `drill-plan` (sorted by mastery, weakest first). A portion is
-**5–7 words** per pass; a larger topic goes in portions, with a short «взято / осталось»
-note between them.
+Take `vocab_pool` from `drill-plan` (sorted by mastery, weakest first). Use a small coherent
+portion suited to the spellings and distinctions in the set; a larger topic goes in
+portions, with a short «взято / осталось» note between them. Do not force a fixed word
+count.
 
 **Open with the hook** (see «How the drill sheet is built», rule 1). For a set that has no
 systemic hook, skip it rather than inventing associations one at a time — an arbitrary

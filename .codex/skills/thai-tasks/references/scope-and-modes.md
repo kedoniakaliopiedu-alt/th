@@ -13,8 +13,9 @@ ask one question only if neither the request nor context resolves it.
 
 The source structure is `Глава` → `Тема N.M` → `Подтема N.M.K`, containing
 «Словарный запас», «Теория/конструкции» and «Практические упражнения». Files are under
-`Thai A2/Chapter N/glavaN_temaM_*.md`, `Thai B1/Chapter N/b1_glavaN_temaM_*.md`, with
-supporting references in `Helpers/*.md`. Search recursively using `**/*glava*tema*.md`.
+`Thai A2/Chapter N/practice/NN_*.html` and `Thai B1/Chapter N/practice/NN_*.html`, with
+supporting references in `Helpers/*.md`. In chapters not yet migrated, read the legacy
+`**/*glava*tema*.md` source until that chapter receives an explicit migration.
 Take vocabulary and rules, but generate fresh examples rather than copying the source's
 «Практические упражнения» verbatim.
 
@@ -47,6 +48,11 @@ Default for dialogue practice and conversational Thai. Follow `thai-learning`:
 one task → user answer → feedback → next task adapted to that answer. Keep `learn`'s
 rhythm: one step per turn, hints before answers, support when stuck, and its handling of
 «просто скажи». Production and spiral still apply, distributed across the session.
+
+When words are new or still being acquired, combine the actions from
+`vocabulary-acquisition.md`. Do not show a word and immediately test it repeatedly: return
+after other meaningful work and include unprompted Russian/context → Thai spelling where
+the learning goal requires written production.
 
 ## Mode B — worksheet, the whole set at once
 
@@ -95,6 +101,11 @@ at the end. A full Russian → Thai text/dialogue translation of 3–6 turns mak
 final task combining vocabulary, word order, particles, constructions and tones. Alternate
 it with situation dialogues and descriptions. Keep examples fresh in every block.
 
+For vocabulary-bearing worksheets, introduce a small coherent word group and distribute
+its useful encounters through the sheet. The target Thai form must no longer be visible
+during productive spelling; on paper, include short handwritten recall. Follow
+`vocabulary-acquisition.md` rather than treating an opening list as learned.
+
 ## Mode C — assessment / control test
 
 Select for «срез», «контрольная», a graded test or a whole-chapter assessment.
@@ -108,6 +119,10 @@ The engine owns two assessment responsibilities:
 - **Coverage instead of the 60/40 spiral.** Cover every subtopic in the requested scope.
   Use `get_due` only to prioritise overdue/weak elements inside that scope; mix task types
   without importing another chapter's material.
+- **Vocabulary coverage includes productive spelling.** Representative words, especially
+  complex and previously weak forms, must be recalled from meaning or context. Thai →
+  Russian recognition alone cannot establish that the chapter's written vocabulary was
+  learned.
 - **Results must return to the tracker after answers are checked.** Hand off to
   `thai-mistakes` for the full report, `record` for each assessed element (not just errors),
   `mistake` for patterns, and `set-meta --recent-accuracy`. Generating a test does not

@@ -27,7 +27,7 @@ Never write from a blank slate. Read, in this order:
 
 - the closest existing analogue — a new skill is written against `thai-mistakes`, a new
   reference against `thai-tasks/references/checking.md`, a new course file against a
-  neighbouring `glavaN_temaM_*.md`;
+  neighbouring `practice/NN_*.html` topic files;
 - everything the new document will interact with: the skills that hand off to it, the
   scripts it names, the files it points at;
 - for course material: the chapter plan (`Thai B1/thai_b1_plan.md`) and the actual
@@ -75,8 +75,8 @@ A document nobody links to is invisible. Before declaring done:
 - update `AGENTS.md` if the document introduces a rule that overrides default behaviour;
 - update the parent `SKILL.md` pointer if you wrote a `references/` file;
 - if you wrote a course file, check whether `thai-tasks` can find it by its Glob pattern
-  (`**/*glava*tema*.md`) — a correctly written file with a wrong name is invisible to the
-  engine.
+  (`practice/[0-9][0-9]_*.html`) — a correctly written file with a wrong name is invisible
+  to the engine.
 
 ## Output
 

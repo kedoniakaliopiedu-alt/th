@@ -35,7 +35,7 @@ A control test measures existing knowledge and does not introduce rules or worke
 
 1. **Find the topic material (vocabulary and theory).** Search in this order:
    1) the connected local clone of `kedoniakaliopiedu-alt/th`; search recursively for
-      `**/*glava*tema*.md` rather than assuming a flat layout;
+      `practice/[0-9][0-9]_*.html`; use legacy `**/*glava*tema*.md` only in chapters not yet migrated;
    2) THAILAND project files, if available.
 
    If material is missing, distinguish two cases:
@@ -66,12 +66,17 @@ A control test measures existing knowledge and does not introduce rules or worke
 4. **Import the topic into the tracker before generating tasks.** Import vocabulary and
    rules from its source file if absent, using the procedure in progress-and-spiral.md.
    This makes items available for tracking; importing them is not evidence of mastery.
-5. **Check topic state:** `tracker.py topics progress.json --topic <тема>`, once the topic
+5. **Build the vocabulary-acquisition portion for A/B.** Select a small coherent group of
+   target words that fits the current material, including due or weak words only when they
+   belong naturally. Plan a correct visible model and later hidden productive recall. Read
+   **references/vocabulary-acquisition.md**; a word printed in a list or story has been
+   exposed, not learned.
+6. **Check topic state:** `tracker.py topics progress.json --topic <тема>`, once the topic
    is known. A `закрыта` topic is not new material: the request is a control or reopening.
    `нет критерия` means a closing criterion was not found: practice is allowed, closure
    is not. Mention this **once per topic**, not at every lesson. Read the topic-state and
    closure section in **references/progress-and-spiral.md** when handling these states.
-6. **Plan according to the selected mode.** In A/B, use get_due for the 60/40 spiral. In
+7. **Plan according to the selected mode.** In A/B, use get_due for the 60/40 spiral. In
    C, read all sources in the requested scope and plan coverage of them; due items may
    prioritize weaknesses **within that scope only**, never import another chapter.
 
@@ -84,10 +89,17 @@ A control test measures existing knowledge and does not introduce rules or worke
   **references/checking.md** when preparing to check answers.
 → Scope, output modes, worksheet template and closing-test properties: read
   **references/scope-and-modes.md** whenever assembling a sheet.
+→ Teaching topics and self-study practice: read **references/topic-materials.md**; it owns
+  short coherent parts, notebook-friendly explanations, distributed handwriting and
+  prepared self-check answers without assessment verdicts.
 → Static chapter controls and written controls: read **references/written-control.md**
   before assembling or delivering them; it owns their format and source-only workflow.
+→ File placement, dated controls, control-named practice directories and relative links: read
+  **../assessment-artifacts.md**. It is the only filesystem contract for these artifacts.
 → Tracker, get_due, SM-2, mastery, vocabulary import and difficulty: read
   **references/progress-and-spiral.md** when using these mechanics.
+→ New and continuing vocabulary: read **references/vocabulary-acquisition.md** whenever a
+  practice session or worksheet teaches words rather than merely assessing them.
 → Mission, learning records and trusted sources: read **references/mission-and-records.md**
   when choosing context or recording a qualitative change.
 
@@ -101,14 +113,19 @@ sources, and verify uncertainty. Tone verdicts follow thai-verify's sole-source 
 тона», use a meaningful action such as «вот реплика из лакорна — прочитай её и ответь
 героине». Practice may draw on lakorns, songs, social posts, markets, cafés, taxis and
 introductions. Meaning and purpose come first; language form is the tool. In A/B,
-**introduce a new rule inductively:** show 3–4 examples and ask for the pattern before
-naming it (the «Вывод правила из примеров» format in exercise-catalog.md). In C, keep
-contexts inside the selected source material and do not introduce new rules.
+  For a new rule, choose the order that best fits the material: an inductive pattern from
+  examples, or one short notebook-ready explanation followed by examples. First practice
+  may combine recognition, work from a model and independent construction without one
+  universal ladder. In C, keep contexts inside the selected source material and do not
+  introduce new rules.
 
 **2. Push production, not only recognition.** Producing Thai from scratch builds usable
 language. Every set needs Russian → Thai tasks: assemble a word, write a sentence, reply,
-or describe a situation. Do not make a set entirely Thai → Russian translation; bias the
-balance toward production. Written controls use the active-recall rules in written-control.md.
+or describe a situation. For newly taught vocabulary, use the actions in
+vocabulary-acquisition.md: a meaningful visible model, useful spelling support, hidden
+productive recall, changed contexts and later returns chosen for the material.
+Reading or translating a word does not prove that its spelling can be reproduced. Written
+controls use the active-recall rules in written-control.md.
 
 **3. New material lives through old material in practice.** A/B use spaced repetition and
 interleaving inside the new context instead of an isolated review block. For new «еда» and
@@ -132,9 +149,10 @@ Identify scope from the request; ask one question only if genuinely ambiguous.
 | Topic (6.1) | A collection of subtopics | Blocks per subtopic plus one combined finale; clarify whole topic versus separate sessions for practice |
 | Chapter (6) | A collection of topics | For practice, a topic-by-topic plan or a control; for an explicit chapter control, produce the complete control directly |
 
-File hierarchy: `Глава` → `Тема N.M` → `Подтема N.M.K`, with «Словарный запас»,
-«Теория/конструкции», «Практические упражнения». Search recursively for
-`**/*glava*tema*.md`.
+Source material remains conceptually `Глава` → `Тема N.M` → `Подтема N.M.K`, with
+«Словарный запас», «Теория/конструкции», «Практические упражнения». Search recursively for
+`practice/[0-9][0-9]_*.html`. Until an older chapter is migrated, its legacy Markdown sources may still be read. New HTML placement and names follow
+`../assessment-artifacts.md`; do not infer them from legacy source filenames.
 
 Production applies at every scale. The 60/40 spiral applies to A/B only. Chapter controls
 normally contain **25–35 top-level tasks**. Also count the actual answer units so that
@@ -152,7 +170,9 @@ In a practice set or long session, aim for:
 
 Use **get_due**, following references/progress-and-spiral.md. It returns items whose review
 interval has expired, prioritizing mistakes and low mastery. Weave 2–4 of them into the
-new topic. If none are due, use 1–2 with the lowest mastery, or focus entirely on new work.
+new topic. Each selected due word must be retrieved from a cue; merely printing it inside a
+passage is exposure and earns no tracker update. If none are due, use 1–2 with the lowest
+mastery, or focus entirely on new work.
 
 An explicit request such as «сегодня только новое» or «повтори побольше тонов» overrides
 the default balance. Do not apply this section to C: coverage, not a review quota, owns it.
@@ -175,6 +195,10 @@ raw HTML in chat for a requested file. Read **references/written-control.md**: t
 has no JavaScript, input fields, answer keys or hidden solutions. An explicit request for
 an interactive test, another medium, or raw code overrides the delivery default; it does
 not waive source coverage or no-hints rules.
+
+Save and link every control under **../assessment-artifacts.md**. The same contract governs
+the later report and practice ecosystem without transferring their pedagogical ownership
+from `thai-mistakes`.
 
 → Read **references/scope-and-modes.md** when assembling any sheet and
   **references/written-control.md** for the written-control branch.
@@ -228,14 +252,18 @@ is not permission to bypass its pipeline.
 
 **Immediately after checking any tasks, hand over to `thai-mistakes`.** It issues the full
 sheet report (✅ / 🟡 / ❌ and the correct version), records mistakes with their topic,
-and prepares practice for the whole topic behind each error. Do not replace it with an
-ad-hoc review or move on before the report is delivered.
+and routes remediation by cause: thematic teaching for transferable gaps and a focused
+memory cycle for exact words that repeatedly fail. Do not replace it with an ad-hoc review
+or move on before the report is delivered.
 
-- **Hints before answers in ordinary practice.** First identify the problem and offer a
+- **Hints before answers in live ordinary practice.** First identify the problem and offer a
   lead without the answer; if that does not work, give the correct version and explain
   what was wrong and why. A control has no hints: review all submitted answers in one
   report after completion. In a graded report every non-✅ item has its full correct
   answer, as required by AGENTS.md.
+- **Self-study topics and practice files use keys, not verdicts.** Every exercise has a
+  prepared hidden answer from `topic-materials.md`; opening it does not trigger grading,
+  error classification or another remediation artifact.
 - **Evaluate productive answers in four categories:** Словарный запас, Грамматика,
   Орфография, Тоны, with a separate verdict for each applicable category.
 - **Verify tones only through thai-verify's authoritative source**
@@ -254,6 +282,12 @@ calculates due items and SM-2 and writes updates. Commands include `import`, `du
 `record <элемент> <0–5>`, `mistake`, `progress`, `set-meta`. Update after every completed
 lesson; manual formula calculations are only a fallback when Python is unavailable.
 Generating a test alone does not earn scores or record a completed lesson.
+
+For topic vocabulary, record actual retrieval rather than exposure. Let the hardest
+productive attempt determine the word's lesson quality; recognition alone cannot establish
+stable spelling. Use `record ... --item-only` for ordinary first-learning failures so a new
+word stays due without being treated as collapse of the topic. Read
+**references/vocabulary-acquisition.md** for the evidence ladder and quality mapping.
 
 **Difficulty** is `meta.difficulty`, default **4**, A2→B1. It changes support, not grading
 strictness: 1–3 translation first, 4–6 supported Thai, 7–10 immersion. Calibrate against
@@ -302,24 +336,30 @@ future teaching, not an ordinary lesson log.
    has at most five tasks and no finale; a chapter control follows written-control.md.
 3. For A/B, selected get_due review and planned ~60/40, prioritizing weaknesses and low
    mastery. For C, read every source in scope and checked coverage without outside material.
-4. Used varied formats and production. Practice progresses atomic → integrated → composite,
+4. For A/B vocabulary, selected a small coherent group and planned accurate models,
+   useful spelling support, hidden productive recall, varied meaningful encounters and
+   later scheduling. Passive exposure was not recorded as review; no fixed quota replaced
+   the adaptive tracker.
+5. Used varied formats and production. Practice progresses atomic → integrated → composite,
    with a productive contextual finale; a control follows its coverage plan and active-recall
    requirements. A closing test retains all four additional properties.
-5. Examples are fresh, not copied from source model sentences or repeated across tasks.
-6. Every item passes output-format.md: action, answer format, volume, plain wording, no
+6. Examples are fresh, not copied from source model sentences or repeated across tasks.
+7. Every item passes output-format.md: action, answer format, volume, plain wording, no
    metalanguage, and an internally verified valid answer. Any format example does not leak
    an answer; no supporting hints are added to a control.
-7. Formatting matches the branch: worksheets use lettered blocks with restarted numbering;
+8. Formatting matches the branch: worksheets use lettered blocks with restarted numbering;
    written controls use continuous numbered tasks. Counted objects and provided matching
    lettered sub-points. Practice vocabulary is clean; control questions do not reveal
    answers through translation, transcription or ⚑ annotations.
-8. For a written control, saved and validated the actual dark standalone HTML file using
+9. For a written control, saved and validated the actual dark standalone HTML file using
    written-control.md, with no keys, JavaScript or inputs; linked the file instead of
    pasting code. Explicit format requests take precedence. Stated any blocked validation
    honestly rather than claiming a browser check that did not run.
-9. After submitted answers are checked, used **thai-mistakes** for the full report,
+10. For course HTML, followed `../assessment-artifacts.md`: semantic English names,
+    shared stylesheet, system Thai font, resolving relative links and no future links.
+11. After submitted answers are checked, used **thai-mistakes** for the full report,
    topic-linked mistakes and the next practice step; photos first went through
    **thai-handwriting**.
-10. After a completed lesson, used the tracker for records, mistakes, lesson and recent
+12. After a completed lesson, used the tracker for records, mistakes, lesson and recent
     accuracy; gave the summary and three homework items, and a learning-record only for
     a qualitative change. Did not record achievement merely for issuing tasks.
