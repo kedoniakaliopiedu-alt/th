@@ -38,20 +38,15 @@ slate. Check in this order and stop as soon as the target is identified.
   Glob over `Thai A2/**` / `Thai B1/**` / `Helpers/**`.
 
 **Tier 2 — recent conversation.** Do the last few messages reveal what should be reviewed?
-A skill that was just edited, a file just written by `skill-writer`, a change list produced
-by `skill-brainstorm`. Apply the same routing as Tier 1.
+A skill that was just edited or a file just written by `skill-writer`. Apply the same routing
+as Tier 1.
 
-**Tier 3 — a change list from a brainstorm.** Glob `.codex/brainstorms/*/изменения.md`.
-If exactly one exists and is newer than the last review in `.codex/reviews/`, suggest it:
-«Нашёл лист правок `<путь>` от <дата>. Ревьюим то, что по нему сделано?» If confirmed, set
-`{intent_file}` to it and continue the cascade to find the diff. If declined, fall through.
-
-**Tier 4 — current git state.** Check the branch and whether the working tree is dirty.
+**Tier 3 — current git state.** Check the branch and whether the working tree is dirty.
 - Dirty tree → confirm: «Вижу незакоммиченные изменения в <N> файлах — ревьюим их?»
 - Clean tree, branch is not `main` → confirm reviewing the branch diff against `main`.
 - Clean tree on `main` → fall through.
 
-**Tier 5 — ask.** Fall through to instruction 2.
+**Tier 4 — ask.** Fall through to instruction 2.
 
 Never ask extra questions beyond what the cascade prescribes. If a tier identified the
 target, skip the rest and go to instruction 3.
@@ -95,7 +90,7 @@ existing file. If empty, HALT and say there is nothing to review.
 
 The analog of a spec here is a statement of *what the change was supposed to do*.
 
-- If `{intent_file}` is already set (Tier 1 or 3): verify it exists and is readable, set
+- If `{intent_file}` is already set (Tier 1): verify it exists and is readable, set
   `{review_mode}` = `full`.
 - Otherwise ask: **«Есть ли лист правок, задача или описание, ради чего это менялось?»**
   - yes → set `{intent_file}`, verify readable, `{review_mode}` = `full`

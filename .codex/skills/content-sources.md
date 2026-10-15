@@ -1,7 +1,7 @@
 # Content source contract
 
 This is the shared evidence contract for authoring or substantially revising Thai course
-material. `skill-writer` uses it while writing the lesson; `thai-tasks` uses it while
+material. Follow it when writing a lesson; `thai-tasks` uses it while
 building the lesson's exercises and controls. It does not replace the source boundaries in
 `RESOURCES.md`: thai-language.com remains the only authority for tones, and a written
 control remains restricted to what the course files already teach.

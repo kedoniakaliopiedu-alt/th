@@ -31,17 +31,19 @@ does not enlarge the taught scope of a control.
 | **thai-handwriting** | Reading Thai off the photos in `Handwriting/`, handwriting above all. Fires on today's files in that folder — not on any image in the message. |
 | **learn** | Base pedagogy: diagnose, one step per turn, a hint instead of a ready answer. |
 
-## Meta layer
+## Working on the instrument
 
 | Skill | Role |
 |---|---|
-| **skill-brainstorm** | Ideation over skill mechanics and exercise formats. Invents; edits nothing. |
 | **skill-review** | Adversarial review of skills, references, scripts and course files. Writes nothing without an explicit choice. |
-| **skill-writer** | Technical writer: write, validate, explain, diagram. Decides nothing for the author. |
+| **skill-writer** | Project-specific guidance for authoring skills, references and course materials. |
 
-## How they connect
+Discuss ideas directly with Codex; use `skill-writer` when editing project documents and
+`skill-review` when an adversarial audit is wanted.
 
-Three teaching entry points, each firing on its own trigger; below each is what it leans on.
+## Teaching hand-offs
+
+The teaching entry points and what each relies on:
 
 ```
 thai-tasks        ← tasks, drills, practice are asked for
@@ -70,24 +72,5 @@ along the same line: the engine keeps topic states, assembles the closing sheet 
 properties (share of production, the trap, the forecast before the first task); the mistakes
 workflow checks, reports and records the outcome with `close`.
 
-The meta layer is closed into its own loop and does not overlap the teaching one:
-
-```
-skill-brainstorm  ← «давай поштурмим», «накидай идей», «придумаем формат»
-        │  change list (.codex/brainstorms/<тема>/изменения.md)
-        ↓
-skill-writer      ← «напиши скилл», «перепиши SKILL.md», «объясни, как устроено»
-        │  written files
-        ↓
-skill-review      ← «отревьюй мои правки», «аудит thai-tasks»
-        │  report (.codex/reviews/) + findings that warrant a rewrite
-        └──────────→ back into brainstorm or writer
-```
-
-The loop is not mandatory: any of the three runs on its own.
-
-The loop's artifacts — the session log, the change list, the review report — live until the
-work has landed as code. After that brainstorm and review **offer to delete them**: nobody
-opens a closed report, and an abandoned `изменения.md` surfaces in the next review as
-unfinished work. Only by consent, only when nothing is left open; committed artifacts come
-back from history (`git show <sha>:<путь>`).
+Ideas and design trade-offs are discussed in the conversation, not stored in a dedicated
+brainstorm workflow. Existing files in `.codex/brainstorms/` are historical records.

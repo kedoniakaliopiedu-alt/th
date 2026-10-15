@@ -17,8 +17,7 @@
     "**/.venv",
     "**/.git"
   ],
-  // Порог проекта задан в skill-writer/references/skill-doc-standards.md, раздел
-  // «Scripts». Все скрипты обходятся стандартной библиотекой 3.8.
+  // Скрипты проекта используют стандартную библиотеку Python 3.8.
   "typeCheckingMode": "strict",
   "pythonVersion": "3.8"
 }

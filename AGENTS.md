@@ -18,8 +18,8 @@ it requires. The trigger map and boundaries are in `.codex/skills/MAP.md`.
 - Thai tasks, drills or practice → `thai-tasks`; checked answers or error review →
   `thai-mistakes`; handwritten Thai → `thai-handwriting`; pronunciation or Cyrillic
   transcription → `thai-phonetics`; tone verification → `thai-verify`.
-- Work on the tutor system itself → `skill-brainstorm`, `skill-writer`, or `skill-review`,
-  according to the map.
+- Work on the tutor system itself → edit directly with Codex, following the relevant project
+  contracts; use `skill-writer` for their authoring rules and `skill-review` for an audit.
 - General tutoring can use `learn`.
 
 Use paths exactly as written under `.codex/skills/`; they are project data, not a request
@@ -125,9 +125,9 @@ The meta layer is separate from the teaching one: `skill-*` work on the instrume
 `thai-*` on Thai. Who owns what, and where a turn goes next, is in
 `.codex/skills/MAP.md`; the commands are in `.codex/skills/README.md`.
 
-- Invent a mechanic, an exercise format, the structure of a topic → `skill-brainstorm`.
-- Write or rewrite a `SKILL.md`, a reference, a topic file; explain a mechanism; draw a
-  diagram → `skill-writer`.
+- Discuss or invent a mechanic, an exercise format, or a topic structure directly with
+  Codex; no dedicated brainstorming workflow is needed.
+- Write or rewrite a `SKILL.md`, a reference, or a topic file → follow `skill-writer`.
 - Check what was written — your own edits, a whole skill, a script, a course file →
   `skill-review`.
 
@@ -135,13 +135,10 @@ The meta layer is separate from the teaching one: `skill-*` work on the instrume
 instructions are written however is convenient, but everything a human sees, and everything
 that lands in an artifact, is in Russian.
 
-**Instructions migrate to English gradually — in passing, not as a campaign.** When you are
-editing a skill file for a real reason, translate it whole in the same pass; never run a
-translation sweep just to save tokens. Cyrillic costs roughly twice as much as English in
-tokens, yet the measurement on `checking.md` came out at only 26%: a fifth of the text has
-to stay Russian, and the price of an accidental error in a tuned instruction outweighs the
-gain. What is never translated — in
-`skill-writer/references/skill-doc-standards.md`.
+**There is no mandatory house style for skill prose.** Make instructions clear, concise and
+specific to their task; use references for detail that is needed only in one branch. Keep
+learner-facing text in Russian and follow the project-specific source, transcription and
+tone-verification rules above.
 
 ## Checks
 
@@ -154,7 +151,8 @@ stdlib only; the full command set is in `.codex/skills/README.md`.
   drift between a `SKILL.md` and `consonants.md`. `--course` also scans `Thai A2/`, `Thai B1/`
   and `Helpers/`, but reads as leads rather than a verdict — course tables use headers the
   scanner does not know yet.
-- Touched a script under `.codex/skills/*/scripts/` → `npx pyright --stats` (`strict`, 3.8).
+- Touched a Python script under `.codex/skills/*/scripts/` → `npx pyright --stats`
+  (`strict`, 3.8).
   Read the file count, not only the error count: an empty file set also reports «0 errors».
   Why `exclude` must not gain `**/.*` is in `pyrightconfig.json` — do not silence it.
 

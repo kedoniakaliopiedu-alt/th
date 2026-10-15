@@ -2,7 +2,7 @@
 
 Адаптировано из [BMAD Method](https://github.com/bmad-code-org/bmad-method),
 скилл `src/bmm-skills/4-implementation/bmad-code-review`. Лицензия MIT — полный текст в
-[`../skill-brainstorm/ATTRIBUTION.md`](../skill-brainstorm/ATTRIBUTION.md).
+[`../BMAD-MIT-LICENSE.md`](../BMAD-MIT-LICENSE.md).
 
 ## Что взято
 
@@ -27,8 +27,8 @@
   и вспомогательные скрипты, а линзы заданы прямо в файле — их можно править, не трогая шаги.
   Слои «границы скиллов» и «методический аудитор» существуют только здесь.
 - **Роль спеки** играет не story-файл, а связка `AGENTS.md` + `.codex/skills/MAP.md` +
-  `description` самого скилла; необязательный `{intent_file}` — лист правок из
-  `skill-brainstorm`.
+  `description` самого скилла; необязательный `{intent_file}` — исходная задача или иное
+  описание ожидаемого результата.
 - **Шкала важности** привязана к последствиям для ученицы, а не для пользователя софта.
 - Убраны sprint-status, story-статусы и вся инфраструктура BMAD (`_bmad/`, `customize.toml`,
   `resolve_customization.py`). Отчёты пишутся в `.codex/reviews/`.

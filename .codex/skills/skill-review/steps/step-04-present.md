@@ -123,8 +123,8 @@ Offer, in Russian:
 
 1. **Переписать что-то целиком** — a finding that turned out to be a structural problem
    goes to `skill-writer`, not to a patch;
-2. **Поштурмить решение** — an ambiguous `решение` finding that nobody knows how to answer
-   goes to `skill-brainstorm`;
+2. **Обсудить решение** — an ambiguous `решение` finding can be explored directly with
+   Codex before choosing a fix;
 3. **Перезапустить ревью** — after fixes, to confirm nothing new broke;
 4. **Готово.**
 

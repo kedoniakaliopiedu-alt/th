@@ -13,9 +13,9 @@
   (используется пайплайном `thai-handwriting`).
 - **`.codex/`** — библиотека навыков («skills») для тьютора: постановка заданий
   (`thai-tasks`), проверка ошибок (`thai-mistakes`), транскрипция
-  (`thai-phonetics`), проверка тонов (`thai-verify`) и мета-навыки для
-  работы над самими навыками (`skill-brainstorm`, `skill-writer`,
-  `skill-review`). Подробнее — в `.codex/skills/README.md` и `MAP.md`.
+  (`thai-phonetics`), проверка тонов (`thai-verify`) и правила для работы над
+  системой (`skill-writer`, `skill-review`). Обсуждать идеи можно напрямую с Codex.
+  Подробнее — в `.codex/skills/README.md` и `MAP.md`.
 - **`progress.json`** — трекер прогресса и ошибок ученика.
 - **`AGENTS.md`** — рабочие правила проекта для ChatGPT Codex и маршрутизация к библиотеке
   навыков.

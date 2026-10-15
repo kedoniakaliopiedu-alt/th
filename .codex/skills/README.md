@@ -261,55 +261,14 @@ when that is wanted. Ordinary worksheets and live sessions retain their own form
 - `thai-tasks/references/mission-and-records.md` — mission, learning-records, trusted
   sources.
 
-## The meta layer: working on the skills
+## Работа над системой
 
-Three skills service the instrument itself. Adapted from
-[BMAD Method](https://github.com/bmad-code-org/bmad-method) (MIT); what exactly was taken
-and what was rewritten is in each skill's `ATTRIBUTION.md`.
+Идеи и варианты обсуждай прямо с Codex — отдельного навыка или каталога техник для
+мозгового штурма больше нет. Исторические записи в `.codex/brainstorms/` сохранены.
 
-```
-/skill-brainstorm придумаем форматы заданий на счётные слова
-/skill-writer     перепиши SKILL.md у thai-tasks
-/skill-review     аудит thai-tasks
-```
-
-**skill-brainstorm.** A session runs in one of three stances: facilitator (supplies no ideas
-of its own, only squeezes out yours), creative partner (throws in its own, marking
-authorship), ideate-for-me (runs the whole thing and shows the result). Stance and technique
-batch are picked on an offline composer page, which has to be opened and its result pasted
-back into the chat:
-
-```bash
-S=.codex/skills/skill-brainstorm
-open $S/assets/brain-selector.html                       # pick the stance and the techniques
-
-# regenerate the page if the catalog was edited
-python3 $S/scripts/brain.py --extra $S/assets/extra-techniques.json \
-  html --out $S/assets/brain-selector.html
-
-python3 $S/scripts/brain.py --extra $S/assets/extra-techniques.json categories
-python3 $S/scripts/brain.py --extra $S/assets/extra-techniques.json list --category методика
-```
-
-The catalog holds 108 general BMAD techniques plus 14 of our own in the **«методика»**
-category (`assets/extra-techniques.json`): «Инверсия ошибки», «Обратная спираль», «Провал
-скилла», «Триггерный стресс-тест» and others written for designing exercises and skills. The
-session is logged to `.codex/brainstorms/<тема>-<дата>/.memlog.md` — a session survives an
-interruption and resumes from the same place.
-
-**skill-review.** Seven layers, each a subagent with no conversation context: the blind hunter
-(contradictions and ambiguity), the edge hunter (what happens when material is missing or
-the learner answers unexpectedly), the verification gap, skill boundaries (`AGENTS.md`
-violations and territory grabs), the pedagogy auditor (thai-tasks' three pillars), the script
-reviewer, and the intent auditor (only when a statement of intent was given). Layers are
-edited in `references/review-layers.md` without touching the steps themselves. Findings go through triage — dedup, reading the file **before** assigning
-severity, routing into «решение / правка / отложить / шум» — and land in `.codex/reviews/`.
-
-**skill-writer.** Four operations: write a document, validate it against the standard,
-explain a mechanism, draw a mermaid diagram. The house documentation standard is in
-`references/skill-doc-standards.md`: the `description` contract (including the mandatory
-"when NOT to use"), progressive disclosure through `references/`, a checklist at the end of
-a `SKILL.md`, and the ban on methodology leaking into text the learner reads.
+- `skill-writer` — короткие правила проекта для редактирования навыков, справочников и
+  учебных материалов; обязательного стиля оформления нет.
+- `skill-review` — отдельный процесс для критического аудита изменений, файлов и навыков.
 
 ## Notes
 

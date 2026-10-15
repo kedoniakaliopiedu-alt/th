@@ -188,9 +188,10 @@ Skip for pure tooling changes (a script, this skill, `skill-writer`).
 
 > You review the helper tooling scripts: everything executable under
 > `.codex/skills/*/scripts/` — currently `tracker.py`, `thaiocr` (+`thaiocr.swift`),
-> `lookup.py`, `typhoon.py`, `brain.py`, `memlog.py`, `clean`, `intake`. That list is a
-> reference, not a closed set: a new file there is yours too. Project constraints: the Python
-> 3.8+ standard library only, no external dependencies; offline — the scripts do not reach out.
+> `lookup.py`, `typhoon.py`, `phonetics.py`, `journal.py`, `warm.py`, `clean`, `intake`.
+> That list is a reference, not a closed set: a new file there is yours too. Project
+> constraints: the Python 3.8+ standard library only, no external dependencies; offline —
+> the scripts do not reach out.
 > A call to a service on `127.0.0.1` is not a violation: that is how `typhoon.py` works (a local
 > Ollama), and it is a deliberate project decision, not an oversight. A call to the internet is.
 >
