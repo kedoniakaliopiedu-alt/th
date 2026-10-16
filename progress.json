@@ -6,7 +6,7 @@
       0.7
     ],
     "recent_accuracy": 0.94,
-    "updated": "2026-10-15"
+    "updated": "2026-10-16"
   },
   "items": {
     "ก": {
@@ -2951,17 +2951,24 @@
     },
     "Сущ + счётное + นี้/นั้น": {
       "translation": "หมา ตัวนี้ · эта собака",
-      "type": "word",
+      "type": "construction",
       "topic": "3.1",
-      "repetitions": 0,
+      "repetitions": 1,
       "interval_days": 1,
-      "easiness_factor": 1.96,
-      "due_date": "2026-08-11",
-      "last_seen": "2026-08-10",
+      "easiness_factor": 2.06,
+      "due_date": "2026-10-17",
+      "last_seen": "2026-10-16",
       "mastery": 0,
-      "consecutive_correct": 0,
-      "consecutive_incorrect": 1,
-      "translit": ""
+      "consecutive_correct": 1,
+      "consecutive_incorrect": 0,
+      "translit": "",
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
     },
     "หมา ตัวที่อยู่ตรงนั้น": {
       "translation": "Сущ + счётное + указательное место",
@@ -3107,15 +3114,22 @@
       "translation": "дешёвый",
       "type": "word",
       "topic": "3.1",
-      "repetitions": 0,
+      "repetitions": 1,
       "interval_days": 1,
-      "easiness_factor": 1.3,
-      "due_date": "2026-10-15",
-      "last_seen": "2026-10-14",
+      "easiness_factor": 1.4,
+      "due_date": "2026-10-17",
+      "last_seen": "2026-10-16",
       "mastery": 0,
-      "consecutive_correct": 0,
-      "consecutive_incorrect": 2,
-      "translit": "тху̀ук"
+      "consecutive_correct": 1,
+      "consecutive_incorrect": 0,
+      "translit": "тху̀ук",
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
     },
     "ลด": {
       "translation": "снизить, скидка",
@@ -4185,15 +4199,22 @@
       "translation": "четверг",
       "type": "word",
       "topic": "3.3",
-      "repetitions": 1,
-      "interval_days": 1,
-      "easiness_factor": 2.14,
-      "due_date": "2026-10-15",
-      "last_seen": "2026-10-14",
+      "repetitions": 2,
+      "interval_days": 6,
+      "easiness_factor": 2.24,
+      "due_date": "2026-10-22",
+      "last_seen": "2026-10-16",
       "mastery": 0,
-      "consecutive_correct": 1,
+      "consecutive_correct": 2,
       "consecutive_incorrect": 0,
-      "translit": "ван-пхары́-хат-са̀-бо-дии"
+      "translit": "ван-пхары́-хат-са̀-бо-дии",
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
     },
     "วันศุกร์": {
       "translation": "пятница · Венера · 🔵 голубой (สีฟ้า)",
@@ -4521,15 +4542,22 @@
       "translation": "ноябрь",
       "type": "word",
       "topic": "3.3",
-      "repetitions": 1,
-      "interval_days": 1,
-      "easiness_factor": 2.14,
-      "due_date": "2026-10-15",
-      "last_seen": "2026-10-14",
+      "repetitions": 2,
+      "interval_days": 6,
+      "easiness_factor": 2.24,
+      "due_date": "2026-10-22",
+      "last_seen": "2026-10-16",
       "mastery": 0,
-      "consecutive_correct": 1,
+      "consecutive_correct": 2,
       "consecutive_incorrect": 0,
-      "translit": "пхры́т-са̀-джи-каа-йон"
+      "translit": "пхры́т-са̀-джи-каа-йон",
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
     },
     "ธันวาคม": {
       "translation": "декабрь · -คม (31 день)",
@@ -4927,15 +4955,22 @@
       "translation": "облако",
       "type": "word",
       "topic": "3.3",
-      "repetitions": 0,
+      "repetitions": 1,
       "interval_days": 1,
-      "easiness_factor": 1.3,
-      "due_date": "2026-10-15",
-      "last_seen": "2026-10-14",
+      "easiness_factor": 1.4,
+      "due_date": "2026-10-17",
+      "last_seen": "2026-10-16",
       "mastery": 0,
-      "consecutive_correct": 0,
-      "consecutive_incorrect": 2,
-      "translit": "мэ̂эк"
+      "consecutive_correct": 1,
+      "consecutive_incorrect": 0,
+      "translit": "мэ̂эк",
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
     },
     "ลม": {
       "translation": "ветер",
@@ -4969,15 +5004,22 @@
       "translation": "температура",
       "type": "word",
       "topic": "3.3",
-      "repetitions": 0,
+      "repetitions": 1,
       "interval_days": 1,
-      "easiness_factor": 1.3,
-      "due_date": "2026-10-15",
-      "last_seen": "2026-10-14",
+      "easiness_factor": 1.4,
+      "due_date": "2026-10-17",
+      "last_seen": "2026-10-16",
       "mastery": 0,
-      "consecutive_correct": 0,
-      "consecutive_incorrect": 2,
-      "translit": "ун́-ха̀-пхуӯм"
+      "consecutive_correct": 1,
+      "consecutive_incorrect": 0,
+      "translit": "ун́-ха̀-пхуӯм",
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
     },
     "องศา": {
       "translation": "градус",
@@ -8988,14 +9030,21 @@
       "translit": "",
       "type": "construction",
       "topic": "3.2",
-      "repetitions": 1,
-      "interval_days": 1,
-      "easiness_factor": 2.04,
-      "due_date": "2026-10-15",
-      "last_seen": "2026-10-14",
+      "repetitions": 2,
+      "interval_days": 6,
+      "easiness_factor": 2.14,
+      "due_date": "2026-10-22",
+      "last_seen": "2026-10-16",
       "mastery": 0,
-      "consecutive_correct": 1,
-      "consecutive_incorrect": 0
+      "consecutive_correct": 2,
+      "consecutive_incorrect": 0,
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
     },
     "ทุกวันเสาร์ฉันอ่านหนึ่งชั่วโมงครึ่ง": {
       "translation": "",
@@ -9114,14 +9163,26 @@
       "translit": "",
       "type": "word",
       "topic": "3.4",
-      "repetitions": 1,
-      "interval_days": 1,
-      "easiness_factor": 2.6,
-      "due_date": "2026-10-04",
-      "last_seen": "2026-10-03",
-      "mastery": 0,
-      "consecutive_correct": 1,
-      "consecutive_incorrect": 0
+      "repetitions": 3,
+      "interval_days": 15,
+      "easiness_factor": 2.56,
+      "due_date": "2026-10-31",
+      "last_seen": "2026-10-16",
+      "mastery": 1,
+      "consecutive_correct": 0,
+      "consecutive_incorrect": 0,
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 3,
+          "scope": "topic"
+        },
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
     },
     "вопрос_начало_действия_กี่โมง": {
       "translation": "",
@@ -9282,14 +9343,21 @@
       "translit": "",
       "type": "construction",
       "topic": "3.1",
-      "repetitions": 1,
-      "interval_days": 1,
-      "easiness_factor": 2.6,
-      "due_date": "2026-10-04",
-      "last_seen": "2026-10-03",
+      "repetitions": 2,
+      "interval_days": 6,
+      "easiness_factor": 2.7,
+      "due_date": "2026-10-22",
+      "last_seen": "2026-10-16",
       "mastery": 0,
-      "consecutive_correct": 1,
-      "consecutive_incorrect": 0
+      "consecutive_correct": 2,
+      "consecutive_incorrect": 0,
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
     },
     "торг_скидка": {
       "translation": "",
@@ -9548,14 +9616,21 @@
       "translit": "",
       "type": "construction",
       "topic": "3.1",
-      "repetitions": 0,
+      "repetitions": 1,
       "interval_days": 1,
-      "easiness_factor": 2.18,
-      "due_date": "2026-10-15",
-      "last_seen": "2026-10-14",
+      "easiness_factor": 2.28,
+      "due_date": "2026-10-17",
+      "last_seen": "2026-10-16",
       "mastery": 0,
-      "consecutive_correct": 0,
-      "consecutive_incorrect": 1
+      "consecutive_correct": 1,
+      "consecutive_incorrect": 0,
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
     },
     "ครอบครัว": {
       "translation": "семья",
@@ -12481,6 +12556,252 @@
       "consecutive_correct": 0,
       "consecutive_incorrect": 0,
       "review_log": []
+    },
+    "คะ_вопрос": {
+      "translation": "",
+      "translit": "",
+      "type": "construction",
+      "topic": "3.1",
+      "repetitions": 1,
+      "interval_days": 1,
+      "easiness_factor": 2.6,
+      "due_date": "2026-10-17",
+      "last_seen": "2026-10-16",
+      "mastery": 0,
+      "consecutive_correct": 1,
+      "consecutive_incorrect": 0,
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
+    },
+    "ค่ะ_сообщение": {
+      "translation": "",
+      "translit": "",
+      "type": "construction",
+      "topic": "3.1",
+      "repetitions": 1,
+      "interval_days": 1,
+      "easiness_factor": 2.6,
+      "due_date": "2026-10-17",
+      "last_seen": "2026-10-16",
+      "mastery": 0,
+      "consecutive_correct": 1,
+      "consecutive_incorrect": 0,
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
+    },
+    "ได้ค่ะ_нейтральное_согласие": {
+      "translation": "",
+      "translit": "",
+      "type": "construction",
+      "topic": "3.1",
+      "repetitions": 1,
+      "interval_days": 1,
+      "easiness_factor": 2.28,
+      "due_date": "2026-10-17",
+      "last_seen": "2026-10-16",
+      "mastery": 0,
+      "consecutive_correct": 1,
+      "consecutive_incorrect": 0,
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 2,
+          "scope": "topic"
+        },
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
+    },
+    "общее_существительное_без_счётного": {
+      "translation": "",
+      "translit": "",
+      "type": "rule",
+      "topic": "3.1",
+      "repetitions": 1,
+      "interval_days": 1,
+      "easiness_factor": 2.6,
+      "due_date": "2026-10-17",
+      "last_seen": "2026-10-16",
+      "mastery": 0,
+      "consecutive_correct": 1,
+      "consecutive_incorrect": 0,
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
+    },
+    "действие + длительность": {
+      "translation": "",
+      "translit": "",
+      "type": "construction",
+      "topic": "3.2",
+      "repetitions": 1,
+      "interval_days": 1,
+      "easiness_factor": 2.6,
+      "due_date": "2026-10-17",
+      "last_seen": "2026-10-16",
+      "mastery": 0,
+      "consecutive_correct": 1,
+      "consecutive_incorrect": 0,
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
+    },
+    "แล้วก็_последовательность": {
+      "translation": "",
+      "translit": "",
+      "type": "construction",
+      "topic": "3.4",
+      "repetitions": 1,
+      "interval_days": 1,
+      "easiness_factor": 2.6,
+      "due_date": "2026-10-17",
+      "last_seen": "2026-10-16",
+      "mastery": 0,
+      "consecutive_correct": 1,
+      "consecutive_incorrect": 0,
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
+    },
+    "ใช้เวลา_длительность": {
+      "translation": "",
+      "translit": "",
+      "type": "construction",
+      "topic": "3.2",
+      "repetitions": 1,
+      "interval_days": 1,
+      "easiness_factor": 2.6,
+      "due_date": "2026-10-17",
+      "last_seen": "2026-10-16",
+      "mastery": 0,
+      "consecutive_correct": 1,
+      "consecutive_incorrect": 0,
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
+    },
+    "рынок_выбор_вещи": {
+      "translation": "",
+      "translit": "",
+      "type": "construction",
+      "topic": "3.1",
+      "repetitions": 1,
+      "interval_days": 1,
+      "easiness_factor": 2.28,
+      "due_date": "2026-10-17",
+      "last_seen": "2026-10-16",
+      "mastery": 0,
+      "consecutive_correct": 1,
+      "consecutive_incorrect": 0,
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 2,
+          "scope": "topic"
+        },
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
+    },
+    "количество_одежды_ตัว": {
+      "translation": "",
+      "translit": "",
+      "type": "construction",
+      "topic": "3.1",
+      "repetitions": 1,
+      "interval_days": 1,
+      "easiness_factor": 2.6,
+      "due_date": "2026-10-17",
+      "last_seen": "2026-10-16",
+      "mastery": 0,
+      "consecutive_correct": 1,
+      "consecutive_incorrect": 0,
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
+    },
+    "ตรง_точное_время": {
+      "translation": "",
+      "translit": "",
+      "type": "construction",
+      "topic": "3.2",
+      "repetitions": 2,
+      "interval_days": 6,
+      "easiness_factor": 2.46,
+      "due_date": "2026-10-22",
+      "last_seen": "2026-10-16",
+      "mastery": 0,
+      "consecutive_correct": 2,
+      "consecutive_incorrect": 0,
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 3,
+          "scope": "topic"
+        },
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
+    },
+    "погода_и_одновременные_признаки": {
+      "translation": "",
+      "translit": "",
+      "type": "construction",
+      "topic": "3.3",
+      "repetitions": 1,
+      "interval_days": 1,
+      "easiness_factor": 2.6,
+      "due_date": "2026-10-17",
+      "last_seen": "2026-10-16",
+      "mastery": 0,
+      "consecutive_correct": 1,
+      "consecutive_incorrect": 0,
+      "review_log": [
+        {
+          "date": "2026-10-16",
+          "quality": 5,
+          "scope": "topic"
+        }
+      ]
     }
   },
   "mistakes": {
@@ -13429,7 +13750,7 @@
       "frequency": 2,
       "status": "active",
       "last_occurred": "2026-10-14",
-      "next_review": "2026-10-15",
+      "next_review": "2026-10-19",
       "examples": [
         {
           "your_answer": "[пусто]",
@@ -13442,13 +13763,20 @@
           "correct_answer": "เมฆ",
           "context": "Диагностический срез 14.10.2026, задание 30",
           "date": "2026-10-14"
+        },
+        {
+          "your_answer": "",
+          "correct_answer": "",
+          "context": "C3_test_2026-10-16: самостоятельное воспроизведение без подсказок",
+          "date": "2026-10-16"
         }
       ],
       "notes": "Ответ оставлен пустым.",
       "mode": "vocab",
-      "rounds": 0,
-      "drill_ok": 0,
-      "last_drill": ""
+      "rounds": 1,
+      "drill_ok": 1,
+      "last_drill": "2026-10-16",
+      "mode_history": []
     },
     "глава3_อุณหภูมิ": {
       "category": "Словарный запас",
@@ -13457,7 +13785,7 @@
       "frequency": 2,
       "status": "active",
       "last_occurred": "2026-10-14",
-      "next_review": "2026-10-15",
+      "next_review": "2026-10-19",
       "examples": [
         {
           "your_answer": "[пусто]",
@@ -13470,13 +13798,20 @@
           "correct_answer": "อุณหภูมิ",
           "context": "Диагностический срез 14.10.2026, задания 18 и 30",
           "date": "2026-10-14"
+        },
+        {
+          "your_answer": "",
+          "correct_answer": "",
+          "context": "C3_test_2026-10-16: самостоятельное воспроизведение без подсказок",
+          "date": "2026-10-16"
         }
       ],
       "notes": "Ответ оставлен пустым.",
       "mode": "vocab",
-      "rounds": 0,
-      "drill_ok": 0,
-      "last_drill": ""
+      "rounds": 1,
+      "drill_ok": 1,
+      "last_drill": "2026-10-16",
+      "mode_history": []
     },
     "глава3_ฟรี": {
       "category": "Словарный запас",
@@ -13507,7 +13842,7 @@
       "frequency": 2,
       "status": "active",
       "last_occurred": "2026-10-14",
-      "next_review": "2026-10-15",
+      "next_review": "2026-10-19",
       "examples": [
         {
           "your_answer": "[пусто]",
@@ -13520,13 +13855,20 @@
           "correct_answer": "ถูก",
           "context": "Диагностический срез 14.10.2026, задание 30",
           "date": "2026-10-14"
+        },
+        {
+          "your_answer": "",
+          "correct_answer": "",
+          "context": "C3_test_2026-10-16: самостоятельное воспроизведение без подсказок",
+          "date": "2026-10-16"
         }
       ],
       "notes": "Ответ оставлен пустым.",
       "mode": "vocab",
-      "rounds": 0,
-      "drill_ok": 0,
-      "last_drill": ""
+      "rounds": 1,
+      "drill_ok": 1,
+      "last_drill": "2026-10-16",
+      "mode_history": []
     },
     "глава3_ขาย": {
       "category": "Словарный запас",
@@ -13557,7 +13899,7 @@
       "frequency": 2,
       "status": "active",
       "last_occurred": "2026-10-14",
-      "next_review": "2026-10-15",
+      "next_review": "2026-10-19",
       "examples": [
         {
           "your_answer": "วันพฤหัษบดี",
@@ -13570,13 +13912,20 @@
           "correct_answer": "วันพฤหัสบดี",
           "context": "Диагностический срез 14.10.2026, задание 18",
           "date": "2026-10-14"
+        },
+        {
+          "your_answer": "",
+          "correct_answer": "",
+          "context": "C3_test_2026-10-16: самостоятельное воспроизведение без подсказок",
+          "date": "2026-10-16"
         }
       ],
       "notes": "В задании 30 слово написано верно: воспроизведение нестабильно.",
       "mode": "spelling",
-      "rounds": 0,
-      "drill_ok": 0,
-      "last_drill": ""
+      "rounds": 1,
+      "drill_ok": 1,
+      "last_drill": "2026-10-16",
+      "mode_history": []
     },
     "глава3_числительные_сотни": {
       "category": "Терминология",
@@ -13780,23 +14129,30 @@
       "category": "Грамматика",
       "subcategory": "",
       "topic": "3.2",
-      "frequency": 1,
-      "status": "active",
-      "last_occurred": "2026-10-03",
-      "next_review": "2026-10-04",
+      "frequency": 2,
+      "status": "resolved",
+      "last_occurred": "2026-10-16",
+      "next_review": "2026-10-17",
       "examples": [
         {
           "your_answer": "ตอนนี้ตรงสิบเอ็ดโมงเช้า",
           "correct_answer": "ตอนนี้สิบเอ็ดโมงเช้าตรง",
           "context": "Контрольная 03.10.2026, 15",
           "date": "2026-10-03"
+        },
+        {
+          "your_answer": "ตอนเก้าโมงเช้า",
+          "correct_answer": "ตอนเก้าโมงเช้าตรง",
+          "context": "C3_test_2026-10-16, задание 14a",
+          "date": "2026-10-16"
         }
       ],
       "notes": "ตรง ставится после названного времени.",
-      "mode": "",
+      "mode": "grammar",
       "rounds": 0,
       "drill_ok": 0,
-      "last_drill": ""
+      "last_drill": "",
+      "mode_history": []
     },
     "глава3_ยี่สิบห้า": {
       "category": "Словарный запас",
@@ -13849,7 +14205,7 @@
       "frequency": 2,
       "status": "active",
       "last_occurred": "2026-10-14",
-      "next_review": "2026-10-15",
+      "next_review": "2026-10-19",
       "examples": [
         {
           "your_answer": "ฉันเรียนภาษาไทยแปดเดือน,",
@@ -13862,13 +14218,20 @@
           "correct_answer": "ฉันรอไปเที่ยวมาสองเดือนแล้วค่ะ",
           "context": "Диагностический срез 14.10.2026, задание 28.4",
           "date": "2026-10-14"
+        },
+        {
+          "your_answer": "",
+          "correct_answer": "",
+          "context": "C3_test_2026-10-16: самостоятельное воспроизведение без подсказок",
+          "date": "2026-10-16"
         }
       ],
       "notes": "Оценивается порядок มา…แล้ว; само слово «поездка» не было задано в материалах.",
       "mode": "grammar",
-      "rounds": 0,
-      "drill_ok": 0,
-      "last_drill": ""
+      "rounds": 1,
+      "drill_ok": 1,
+      "last_drill": "2026-10-16",
+      "mode_history": []
     },
     "глава3_ลดเหลือสี่ร้อยยี่สิบบาทได้ไหมคะ": {
       "category": "Грамматика",
@@ -14141,7 +14504,7 @@
       "frequency": 2,
       "status": "active",
       "last_occurred": "2026-10-14",
-      "next_review": "2026-10-15",
+      "next_review": "2026-10-22",
       "examples": [
         {
           "your_answer": "พฤษดีกายน",
@@ -14154,13 +14517,19 @@
           "correct_answer": "พฤศจิกายน",
           "context": "Диагностический срез 14.10.2026, задание 30",
           "date": "2026-10-14"
+        },
+        {
+          "your_answer": "",
+          "correct_answer": "",
+          "context": "C3_test_2026-10-16: самостоятельное воспроизведение без подсказок",
+          "date": "2026-10-16"
         }
       ],
       "notes": "В заданиях 7 и 18 слово написано верно: воспроизведение нестабильно.",
       "mode": "lexeme",
-      "rounds": 0,
-      "drill_ok": 0,
-      "last_drill": "",
+      "rounds": 1,
+      "drill_ok": 1,
+      "last_drill": "2026-10-16",
       "mode_history": [
         {
           "date": "2026-10-14",
@@ -14177,20 +14546,27 @@
       "frequency": 1,
       "status": "active",
       "last_occurred": "2026-10-14",
-      "next_review": "2026-10-15",
+      "next_review": "2026-10-19",
       "examples": [
         {
           "your_answer": "นี่สี่สิบห้านาที / ข้าวเย็นครึ่งชั่วโมง",
           "correct_answer": "เรียนสี่สิบห้านาที / ฉันกินข้าวเย็นครึ่งชั่วโมง",
           "context": "Диагностический срез 14.10.2026, задания 19 и 25",
           "date": "2026-10-14"
+        },
+        {
+          "your_answer": "",
+          "correct_answer": "",
+          "context": "C3_test_2026-10-16: самостоятельное воспроизведение без подсказок",
+          "date": "2026-10-16"
         }
       ],
       "notes": "",
       "mode": "grammar",
-      "rounds": 0,
-      "drill_ok": 0,
-      "last_drill": ""
+      "rounds": 1,
+      "drill_ok": 1,
+      "last_drill": "2026-10-16",
+      "mode_history": []
     },
     "глава3_вопросительная_частица_คะ": {
       "category": "Регистр",
@@ -14243,20 +14619,27 @@
       "frequency": 1,
       "status": "active",
       "last_occurred": "2026-10-14",
-      "next_review": "2026-10-15",
+      "next_review": "2026-10-19",
       "examples": [
         {
           "your_answer": "หน้าหนาวอากาศไม่ร้อนหรือเย็นแล้วก็ลมแรง",
           "correct_answer": "หน้าหนาวอากาศเย็นและลมแรง",
           "context": "Диагностический срез 14.10.2026, задание 28.2",
           "date": "2026-10-14"
+        },
+        {
+          "your_answer": "",
+          "correct_answer": "",
+          "context": "C3_test_2026-10-16: самостоятельное воспроизведение без подсказок",
+          "date": "2026-10-16"
         }
       ],
       "notes": "",
       "mode": "grammar",
-      "rounds": 0,
-      "drill_ok": 0,
-      "last_drill": ""
+      "rounds": 1,
+      "drill_ok": 1,
+      "last_drill": "2026-10-16",
+      "mode_history": []
     },
     "глава3_ตัว_перед_ตัวละ": {
       "category": "Грамматика",
@@ -14265,20 +14648,27 @@
       "frequency": 1,
       "status": "active",
       "last_occurred": "2026-10-14",
-      "next_review": "2026-10-15",
+      "next_review": "2026-10-19",
       "examples": [
         {
           "your_answer": "เสื้อสีแดงตัวตัวละสามร้อยยี่สิบบาท",
           "correct_answer": "เสื้อสีแดงตัวละสามร้อยยี่สิบบาทค่ะ / เสื้อสีแดงตัวนี้ตัวละสามร้อยยี่สิบบาทค่ะ",
           "context": "Диагностический срез 14.10.2026, задание 2; уточнение после проверки",
           "date": "2026-10-14"
+        },
+        {
+          "your_answer": "",
+          "correct_answer": "",
+          "context": "C3_test_2026-10-16: самостоятельное воспроизведение без подсказок",
+          "date": "2026-10-16"
         }
       ],
       "notes": "Два ตัว допустимы, если первое входит в ตัวนี้/บางตัว и имеет отдельную функцию.",
       "mode": "grammar",
-      "rounds": 0,
-      "drill_ok": 0,
-      "last_drill": ""
+      "rounds": 1,
+      "drill_ok": 1,
+      "last_drill": "2026-10-16",
+      "mode_history": []
     },
     "глава3_ได้สิคะ_написание": {
       "category": "Орфография",
@@ -14287,20 +14677,119 @@
       "frequency": 1,
       "status": "active",
       "last_occurred": "2026-10-14",
-      "next_review": "2026-10-15",
+      "next_review": "2026-10-19",
       "examples": [
         {
           "your_answer": "ได้สิค่ะ",
           "correct_answer": "ได้สิคะ",
           "context": "Диагностический срез 14.10.2026, задание 26; уточнение после проверки",
           "date": "2026-10-14"
+        },
+        {
+          "your_answer": "",
+          "correct_answer": "",
+          "context": "C3_test_2026-10-16: самостоятельное воспроизведение без подсказок",
+          "date": "2026-10-16"
         }
       ],
       "notes": "Смысл усиленного согласия ได้สิ выбран верно; исправляется только конечная письменная форма.",
       "mode": "spelling",
+      "rounds": 1,
+      "drill_ok": 1,
+      "last_drill": "2026-10-16",
+      "mode_history": []
+    },
+    "нейтральное_согласие_ได้ค่ะ": {
+      "category": "Грамматика",
+      "subcategory": "",
+      "topic": "3.1",
+      "frequency": 1,
+      "status": "resolved",
+      "last_occurred": "2026-10-16",
+      "next_review": "2026-10-17",
+      "examples": [
+        {
+          "your_answer": "ค่ะ",
+          "correct_answer": "ได้ค่ะ",
+          "context": "C3_test_2026-10-16, задание 3c",
+          "date": "2026-10-16"
+        }
+      ],
+      "notes": "",
+      "mode": "grammar",
       "rounds": 0,
       "drill_ok": 0,
-      "last_drill": ""
+      "last_drill": "",
+      "mode_history": []
+    },
+    "выбор_вещи_เอา_อยากได้": {
+      "category": "Грамматика",
+      "subcategory": "",
+      "topic": "3.1",
+      "frequency": 1,
+      "status": "resolved",
+      "last_occurred": "2026-10-16",
+      "next_review": "2026-10-17",
+      "examples": [
+        {
+          "your_answer": "ฉันอยากกระโปรงสีแดงตัวนี้ค่ะ",
+          "correct_answer": "เอากระโปรงสีแดงตัวนี้ค่ะ / ฉันอยากได้กระโปรงสีแดงตัวนี้ค่ะ",
+          "context": "C3_test_2026-10-16, задание 12b",
+          "date": "2026-10-16"
+        }
+      ],
+      "notes": "",
+      "mode": "grammar",
+      "rounds": 0,
+      "drill_ok": 0,
+      "last_drill": "",
+      "mode_history": []
+    },
+    "точное_время_ตรง": {
+      "category": "Грамматика",
+      "subcategory": "",
+      "topic": "3.2",
+      "frequency": 1,
+      "status": "resolved",
+      "last_occurred": "2026-10-16",
+      "next_review": "2026-10-17",
+      "examples": [
+        {
+          "your_answer": "ตอนเก้าโมงเช้า",
+          "correct_answer": "ตอนเก้าโมงเช้าตรง",
+          "context": "C3_test_2026-10-16, задание 14a",
+          "date": "2026-10-16"
+        }
+      ],
+      "notes": "",
+      "mode": "grammar",
+      "rounds": 0,
+      "drill_ok": 0,
+      "last_drill": "",
+      "mode_history": []
+    },
+    "ทำอาหาร_полная_запись": {
+      "category": "Орфография",
+      "subcategory": "",
+      "topic": "3.4",
+      "frequency": 1,
+      "status": "resolved",
+      "last_occurred": "2026-10-16",
+      "next_review": "2026-10-17",
+      "examples": [
+        {
+          "your_answer": "ทำอาห",
+          "correct_answer": "ทำอาหาร",
+          "context": "C3_test_2026-10-16, задание 14d; в заданиях 6 и 8 написано верно",
+          "date": "2026-10-16"
+        }
+      ],
+      "notes": "",
+      "mode": "spelling",
+      "rounds": 0,
+      "drill_ok": 0,
+      "last_drill": "",
+      "mode_history": []
     }
   },
   "topics": {
@@ -14365,7 +14854,7 @@
       "last_shake": "2026-07-30"
     },
     "3.1": {
-      "title": "",
+      "title": "Контрольная по остаточным пробелам Chapter 3",
       "status": "in_progress",
       "exit_task": "Считать **от 0 до миллиона** на тайском с учётом особенностей หมื่น и แสน · Помнить особые случаи: **เอ็ด, ยี่สิบ, หนึ่ง** в составных числах · Использовать **счётные слова** для основных категорий (คน, ตัว, อัน, ใบ, ลูก, เล่ม, คัน) · Соблюдать порядок **существительное + число + счётное** · Присоединять **указательные** (นี้/นั้น) к счётным словам · Спросить и сказать цену, **торговаться** на тайском рынке · Различать **เอา / ไม่เอา / แค่ดูเฉยๆ** в контексте покупки",
       "core": [],
@@ -14376,11 +14865,11 @@
       "control_step": 0,
       "closed_at_difficulty": null,
       "suspicion": 0,
-      "last_lesson": "2026-08-10",
-      "last_shake": "2026-10-14"
+      "last_lesson": "2026-10-16",
+      "last_shake": "2026-10-16"
     },
     "3.2": {
-      "title": "",
+      "title": "Контрольная по остаточным пробелам Chapter 3",
       "status": "in_progress",
       "exit_task": "Назвать любое время на тайском с использованием **периодов суток** (ตี, โมงเช้า, เที่ยง, บ่าย, เย็น, ทุ่ม, เที่ยงคืน) · Прибавить **минуты** и использовать **ครึ่ง** (половина) · Сказать «ровно» через **ตรง**, «почти» через **เกือบ** · Спросить **กี่โมง / เมื่อไหร่** правильно · Различать **โมง** (момент) и **ชั่วโมง** (длительность) · Использовать **เพิ่ง / ตั้งแต่ / แล้ว** для временной перспективы · Описывать **длительность** действий и состояний",
       "core": [],
@@ -14391,11 +14880,11 @@
       "control_step": 0,
       "closed_at_difficulty": null,
       "suspicion": 0,
-      "last_lesson": "2026-08-10",
-      "last_shake": "2026-10-14"
+      "last_lesson": "2026-10-16",
+      "last_shake": "2026-10-16"
     },
     "3.3": {
-      "title": "",
+      "title": "Контрольная по остаточным пробелам Chapter 3",
       "status": "in_progress",
       "exit_task": "Назвать все **7 дней недели** и связанные с ними **цвета и планеты** · Назвать все **12 месяцев** и определить **длину месяца** по окончанию (-คม / -ยน / -พันธ์) · Конвертировать **พ.ศ. ↔ ค.ศ.** (разница 543) · Знать **3 сезона** Таиланда и их культурный контекст · Описывать **погоду** с помощью **อากาศ + прилагательное** · Понимать **сезонные праздники** (Сонгкран, Лой Кратонг) как культурные маркеры в лакорнах",
       "core": [],
@@ -14406,11 +14895,11 @@
       "control_step": 0,
       "closed_at_difficulty": null,
       "suspicion": 0,
-      "last_lesson": "2026-08-26",
+      "last_lesson": "2026-10-16",
       "last_shake": "2026-10-14"
     },
     "3.4": {
-      "title": "",
+      "title": "Контрольная по остаточным пробелам Chapter 3",
       "status": "in_progress",
       "exit_task": "Описать **типичный день** с глаголами **ตื่น, อาบน้ำ, กินข้าว, ทำงาน, เข้านอน** · Использовать **маркеры частоты** (ทุกวัน, บ่อย, บางครั้ง, ไม่เคย, เสมอ) · Различать **เคย / ไม่เคย** как прошлый опыт · Привязывать действия к **периодам суток** через **ตอน + период** · Различать **ตอนเช้า / ตอนสาย / ตอนเย็น / ตอนค่ำ / ตอนดึก** · Соединять действия в последовательность через **แล้วก็, ก่อน, หลัง, พอ ... ก็** · Понимать разные значения **แล้ว** — «уже» и «потом»",
       "core": [],
@@ -14421,8 +14910,8 @@
       "control_step": 0,
       "closed_at_difficulty": null,
       "suspicion": 0,
-      "last_lesson": "2026-08-26",
-      "last_shake": "2026-10-03"
+      "last_lesson": "2026-10-16",
+      "last_shake": "2026-10-16"
     },
     "2.1": {
       "title": "",
